@@ -83,6 +83,27 @@ uv run memwiki --workspace my-wiki capabilities
 - `.memwiki/`: config, extracted text artifacts, and generated indexes.
 - `.memwiki/agent-capabilities.json`: machine-readable tool contract for coding agents.
 
+## Repository and Skill
+
+The canonical GitHub repository is
+[`codeverlan/agentic-wiki`](https://github.com/codeverlan/agentic-wiki).
+The local remote uses the SSH alias `github-personal`:
+
+```bash
+git remote add origin github-personal:codeverlan/agentic-wiki.git
+```
+
+The Codex skill for planning project-specific integrations is installed outside
+the repo at:
+
+```text
+/Users/tyler-lcsw/.codex/skills/memwiki-planner
+```
+
+The project keeps a symlink at `skills/memwiki-planner` pointing to that
+installed skill. Skill-link changes are tracked on branch
+`skill/memwiki-planner`.
+
 ## License
 
 Apache-2.0.
