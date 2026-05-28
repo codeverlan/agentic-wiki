@@ -1,0 +1,1 @@
+HTML-first memory systems keep canonical pages readable by humans and addressable by agents.

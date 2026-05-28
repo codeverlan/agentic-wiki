@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Memwiki Operations</title></head>
+<body>
+<article id="repo-operations">
+<h1>Memwiki Operations</h1>
+<p>Use the CLI through <code>uv run memwiki</code> during development.</p>
+<pre><code>uv run memwiki --workspace examples/basic init
+uv run memwiki --workspace examples/basic ingest examples/basic/source.txt
+uv run memwiki --workspace examples/basic ingest examples/basic/source.txt --dry-run
+uv run memwiki --workspace examples/basic compile &lt;source-id&gt;
+uv run memwiki --workspace examples/basic promote &lt;draft-id&gt; --check-only
+uv run memwiki --workspace examples/basic promote &lt;draft-id&gt;
+uv run memwiki --workspace examples/basic lint
+uv run memwiki --workspace examples/basic query "HTML-first memory" --json
+uv run memwiki --workspace examples/basic resolve &lt;object-id&gt;
+uv run memwiki --workspace examples/basic backlinks &lt;object-id&gt;
+uv run memwiki --workspace examples/basic capabilities
+uv run memwiki --workspace examples/basic docs check</code></pre>
+</article>
+</body>
+</html>

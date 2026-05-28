@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Memwiki Architecture</title></head>
+<body>
+<article id="repo-architecture">
+<h1>Memwiki Architecture</h1>
+<p>Memwiki is a local-first Python library and CLI that compiles raw sources into an HTML knowledge wiki.</p>
+<p>The public integration surface is <code>MemwikiWorkspace</code>. The CLI delegates to that API so other programs and coding agents can embed the same workflow directly.</p>
+<h2>Flow</h2>
+<ol>
+<li>Register immutable raw sources under <code>raw/</code>.</li>
+<li>Extract text and metadata into <code>.memwiki/extracted/</code>.</li>
+<li>Compile source-backed draft HTML pages and manifest deltas under <code>drafts/</code>.</li>
+<li>Validate drafts with <code>memwiki lint</code>.</li>
+<li>Promote valid drafts into canonical <code>wiki/</code>.</li>
+</ol>
+<h2>Agent Integration</h2>
+<p>Workspaces expose <code>.memwiki/agent-capabilities.json</code>, dry-run ingest, check-only promotion, JSON query output, object resolution, and backlinks.</p>
+</article>
+</body>
+</html>

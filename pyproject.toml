@@ -1,0 +1,44 @@
+[project]
+name = "memwiki"
+version = "0.1.0"
+description = "HTML-first local memory wiki CLI and library"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Memwiki contributors" }]
+dependencies = [
+  "beautifulsoup4>=4.12",
+  "pillow>=10",
+  "pypdf>=4",
+  "typer>=0.12",
+]
+
+[project.scripts]
+memwiki = "memwiki.cli:app"
+
+[dependency-groups]
+dev = [
+  "mypy>=1.10",
+  "pytest>=8",
+  "ruff>=0.5",
+]
+
+[tool.uv]
+package = true
+
+[tool.ruff]
+line-length = 120
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "SIM"]
+ignore = ["B008"]
+
+[tool.mypy]
+python_version = "3.9"
+strict = true
+warn_unused_ignores = true
+show_error_codes = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

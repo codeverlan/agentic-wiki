@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: Install dependencies
+        run: uv sync --all-groups
+      - name: Ruff
+        run: uv run ruff check .
+      - name: Mypy
+        run: uv run mypy src
+      - name: Pytest
+        run: uv run pytest
+      - name: Example workspace lint
+        run: |
+          uv run memwiki --workspace /tmp/memwiki-example init
+          uv run memwiki --workspace /tmp/memwiki-example ingest examples/basic/source.txt
+          SOURCE_ID=$(uv run memwiki --workspace /tmp/memwiki-example ingest examples/basic/page.html --alias page | python -c 'import json,sys; print(json.load(sys.stdin)["source_id"])')
+          DRAFT_ID=$(uv run memwiki --workspace /tmp/memwiki-example compile "$SOURCE_ID" | python -c 'import json,sys; print(json.load(sys.stdin)["draft_id"])')
+          uv run memwiki --workspace /tmp/memwiki-example promote "$DRAFT_ID"
+          uv run memwiki --workspace /tmp/memwiki-example lint
+          uv run memwiki --workspace /tmp/memwiki-example query "semantic HTML" --json
+          uv run memwiki --workspace /tmp/memwiki-example capabilities
+          uv run memwiki --workspace /tmp/memwiki-example docs check
