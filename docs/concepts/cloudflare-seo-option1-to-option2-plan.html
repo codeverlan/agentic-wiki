@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cloudflare SEO Memwiki Implementation Plan</title>
+  <meta name="description" content="A comprehensive implementation plan for evolving a GitOps Memwiki static publishing workflow into R2-backed live publishing on Cloudflare.">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17202a;
+      --muted: #596775;
+      --line: #d7dde3;
+      --panel: #f7f9fb;
+      --panel-strong: #eef4f8;
+      --accent: #0b6bcb;
+      --accent-dark: #084f96;
+      --good: #236b42;
+      --warn: #8a5b00;
+      --bad: #9b2c2c;
+      --code: #edf2f7;
+    }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      color: var(--ink);
+      background: #ffffff;
+    }
+
+    main {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    h1, h2, h3, h4 {
+      line-height: 1.2;
+      margin: 0 0 12px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      font-size: 1.45rem;
+      margin-top: 38px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+    }
+
+    h3 {
+      font-size: 1.12rem;
+      margin-top: 24px;
+    }
+
+    h4 {
+      font-size: 1rem;
+      margin-top: 18px;
+    }
+
+    p {
+      margin: 0 0 16px;
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    code {
+      background: var(--code);
+      border-radius: 4px;
+      padding: 0.12rem 0.28rem;
+      font-size: 0.95em;
+    }
+
+    pre {
+      overflow-x: auto;
+      background: #101820;
+      color: #f2f6fa;
+      border-radius: 8px;
+      padding: 16px;
+      line-height: 1.45;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    ul, ol {
+      padding-left: 1.35rem;
+    }
+
+    li {
+      margin: 0.3rem 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 0.94rem;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      background: var(--panel);
+    }
+
+    .lede {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 820px;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin: 18px 0 28px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      margin: 24px 0;
+    }
+
+    .phase {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      margin: 18px 0;
+      background: #ffffff;
+    }
+
+    .phase h3 {
+      margin-top: 0;
+    }
+
+    .label {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--accent-dark);
+      margin-bottom: 6px;
+    }
+
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: var(--panel-strong);
+      padding: 14px 16px;
+      margin: 18px 0;
+    }
+
+    .good {
+      color: var(--good);
+      font-weight: 700;
+    }
+
+    .warn {
+      color: var(--warn);
+      font-weight: 700;
+    }
+
+    .bad {
+      color: var(--bad);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <article>
+    <header>
+      <p class="label">Implementation Plan</p>
+      <h1>Cloudflare SEO Memwiki: GitOps to Live Publishing</h1>
+      <p class="lede">A comprehensive plan for starting with reviewable GitOps static publishing, then evolving into R2-backed API publishing without changing Memwiki's canonical content model.</p>
+      <p class="meta">Prepared for the Memwiki project. Cloudflare platform references checked May 28, 2026.</p>
+    </header>
+
+    <section class="panel" aria-labelledby="thesis">
+      <h2 id="thesis">Thesis</h2>
+      <p>Build the first production integration around a conservative GitOps workflow, but make every interface compatible with live publishing from day one. The public contract should be "submit sources, produce drafts, validate, promote, publish artifacts." Whether promotion creates a pull request or writes directly to R2 is an implementation detail behind a publisher interface.</p>
+      <p>This avoids premature operational complexity while preserving the path to near-real-time API-driven content updates.</p>
+    </section>
+
+    <section aria-labelledby="target-architecture">
+      <h2 id="target-architecture">Target Architecture</h2>
+      <p>The system has four logical layers:</p>
+      <ol>
+        <li><strong>Memwiki core:</strong> source registration, extraction, compilation, linting, promotion, claim provenance, and static export.</li>
+        <li><strong>Publisher adapters:</strong> GitOps publisher first, R2 live publisher second, with a shared publish manifest.</li>
+        <li><strong>Cloudflare runtime:</strong> Workers Static Assets for the public site and API routes, plus bindings to R2, KV, D1, and optional Vectorize.</li>
+        <li><strong>SEO intelligence:</strong> content quality checks, internal link graph, structured data validation, redirect/canonical policy, freshness scoring, and content gap reports.</li>
+      </ol>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>Phase 1 GitOps</th>
+            <th>Phase 2 R2 live publishing</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Canonical content</td>
+            <td>HTML files committed to Git.</td>
+            <td>Same HTML files stored as versioned R2 objects, with Git remaining an optional mirror.</td>
+          </tr>
+          <tr>
+            <td>Review</td>
+            <td>Pull request review.</td>
+            <td>Draft approval through API, with optional PR mirroring for high-risk changes.</td>
+          </tr>
+          <tr>
+            <td>Publish latency</td>
+            <td>Deployment-bound.</td>
+            <td>API-bound, followed by targeted cache purge.</td>
+          </tr>
+          <tr>
+            <td>Rollback</td>
+            <td>Revert commit or redeploy previous build.</td>
+            <td>Restore previous R2 object version and index manifest.</td>
+          </tr>
+          <tr>
+            <td>SEO output</td>
+            <td>Fully static crawlable HTML.</td>
+            <td>Fully crawlable HTML served from static assets or R2 through the Worker.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section aria-labelledby="publisher-contract">
+      <h2 id="publisher-contract">Publisher Contract</h2>
+      <p>Add a publisher abstraction to Memwiki before adding any Cloudflare-specific behavior. The important constraint is that the publish artifact format must be identical across GitOps and R2.</p>
+      <pre><code>class Publisher(Protocol):
+    def publish(self, manifest: PublishManifest) -&gt; PublishResult:
+        ...
+
+class PublishManifest(TypedDict):
+    publish_id: str
+    workspace_id: str
+    promoted_draft_id: str
+    changed_pages: list[PageArtifact]
+    changed_assets: list[AssetArtifact]
+    changed_indexes: list[IndexArtifact]
+    redirects: list[RedirectRule]
+    cache_urls: list[str]
+    event_log_path: str
+    generated_at: str</code></pre>
+
+      <p>Publisher adapters should never compile content themselves. They only receive already-validated promoted artifacts and place them into the target system.</p>
+    </section>
+
+    <section aria-labelledby="phase-1">
+      <h2 id="phase-1">Phase 1: GitOps Static Publishing</h2>
+      <div class="phase">
+        <h3>Goal</h3>
+        <p>Make Memwiki capable of updating a Cloudflare static site through reviewable repository changes. API clients and coding agents can submit source material, but public content changes still pass through Git review.</p>
+
+        <h3>Implementation Steps</h3>
+        <ol>
+          <li>Add <code>memwiki export cloudflare</code> or a library equivalent that exports static site artifacts into a configured site output directory.</li>
+          <li>Generate public pages from canonical <code>wiki/</code> HTML, preserving JSON-LD and adding site chrome only at export time.</li>
+          <li>Generate <code>sitemap.xml</code>, <code>robots.txt</code>, RSS or Atom if relevant, search index JSON, entity index JSON, and related-link data.</li>
+          <li>Generate Cloudflare-compatible <code>_headers</code> and redirect artifacts where appropriate. Classic Pages supports <code>_headers</code> and <code>_redirects</code>; Workers Static Assets projects can encode equivalent behavior in Worker code when needed.</li>
+          <li>Add a GitOps publisher that writes exported artifacts into a branch, commits them, and opens a pull request.</li>
+          <li>Configure Cloudflare deployment from the repository branch or merged output.</li>
+          <li>Require validation checks in CI before merge: HTML parse, JSON-LD parse, internal links, canonical URLs, duplicate titles, missing descriptions, orphan pages, redirects, and sitemap consistency.</li>
+        </ol>
+
+        <h3>Cloudflare Runtime</h3>
+        <p>Deploy the static site with Workers Static Assets so the same project can later host API routes. The Worker should serve static assets directly except for reserved API paths such as <code>/api/memwiki/*</code>. Cloudflare documents this static-asset-plus-Worker pattern as a single deployment unit.</p>
+
+        <h3>API Behavior</h3>
+        <p>The first API should be intentionally narrow:</p>
+        <pre><code>POST /api/memwiki/sources
+POST /api/memwiki/drafts
+POST /api/memwiki/drafts/:id/check
+POST /api/memwiki/drafts/:id/propose
+GET  /api/memwiki/proposals/:id</code></pre>
+        <p><code>propose</code> should create a Git branch and pull request, not publish directly.</p>
+
+        <h3>Acceptance Criteria</h3>
+        <ul>
+          <li>A new source can produce a validated draft and pull request without modifying canonical public content directly.</li>
+          <li>The exported site is fully crawlable without client-side rendering.</li>
+          <li>Every public page has a canonical URL, title, description, stable slug, and JSON-LD where appropriate.</li>
+          <li>Changed pages are visible in the pull request as normal HTML diffs.</li>
+          <li>CI blocks broken internal links, missing provenance, invalid JSON-LD, and sitemap drift.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section aria-labelledby="phase-1-5">
+      <h2 id="phase-1-5">Phase 1.5: Shared Publish Manifests and Preview Deployments</h2>
+      <div class="phase">
+        <h3>Goal</h3>
+        <p>Introduce the operational primitives needed for R2 publishing while still using GitOps as the source of publication.</p>
+
+        <h3>Implementation Steps</h3>
+        <ol>
+          <li>Create <code>publish-manifest.json</code> for every export. Include changed artifacts, affected URLs, redirects, index versions, content hashes, and rollback references.</li>
+          <li>Create immutable content hashes for each exported page and asset.</li>
+          <li>Add preview exports so reviewers can inspect the exact rendered output before merge.</li>
+          <li>Store preview bundles in R2 or as CI artifacts, but keep promotion tied to Git merge.</li>
+          <li>Add a dry-run publisher that returns the exact operations it would perform for GitOps or R2.</li>
+          <li>Start writing event records in a shape that can be copied into D1 later.</li>
+        </ol>
+
+        <h3>Acceptance Criteria</h3>
+        <ul>
+          <li>Every export has a machine-readable manifest that can drive either Git commits or R2 object writes.</li>
+          <li>Preview output and merge output are generated by the same exporter.</li>
+          <li>The system can compute affected cache URLs before any live publishing exists.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section aria-labelledby="phase-2">
+      <h2 id="phase-2">Phase 2: R2-Backed Live Publishing</h2>
+      <div class="phase">
+        <h3>Goal</h3>
+        <p>Allow trusted API clients to promote validated drafts directly to a live Cloudflare-backed content store without a full site redeployment.</p>
+
+        <h3>Storage Model</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Store</th>
+              <th>Use</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>R2</td>
+              <td>Canonical generated HTML, raw source archives, draft bundles, export bundles, previous versions, and media.</td>
+            </tr>
+            <tr>
+              <td>D1</td>
+              <td>Page registry, current slug-to-object mapping, source records, claim records, publish events, review state, redirects, and rollback pointers.</td>
+            </tr>
+            <tr>
+              <td>KV</td>
+              <td>Hot path reads: navigation, sitemap fragments, redirect maps, page summaries, current index pointer, and cache-control hints.</td>
+            </tr>
+            <tr>
+              <td>Vectorize</td>
+              <td>Optional semantic search, related content recommendations, and content gap analysis.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>R2 Object Layout</h3>
+        <pre><code>raw/&lt;source_id&gt;/source.bin
+raw/&lt;source_id&gt;/metadata.json
+drafts/&lt;draft_id&gt;/bundle.json
+drafts/&lt;draft_id&gt;/pages/*.html
+published/pages/&lt;slug&gt;/index.html
+published/assets/&lt;hash&gt;.&lt;ext&gt;
+published/indexes/search.json
+published/indexes/graph.json
+published/sitemap.xml
+versions/&lt;publish_id&gt;/manifest.json
+versions/&lt;publish_id&gt;/pages/*.html</code></pre>
+
+        <h3>Worker Request Flow</h3>
+        <ol>
+          <li>If the request path is under <code>/api/memwiki/</code>, run the authenticated API handler.</li>
+          <li>If the request matches a deployed static asset, serve it through the assets binding.</li>
+          <li>If the path maps to a live-published page in D1 or KV, fetch the HTML object from R2 and return it with appropriate cache headers.</li>
+          <li>If no mapping exists, serve the static 404 page or a configured fallback.</li>
+        </ol>
+
+        <h3>Live Promotion Flow</h3>
+        <ol>
+          <li>API client submits source or draft promotion request.</li>
+          <li>Worker validates auth, payload size, workspace policy, and mutation permission.</li>
+          <li>Worker enqueues or calls a compiler job. If compilation remains outside Workers, the Worker stores the source and records a pending job for an external agent.</li>
+          <li>Memwiki compiles and validates the draft using the same checks as GitOps.</li>
+          <li>Promotion writes new page objects to versioned R2 keys first.</li>
+          <li>D1 registry updates occur in a transaction-like sequence: create publish event, update page pointers, update redirects, update current index pointer.</li>
+          <li>KV hot indexes are updated after D1 succeeds.</li>
+          <li>Cloudflare cache is purged for affected public URLs. Cloudflare supports URL-based cache purging through the cache purge API.</li>
+          <li>The event log records the promotion, affected URLs, actor, previous version, and rollback pointer.</li>
+        </ol>
+
+        <h3>API Expansion</h3>
+        <pre><code>POST /api/memwiki/sources
+GET  /api/memwiki/sources/:id
+POST /api/memwiki/drafts
+GET  /api/memwiki/drafts/:id
+POST /api/memwiki/drafts/:id/check
+POST /api/memwiki/drafts/:id/promote
+POST /api/memwiki/publishes/:id/rollback
+GET  /api/memwiki/pages/:slug
+GET  /api/memwiki/claims/:id
+GET  /api/memwiki/seo/report
+GET  /api/memwiki/events</code></pre>
+
+        <h3>Acceptance Criteria</h3>
+        <ul>
+          <li>A validated draft can become public without a redeploy.</li>
+          <li>Published pages remain crawlable HTML responses, not client-rendered placeholders.</li>
+          <li>Each public page can be traced to source IDs, claim IDs, actor, publish ID, and previous version.</li>
+          <li>Rollback restores the previous HTML and index pointers.</li>
+          <li>Cache invalidation is limited to affected URLs, not a full-zone purge by default.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section aria-labelledby="seo-validation">
+      <h2 id="seo-validation">SEO Validation Layer</h2>
+      <p>Add a dedicated validation profile for public website exports. It should run in both GitOps and live publishing.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Validation</th>
+            <th>Rule</th>
+            <th>Failure severity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Title</td>
+            <td>One title per page, unique within the site, within configured length guidance.</td>
+            <td>Block duplicate or missing titles; warn on length.</td>
+          </tr>
+          <tr>
+            <td>Description</td>
+            <td>One meta description per indexable page, unique enough to avoid thin duplicates.</td>
+            <td>Block missing descriptions; warn on weak duplicates.</td>
+          </tr>
+          <tr>
+            <td>Canonical</td>
+            <td>Every indexable page has one canonical URL matching the publish route.</td>
+            <td>Block.</td>
+          </tr>
+          <tr>
+            <td>JSON-LD</td>
+            <td>Structured data parses and references the same canonical entity as the page.</td>
+            <td>Block invalid JSON; warn on missing optional properties.</td>
+          </tr>
+          <tr>
+            <td>Internal links</td>
+            <td>All internal links resolve or have explicit redirect records.</td>
+            <td>Block broken links.</td>
+          </tr>
+          <tr>
+            <td>Provenance</td>
+            <td>Substantive claims retain source locators and review status.</td>
+            <td>Block accepted claims without provenance.</td>
+          </tr>
+          <tr>
+            <td>Freshness</td>
+            <td>Pages with aging sources get a stale score and refresh recommendation.</td>
+            <td>Warn, except for policy-controlled evergreen pages.</td>
+          </tr>
+          <tr>
+            <td>Indexability</td>
+            <td>No accidental noindex, blocked robots path, or canonical mismatch on public pages.</td>
+            <td>Block.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section aria-labelledby="security">
+      <h2 id="security">Security and Governance</h2>
+      <ul>
+        <li>Use scoped API tokens or signed requests for all write endpoints.</li>
+        <li>Separate roles for source submission, draft creation, promotion, rollback, and configuration changes.</li>
+        <li>Keep remote model execution opt-in and visible in event logs.</li>
+        <li>Run MIME type checks, file size limits, extension allowlists, and safe metadata extraction on source uploads.</li>
+        <li>Require review for high-risk changes, including homepage updates, money pages, legal/medical/financial claims, redirects, and canonical URL changes.</li>
+        <li>Preserve immutable source objects and previous published versions for rollback and audit.</li>
+        <li>Log actor, IP-derived request metadata where appropriate, user agent, source IDs, draft IDs, and affected URLs for every mutation.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="agent-workflows">
+      <h2 id="agent-workflows">Coding Agent Workflows</h2>
+      <p>The API should be designed for coding agents as first-class clients. Agents need structured outputs, dry-run modes, and clear next actions.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Agent task</th>
+            <th>Required affordance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Assess integration options for a site</td>
+            <td>Expose capabilities, publish mode, storage bindings, and validation policy.</td>
+          </tr>
+          <tr>
+            <td>Submit content update</td>
+            <td>Dry-run source ingest and draft generation before mutation.</td>
+          </tr>
+          <tr>
+            <td>Review draft quality</td>
+            <td>Return structured lint results with file, object ID, severity, and suggested fix.</td>
+          </tr>
+          <tr>
+            <td>Promote content</td>
+            <td>Check-only promotion endpoint and explicit approval token or role.</td>
+          </tr>
+          <tr>
+            <td>Debug stale public page</td>
+            <td>Resolve route to publish ID, R2 object key, cache state, source claims, and previous version.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section aria-labelledby="testing">
+      <h2 id="testing">Test Plan</h2>
+      <h3>Memwiki Core Tests</h3>
+      <ul>
+        <li>Publish manifest generation is deterministic.</li>
+        <li>GitOps publisher stages only expected artifacts.</li>
+        <li>SEO validator catches duplicate titles, broken canonical URLs, invalid JSON-LD, and orphan pages.</li>
+        <li>Public export preserves claim IDs and source references.</li>
+      </ul>
+
+      <h3>Cloudflare Worker Tests</h3>
+      <ul>
+        <li>Static assets are served without invoking mutation logic.</li>
+        <li>API routes reject unauthenticated and under-scoped requests.</li>
+        <li>R2 page fallback returns valid HTML and correct cache headers.</li>
+        <li>Rollback restores page pointers and previous content.</li>
+        <li>Cache purge payload contains only affected URLs.</li>
+      </ul>
+
+      <h3>End-to-End Scenarios</h3>
+      <ol>
+        <li>Submit a source through the API, create a draft, open a GitOps pull request, merge it, and verify the deployed static page.</li>
+        <li>Promote a low-risk draft directly to R2, fetch the public page, and verify provenance and JSON-LD.</li>
+        <li>Publish a redirect change and verify old and new URLs behave correctly.</li>
+        <li>Break an internal link intentionally and confirm promotion is blocked.</li>
+        <li>Rollback a live publish and confirm page HTML, sitemap pointer, and search index pointer return to the previous version.</li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="milestones">
+      <h2 id="milestones">Milestones</h2>
+      <div class="phase">
+        <h3>Milestone 1: Static SEO Export</h3>
+        <p>Deliver public-ready HTML export with sitemap, robots, JSON-LD, canonical URLs, internal link data, and SEO linting.</p>
+      </div>
+      <div class="phase">
+        <h3>Milestone 2: GitOps Publisher</h3>
+        <p>Deliver branch/commit/PR publishing with CI checks and Cloudflare deployment integration.</p>
+      </div>
+      <div class="phase">
+        <h3>Milestone 3: Publish Manifest Contract</h3>
+        <p>Deliver shared publish manifests, preview bundles, affected URL computation, and dry-run publishing.</p>
+      </div>
+      <div class="phase">
+        <h3>Milestone 4: Cloudflare Worker API</h3>
+        <p>Deliver authenticated source, draft, check, proposal, and read endpoints on Workers Static Assets.</p>
+      </div>
+      <div class="phase">
+        <h3>Milestone 5: R2 Live Publishing</h3>
+        <p>Deliver direct promotion to R2, D1 registry updates, KV hot indexes, targeted cache purge, and rollback.</p>
+      </div>
+      <div class="phase">
+        <h3>Milestone 6: SEO Intelligence Loop</h3>
+        <p>Deliver stale content detection, internal linking recommendations, content gap reports, and optional Vectorize-powered semantic discovery.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="risks">
+      <h2 id="risks">Risks and Design Constraints</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Risk</th>
+            <th>Mitigation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Live API publishing bypasses editorial review.</td>
+            <td>Keep GitOps as default, require role-scoped promotion, and force PR review for high-risk page classes.</td>
+          </tr>
+          <tr>
+            <td>Search engines see stale content after live publish.</td>
+            <td>Compute affected URLs in the publish manifest and purge those URLs after successful pointer updates.</td>
+          </tr>
+          <tr>
+            <td>R2 object state diverges from Git state.</td>
+            <td>Use publish manifests, content hashes, and optional Git mirroring for live publishes.</td>
+          </tr>
+          <tr>
+            <td>Generated SEO pages become thin or duplicative.</td>
+            <td>Block pages without source-backed claims, unique intent, internal links, and sufficient content quality score.</td>
+          </tr>
+          <tr>
+            <td>Edge rewriting hides important content from crawlers or debuggers.</td>
+            <td>Keep SEO-critical content in generated HTML. Use HTMLRewriter only for supplemental panels or metadata that can be verified.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section aria-labelledby="references">
+      <h2 id="references">Cloudflare References</h2>
+      <ul>
+        <li><a href="https://developers.cloudflare.com/workers/static-assets/">Workers Static Assets</a></li>
+        <li><a href="https://developers.cloudflare.com/workers/best-practices/workers-best-practices/">Workers best practices</a></li>
+        <li><a href="https://developers.cloudflare.com/r2/get-started/workers-api/">R2 Workers API</a></li>
+        <li><a href="https://developers.cloudflare.com/kv/">Workers KV</a></li>
+        <li><a href="https://developers.cloudflare.com/d1/worker-api/">D1 Worker Binding API</a></li>
+        <li><a href="https://developers.cloudflare.com/vectorize/">Vectorize</a></li>
+        <li><a href="https://developers.cloudflare.com/workers-ai/">Workers AI</a></li>
+        <li><a href="https://developers.cloudflare.com/workers/runtime-apis/html-rewriter/">HTMLRewriter</a></li>
+        <li><a href="https://developers.cloudflare.com/cache/how-to/purge-cache/">Cloudflare cache purge</a></li>
+      </ul>
+      <p>Related concept: <a href="./cloudflare-seo-content-memory.html">Agentic Content Memory for Cloudflare SEO Sites</a>.</p>
+    </section>
+  </article>
+</main>
+</body>
+</html>
