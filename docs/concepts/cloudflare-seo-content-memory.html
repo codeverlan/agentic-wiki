@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic Content Memory for Cloudflare SEO Sites</title>
+  <meta name="description" content="A concept for using Memwiki as a source-backed content memory layer for Cloudflare static sites, readable website content, and SEO optimization.">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17202a;
+      --muted: #596775;
+      --line: #d7dde3;
+      --panel: #f7f9fb;
+      --accent: #0b6bcb;
+      --accent-dark: #084f96;
+      --good: #236b42;
+      --warn: #8a5b00;
+      --bad: #9b2c2c;
+      --code: #edf2f7;
+    }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      color: var(--ink);
+      background: #ffffff;
+    }
+
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 48px 24px 72px;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.2;
+      margin: 0 0 12px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      font-size: 1.45rem;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      margin-top: 24px;
+    }
+
+    p {
+      margin: 0 0 16px;
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    code {
+      background: var(--code);
+      border-radius: 4px;
+      padding: 0.12rem 0.28rem;
+      font-size: 0.95em;
+    }
+
+    pre {
+      overflow-x: auto;
+      background: #101820;
+      color: #f2f6fa;
+      border-radius: 8px;
+      padding: 16px;
+      line-height: 1.45;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    .lede {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 780px;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin: 18px 0 28px;
+    }
+
+    .summary {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      margin: 28px 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin: 18px 0;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      background: #ffffff;
+    }
+
+    .label {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--accent-dark);
+      margin-bottom: 6px;
+    }
+
+    .status-good {
+      color: var(--good);
+      font-weight: 700;
+    }
+
+    .status-warn {
+      color: var(--warn);
+      font-weight: 700;
+    }
+
+    .flow {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      background: var(--panel);
+    }
+
+    .flow ol {
+      margin-bottom: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      background: var(--panel);
+    }
+  </style>
+</head>
+<body>
+<main>
+  <article>
+    <header>
+      <p class="label">Concept</p>
+      <h1>Agentic Content Memory for Cloudflare SEO Sites</h1>
+      <p class="lede">Use Memwiki as a source-backed content intelligence layer behind a Cloudflare-hosted static site. The public site stays fast, crawlable, and human-readable while Memwiki maintains the deeper knowledge graph, provenance, content briefs, SEO metadata, internal links, schema markup, and update workflow.</p>
+      <p class="meta">Prepared for the Memwiki project. Cloudflare platform references checked May 28, 2026.</p>
+    </header>
+
+    <section class="summary" aria-labelledby="core-idea">
+      <h2 id="core-idea">Core Idea</h2>
+      <p>The wiki is not just the CMS. It is the editorial memory system that knows why each page says what it says.</p>
+      <p>The readable website becomes a polished public projection of the wiki memory. Memwiki stores canonical HTML pages with embedded JSON-LD, claim-level provenance, internal links, redirects, and update history. A Cloudflare Worker exposes an authenticated content API that can ingest new source material, create drafts, validate them, promote them, and publish changed pages to the static site.</p>
+    </section>
+
+    <section aria-labelledby="public-outputs">
+      <h2 id="public-outputs">Public Website Outputs</h2>
+      <p>The same canonical wiki memory can produce multiple search-readable website surfaces:</p>
+      <div class="grid">
+        <div class="card"><span class="label">Readable Pages</span><p>Long-form explainers, documentation pages, service pages, and product education that preserve editorial tone while retaining source-backed claims.</p></div>
+        <div class="card"><span class="label">SEO Pages</span><p>Topic pages, entity pages, glossary entries, local landing pages, comparison pages, FAQ sections, and programmatic page clusters.</p></div>
+        <div class="card"><span class="label">Trust Surfaces</span><p>Optional provenance panels, freshness labels, contradiction notices, source indexes, and claim-level citations.</p></div>
+        <div class="card"><span class="label">Machine Surfaces</span><p>JSON-LD, sitemaps, search indexes, related-page feeds, redirect maps, and agent-readable update manifests.</p></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="cloudflare-architecture">
+      <h2 id="cloudflare-architecture">Cloudflare Architecture</h2>
+      <p>For a new implementation, the preferred target is <strong>Cloudflare Workers Static Assets</strong> rather than a classic static-only Pages deployment. Cloudflare documents Workers Static Assets as a way to deploy static assets and Worker code together, with static files served directly and Worker logic handling API routes or fallback behavior. Cloudflare's current best-practices guidance also points new static and full-stack applications toward Workers Static Assets.</p>
+      <p>References: <a href="https://developers.cloudflare.com/workers/static-assets/">Workers Static Assets</a> and <a href="https://developers.cloudflare.com/workers/best-practices/workers-best-practices/">Workers best practices</a>.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Cloudflare component</th>
+            <th>Role in the concept</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Workers Static Assets</td>
+            <td>Serve the static public website and run API routes from the same deployment unit.</td>
+          </tr>
+          <tr>
+            <td>Workers API routes</td>
+            <td>Expose authenticated update endpoints under paths such as <code>/api/memwiki/*</code>.</td>
+          </tr>
+          <tr>
+            <td>R2</td>
+            <td>Store raw sources, generated HTML objects, draft bundles, export artifacts, and media. R2 can be bound to Workers for direct read/write access.</td>
+          </tr>
+          <tr>
+            <td>D1</td>
+            <td>Optional relational index for page registry, source registry, claims, redirects, slugs, publish state, and audit events.</td>
+          </tr>
+          <tr>
+            <td>KV</td>
+            <td>Hot global read cache for sitemap fragments, navigation, page summaries, redirect maps, and API cache records.</td>
+          </tr>
+          <tr>
+            <td>Vectorize</td>
+            <td>Optional semantic index for related-page suggestions, content gap discovery, and site search.</td>
+          </tr>
+          <tr>
+            <td>Workers AI</td>
+            <td>Optional generation, summarization, classification, and embedding runtime when remote processing is explicitly allowed.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section aria-labelledby="flow">
+      <h2 id="flow">Content Flow</h2>
+      <div class="flow">
+        <ol>
+          <li>Raw inputs arrive from documentation, PDFs, notes, existing pages, forms, product data, or API clients.</li>
+          <li>Memwiki registers immutable sources and extracts text, metadata, and source locators.</li>
+          <li>Memwiki creates draft HTML pages, claims, entity links, schema data, and SEO metadata.</li>
+          <li>Validation checks HTML structure, provenance, internal links, schema markup, canonical URLs, redirects, sitemap state, and stale content.</li>
+          <li>Approved drafts are promoted into canonical content.</li>
+          <li>The static site export publishes changed pages, indexes, and supporting files to Cloudflare.</li>
+          <li>Cloudflare serves the public pages globally, while authenticated API routes continue to accept new update requests.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section aria-labelledby="api-shape">
+      <h2 id="api-shape">API Shape</h2>
+      <p>The API should preserve the Memwiki draft-and-promote workflow instead of treating remote updates as direct writes to public content.</p>
+      <pre><code>POST /api/memwiki/sources
+POST /api/memwiki/drafts
+GET  /api/memwiki/drafts/:id
+POST /api/memwiki/drafts/:id/check
+POST /api/memwiki/drafts/:id/promote
+GET  /api/memwiki/pages/:slug
+GET  /api/memwiki/claims/:id
+GET  /api/memwiki/seo/report
+POST /api/memwiki/export/static</code></pre>
+      <p>Every mutating request should append an event record, preserve source provenance, and be reviewable by humans or coding agents.</p>
+    </section>
+
+    <section aria-labelledby="implementation-options">
+      <h2 id="implementation-options">Implementation Options</h2>
+
+      <h3>Option 1: GitOps Static Publishing</h3>
+      <p>API requests create Memwiki drafts and open GitHub pull requests with changed HTML, sitemap, schema, redirect, and index artifacts. Merge triggers the Cloudflare deployment.</p>
+      <p><span class="status-good">Pros:</span> strongest auditability, reviewable content changes, clean rollback through Git, excellent SEO output because pages are real static HTML.</p>
+      <p><span class="status-warn">Cons:</span> slower publishing and a dependency on repository automation. The API creates proposed content changes rather than instant public changes.</p>
+
+      <h3>Option 2: R2-Backed Live Static Publishing</h3>
+      <p>The Worker serves deployed static assets first and promoted HTML from R2 for live content objects. The API can promote a draft and write updated HTML, sitemap fragments, search indexes, and JSON-LD directly to R2, then purge affected URLs from cache.</p>
+      <p><span class="status-good">Pros:</span> fast API-driven updates, no redeploy required for every content change, and still crawler-readable HTML.</p>
+      <p><span class="status-warn">Cons:</span> higher operational complexity, stricter cache invalidation requirements, and a stronger need for rollback and authorization controls.</p>
+
+      <h3>Option 3: Hybrid Static and Edge Enhancement</h3>
+      <p>Main pages are deployed statically. The Worker uses Memwiki indexes to enhance pages at request time with related links, provenance panels, freshness banners, structured data, or canonical metadata. Cloudflare Workers include <a href="https://developers.cloudflare.com/workers/runtime-apis/html-rewriter/">HTMLRewriter</a>, which can transform HTML responses at the edge.</p>
+      <p><span class="status-good">Pros:</span> lower migration cost and useful for existing static sites.</p>
+      <p><span class="status-warn">Cons:</span> SEO-critical content should remain in the original HTML where possible, and edge rewriting must stay limited enough to debug.</p>
+    </section>
+
+    <section aria-labelledby="seo-value">
+      <h2 id="seo-value">SEO Value</h2>
+      <p>Memwiki can produce artifacts that normal CMS systems often handle weakly:</p>
+      <ul>
+        <li>Topic and entity graph for internal linking.</li>
+        <li>Source-backed claims for trustworthy public content.</li>
+        <li>Automatic stale-content detection and refresh queues.</li>
+        <li>Canonical URL and redirect suggestions.</li>
+        <li>Structured data from embedded JSON-LD.</li>
+        <li>Related-page recommendations from links, claims, and semantic similarity.</li>
+        <li>Content gap reports from missing entities or weak topic clusters.</li>
+        <li>Programmatic landing pages with citations and review status.</li>
+        <li>Search-readable HTML instead of opaque application state.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="recommendation">
+      <h2 id="recommendation">Recommended Direction</h2>
+      <p>Start with <strong>Option 1</strong> and intentionally design the storage, API, validation, and publish contract so <strong>Option 2</strong> can be added without changing the public content model.</p>
+      <p>This positions the product as a source-backed SEO memory layer for static sites: ingest knowledge, generate validated HTML, maintain internal links and structured data, and publish crawlable content through Cloudflare.</p>
+      <p>Next document: <a href="./cloudflare-seo-option1-to-option2-plan.html">Option 1 to Option 2 implementation plan</a>.</p>
+    </section>
+  </article>
+</main>
+</body>
+</html>
