@@ -1,0 +1,453 @@
+{
+  "template_id": "synthetic-phi-client-record-template-v1",
+  "template_version": "0.1.0",
+  "description": "JSON template for synthetic outpatient mental health client records used for local development fixtures. All generated records must be synthetic and must not be copied from real clients, staff, clinical notes, screenshots, exports, logs, or production systems.",
+  "record_policy": {
+    "synthetic": true,
+    "sensitivity": "synthetic",
+    "no_actual_phi": true,
+    "intended_use": [
+      "local development",
+      "schema validation",
+      "Agentic Wiki synthetic clinical workflow testing"
+    ],
+    "excluded_use": [
+      "training on real client records",
+      "production clinical documentation",
+      "patient-facing advice",
+      "autonomous diagnosis or treatment orders"
+    ],
+    "generation_constraints": [
+      "Use fake names, fake organizations, fake addresses, fake phone numbers, and fake email domains only.",
+      "Do not use actual client, guardian, staff, school, employer, referral source, payer, or provider names.",
+      "Do not use copied clinical notes or deidentified real notes.",
+      "Use DSM-5-style diagnostic labels only as synthetic documentation fields, not as reproduced diagnostic criteria.",
+      "Preserve provenance for every generated evaluation, treatment-plan, and session-note claim.",
+      "Treat every generated record as one pseudonymous client record."
+    ]
+  },
+  "dataset_metadata": {
+    "dataset_id": "synthetic-phi-development-dataset-001",
+    "generated_at": "YYYY-MM-DDTHH:MM:SSZ",
+    "generator_name": "synthetic-phi-fixture-generator",
+    "generator_version": "0.1.0",
+    "schema_version": "0.1.0",
+    "record_count": 0,
+    "lifespan_coverage": [
+      "child",
+      "adolescent",
+      "young_adult",
+      "adult",
+      "older_adult"
+    ],
+    "clinical_variety_targets": [
+      "anxiety_related",
+      "mood_related",
+      "trauma_related",
+      "attention_or_executive_functioning",
+      "autism_or_neurodevelopmental_support_needs",
+      "adjustment_or_life_transition",
+      "grief_or_loss",
+      "substance_use_related",
+      "psychosis_spectrum_related",
+      "eating_or_body_image_related",
+      "relationship_or_family_stress",
+      "school_or_work_functioning",
+      "caregiver_stress"
+    ]
+  },
+  "client_record_template": {
+    "record_id": "client-synthetic-001",
+    "synthetic": true,
+    "sensitivity": "synthetic",
+    "client_record_id": "client-synthetic-001",
+    "pseudonymous_case_label": "Synthetic Case 001",
+    "age_band": "child|adolescent|young_adult|adult|older_adult",
+    "demographics": {
+      "synthetic_full_name": "Synthetic Client Name",
+      "preferred_name": "Synthetic Preferred Name",
+      "date_of_birth": "YYYY-MM-DD",
+      "age_at_intake": 0,
+      "pronouns": "they/them",
+      "gender_identity": "synthetic value",
+      "race_ethnicity": [
+        "synthetic value"
+      ],
+      "primary_language": "synthetic value",
+      "communication_needs": [
+        "synthetic value"
+      ],
+      "household_composition": [
+        "synthetic household member role"
+      ],
+      "guardian_or_caregiver": {
+        "required_for_record": false,
+        "synthetic_name": "Synthetic Caregiver Name",
+        "relationship": "synthetic relationship",
+        "contact_authorization_status": "not_applicable|authorized|limited|not_authorized"
+      }
+    },
+    "administrative_context": {
+      "intake_date": "YYYY-MM-DD",
+      "referral_source": "synthetic referral source",
+      "payer_type": "commercial|medicaid|medicare|self_pay|grant_funded|other_synthetic",
+      "service_line": "outpatient_therapy",
+      "consent_status": "obtained|pending|minor_assent_with_guardian_consent|not_applicable",
+      "release_of_information": [
+        {
+          "collateral_party": "synthetic school, provider, caregiver, or agency",
+          "authorization_scope": "none|limited|full",
+          "expiration_date": "YYYY-MM-DD"
+        }
+      ],
+      "care_team": [
+        {
+          "role": "clinician|prescriber|case_manager|collateral_contact",
+          "synthetic_name": "Synthetic Care Team Member",
+          "organization": "Synthetic Organization"
+        }
+      ]
+    },
+    "presenting_problems": [
+      {
+        "problem_id": "problem-001",
+        "summary": "Synthetic description of the presenting problem.",
+        "onset": "synthetic timeframe",
+        "frequency": "synthetic frequency",
+        "severity": "mild|moderate|severe",
+        "functional_impairment": [
+          "school",
+          "work",
+          "family",
+          "social",
+          "sleep",
+          "self_care"
+        ],
+        "client_reported_priority": "low|medium|high"
+      }
+    ],
+    "diagnostic_profile": {
+      "current_diagnostic_impressions": [
+        {
+          "diagnosis_id": "diagnosis-001",
+          "diagnostic_system": "DSM-5-style synthetic label",
+          "code": "synthetic-code",
+          "label": "synthetic diagnosis label",
+          "status": "rule_out|provisional|active|historical",
+          "specifier_or_context": "synthetic value",
+          "clinical_rationale_summary": "Synthetic rationale summary based on generated evaluation fields.",
+          "source_fields": [
+            "initial_evaluation.history_of_present_illness",
+            "initial_evaluation.mental_status_exam",
+            "risk_assessment"
+          ]
+        }
+      ],
+      "diagnosis_history": [
+        {
+          "label": "synthetic prior diagnosis label",
+          "timeframe": "synthetic timeframe",
+          "reported_by": "client|guardian|prior_provider|synthetic_record"
+        }
+      ]
+    },
+    "clinical_history": {
+      "medications": [
+        {
+          "name": "synthetic medication name or none reported",
+          "dose": "synthetic dose or not_applicable",
+          "frequency": "synthetic frequency or not_applicable",
+          "adherence": "not_applicable|consistent|inconsistent|unknown",
+          "prescriber": "synthetic prescriber or not_applicable"
+        }
+      ],
+      "allergies": [
+        {
+          "substance": "synthetic allergy or none reported",
+          "reaction": "synthetic reaction or not_applicable"
+        }
+      ],
+      "medical_history": [
+        "synthetic medical history item"
+      ],
+      "psychiatric_history": [
+        {
+          "service_type": "therapy|psychiatry|inpatient|intensive_outpatient|crisis|none_reported",
+          "timeframe": "synthetic timeframe",
+          "summary": "Synthetic prior service summary."
+        }
+      ],
+      "substance_use": {
+        "screening_summary": "Synthetic substance-use screening summary.",
+        "substances": [
+          {
+            "substance": "synthetic substance category or none reported",
+            "frequency": "synthetic frequency or not_applicable",
+            "last_use": "synthetic timeframe or not_applicable",
+            "clinical_concern_level": "none|low|moderate|high"
+          }
+        ]
+      },
+      "trauma_history": {
+        "reported": false,
+        "summary": "Synthetic trauma-history summary without graphic details.",
+        "current_safety_concerns": "none_reported|synthetic_summary"
+      },
+      "family_history": [
+        "synthetic family mental health or medical history item"
+      ],
+      "social_history": {
+        "living_situation": "synthetic living situation",
+        "relationships": "synthetic relationship context",
+        "cultural_or_spiritual_factors": "synthetic cultural or spiritual context",
+        "school_or_work": {
+          "setting": "school|college|work|retired|not_applicable|other_synthetic",
+          "functioning_summary": "Synthetic school or work functioning summary.",
+          "supports_or_accommodations": [
+            "synthetic support or accommodation"
+          ]
+        },
+        "legal_or_system_involvement": "none_reported|synthetic_summary"
+      }
+    },
+    "risk_assessment": {
+      "assessment_date": "YYYY-MM-DD",
+      "suicidal_ideation": "denied|passive|active_without_plan|active_with_plan|not_assessed",
+      "self_harm": "denied|historical|current|not_assessed",
+      "homicidal_ideation": "denied|passive|active_without_plan|active_with_plan|not_assessed",
+      "abuse_or_neglect_concerns": "none_reported|historical|current|mandated_report_considered",
+      "risk_level": "low|moderate|high",
+      "protective_factors": [
+        "synthetic protective factor"
+      ],
+      "safety_plan_status": "not_indicated|created|reviewed|updated|referred_to_higher_care",
+      "crisis_resources_reviewed": false
+    },
+    "initial_evaluation": {
+      "evaluation_id": "eval-client-synthetic-001-001",
+      "evaluation_date": "YYYY-MM-DD",
+      "clinician": {
+        "synthetic_name": "Synthetic Clinician",
+        "role": "licensed_clinician|supervised_clinician|intake_clinician",
+        "signature": "Synthetic Clinician, Credential"
+      },
+      "reason_for_referral": "Synthetic reason for referral.",
+      "chief_concern": "Synthetic chief concern in client or caregiver language.",
+      "history_of_present_illness": "Synthetic narrative of symptom onset, duration, frequency, severity, and impairment.",
+      "biopsychosocial_summary": {
+        "biological": "Synthetic biological factors.",
+        "psychological": "Synthetic psychological factors.",
+        "social": "Synthetic social factors.",
+        "strengths": [
+          "synthetic strength"
+        ],
+        "barriers": [
+          "synthetic barrier"
+        ]
+      },
+      "mental_status_exam": {
+        "appearance": "synthetic observation",
+        "behavior": "synthetic observation",
+        "orientation": "synthetic observation",
+        "speech": "synthetic observation",
+        "mood": "synthetic observation",
+        "affect": "synthetic observation",
+        "thought_process": "synthetic observation",
+        "thought_content": "synthetic observation",
+        "perception": "synthetic observation",
+        "cognition": "synthetic observation",
+        "insight": "synthetic observation",
+        "judgment": "synthetic observation"
+      },
+      "diagnostic_impressions": [
+        "synthetic diagnosis label"
+      ],
+      "clinical_formulation": "Synthetic formulation integrating presenting problems, history, strengths, risk, and context.",
+      "recommended_level_of_care": "outpatient_therapy|higher_level_evaluation|medication_evaluation|community_referral",
+      "initial_treatment_recommendations": [
+        "synthetic treatment recommendation"
+      ],
+      "collateral_or_referral_needs": [
+        "synthetic collateral or referral need"
+      ],
+      "provenance": {
+        "source_type": "synthetic_generator",
+        "template_id": "synthetic-phi-client-record-template-v1",
+        "scenario_id": "scenario-lifespan-outpatient-001",
+        "generator_version": "0.1.0",
+        "claim_scope": "initial_evaluation",
+        "clinical_review_status": "not_clinician_reviewed"
+      }
+    },
+    "treatment_plan": {
+      "plan_id": "txplan-client-synthetic-001-001",
+      "created_date": "YYYY-MM-DD",
+      "review_due_date": "YYYY-MM-DD",
+      "level_of_care": "outpatient_therapy",
+      "service_frequency": "weekly|biweekly|monthly|as_needed",
+      "estimated_duration": "synthetic duration",
+      "diagnoses_addressed": [
+        "diagnosis-001"
+      ],
+      "presenting_problems_addressed": [
+        "problem-001"
+      ],
+      "client_strengths": [
+        "synthetic strength"
+      ],
+      "barriers_to_progress": [
+        "synthetic barrier"
+      ],
+      "smart_goals": [
+        {
+          "goal_id": "goal-001",
+          "problem_area": "synthetic problem area",
+          "goal_statement": "Client will achieve a measurable synthetic treatment outcome tied to the presenting problem.",
+          "baseline": "Synthetic baseline with frequency, severity, or functional impairment.",
+          "target": "Synthetic target with measurable improvement.",
+          "measurement_methods": [
+            "client self-report",
+            "caregiver report when appropriate",
+            "clinician observation",
+            "rating scale or symptom tracker",
+            "attendance or functioning data"
+          ],
+          "target_date": "YYYY-MM-DD",
+          "progress_status": "not_started|in_progress|partially_met|met|discontinued",
+          "objectives": [
+            {
+              "objective_id": "obj-001",
+              "objective_statement": "Client will complete a specific measurable synthetic objective.",
+              "target_date": "YYYY-MM-DD",
+              "status": "not_started|in_progress|partially_met|met|discontinued"
+            }
+          ],
+          "planned_interventions": [
+            "psychoeducation",
+            "CBT skill building",
+            "DBT-informed emotion regulation skills",
+            "family or caregiver collateral when clinically appropriate",
+            "motivational interviewing",
+            "safety planning when clinically indicated",
+            "care coordination with authorized collateral contacts"
+          ]
+        }
+      ],
+      "care_coordination_plan": [
+        "Synthetic care coordination step with authorized collateral contact.",
+        "Synthetic referral or follow-up step when clinically indicated."
+      ],
+      "minimal_discharge_criteria": [
+        "Client has met or substantially met primary SMART goals.",
+        "Client demonstrates use of agreed coping, communication, relapse-prevention, or safety strategies outside session.",
+        "Symptoms and functional impairment are stable enough for step-down, maintenance, referral, or planned discharge.",
+        "Risk level is stable and manageable at the current or lower level of care.",
+        "Client and clinician have reviewed a maintenance, relapse-prevention, or transition plan.",
+        "Follow-up care, community supports, or referrals are documented when ongoing support is needed."
+      ],
+      "provenance": {
+        "source_type": "synthetic_generator",
+        "template_id": "synthetic-phi-client-record-template-v1",
+        "scenario_id": "scenario-lifespan-outpatient-001",
+        "generator_version": "0.1.0",
+        "claim_scope": "treatment_plan",
+        "clinical_review_status": "not_clinician_reviewed"
+      }
+    },
+    "session_notes": [
+      {
+        "note_id": "note-client-synthetic-001-001",
+        "session_date": "YYYY-MM-DD",
+        "session_type": "individual|family|group|caregiver_collateral|crisis|intake_follow_up",
+        "duration_minutes": 0,
+        "diagnoses_addressed": [
+          "diagnosis-001"
+        ],
+        "goals_addressed": [
+          "goal-001"
+        ],
+        "mental_status": {
+          "appearance": "synthetic observation",
+          "behavior": "synthetic observation",
+          "orientation": "synthetic observation",
+          "speech": "synthetic observation",
+          "mood": "synthetic observation",
+          "affect": "synthetic observation",
+          "thought_process": "synthetic observation",
+          "thought_content": "synthetic observation",
+          "perception": "synthetic observation",
+          "cognition": "synthetic observation",
+          "insight": "synthetic observation",
+          "judgment": "synthetic observation",
+          "risk_observation": "synthetic risk-related observation"
+        },
+        "intervention_provided": [
+          "Synthetic description of clinical intervention provided during session."
+        ],
+        "client_response": "Synthetic description of client engagement, response to intervention, progress, or barriers.",
+        "plan": [
+          "Synthetic plan for next session or between-session practice."
+        ],
+        "homework_or_between_session_practice": [
+          "synthetic practice item"
+        ],
+        "progress_toward_goals": [
+          {
+            "goal_id": "goal-001",
+            "progress_summary": "Synthetic progress summary.",
+            "progress_status": "not_started|in_progress|partially_met|met|discontinued"
+          }
+        ],
+        "risk_level": "low|moderate|high",
+        "next_session_focus": [
+          "synthetic next-session focus"
+        ],
+        "provenance": {
+          "source_type": "synthetic_generator",
+          "template_id": "synthetic-phi-client-record-template-v1",
+          "scenario_id": "scenario-lifespan-outpatient-001",
+          "generator_version": "0.1.0",
+          "claim_scope": "session_note",
+          "clinical_review_status": "not_clinician_reviewed"
+        }
+      }
+    ],
+    "record_provenance": {
+      "source_type": "synthetic_generator",
+      "template_id": "synthetic-phi-client-record-template-v1",
+      "scenario_id": "scenario-lifespan-outpatient-001",
+      "seed": "synthetic-seed-placeholder",
+      "generator_version": "0.1.0",
+      "generated_at": "YYYY-MM-DDTHH:MM:SSZ",
+      "clinical_review_status": "not_clinician_reviewed"
+    },
+    "validation_expectations": {
+      "required_top_level_fields": [
+        "record_id",
+        "synthetic",
+        "sensitivity",
+        "client_record_id",
+        "age_band",
+        "demographics",
+        "administrative_context",
+        "presenting_problems",
+        "diagnostic_profile",
+        "clinical_history",
+        "risk_assessment",
+        "initial_evaluation",
+        "treatment_plan",
+        "session_notes",
+        "record_provenance"
+      ],
+      "reject_if": [
+        "synthetic is not true",
+        "sensitivity is not synthetic",
+        "provenance is missing from initial evaluation, treatment plan, session notes, or record",
+        "record contains actual PHI, copied clinical text, real staff names, real client names, real contact information, or production identifiers",
+        "treatment plan is missing SMART goals",
+        "treatment plan is missing minimal discharge criteria",
+        "session notes are missing mental_status, intervention_provided, client_response, or plan"
+      ]
+    }
+  }
+}
