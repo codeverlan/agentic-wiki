@@ -97,12 +97,12 @@ The Codex skill for planning project-specific integrations is installed outside
 the repo at:
 
 ```text
-/Users/tyler-lcsw/.codex/skills/memwiki-planner
+/Users/tyler-lcsw/.codex/skills/agentic-wiki-planner
 ```
 
-The project keeps a symlink at `skills/memwiki-planner` pointing to that
+The project keeps a symlink at `skills/agentic-wiki-planner` pointing to that
 installed skill. Skill-link changes are tracked on branch
-`skill/memwiki-planner`.
+`skill/agentic-wiki-planner`.
 
 ## License
 

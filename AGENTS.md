@@ -17,6 +17,6 @@ Required workflow:
 - Preserve machine-readable JSON outputs for agent-facing commands.
 - Keep `.memwiki/agent-capabilities.json` aligned with supported commands and mutation policy.
 - The canonical GitHub repo is `codeverlan/agentic-wiki`, pushed with remote `github-personal:codeverlan/agentic-wiki.git`.
-- The installed Codex skill lives at `/Users/tyler-lcsw/.codex/skills/memwiki-planner`.
-- Keep the project symlink `skills/memwiki-planner` pointing to the installed skill; do not move the installed skill into the repo.
-- Skill-link synchronization belongs on branch `skill/memwiki-planner` unless the user asks for a different branch.
+- The installed Codex skill lives at `/Users/tyler-lcsw/.codex/skills/agentic-wiki-planner`.
+- Keep the project symlink `skills/agentic-wiki-planner` pointing to the installed skill; do not move the installed skill into the repo.
+- Skill-link synchronization belongs on branch `skill/agentic-wiki-planner` unless the user asks for a different branch.
