@@ -1,0 +1,557 @@
+{
+  "template_id": "synthetic-phi-client-record-template-v1",
+  "template_version": "0.1.0",
+  "description": "JSON template for synthetic outpatient mental health client records used for local development fixtures. All generated records must be synthetic and must not be copied from real clients, staff, clinical notes, screenshots, exports, logs, or production systems.",
+  "record_policy": {
+    "synthetic": true,
+    "sensitivity": "synthetic",
+    "no_actual_phi": true,
+    "intended_use": [
+      "local development",
+      "schema validation",
+      "Agentic Wiki synthetic clinical workflow testing"
+    ],
+    "excluded_use": [
+      "training on real client records",
+      "production clinical documentation",
+      "patient-facing advice",
+      "autonomous diagnosis or treatment orders"
+    ],
+    "generation_constraints": [
+      "Use fake names, fake organizations, fake addresses, fake phone numbers, and fake email domains only.",
+      "Do not use actual client, guardian, staff, school, employer, referral source, payer, or provider names.",
+      "Do not use copied clinical notes or deidentified real notes.",
+      "Use DSM-5-style diagnostic labels only as synthetic documentation fields, not as reproduced diagnostic criteria.",
+      "Preserve provenance for every generated evaluation, treatment-plan, and session-note claim.",
+      "Treat every generated record as one pseudonymous client record."
+    ]
+  },
+  "dataset_metadata": {
+    "dataset_id": "synthetic-phi-development-dataset-001",
+    "generated_at": "2026-10-05T12:00:00Z",
+    "generator_name": "synthetic-phi-fixture-generator",
+    "generator_version": "0.1.0",
+    "schema_version": "0.1.0",
+    "record_count": 1,
+    "lifespan_coverage": [
+      "child",
+      "adolescent",
+      "young_adult",
+      "adult",
+      "older_adult"
+    ],
+    "clinical_variety_targets": [
+      "anxiety_related",
+      "mood_related",
+      "trauma_related",
+      "attention_or_executive_functioning",
+      "autism_or_neurodevelopmental_support_needs",
+      "adjustment_or_life_transition",
+      "grief_or_loss",
+      "substance_use_related",
+      "psychosis_spectrum_related",
+      "eating_or_body_image_related",
+      "relationship_or_family_stress",
+      "school_or_work_functioning",
+      "caregiver_stress"
+    ]
+  },
+  "client_record": {
+    "record_id": "client-synthetic-129",
+    "synthetic": true,
+    "sensitivity": "synthetic",
+    "client_record_id": "client-synthetic-129",
+    "pseudonymous_case_label": "Synthetic Case 129",
+    "age_band": "adult",
+    "demographics": {
+      "synthetic_full_name": "Emerson Dawson",
+      "preferred_name": "Emerson D.",
+      "date_of_birth": "1990-10-01",
+      "age_at_intake": 36,
+      "pronouns": "she/her",
+      "gender_identity": "woman",
+      "race_ethnicity": [
+        "Synthetic multiracial background"
+      ],
+      "primary_language": "English and American Sign Language",
+      "communication_needs": [
+        "benefits from visual coping-plan reminders"
+      ],
+      "household_composition": [
+        "client",
+        "partner or chosen support"
+      ],
+      "guardian_or_caregiver": {
+        "required_for_record": false,
+        "synthetic_name": "not_applicable",
+        "relationship": "not_applicable",
+        "contact_authorization_status": "not_applicable"
+      }
+    },
+    "administrative_context": {
+      "intake_date": "2026-02-01",
+      "referral_source": "school counselor referral for attendance and emotional regulation concerns",
+      "payer_type": "medicare",
+      "service_line": "outpatient_therapy",
+      "consent_status": "obtained",
+      "release_of_information": [
+        {
+          "collateral_party": "Synthetic partner",
+          "authorization_scope": "limited",
+          "expiration_date": "2027-02-01"
+        }
+      ],
+      "care_team": [
+        {
+          "role": "clinician",
+          "synthetic_name": "Marlowe Jamison, LCSW",
+          "organization": "Maple Horizon Psychiatry"
+        },
+        {
+          "role": "prescriber",
+          "synthetic_name": "Shiloh Tatum, PMHNP",
+          "organization": "Harborlight Recovery Partners"
+        }
+      ]
+    },
+    "presenting_problems": [
+      {
+        "problem_id": "problem-129-001",
+        "summary": "Client presents with declining performance, burnout, and reduced confidence with responsibilities.",
+        "onset": "difficulties have become more pronounced over the last academic or fiscal quarter",
+        "frequency": "most weekdays with avoidance of high-demand tasks",
+        "severity": "moderate",
+        "functional_impairment": [
+          "school",
+          "work",
+          "sleep"
+        ],
+        "client_reported_priority": "medium"
+      },
+      {
+        "problem_id": "problem-129-002",
+        "summary": "Client also reports persistent worry, physical tension, and avoidance affecting daily functioning in the current context.",
+        "onset": "symptoms have intensified over the last 6 months",
+        "frequency": "most days with spikes before demands or transitions",
+        "severity": "mild",
+        "functional_impairment": [
+          "school",
+          "work",
+          "sleep",
+          "social"
+        ],
+        "client_reported_priority": "high"
+      }
+    ],
+    "diagnostic_profile": {
+      "current_diagnostic_impressions": [
+        {
+          "diagnosis_id": "diagnosis-129-001",
+          "diagnostic_system": "DSM-5-style synthetic label",
+          "code": "SYN-Z56.9",
+          "label": "Occupational or educational problem, synthetic",
+          "status": "active",
+          "specifier_or_context": "School or work functioning strain",
+          "clinical_rationale_summary": "Generated record reflects declining performance, burnout, and reduced confidence with responsibilities with impairment across key settings.",
+          "source_fields": [
+            "initial_evaluation.history_of_present_illness",
+            "initial_evaluation.mental_status_exam",
+            "risk_assessment"
+          ]
+        },
+        {
+          "diagnosis_id": "diagnosis-129-002",
+          "diagnostic_system": "DSM-5-style synthetic label",
+          "code": "SYN-F41.1",
+          "label": "Generalized anxiety disorder",
+          "status": "provisional",
+          "specifier_or_context": "Anxiety-related distress",
+          "clinical_rationale_summary": "Secondary stress pattern is consistent with anxiety-related distress and informs treatment planning.",
+          "source_fields": [
+            "presenting_problems",
+            "clinical_history.social_history",
+            "initial_evaluation.biopsychosocial_summary.social"
+          ]
+        }
+      ],
+      "diagnosis_history": [
+        {
+          "label": "previous short-term counseling during a high-pressure period",
+          "timeframe": "reported during intake history review",
+          "reported_by": "client"
+        }
+      ]
+    },
+    "clinical_history": {
+      "medications": [
+        {
+          "name": "none reported",
+          "dose": "not_applicable",
+          "frequency": "not_applicable",
+          "adherence": "not_applicable",
+          "prescriber": "not_applicable"
+        }
+      ],
+      "allergies": [
+        {
+          "substance": "latex synthetic",
+          "reaction": "mild gastrointestinal upset"
+        }
+      ],
+      "medical_history": [
+        "seasonal allergies"
+      ],
+      "psychiatric_history": [
+        {
+          "service_type": "psychiatry",
+          "timeframe": "within the last 1 to 3 years",
+          "summary": "Synthetic prior service summary focused on symptom management and support engagement."
+        }
+      ],
+      "substance_use": {
+        "screening_summary": "Screening indicates caffeine use pattern of daily with concern level low.",
+        "substances": [
+          {
+            "substance": "caffeine",
+            "frequency": "daily",
+            "last_use": "today",
+            "clinical_concern_level": "low"
+          }
+        ]
+      },
+      "trauma_history": {
+        "reported": false,
+        "summary": "No trauma history reported beyond normative life stressors.",
+        "current_safety_concerns": "none_reported"
+      },
+      "family_history": [
+        "family history of alcohol misuse"
+      ],
+      "social_history": {
+        "living_situation": "lives with partner, family, or alone in stable housing",
+        "relationships": "maintains a few trusted supports but tends to isolate under strain",
+        "cultural_or_spiritual_factors": "values family loyalty and practical support",
+        "school_or_work": {
+          "setting": "work",
+          "functioning_summary": "Current work functioning is affected by declining performance, burnout, and reduced confidence with responsibilities with stronger performance on structured days.",
+          "supports_or_accommodations": [
+            "structured task list",
+            "protected break reminders"
+          ]
+        },
+        "legal_or_system_involvement": "none_reported"
+      }
+    },
+    "risk_assessment": {
+      "assessment_date": "2026-02-01",
+      "suicidal_ideation": "denied",
+      "self_harm": "denied",
+      "homicidal_ideation": "denied",
+      "abuse_or_neglect_concerns": "none_reported",
+      "risk_level": "low",
+      "protective_factors": [
+        "connection to school, work, or community routine"
+      ],
+      "safety_plan_status": "not_indicated",
+      "crisis_resources_reviewed": false
+    },
+    "initial_evaluation": {
+      "evaluation_id": "eval-client-synthetic-129-001",
+      "evaluation_date": "2026-02-01",
+      "clinician": {
+        "synthetic_name": "Reese Nolan",
+        "role": "licensed_clinician",
+        "signature": "Reese Nolan, Synthetic Credential"
+      },
+      "reason_for_referral": "Referral requested support for school or work functioning strain.",
+      "chief_concern": "Client described declining performance, burnout, and reduced confidence with responsibilities as the main reason for seeking help.",
+      "history_of_present_illness": "difficulties have become more pronounced over the last academic or fiscal quarter; most weekdays with avoidance of high-demand tasks; severity currently described as moderate. Symptoms include declining performance, burnout, and reduced confidence with responsibilities and interfere with school, work, sleep.",
+      "biopsychosocial_summary": {
+        "biological": "Biological considerations include migraine history.",
+        "psychological": "Psychological factors include declining performance, burnout, and reduced confidence with responsibilities with variable self-criticism.",
+        "social": "Social stressors include persistent worry, physical tension, and avoidance affecting daily functioning and changing role demands.",
+        "strengths": [
+          "shows insight and willingness to participate",
+          "has at least one reliable support person"
+        ],
+        "barriers": [
+          "stress increases avoidance and follow-through problems",
+          "limited recovery time between demands"
+        ]
+      },
+      "mental_status_exam": {
+        "appearance": "casually dressed and age appropriate",
+        "behavior": "engaged with mild psychomotor tension",
+        "orientation": "oriented x4",
+        "speech": "clear and coherent",
+        "mood": "guarded but hopeful",
+        "affect": "congruent and appropriately reactive",
+        "thought_process": "linear and goal directed",
+        "thought_content": "preoccupied with school or work functioning strain",
+        "perception": "no acute abnormalities observed",
+        "cognition": "grossly intact",
+        "insight": "good",
+        "judgment": "good"
+      },
+      "diagnostic_impressions": [
+        "Occupational or educational problem, synthetic",
+        "Generalized anxiety disorder"
+      ],
+      "clinical_formulation": "Clinical formulation integrates declining performance, burnout, and reduced confidence with responsibilities, developmental context, strengths, and current functional impairment across school, work, sleep.",
+      "recommended_level_of_care": "outpatient_therapy",
+      "initial_treatment_recommendations": [
+        "begin structured outpatient therapy focused on symptom tracking and coping",
+        "review support system involvement and care coordination needs",
+        "consider additional referral or medication evaluation when clinically indicated"
+      ],
+      "collateral_or_referral_needs": [
+        "coordinate with authorized collateral contact when it supports care goals",
+        "monitor whether specialty referral is needed as treatment progresses"
+      ],
+      "provenance": {
+        "source_type": "synthetic_generator",
+        "template_id": "synthetic-phi-client-record-template-v1",
+        "scenario_id": "school_or_work_functioning",
+        "generator_version": "0.1.0",
+        "claim_scope": "initial_evaluation",
+        "clinical_review_status": "not_clinician_reviewed"
+      }
+    },
+    "treatment_plan": {
+      "plan_id": "txplan-client-synthetic-129-001",
+      "created_date": "2026-02-01",
+      "review_due_date": "2026-05-02",
+      "level_of_care": "outpatient_therapy",
+      "service_frequency": "biweekly",
+      "estimated_duration": "6 months",
+      "diagnoses_addressed": [
+        "diagnosis-129-001",
+        "diagnosis-129-002"
+      ],
+      "presenting_problems_addressed": [
+        "problem-129-001",
+        "problem-129-002"
+      ],
+      "client_strengths": [
+        "motivation to improve daily functioning",
+        "capacity to identify helpful supports"
+      ],
+      "barriers_to_progress": [
+        "stress-related avoidance",
+        "limited energy during high-demand periods"
+      ],
+      "smart_goals": [
+        {
+          "goal_id": "goal-129-001",
+          "problem_area": "School or work functioning strain",
+          "goal_statement": "Client will restore pacing, performance confidence, and support use over the next 90 days.",
+          "baseline": "Current baseline includes declining performance, burnout, and reduced confidence with responsibilities with impairment across school, work.",
+          "target": "Client will report clearer coping gains and improved functioning related to school or work functioning strain.",
+          "measurement_methods": [
+            "client self-report",
+            "caregiver report when appropriate",
+            "clinician observation",
+            "rating scale or symptom tracker",
+            "attendance or functioning data"
+          ],
+          "target_date": "2026-05-02",
+          "progress_status": "in_progress",
+          "objectives": [
+            {
+              "objective_id": "obj-129-001",
+              "objective_statement": "Client will practice two agreed coping or communication strategies between sessions and review barriers in session.",
+              "target_date": "2026-03-18",
+              "status": "not_started"
+            }
+          ],
+          "planned_interventions": [
+            "psychoeducation",
+            "CBT skill building",
+            "DBT-informed emotion regulation skills",
+            "family or caregiver collateral when clinically appropriate",
+            "motivational interviewing",
+            "safety planning when clinically indicated",
+            "care coordination with authorized collateral contacts"
+          ]
+        }
+      ],
+      "care_coordination_plan": [
+        "Synthetic care coordination step with authorized collateral contact.",
+        "Synthetic referral or follow-up step when clinically indicated."
+      ],
+      "minimal_discharge_criteria": [
+        "Client has met or substantially met primary SMART goals.",
+        "Client demonstrates use of agreed coping, communication, relapse-prevention, or safety strategies outside session.",
+        "Symptoms and functional impairment are stable enough for step-down, maintenance, referral, or planned discharge.",
+        "Risk level is stable and manageable at the current or lower level of care.",
+        "Client and clinician have reviewed a maintenance, relapse-prevention, or transition plan.",
+        "Follow-up care, community supports, or referrals are documented when ongoing support is needed."
+      ],
+      "provenance": {
+        "source_type": "synthetic_generator",
+        "template_id": "synthetic-phi-client-record-template-v1",
+        "scenario_id": "school_or_work_functioning",
+        "generator_version": "0.1.0",
+        "claim_scope": "treatment_plan",
+        "clinical_review_status": "not_clinician_reviewed"
+      }
+    },
+    "session_notes": [
+      {
+        "note_id": "note-client-synthetic-129-001",
+        "session_date": "2026-02-08",
+        "session_type": "individual",
+        "duration_minutes": 45,
+        "diagnoses_addressed": [
+          "diagnosis-129-001",
+          "diagnosis-129-002"
+        ],
+        "goals_addressed": [
+          "goal-129-001"
+        ],
+        "mental_status": {
+          "appearance": "casually dressed and appropriately groomed",
+          "behavior": "cooperative with mild restlessness during difficult topics",
+          "orientation": "oriented to person, place, time, and situation",
+          "speech": "normal rate and volume",
+          "mood": "anxious but engaged",
+          "affect": "congruent with discussed stressors",
+          "thought_process": "organized and goal directed",
+          "thought_content": "focused on current stressors without delusional elaboration",
+          "perception": "no acute perceptual disturbance observed in session",
+          "cognition": "attention adequate for session tasks",
+          "insight": "fair",
+          "judgment": "fair",
+          "risk_observation": "Risk presentation remained low with no acute escalation during session."
+        },
+        "intervention_provided": [
+          "Synthetic session focused on restore pacing, performance confidence, and support use using collaborative skill rehearsal and reflective questioning."
+        ],
+        "client_response": "Client was receptive to structured support, identified barriers honestly, and described at least one situation where the intervention could be applied.",
+        "plan": [
+          "Continue current treatment focus and review between-session practice next visit.",
+          "Monitor functioning changes and coordinate with authorized supports when needed."
+        ],
+        "homework_or_between_session_practice": [
+          "use a written planning tool before one high-stress task"
+        ],
+        "progress_toward_goals": [
+          {
+            "goal_id": "goal-129-001",
+            "progress_summary": "Client showed early progress toward restore pacing, performance confidence, and support use with ongoing need for repetition and support.",
+            "progress_status": "partially_met"
+          }
+        ],
+        "risk_level": "low",
+        "next_session_focus": [
+          "Further work on restore pacing, performance confidence, and support use",
+          "Review barriers, supports, and pacing between sessions"
+        ],
+        "provenance": {
+          "source_type": "synthetic_generator",
+          "template_id": "synthetic-phi-client-record-template-v1",
+          "scenario_id": "school_or_work_functioning",
+          "generator_version": "0.1.0",
+          "claim_scope": "session_note",
+          "clinical_review_status": "not_clinician_reviewed"
+        }
+      },
+      {
+        "note_id": "note-client-synthetic-129-002",
+        "session_date": "2026-02-22",
+        "session_type": "individual",
+        "duration_minutes": 45,
+        "diagnoses_addressed": [
+          "diagnosis-129-001",
+          "diagnosis-129-002"
+        ],
+        "goals_addressed": [
+          "goal-129-001"
+        ],
+        "mental_status": {
+          "appearance": "casually dressed and appropriately groomed",
+          "behavior": "cooperative with mild restlessness during difficult topics",
+          "orientation": "oriented to person, place, time, and situation",
+          "speech": "normal rate and volume",
+          "mood": "anxious but engaged",
+          "affect": "congruent with discussed stressors",
+          "thought_process": "organized and goal directed",
+          "thought_content": "focused on current stressors without delusional elaboration",
+          "perception": "no acute perceptual disturbance observed in session",
+          "cognition": "attention adequate for session tasks",
+          "insight": "fair",
+          "judgment": "fair",
+          "risk_observation": "Risk presentation remained low with no acute escalation during session."
+        },
+        "intervention_provided": [
+          "Synthetic session focused on restore pacing, performance confidence, and support use using collaborative skill rehearsal and reflective questioning."
+        ],
+        "client_response": "Client was receptive to structured support, identified barriers honestly, and described at least one situation where the intervention could be applied.",
+        "plan": [
+          "Continue current treatment focus and review between-session practice next visit.",
+          "Monitor functioning changes and coordinate with authorized supports when needed."
+        ],
+        "homework_or_between_session_practice": [
+          "practice a grounding or breathing exercise three times this week"
+        ],
+        "progress_toward_goals": [
+          {
+            "goal_id": "goal-129-001",
+            "progress_summary": "Client showed early progress toward restore pacing, performance confidence, and support use with ongoing need for repetition and support.",
+            "progress_status": "partially_met"
+          }
+        ],
+        "risk_level": "low",
+        "next_session_focus": [
+          "Further work on restore pacing, performance confidence, and support use",
+          "Review barriers, supports, and pacing between sessions"
+        ],
+        "provenance": {
+          "source_type": "synthetic_generator",
+          "template_id": "synthetic-phi-client-record-template-v1",
+          "scenario_id": "school_or_work_functioning",
+          "generator_version": "0.1.0",
+          "claim_scope": "session_note",
+          "clinical_review_status": "not_clinician_reviewed"
+        }
+      }
+    ],
+    "record_provenance": {
+      "source_type": "synthetic_generator",
+      "template_id": "synthetic-phi-client-record-template-v1",
+      "scenario_id": "school_or_work_functioning",
+      "seed": "synthetic-seed-8329",
+      "generator_version": "0.1.0",
+      "generated_at": "2026-10-05T12:00:00Z",
+      "clinical_review_status": "not_clinician_reviewed"
+    },
+    "validation_expectations": {
+      "required_top_level_fields": [
+        "record_id",
+        "synthetic",
+        "sensitivity",
+        "client_record_id",
+        "age_band",
+        "demographics",
+        "administrative_context",
+        "presenting_problems",
+        "diagnostic_profile",
+        "clinical_history",
+        "risk_assessment",
+        "initial_evaluation",
+        "treatment_plan",
+        "session_notes",
+        "record_provenance"
+      ],
+      "reject_if": [
+        "synthetic is not true",
+        "sensitivity is not synthetic",
+        "provenance is missing from initial evaluation, treatment plan, session notes, or record",
+        "record contains actual PHI, copied clinical text, real staff names, real client names, real contact information, or production identifiers",
+        "treatment plan is missing SMART goals",
+        "treatment plan is missing minimal discharge criteria",
+        "session notes are missing mental_status, intervention_provided, client_response, or plan"
+      ]
+    }
+  }
+}

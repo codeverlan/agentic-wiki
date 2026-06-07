@@ -1,0 +1,558 @@
+{
+  "template_id": "synthetic-phi-client-record-template-v1",
+  "template_version": "0.1.0",
+  "description": "JSON template for synthetic outpatient mental health client records used for local development fixtures. All generated records must be synthetic and must not be copied from real clients, staff, clinical notes, screenshots, exports, logs, or production systems.",
+  "record_policy": {
+    "synthetic": true,
+    "sensitivity": "synthetic",
+    "no_actual_phi": true,
+    "intended_use": [
+      "local development",
+      "schema validation",
+      "Agentic Wiki synthetic clinical workflow testing"
+    ],
+    "excluded_use": [
+      "training on real client records",
+      "production clinical documentation",
+      "patient-facing advice",
+      "autonomous diagnosis or treatment orders"
+    ],
+    "generation_constraints": [
+      "Use fake names, fake organizations, fake addresses, fake phone numbers, and fake email domains only.",
+      "Do not use actual client, guardian, staff, school, employer, referral source, payer, or provider names.",
+      "Do not use copied clinical notes or deidentified real notes.",
+      "Use DSM-5-style diagnostic labels only as synthetic documentation fields, not as reproduced diagnostic criteria.",
+      "Preserve provenance for every generated evaluation, treatment-plan, and session-note claim.",
+      "Treat every generated record as one pseudonymous client record."
+    ]
+  },
+  "dataset_metadata": {
+    "dataset_id": "synthetic-phi-development-dataset-001",
+    "generated_at": "2026-10-07T12:00:00Z",
+    "generator_name": "synthetic-phi-fixture-generator",
+    "generator_version": "0.1.0",
+    "schema_version": "0.1.0",
+    "record_count": 1,
+    "lifespan_coverage": [
+      "child",
+      "adolescent",
+      "young_adult",
+      "adult",
+      "older_adult"
+    ],
+    "clinical_variety_targets": [
+      "anxiety_related",
+      "mood_related",
+      "trauma_related",
+      "attention_or_executive_functioning",
+      "autism_or_neurodevelopmental_support_needs",
+      "adjustment_or_life_transition",
+      "grief_or_loss",
+      "substance_use_related",
+      "psychosis_spectrum_related",
+      "eating_or_body_image_related",
+      "relationship_or_family_stress",
+      "school_or_work_functioning",
+      "caregiver_stress"
+    ]
+  },
+  "client_record": {
+    "record_id": "client-synthetic-131",
+    "synthetic": true,
+    "sensitivity": "synthetic",
+    "client_record_id": "client-synthetic-131",
+    "pseudonymous_case_label": "Synthetic Case 131",
+    "age_band": "child",
+    "demographics": {
+      "synthetic_full_name": "Shiloh Oakley",
+      "preferred_name": "Shiloh",
+      "date_of_birth": "2015-12-07",
+      "age_at_intake": 11,
+      "pronouns": "they/them",
+      "gender_identity": "nonbinary",
+      "race_ethnicity": [
+        "Synthetic white heritage"
+      ],
+      "primary_language": "English",
+      "communication_needs": [
+        "none reported"
+      ],
+      "household_composition": [
+        "caregiver",
+        "sibling",
+        "client"
+      ],
+      "guardian_or_caregiver": {
+        "required_for_record": true,
+        "synthetic_name": "Casey Granger",
+        "relationship": "foster caregiver",
+        "contact_authorization_status": "authorized"
+      }
+    },
+    "administrative_context": {
+      "intake_date": "2026-02-07",
+      "referral_source": "caregiver referral after repeated conflict at home",
+      "payer_type": "grant_funded",
+      "service_line": "outpatient_therapy",
+      "consent_status": "minor_assent_with_guardian_consent",
+      "release_of_information": [
+        {
+          "collateral_party": "Synthetic school counselor",
+          "authorization_scope": "full",
+          "expiration_date": "2027-02-07"
+        }
+      ],
+      "care_team": [
+        {
+          "role": "clinician",
+          "synthetic_name": "Indigo Tatum, LCSW",
+          "organization": "Bluebird Community Wellness"
+        },
+        {
+          "role": "collateral_contact",
+          "synthetic_name": "Synthetic school support liaison",
+          "organization": "North Ridge School Supports"
+        }
+      ]
+    },
+    "presenting_problems": [
+      {
+        "problem_id": "problem-131-001",
+        "summary": "Client presents with persistent worry, physical tension, and avoidance affecting daily functioning.",
+        "onset": "symptoms have intensified over the last 6 months",
+        "frequency": "most days with spikes before demands or transitions",
+        "severity": "moderate",
+        "functional_impairment": [
+          "school",
+          "work",
+          "sleep",
+          "social"
+        ],
+        "client_reported_priority": "high"
+      },
+      {
+        "problem_id": "problem-131-002",
+        "summary": "Client also reports conflict cycles, communication breakdowns, and emotional overwhelm in key relationships in the current context.",
+        "onset": "patterns have worsened over the last 4 months",
+        "frequency": "weekly arguments with lingering distress between conflicts",
+        "severity": "mild",
+        "functional_impairment": [
+          "family",
+          "social",
+          "sleep"
+        ],
+        "client_reported_priority": "medium"
+      }
+    ],
+    "diagnostic_profile": {
+      "current_diagnostic_impressions": [
+        {
+          "diagnosis_id": "diagnosis-131-001",
+          "diagnostic_system": "DSM-5-style synthetic label",
+          "code": "SYN-F41.1",
+          "label": "Generalized anxiety disorder",
+          "status": "active",
+          "specifier_or_context": "Anxiety-related distress",
+          "clinical_rationale_summary": "Generated record reflects persistent worry, physical tension, and avoidance affecting daily functioning with impairment across key settings.",
+          "source_fields": [
+            "initial_evaluation.history_of_present_illness",
+            "initial_evaluation.mental_status_exam",
+            "risk_assessment"
+          ]
+        },
+        {
+          "diagnosis_id": "diagnosis-131-002",
+          "diagnostic_system": "DSM-5-style synthetic label",
+          "code": "SYN-Z63.8",
+          "label": "Relationship distress with spouse or intimate partner, synthetic",
+          "status": "provisional",
+          "specifier_or_context": "Relationship or family stress",
+          "clinical_rationale_summary": "Secondary stress pattern is consistent with relationship or family stress and informs treatment planning.",
+          "source_fields": [
+            "presenting_problems",
+            "clinical_history.social_history",
+            "initial_evaluation.biopsychosocial_summary.social"
+          ]
+        }
+      ],
+      "diagnosis_history": [
+        {
+          "label": "prior anxiety symptoms without consistent treatment",
+          "timeframe": "reported during intake history review",
+          "reported_by": "guardian"
+        }
+      ]
+    },
+    "clinical_history": {
+      "medications": [
+        {
+          "name": "none reported",
+          "dose": "not_applicable",
+          "frequency": "not_applicable",
+          "adherence": "not_applicable",
+          "prescriber": "not_applicable"
+        }
+      ],
+      "allergies": [
+        {
+          "substance": "penicillin synthetic",
+          "reaction": "mild gastrointestinal upset"
+        }
+      ],
+      "medical_history": [
+        "migraine history"
+      ],
+      "psychiatric_history": [
+        {
+          "service_type": "none_reported",
+          "timeframe": "within the last 1 to 3 years",
+          "summary": "Synthetic prior service summary focused on symptom management and support engagement."
+        }
+      ],
+      "substance_use": {
+        "screening_summary": "Screening indicates none reported use pattern of not_applicable with concern level none.",
+        "substances": [
+          {
+            "substance": "none reported",
+            "frequency": "not_applicable",
+            "last_use": "not_applicable",
+            "clinical_concern_level": "none"
+          }
+        ]
+      },
+      "trauma_history": {
+        "reported": false,
+        "summary": "No trauma history reported beyond normative life stressors.",
+        "current_safety_concerns": "none_reported"
+      },
+      "family_history": [
+        "family history of trauma-related stress responses"
+      ],
+      "social_history": {
+        "living_situation": "lives with caregiver in a stable synthetic household",
+        "relationships": "close attachment to caregiver with periodic conflict around routines",
+        "cultural_or_spiritual_factors": "prefers culturally responsive, collaborative care",
+        "school_or_work": {
+          "setting": "school",
+          "functioning_summary": "Current school functioning is affected by persistent worry, physical tension, and avoidance affecting daily functioning with stronger performance on structured days.",
+          "supports_or_accommodations": [
+            "scheduled check-ins with school support staff",
+            "extended time on selected assignments"
+          ]
+        },
+        "legal_or_system_involvement": "none_reported"
+      }
+    },
+    "risk_assessment": {
+      "assessment_date": "2026-02-07",
+      "suicidal_ideation": "passive",
+      "self_harm": "denied",
+      "homicidal_ideation": "denied",
+      "abuse_or_neglect_concerns": "none_reported",
+      "risk_level": "moderate",
+      "protective_factors": [
+        "connection to school, work, or community routine"
+      ],
+      "safety_plan_status": "reviewed",
+      "crisis_resources_reviewed": true
+    },
+    "initial_evaluation": {
+      "evaluation_id": "eval-client-synthetic-131-001",
+      "evaluation_date": "2026-02-07",
+      "clinician": {
+        "synthetic_name": "Sage Ellison",
+        "role": "supervised_clinician",
+        "signature": "Sage Ellison, Synthetic Credential"
+      },
+      "reason_for_referral": "Referral requested support for anxiety-related distress.",
+      "chief_concern": "Caregiver reported concern about persistent worry, physical tension, and avoidance affecting daily functioning and related functioning changes.",
+      "history_of_present_illness": "symptoms have intensified over the last 6 months; most days with spikes before demands or transitions; severity currently described as moderate. Symptoms include persistent worry, physical tension, and avoidance affecting daily functioning and interfere with school, work, sleep, social.",
+      "biopsychosocial_summary": {
+        "biological": "Biological considerations include postpartum recovery history.",
+        "psychological": "Psychological factors include persistent worry, physical tension, and avoidance affecting daily functioning with variable self-criticism.",
+        "social": "Social stressors include conflict cycles, communication breakdowns, and emotional overwhelm in key relationships and changing role demands.",
+        "strengths": [
+          "shows insight and willingness to participate",
+          "has at least one reliable support person"
+        ],
+        "barriers": [
+          "stress increases avoidance and follow-through problems",
+          "limited recovery time between demands"
+        ]
+      },
+      "mental_status_exam": {
+        "appearance": "casually dressed and age appropriate",
+        "behavior": "engaged with mild psychomotor tension",
+        "orientation": "oriented x4",
+        "speech": "clear and coherent",
+        "mood": "guarded but hopeful",
+        "affect": "congruent and appropriately reactive",
+        "thought_process": "linear and goal directed",
+        "thought_content": "preoccupied with anxiety-related distress",
+        "perception": "no acute abnormalities observed",
+        "cognition": "grossly intact",
+        "insight": "good",
+        "judgment": "fair"
+      },
+      "diagnostic_impressions": [
+        "Generalized anxiety disorder",
+        "Relationship distress with spouse or intimate partner, synthetic"
+      ],
+      "clinical_formulation": "Clinical formulation integrates persistent worry, physical tension, and avoidance affecting daily functioning, developmental context, strengths, and current functional impairment across school, work, sleep.",
+      "recommended_level_of_care": "outpatient_therapy",
+      "initial_treatment_recommendations": [
+        "begin structured outpatient therapy focused on symptom tracking and coping",
+        "review support system involvement and care coordination needs",
+        "consider additional referral or medication evaluation when clinically indicated"
+      ],
+      "collateral_or_referral_needs": [
+        "coordinate with authorized collateral contact when it supports care goals",
+        "monitor whether specialty referral is needed as treatment progresses"
+      ],
+      "provenance": {
+        "source_type": "synthetic_generator",
+        "template_id": "synthetic-phi-client-record-template-v1",
+        "scenario_id": "anxiety_related",
+        "generator_version": "0.1.0",
+        "claim_scope": "initial_evaluation",
+        "clinical_review_status": "not_clinician_reviewed"
+      }
+    },
+    "treatment_plan": {
+      "plan_id": "txplan-client-synthetic-131-001",
+      "created_date": "2026-02-07",
+      "review_due_date": "2026-05-08",
+      "level_of_care": "outpatient_therapy",
+      "service_frequency": "weekly",
+      "estimated_duration": "16 weeks",
+      "diagnoses_addressed": [
+        "diagnosis-131-001",
+        "diagnosis-131-002"
+      ],
+      "presenting_problems_addressed": [
+        "problem-131-001",
+        "problem-131-002"
+      ],
+      "client_strengths": [
+        "motivation to improve daily functioning",
+        "capacity to identify helpful supports"
+      ],
+      "barriers_to_progress": [
+        "stress-related avoidance",
+        "limited energy during high-demand periods"
+      ],
+      "smart_goals": [
+        {
+          "goal_id": "goal-131-001",
+          "problem_area": "Anxiety-related distress",
+          "goal_statement": "Client will reduce worry intensity and increase coping consistency over the next 90 days.",
+          "baseline": "Current baseline includes persistent worry, physical tension, and avoidance affecting daily functioning with impairment across school, work.",
+          "target": "Client will report clearer coping gains and improved functioning related to anxiety-related distress.",
+          "measurement_methods": [
+            "client self-report",
+            "caregiver report when appropriate",
+            "clinician observation",
+            "rating scale or symptom tracker",
+            "attendance or functioning data"
+          ],
+          "target_date": "2026-05-08",
+          "progress_status": "in_progress",
+          "objectives": [
+            {
+              "objective_id": "obj-131-001",
+              "objective_statement": "Client will practice two agreed coping or communication strategies between sessions and review barriers in session.",
+              "target_date": "2026-03-24",
+              "status": "not_started"
+            }
+          ],
+          "planned_interventions": [
+            "psychoeducation",
+            "CBT skill building",
+            "DBT-informed emotion regulation skills",
+            "family or caregiver collateral when clinically appropriate",
+            "motivational interviewing",
+            "safety planning when clinically indicated",
+            "care coordination with authorized collateral contacts"
+          ]
+        }
+      ],
+      "care_coordination_plan": [
+        "Synthetic care coordination step with authorized collateral contact.",
+        "Synthetic referral or follow-up step when clinically indicated."
+      ],
+      "minimal_discharge_criteria": [
+        "Client has met or substantially met primary SMART goals.",
+        "Client demonstrates use of agreed coping, communication, relapse-prevention, or safety strategies outside session.",
+        "Symptoms and functional impairment are stable enough for step-down, maintenance, referral, or planned discharge.",
+        "Risk level is stable and manageable at the current or lower level of care.",
+        "Client and clinician have reviewed a maintenance, relapse-prevention, or transition plan.",
+        "Follow-up care, community supports, or referrals are documented when ongoing support is needed."
+      ],
+      "provenance": {
+        "source_type": "synthetic_generator",
+        "template_id": "synthetic-phi-client-record-template-v1",
+        "scenario_id": "anxiety_related",
+        "generator_version": "0.1.0",
+        "claim_scope": "treatment_plan",
+        "clinical_review_status": "not_clinician_reviewed"
+      }
+    },
+    "session_notes": [
+      {
+        "note_id": "note-client-synthetic-131-001",
+        "session_date": "2026-02-14",
+        "session_type": "intake_follow_up",
+        "duration_minutes": 50,
+        "diagnoses_addressed": [
+          "diagnosis-131-001",
+          "diagnosis-131-002"
+        ],
+        "goals_addressed": [
+          "goal-131-001"
+        ],
+        "mental_status": {
+          "appearance": "casually dressed and appropriately groomed",
+          "behavior": "cooperative with mild restlessness during difficult topics",
+          "orientation": "oriented to person, place, time, and situation",
+          "speech": "normal rate and volume",
+          "mood": "stressed and somewhat constricted",
+          "affect": "congruent with discussed stressors",
+          "thought_process": "organized and goal directed",
+          "thought_content": "focused on current stressors without delusional elaboration",
+          "perception": "no acute perceptual disturbance observed in session",
+          "cognition": "attention adequate for session tasks",
+          "insight": "fair",
+          "judgment": "good",
+          "risk_observation": "Risk presentation remained moderate with no acute escalation during session."
+        },
+        "intervention_provided": [
+          "Synthetic session focused on reduce worry intensity and increase coping consistency using collaborative skill rehearsal and reflective questioning."
+        ],
+        "client_response": "Client was receptive to structured support, identified barriers honestly, and described at least one situation where the intervention could be applied.",
+        "plan": [
+          "Continue current treatment focus and review between-session practice next visit.",
+          "Monitor functioning changes and coordinate with authorized supports when needed."
+        ],
+        "homework_or_between_session_practice": [
+          "track symptom intensity once daily"
+        ],
+        "progress_toward_goals": [
+          {
+            "goal_id": "goal-131-001",
+            "progress_summary": "Client showed early progress toward reduce worry intensity and increase coping consistency with ongoing need for repetition and support.",
+            "progress_status": "in_progress"
+          }
+        ],
+        "risk_level": "moderate",
+        "next_session_focus": [
+          "Further work on reduce worry intensity and increase coping consistency",
+          "Review barriers, supports, and pacing between sessions"
+        ],
+        "provenance": {
+          "source_type": "synthetic_generator",
+          "template_id": "synthetic-phi-client-record-template-v1",
+          "scenario_id": "anxiety_related",
+          "generator_version": "0.1.0",
+          "claim_scope": "session_note",
+          "clinical_review_status": "not_clinician_reviewed"
+        }
+      },
+      {
+        "note_id": "note-client-synthetic-131-002",
+        "session_date": "2026-02-28",
+        "session_type": "caregiver_collateral",
+        "duration_minutes": 50,
+        "diagnoses_addressed": [
+          "diagnosis-131-001",
+          "diagnosis-131-002"
+        ],
+        "goals_addressed": [
+          "goal-131-001"
+        ],
+        "mental_status": {
+          "appearance": "casually dressed and appropriately groomed",
+          "behavior": "cooperative with mild restlessness during difficult topics",
+          "orientation": "oriented to person, place, time, and situation",
+          "speech": "normal rate and volume",
+          "mood": "stressed and somewhat constricted",
+          "affect": "congruent with discussed stressors",
+          "thought_process": "organized and goal directed",
+          "thought_content": "focused on current stressors without delusional elaboration",
+          "perception": "no acute perceptual disturbance observed in session",
+          "cognition": "attention adequate for session tasks",
+          "insight": "fair",
+          "judgment": "fair",
+          "risk_observation": "Risk presentation remained moderate with no acute escalation during session."
+        },
+        "intervention_provided": [
+          "Synthetic session focused on reduce worry intensity and increase coping consistency using collaborative skill rehearsal and reflective questioning."
+        ],
+        "client_response": "Client was receptive to structured support, identified barriers honestly, and described at least one situation where the intervention could be applied.",
+        "plan": [
+          "Continue current treatment focus and review between-session practice next visit.",
+          "Monitor functioning changes and coordinate with authorized supports when needed."
+        ],
+        "homework_or_between_session_practice": [
+          "use a written planning tool before one high-stress task"
+        ],
+        "progress_toward_goals": [
+          {
+            "goal_id": "goal-131-001",
+            "progress_summary": "Client showed early progress toward reduce worry intensity and increase coping consistency with ongoing need for repetition and support.",
+            "progress_status": "partially_met"
+          }
+        ],
+        "risk_level": "moderate",
+        "next_session_focus": [
+          "Further work on reduce worry intensity and increase coping consistency",
+          "Review barriers, supports, and pacing between sessions"
+        ],
+        "provenance": {
+          "source_type": "synthetic_generator",
+          "template_id": "synthetic-phi-client-record-template-v1",
+          "scenario_id": "anxiety_related",
+          "generator_version": "0.1.0",
+          "claim_scope": "session_note",
+          "clinical_review_status": "not_clinician_reviewed"
+        }
+      }
+    ],
+    "record_provenance": {
+      "source_type": "synthetic_generator",
+      "template_id": "synthetic-phi-client-record-template-v1",
+      "scenario_id": "anxiety_related",
+      "seed": "synthetic-seed-8331",
+      "generator_version": "0.1.0",
+      "generated_at": "2026-10-07T12:00:00Z",
+      "clinical_review_status": "not_clinician_reviewed"
+    },
+    "validation_expectations": {
+      "required_top_level_fields": [
+        "record_id",
+        "synthetic",
+        "sensitivity",
+        "client_record_id",
+        "age_band",
+        "demographics",
+        "administrative_context",
+        "presenting_problems",
+        "diagnostic_profile",
+        "clinical_history",
+        "risk_assessment",
+        "initial_evaluation",
+        "treatment_plan",
+        "session_notes",
+        "record_provenance"
+      ],
+      "reject_if": [
+        "synthetic is not true",
+        "sensitivity is not synthetic",
+        "provenance is missing from initial evaluation, treatment plan, session notes, or record",
+        "record contains actual PHI, copied clinical text, real staff names, real client names, real contact information, or production identifiers",
+        "treatment plan is missing SMART goals",
+        "treatment plan is missing minimal discharge criteria",
+        "session notes are missing mental_status, intervention_provided, client_response, or plan"
+      ]
+    }
+  }
+}

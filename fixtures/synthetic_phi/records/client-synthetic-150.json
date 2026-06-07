@@ -1,0 +1,556 @@
+{
+  "template_id": "synthetic-phi-client-record-template-v1",
+  "template_version": "0.1.0",
+  "description": "JSON template for synthetic outpatient mental health client records used for local development fixtures. All generated records must be synthetic and must not be copied from real clients, staff, clinical notes, screenshots, exports, logs, or production systems.",
+  "record_policy": {
+    "synthetic": true,
+    "sensitivity": "synthetic",
+    "no_actual_phi": true,
+    "intended_use": [
+      "local development",
+      "schema validation",
+      "Agentic Wiki synthetic clinical workflow testing"
+    ],
+    "excluded_use": [
+      "training on real client records",
+      "production clinical documentation",
+      "patient-facing advice",
+      "autonomous diagnosis or treatment orders"
+    ],
+    "generation_constraints": [
+      "Use fake names, fake organizations, fake addresses, fake phone numbers, and fake email domains only.",
+      "Do not use actual client, guardian, staff, school, employer, referral source, payer, or provider names.",
+      "Do not use copied clinical notes or deidentified real notes.",
+      "Use DSM-5-style diagnostic labels only as synthetic documentation fields, not as reproduced diagnostic criteria.",
+      "Preserve provenance for every generated evaluation, treatment-plan, and session-note claim.",
+      "Treat every generated record as one pseudonymous client record."
+    ]
+  },
+  "dataset_metadata": {
+    "dataset_id": "synthetic-phi-development-dataset-001",
+    "generated_at": "2026-10-26T12:00:00Z",
+    "generator_name": "synthetic-phi-fixture-generator",
+    "generator_version": "0.1.0",
+    "schema_version": "0.1.0",
+    "record_count": 1,
+    "lifespan_coverage": [
+      "child",
+      "adolescent",
+      "young_adult",
+      "adult",
+      "older_adult"
+    ],
+    "clinical_variety_targets": [
+      "anxiety_related",
+      "mood_related",
+      "trauma_related",
+      "attention_or_executive_functioning",
+      "autism_or_neurodevelopmental_support_needs",
+      "adjustment_or_life_transition",
+      "grief_or_loss",
+      "substance_use_related",
+      "psychosis_spectrum_related",
+      "eating_or_body_image_related",
+      "relationship_or_family_stress",
+      "school_or_work_functioning",
+      "caregiver_stress"
+    ]
+  },
+  "client_record": {
+    "record_id": "client-synthetic-150",
+    "synthetic": true,
+    "sensitivity": "synthetic",
+    "client_record_id": "client-synthetic-150",
+    "pseudonymous_case_label": "Synthetic Case 150",
+    "age_band": "older_adult",
+    "demographics": {
+      "synthetic_full_name": "Finley Foster",
+      "preferred_name": "Finley",
+      "date_of_birth": "1957-11-05",
+      "age_at_intake": 69,
+      "pronouns": "she/her",
+      "gender_identity": "woman",
+      "race_ethnicity": [
+        "Synthetic multiracial background"
+      ],
+      "primary_language": "English and Haitian Creole",
+      "communication_needs": [
+        "requests plain-language explanations"
+      ],
+      "household_composition": [
+        "client",
+        "partner or chosen support"
+      ],
+      "guardian_or_caregiver": {
+        "required_for_record": false,
+        "synthetic_name": "not_applicable",
+        "relationship": "not_applicable",
+        "contact_authorization_status": "not_applicable"
+      }
+    },
+    "administrative_context": {
+      "intake_date": "2026-04-05",
+      "referral_source": "community agency referral during a life transition",
+      "payer_type": "other_synthetic",
+      "service_line": "outpatient_therapy",
+      "consent_status": "obtained",
+      "release_of_information": [
+        {
+          "collateral_party": "Synthetic partner",
+          "authorization_scope": "none",
+          "expiration_date": "2027-04-05"
+        }
+      ],
+      "care_team": [
+        {
+          "role": "clinician",
+          "synthetic_name": "Sage Ellison, LCSW",
+          "organization": "Bluebird Community Wellness"
+        },
+        {
+          "role": "prescriber",
+          "synthetic_name": "Logan Hollis, PMHNP",
+          "organization": "North Harbor Counseling Collective"
+        }
+      ]
+    },
+    "presenting_problems": [
+      {
+        "problem_id": "problem-150-001",
+        "summary": "Client presents with waves of sadness, numbness, and role disruption after a meaningful loss.",
+        "onset": "symptoms began after a loss within the last 8 months",
+        "frequency": "several times per week with anniversary triggers",
+        "severity": "moderate",
+        "functional_impairment": [
+          "family",
+          "social",
+          "sleep"
+        ],
+        "client_reported_priority": "high"
+      },
+      {
+        "problem_id": "problem-150-002",
+        "summary": "Client also reports stress, uncertainty, and reduced coping capacity during a major transition in the current context.",
+        "onset": "symptoms emerged within the last 3 months after a significant change",
+        "frequency": "several times each week during planning or conflict situations",
+        "severity": "mild",
+        "functional_impairment": [
+          "work",
+          "family",
+          "sleep"
+        ],
+        "client_reported_priority": "medium"
+      }
+    ],
+    "diagnostic_profile": {
+      "current_diagnostic_impressions": [
+        {
+          "diagnosis_id": "diagnosis-150-001",
+          "diagnostic_system": "DSM-5-style synthetic label",
+          "code": "SYN-F43.21",
+          "label": "Adjustment disorder with depressed mood in grief context",
+          "status": "active",
+          "specifier_or_context": "Grief and loss response",
+          "clinical_rationale_summary": "Generated record reflects waves of sadness, numbness, and role disruption after a meaningful loss with impairment across key settings.",
+          "source_fields": [
+            "initial_evaluation.history_of_present_illness",
+            "initial_evaluation.mental_status_exam",
+            "risk_assessment"
+          ]
+        },
+        {
+          "diagnosis_id": "diagnosis-150-002",
+          "diagnostic_system": "DSM-5-style synthetic label",
+          "code": "SYN-F43.23",
+          "label": "Adjustment disorder with mixed anxiety and depressed mood",
+          "status": "provisional",
+          "specifier_or_context": "Adjustment and life transition stress",
+          "clinical_rationale_summary": "Secondary stress pattern is consistent with adjustment and life transition stress and informs treatment planning.",
+          "source_fields": [
+            "presenting_problems",
+            "clinical_history.social_history",
+            "initial_evaluation.biopsychosocial_summary.social"
+          ]
+        }
+      ],
+      "diagnosis_history": [
+        {
+          "label": "no previous formal grief-focused treatment reported",
+          "timeframe": "reported during intake history review",
+          "reported_by": "client"
+        }
+      ]
+    },
+    "clinical_history": {
+      "medications": [
+        {
+          "name": "none reported",
+          "dose": "not_applicable",
+          "frequency": "not_applicable",
+          "adherence": "not_applicable",
+          "prescriber": "not_applicable"
+        }
+      ],
+      "allergies": [
+        {
+          "substance": "none reported",
+          "reaction": "rash"
+        }
+      ],
+      "medical_history": [
+        "hypertension monitored by primary care"
+      ],
+      "psychiatric_history": [
+        {
+          "service_type": "crisis",
+          "timeframe": "within the last 1 to 3 years",
+          "summary": "Synthetic prior service summary focused on symptom management and support engagement."
+        }
+      ],
+      "substance_use": {
+        "screening_summary": "Screening indicates none reported use pattern of not_applicable with concern level none.",
+        "substances": [
+          {
+            "substance": "none reported",
+            "frequency": "not_applicable",
+            "last_use": "not_applicable",
+            "clinical_concern_level": "none"
+          }
+        ]
+      },
+      "trauma_history": {
+        "reported": false,
+        "summary": "No trauma history reported beyond normative life stressors.",
+        "current_safety_concerns": "none_reported"
+      },
+      "family_history": [
+        "family history of dementia in an older relative"
+      ],
+      "social_history": {
+        "living_situation": "lives independently with periodic family support",
+        "relationships": "values family connection and routine community contact",
+        "cultural_or_spiritual_factors": "draws meaning from a synthetic faith community",
+        "school_or_work": {
+          "setting": "other_synthetic",
+          "functioning_summary": "Current other_synthetic functioning is affected by waves of sadness, numbness, and role disruption after a meaningful loss with stronger performance on structured days.",
+          "supports_or_accommodations": [
+            "community support group",
+            "family respite coordination"
+          ]
+        },
+        "legal_or_system_involvement": "none_reported"
+      }
+    },
+    "risk_assessment": {
+      "assessment_date": "2026-04-05",
+      "suicidal_ideation": "passive",
+      "self_harm": "denied",
+      "homicidal_ideation": "denied",
+      "abuse_or_neglect_concerns": "none_reported",
+      "risk_level": "moderate",
+      "protective_factors": [
+        "future-oriented goals"
+      ],
+      "safety_plan_status": "reviewed",
+      "crisis_resources_reviewed": true
+    },
+    "initial_evaluation": {
+      "evaluation_id": "eval-client-synthetic-150-001",
+      "evaluation_date": "2026-04-05",
+      "clinician": {
+        "synthetic_name": "Emerson Tatum",
+        "role": "supervised_clinician",
+        "signature": "Emerson Tatum, Synthetic Credential"
+      },
+      "reason_for_referral": "Referral requested support for grief and loss response.",
+      "chief_concern": "Client described waves of sadness, numbness, and role disruption after a meaningful loss as the main reason for seeking help.",
+      "history_of_present_illness": "symptoms began after a loss within the last 8 months; several times per week with anniversary triggers; severity currently described as moderate. Symptoms include waves of sadness, numbness, and role disruption after a meaningful loss and interfere with family, social, sleep.",
+      "biopsychosocial_summary": {
+        "biological": "Biological considerations include chronic pain related to prior orthopedic injury.",
+        "psychological": "Psychological factors include waves of sadness, numbness, and role disruption after a meaningful loss with variable self-criticism.",
+        "social": "Social stressors include stress, uncertainty, and reduced coping capacity during a major transition and changing role demands.",
+        "strengths": [
+          "shows insight and willingness to participate",
+          "has at least one reliable support person"
+        ],
+        "barriers": [
+          "stress increases avoidance and follow-through problems",
+          "limited recovery time between demands"
+        ]
+      },
+      "mental_status_exam": {
+        "appearance": "casually dressed and age appropriate",
+        "behavior": "engaged with mild psychomotor tension",
+        "orientation": "oriented x4",
+        "speech": "clear and coherent",
+        "mood": "anxious",
+        "affect": "congruent and appropriately reactive",
+        "thought_process": "linear and goal directed",
+        "thought_content": "preoccupied with grief and loss response",
+        "perception": "no acute abnormalities observed",
+        "cognition": "grossly intact",
+        "insight": "fair",
+        "judgment": "fair"
+      },
+      "diagnostic_impressions": [
+        "Adjustment disorder with depressed mood in grief context",
+        "Adjustment disorder with mixed anxiety and depressed mood"
+      ],
+      "clinical_formulation": "Clinical formulation integrates waves of sadness, numbness, and role disruption after a meaningful loss, developmental context, strengths, and current functional impairment across family, social, sleep.",
+      "recommended_level_of_care": "outpatient_therapy",
+      "initial_treatment_recommendations": [
+        "begin structured outpatient therapy focused on symptom tracking and coping",
+        "review support system involvement and care coordination needs",
+        "consider additional referral or medication evaluation when clinically indicated"
+      ],
+      "collateral_or_referral_needs": [
+        "coordinate with authorized collateral contact when it supports care goals",
+        "monitor whether specialty referral is needed as treatment progresses"
+      ],
+      "provenance": {
+        "source_type": "synthetic_generator",
+        "template_id": "synthetic-phi-client-record-template-v1",
+        "scenario_id": "grief_or_loss",
+        "generator_version": "0.1.0",
+        "claim_scope": "initial_evaluation",
+        "clinical_review_status": "not_clinician_reviewed"
+      }
+    },
+    "treatment_plan": {
+      "plan_id": "txplan-client-synthetic-150-001",
+      "created_date": "2026-04-05",
+      "review_due_date": "2026-07-04",
+      "level_of_care": "outpatient_therapy",
+      "service_frequency": "weekly",
+      "estimated_duration": "6 months",
+      "diagnoses_addressed": [
+        "diagnosis-150-001",
+        "diagnosis-150-002"
+      ],
+      "presenting_problems_addressed": [
+        "problem-150-001",
+        "problem-150-002"
+      ],
+      "client_strengths": [
+        "motivation to improve daily functioning",
+        "capacity to identify helpful supports"
+      ],
+      "barriers_to_progress": [
+        "stress-related avoidance",
+        "limited energy during high-demand periods"
+      ],
+      "smart_goals": [
+        {
+          "goal_id": "goal-150-001",
+          "problem_area": "Grief and loss response",
+          "goal_statement": "Client will support mourning, meaning-making, and reconnection with supports over the next 90 days.",
+          "baseline": "Current baseline includes waves of sadness, numbness, and role disruption after a meaningful loss with impairment across family, social.",
+          "target": "Client will report clearer coping gains and improved functioning related to grief and loss response.",
+          "measurement_methods": [
+            "client self-report",
+            "caregiver report when appropriate",
+            "clinician observation",
+            "rating scale or symptom tracker",
+            "attendance or functioning data"
+          ],
+          "target_date": "2026-07-04",
+          "progress_status": "in_progress",
+          "objectives": [
+            {
+              "objective_id": "obj-150-001",
+              "objective_statement": "Client will practice two agreed coping or communication strategies between sessions and review barriers in session.",
+              "target_date": "2026-05-20",
+              "status": "in_progress"
+            }
+          ],
+          "planned_interventions": [
+            "psychoeducation",
+            "CBT skill building",
+            "DBT-informed emotion regulation skills",
+            "family or caregiver collateral when clinically appropriate",
+            "motivational interviewing",
+            "safety planning when clinically indicated",
+            "care coordination with authorized collateral contacts"
+          ]
+        }
+      ],
+      "care_coordination_plan": [
+        "Synthetic care coordination step with authorized collateral contact.",
+        "Synthetic referral or follow-up step when clinically indicated."
+      ],
+      "minimal_discharge_criteria": [
+        "Client has met or substantially met primary SMART goals.",
+        "Client demonstrates use of agreed coping, communication, relapse-prevention, or safety strategies outside session.",
+        "Symptoms and functional impairment are stable enough for step-down, maintenance, referral, or planned discharge.",
+        "Risk level is stable and manageable at the current or lower level of care.",
+        "Client and clinician have reviewed a maintenance, relapse-prevention, or transition plan.",
+        "Follow-up care, community supports, or referrals are documented when ongoing support is needed."
+      ],
+      "provenance": {
+        "source_type": "synthetic_generator",
+        "template_id": "synthetic-phi-client-record-template-v1",
+        "scenario_id": "grief_or_loss",
+        "generator_version": "0.1.0",
+        "claim_scope": "treatment_plan",
+        "clinical_review_status": "not_clinician_reviewed"
+      }
+    },
+    "session_notes": [
+      {
+        "note_id": "note-client-synthetic-150-001",
+        "session_date": "2026-04-12",
+        "session_type": "individual",
+        "duration_minutes": 45,
+        "diagnoses_addressed": [
+          "diagnosis-150-001",
+          "diagnosis-150-002"
+        ],
+        "goals_addressed": [
+          "goal-150-001"
+        ],
+        "mental_status": {
+          "appearance": "casually dressed and appropriately groomed",
+          "behavior": "cooperative with mild restlessness during difficult topics",
+          "orientation": "oriented to person, place, time, and situation",
+          "speech": "normal rate and volume",
+          "mood": "stressed and somewhat constricted",
+          "affect": "congruent with discussed stressors",
+          "thought_process": "organized and goal directed",
+          "thought_content": "focused on current stressors without delusional elaboration",
+          "perception": "no acute perceptual disturbance observed in session",
+          "cognition": "attention adequate for session tasks",
+          "insight": "fair",
+          "judgment": "fair",
+          "risk_observation": "Risk presentation remained moderate with no acute escalation during session."
+        },
+        "intervention_provided": [
+          "Synthetic session focused on support mourning, meaning-making, and reconnection with supports using collaborative skill rehearsal and reflective questioning."
+        ],
+        "client_response": "Client was receptive to structured support, identified barriers honestly, and described at least one situation where the intervention could be applied.",
+        "plan": [
+          "Continue current treatment focus and review between-session practice next visit.",
+          "Monitor functioning changes and coordinate with authorized supports when needed."
+        ],
+        "homework_or_between_session_practice": [
+          "track symptom intensity once daily"
+        ],
+        "progress_toward_goals": [
+          {
+            "goal_id": "goal-150-001",
+            "progress_summary": "Client showed early progress toward support mourning, meaning-making, and reconnection with supports with ongoing need for repetition and support.",
+            "progress_status": "in_progress"
+          }
+        ],
+        "risk_level": "moderate",
+        "next_session_focus": [
+          "Further work on support mourning, meaning-making, and reconnection with supports",
+          "Review barriers, supports, and pacing between sessions"
+        ],
+        "provenance": {
+          "source_type": "synthetic_generator",
+          "template_id": "synthetic-phi-client-record-template-v1",
+          "scenario_id": "grief_or_loss",
+          "generator_version": "0.1.0",
+          "claim_scope": "session_note",
+          "clinical_review_status": "not_clinician_reviewed"
+        }
+      },
+      {
+        "note_id": "note-client-synthetic-150-002",
+        "session_date": "2026-04-26",
+        "session_type": "individual",
+        "duration_minutes": 45,
+        "diagnoses_addressed": [
+          "diagnosis-150-001",
+          "diagnosis-150-002"
+        ],
+        "goals_addressed": [
+          "goal-150-001"
+        ],
+        "mental_status": {
+          "appearance": "casually dressed and appropriately groomed",
+          "behavior": "cooperative with mild restlessness during difficult topics",
+          "orientation": "oriented to person, place, time, and situation",
+          "speech": "normal rate and volume",
+          "mood": "stressed and somewhat constricted",
+          "affect": "congruent with discussed stressors",
+          "thought_process": "organized and goal directed",
+          "thought_content": "focused on current stressors without delusional elaboration",
+          "perception": "no acute perceptual disturbance observed in session",
+          "cognition": "attention adequate for session tasks",
+          "insight": "good",
+          "judgment": "good",
+          "risk_observation": "Risk presentation remained moderate with no acute escalation during session."
+        },
+        "intervention_provided": [
+          "Synthetic session focused on support mourning, meaning-making, and reconnection with supports using collaborative skill rehearsal and reflective questioning."
+        ],
+        "client_response": "Client was receptive to structured support, identified barriers honestly, and described at least one situation where the intervention could be applied.",
+        "plan": [
+          "Continue current treatment focus and review between-session practice next visit.",
+          "Monitor functioning changes and coordinate with authorized supports when needed."
+        ],
+        "homework_or_between_session_practice": [
+          "schedule one restorative activity before the next session"
+        ],
+        "progress_toward_goals": [
+          {
+            "goal_id": "goal-150-001",
+            "progress_summary": "Client showed early progress toward support mourning, meaning-making, and reconnection with supports with ongoing need for repetition and support.",
+            "progress_status": "partially_met"
+          }
+        ],
+        "risk_level": "moderate",
+        "next_session_focus": [
+          "Further work on support mourning, meaning-making, and reconnection with supports",
+          "Review barriers, supports, and pacing between sessions"
+        ],
+        "provenance": {
+          "source_type": "synthetic_generator",
+          "template_id": "synthetic-phi-client-record-template-v1",
+          "scenario_id": "grief_or_loss",
+          "generator_version": "0.1.0",
+          "claim_scope": "session_note",
+          "clinical_review_status": "not_clinician_reviewed"
+        }
+      }
+    ],
+    "record_provenance": {
+      "source_type": "synthetic_generator",
+      "template_id": "synthetic-phi-client-record-template-v1",
+      "scenario_id": "grief_or_loss",
+      "seed": "synthetic-seed-8350",
+      "generator_version": "0.1.0",
+      "generated_at": "2026-10-26T12:00:00Z",
+      "clinical_review_status": "not_clinician_reviewed"
+    },
+    "validation_expectations": {
+      "required_top_level_fields": [
+        "record_id",
+        "synthetic",
+        "sensitivity",
+        "client_record_id",
+        "age_band",
+        "demographics",
+        "administrative_context",
+        "presenting_problems",
+        "diagnostic_profile",
+        "clinical_history",
+        "risk_assessment",
+        "initial_evaluation",
+        "treatment_plan",
+        "session_notes",
+        "record_provenance"
+      ],
+      "reject_if": [
+        "synthetic is not true",
+        "sensitivity is not synthetic",
+        "provenance is missing from initial evaluation, treatment plan, session notes, or record",
+        "record contains actual PHI, copied clinical text, real staff names, real client names, real contact information, or production identifiers",
+        "treatment plan is missing SMART goals",
+        "treatment plan is missing minimal discharge criteria",
+        "session notes are missing mental_status, intervention_provided, client_response, or plan"
+      ]
+    }
+  }
+}

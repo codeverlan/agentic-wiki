@@ -1,0 +1,558 @@
+{
+  "template_id": "synthetic-phi-client-record-template-v1",
+  "template_version": "0.1.0",
+  "description": "JSON template for synthetic outpatient mental health client records used for local development fixtures. All generated records must be synthetic and must not be copied from real clients, staff, clinical notes, screenshots, exports, logs, or production systems.",
+  "record_policy": {
+    "synthetic": true,
+    "sensitivity": "synthetic",
+    "no_actual_phi": true,
+    "intended_use": [
+      "local development",
+      "schema validation",
+      "Agentic Wiki synthetic clinical workflow testing"
+    ],
+    "excluded_use": [
+      "training on real client records",
+      "production clinical documentation",
+      "patient-facing advice",
+      "autonomous diagnosis or treatment orders"
+    ],
+    "generation_constraints": [
+      "Use fake names, fake organizations, fake addresses, fake phone numbers, and fake email domains only.",
+      "Do not use actual client, guardian, staff, school, employer, referral source, payer, or provider names.",
+      "Do not use copied clinical notes or deidentified real notes.",
+      "Use DSM-5-style diagnostic labels only as synthetic documentation fields, not as reproduced diagnostic criteria.",
+      "Preserve provenance for every generated evaluation, treatment-plan, and session-note claim.",
+      "Treat every generated record as one pseudonymous client record."
+    ]
+  },
+  "dataset_metadata": {
+    "dataset_id": "synthetic-phi-development-dataset-001",
+    "generated_at": "2026-06-11T12:00:00Z",
+    "generator_name": "synthetic-phi-fixture-generator",
+    "generator_version": "0.1.0",
+    "schema_version": "0.1.0",
+    "record_count": 1,
+    "lifespan_coverage": [
+      "child",
+      "adolescent",
+      "young_adult",
+      "adult",
+      "older_adult"
+    ],
+    "clinical_variety_targets": [
+      "anxiety_related",
+      "mood_related",
+      "trauma_related",
+      "attention_or_executive_functioning",
+      "autism_or_neurodevelopmental_support_needs",
+      "adjustment_or_life_transition",
+      "grief_or_loss",
+      "substance_use_related",
+      "psychosis_spectrum_related",
+      "eating_or_body_image_related",
+      "relationship_or_family_stress",
+      "school_or_work_functioning",
+      "caregiver_stress"
+    ]
+  },
+  "client_record": {
+    "record_id": "client-synthetic-013",
+    "synthetic": true,
+    "sensitivity": "synthetic",
+    "client_record_id": "client-synthetic-013",
+    "pseudonymous_case_label": "Synthetic Case 013",
+    "age_band": "young_adult",
+    "demographics": {
+      "synthetic_full_name": "Elliot Keaton",
+      "preferred_name": "Elliot",
+      "date_of_birth": "2004-04-13",
+      "age_at_intake": 22,
+      "pronouns": "he/him",
+      "gender_identity": "man",
+      "race_ethnicity": [
+        "Synthetic Middle Eastern or North African heritage"
+      ],
+      "primary_language": "English and Spanish",
+      "communication_needs": [
+        "benefits from slower pacing for new material"
+      ],
+      "household_composition": [
+        "client",
+        "partner or chosen support"
+      ],
+      "guardian_or_caregiver": {
+        "required_for_record": false,
+        "synthetic_name": "not_applicable",
+        "relationship": "not_applicable",
+        "contact_authorization_status": "not_applicable"
+      }
+    },
+    "administrative_context": {
+      "intake_date": "2026-02-13",
+      "referral_source": "self referral after noticing escalating stress",
+      "payer_type": "commercial",
+      "service_line": "outpatient_therapy",
+      "consent_status": "obtained",
+      "release_of_information": [
+        {
+          "collateral_party": "Synthetic primary care clinician",
+          "authorization_scope": "none",
+          "expiration_date": "2027-02-13"
+        }
+      ],
+      "care_team": [
+        {
+          "role": "clinician",
+          "synthetic_name": "Parker Bennett, LCSW",
+          "organization": "Cedar Glen Family Services"
+        },
+        {
+          "role": "prescriber",
+          "synthetic_name": "Morgan Winslow, PMHNP",
+          "organization": "North Harbor Counseling Collective"
+        }
+      ]
+    },
+    "presenting_problems": [
+      {
+        "problem_id": "problem-013-001",
+        "summary": "Client presents with exhaustion, guilt, and limited recovery time while caring for others.",
+        "onset": "strain has accumulated over the last year",
+        "frequency": "daily with frequent interruptions to rest and personal routines",
+        "severity": "moderate",
+        "functional_impairment": [
+          "family",
+          "sleep",
+          "self_care",
+          "work"
+        ],
+        "client_reported_priority": "high"
+      },
+      {
+        "problem_id": "problem-013-002",
+        "summary": "Client also reports persistent worry, physical tension, and avoidance affecting daily functioning in the current context.",
+        "onset": "symptoms have intensified over the last 6 months",
+        "frequency": "most days with spikes before demands or transitions",
+        "severity": "mild",
+        "functional_impairment": [
+          "school",
+          "work",
+          "sleep",
+          "social"
+        ],
+        "client_reported_priority": "high"
+      }
+    ],
+    "diagnostic_profile": {
+      "current_diagnostic_impressions": [
+        {
+          "diagnosis_id": "diagnosis-013-001",
+          "diagnostic_system": "DSM-5-style synthetic label",
+          "code": "SYN-Z63.6",
+          "label": "Dependent relative needing care at home, synthetic stress context",
+          "status": "active",
+          "specifier_or_context": "Caregiver stress and role overload",
+          "clinical_rationale_summary": "Generated record reflects exhaustion, guilt, and limited recovery time while caring for others with impairment across key settings.",
+          "source_fields": [
+            "initial_evaluation.history_of_present_illness",
+            "initial_evaluation.mental_status_exam",
+            "risk_assessment"
+          ]
+        },
+        {
+          "diagnosis_id": "diagnosis-013-002",
+          "diagnostic_system": "DSM-5-style synthetic label",
+          "code": "SYN-F41.1",
+          "label": "Generalized anxiety disorder",
+          "status": "provisional",
+          "specifier_or_context": "Anxiety-related distress",
+          "clinical_rationale_summary": "Secondary stress pattern is consistent with anxiety-related distress and informs treatment planning.",
+          "source_fields": [
+            "presenting_problems",
+            "clinical_history.social_history",
+            "initial_evaluation.biopsychosocial_summary.social"
+          ]
+        }
+      ],
+      "diagnosis_history": [
+        {
+          "label": "prior caregiver support group participation with inconsistent attendance",
+          "timeframe": "reported during intake history review",
+          "reported_by": "client"
+        }
+      ]
+    },
+    "clinical_history": {
+      "medications": [
+        {
+          "name": "none reported",
+          "dose": "not_applicable",
+          "frequency": "not_applicable",
+          "adherence": "not_applicable",
+          "prescriber": "not_applicable"
+        }
+      ],
+      "allergies": [
+        {
+          "substance": "latex synthetic",
+          "reaction": "rash"
+        }
+      ],
+      "medical_history": [
+        "postpartum recovery history"
+      ],
+      "psychiatric_history": [
+        {
+          "service_type": "psychiatry",
+          "timeframe": "within the last 1 to 3 years",
+          "summary": "Synthetic prior service summary focused on symptom management and support engagement."
+        }
+      ],
+      "substance_use": {
+        "screening_summary": "Screening indicates none reported use pattern of not_applicable with concern level none.",
+        "substances": [
+          {
+            "substance": "none reported",
+            "frequency": "not_applicable",
+            "last_use": "not_applicable",
+            "clinical_concern_level": "none"
+          }
+        ]
+      },
+      "trauma_history": {
+        "reported": false,
+        "summary": "No trauma history reported beyond normative life stressors.",
+        "current_safety_concerns": "none_reported"
+      },
+      "family_history": [
+        "family history of anxiety symptoms"
+      ],
+      "social_history": {
+        "living_situation": "lives with roommates or family while building independence",
+        "relationships": "mixed confidence in close relationships during transitions",
+        "cultural_or_spiritual_factors": "values family loyalty and practical support",
+        "school_or_work": {
+          "setting": "college",
+          "functioning_summary": "Current college functioning is affected by exhaustion, guilt, and limited recovery time while caring for others with stronger performance on structured days.",
+          "supports_or_accommodations": [
+            "reduced course load planning",
+            "campus counseling coordination"
+          ]
+        },
+        "legal_or_system_involvement": "none_reported"
+      }
+    },
+    "risk_assessment": {
+      "assessment_date": "2026-02-13",
+      "suicidal_ideation": "denied",
+      "self_harm": "denied",
+      "homicidal_ideation": "denied",
+      "abuse_or_neglect_concerns": "none_reported",
+      "risk_level": "low",
+      "protective_factors": [
+        "identified coping strategies that provide relief"
+      ],
+      "safety_plan_status": "not_indicated",
+      "crisis_resources_reviewed": false
+    },
+    "initial_evaluation": {
+      "evaluation_id": "eval-client-synthetic-013-001",
+      "evaluation_date": "2026-02-13",
+      "clinician": {
+        "synthetic_name": "Quinn Tatum",
+        "role": "licensed_clinician",
+        "signature": "Quinn Tatum, Synthetic Credential"
+      },
+      "reason_for_referral": "Referral requested support for caregiver stress and role overload.",
+      "chief_concern": "Client described exhaustion, guilt, and limited recovery time while caring for others as the main reason for seeking help.",
+      "history_of_present_illness": "strain has accumulated over the last year; daily with frequent interruptions to rest and personal routines; severity currently described as moderate. Symptoms include exhaustion, guilt, and limited recovery time while caring for others and interfere with family, sleep, self_care, work.",
+      "biopsychosocial_summary": {
+        "biological": "Biological considerations include type 2 diabetes managed in primary care.",
+        "psychological": "Psychological factors include exhaustion, guilt, and limited recovery time while caring for others with variable self-criticism.",
+        "social": "Social stressors include persistent worry, physical tension, and avoidance affecting daily functioning and changing role demands.",
+        "strengths": [
+          "shows insight and willingness to participate",
+          "has at least one reliable support person"
+        ],
+        "barriers": [
+          "stress increases avoidance and follow-through problems",
+          "limited recovery time between demands"
+        ]
+      },
+      "mental_status_exam": {
+        "appearance": "casually dressed and age appropriate",
+        "behavior": "engaged with mild psychomotor tension",
+        "orientation": "oriented x4",
+        "speech": "clear and coherent",
+        "mood": "anxious",
+        "affect": "congruent and appropriately reactive",
+        "thought_process": "linear and goal directed",
+        "thought_content": "preoccupied with caregiver stress and role overload",
+        "perception": "no acute abnormalities observed",
+        "cognition": "grossly intact",
+        "insight": "fair",
+        "judgment": "fair"
+      },
+      "diagnostic_impressions": [
+        "Dependent relative needing care at home, synthetic stress context",
+        "Generalized anxiety disorder"
+      ],
+      "clinical_formulation": "Clinical formulation integrates exhaustion, guilt, and limited recovery time while caring for others, developmental context, strengths, and current functional impairment across family, sleep, self_care.",
+      "recommended_level_of_care": "community_referral",
+      "initial_treatment_recommendations": [
+        "begin structured outpatient therapy focused on symptom tracking and coping",
+        "review support system involvement and care coordination needs",
+        "consider additional referral or medication evaluation when clinically indicated"
+      ],
+      "collateral_or_referral_needs": [
+        "coordinate with authorized collateral contact when it supports care goals",
+        "monitor whether specialty referral is needed as treatment progresses"
+      ],
+      "provenance": {
+        "source_type": "synthetic_generator",
+        "template_id": "synthetic-phi-client-record-template-v1",
+        "scenario_id": "caregiver_stress",
+        "generator_version": "0.1.0",
+        "claim_scope": "initial_evaluation",
+        "clinical_review_status": "not_clinician_reviewed"
+      }
+    },
+    "treatment_plan": {
+      "plan_id": "txplan-client-synthetic-013-001",
+      "created_date": "2026-02-13",
+      "review_due_date": "2026-05-14",
+      "level_of_care": "outpatient_therapy",
+      "service_frequency": "biweekly",
+      "estimated_duration": "12 weeks",
+      "diagnoses_addressed": [
+        "diagnosis-013-001",
+        "diagnosis-013-002"
+      ],
+      "presenting_problems_addressed": [
+        "problem-013-001",
+        "problem-013-002"
+      ],
+      "client_strengths": [
+        "motivation to improve daily functioning",
+        "capacity to identify helpful supports"
+      ],
+      "barriers_to_progress": [
+        "stress-related avoidance",
+        "limited energy during high-demand periods"
+      ],
+      "smart_goals": [
+        {
+          "goal_id": "goal-013-001",
+          "problem_area": "Caregiver stress and role overload",
+          "goal_statement": "Client will increase respite planning and reduce caregiver burnout over the next 90 days.",
+          "baseline": "Current baseline includes exhaustion, guilt, and limited recovery time while caring for others with impairment across family, sleep.",
+          "target": "Client will report clearer coping gains and improved functioning related to caregiver stress and role overload.",
+          "measurement_methods": [
+            "client self-report",
+            "caregiver report when appropriate",
+            "clinician observation",
+            "rating scale or symptom tracker",
+            "attendance or functioning data"
+          ],
+          "target_date": "2026-05-14",
+          "progress_status": "in_progress",
+          "objectives": [
+            {
+              "objective_id": "obj-013-001",
+              "objective_statement": "Client will practice two agreed coping or communication strategies between sessions and review barriers in session.",
+              "target_date": "2026-03-30",
+              "status": "in_progress"
+            }
+          ],
+          "planned_interventions": [
+            "psychoeducation",
+            "CBT skill building",
+            "DBT-informed emotion regulation skills",
+            "family or caregiver collateral when clinically appropriate",
+            "motivational interviewing",
+            "safety planning when clinically indicated",
+            "care coordination with authorized collateral contacts"
+          ]
+        }
+      ],
+      "care_coordination_plan": [
+        "Synthetic care coordination step with authorized collateral contact.",
+        "Synthetic referral or follow-up step when clinically indicated."
+      ],
+      "minimal_discharge_criteria": [
+        "Client has met or substantially met primary SMART goals.",
+        "Client demonstrates use of agreed coping, communication, relapse-prevention, or safety strategies outside session.",
+        "Symptoms and functional impairment are stable enough for step-down, maintenance, referral, or planned discharge.",
+        "Risk level is stable and manageable at the current or lower level of care.",
+        "Client and clinician have reviewed a maintenance, relapse-prevention, or transition plan.",
+        "Follow-up care, community supports, or referrals are documented when ongoing support is needed."
+      ],
+      "provenance": {
+        "source_type": "synthetic_generator",
+        "template_id": "synthetic-phi-client-record-template-v1",
+        "scenario_id": "caregiver_stress",
+        "generator_version": "0.1.0",
+        "claim_scope": "treatment_plan",
+        "clinical_review_status": "not_clinician_reviewed"
+      }
+    },
+    "session_notes": [
+      {
+        "note_id": "note-client-synthetic-013-001",
+        "session_date": "2026-02-20",
+        "session_type": "individual",
+        "duration_minutes": 45,
+        "diagnoses_addressed": [
+          "diagnosis-013-001",
+          "diagnosis-013-002"
+        ],
+        "goals_addressed": [
+          "goal-013-001"
+        ],
+        "mental_status": {
+          "appearance": "casually dressed and appropriately groomed",
+          "behavior": "cooperative with mild restlessness during difficult topics",
+          "orientation": "oriented to person, place, time, and situation",
+          "speech": "normal rate and volume",
+          "mood": "anxious but engaged",
+          "affect": "congruent with discussed stressors",
+          "thought_process": "organized and goal directed",
+          "thought_content": "focused on current stressors without delusional elaboration",
+          "perception": "no acute perceptual disturbance observed in session",
+          "cognition": "attention adequate for session tasks",
+          "insight": "good",
+          "judgment": "good",
+          "risk_observation": "Risk presentation remained low with no acute escalation during session."
+        },
+        "intervention_provided": [
+          "Synthetic session focused on increase respite planning and reduce caregiver burnout using collaborative skill rehearsal and reflective questioning."
+        ],
+        "client_response": "Client was receptive to structured support, identified barriers honestly, and described at least one situation where the intervention could be applied.",
+        "plan": [
+          "Continue current treatment focus and review between-session practice next visit.",
+          "Monitor functioning changes and coordinate with authorized supports when needed."
+        ],
+        "homework_or_between_session_practice": [
+          "track symptom intensity once daily"
+        ],
+        "progress_toward_goals": [
+          {
+            "goal_id": "goal-013-001",
+            "progress_summary": "Client showed early progress toward increase respite planning and reduce caregiver burnout with ongoing need for repetition and support.",
+            "progress_status": "partially_met"
+          }
+        ],
+        "risk_level": "low",
+        "next_session_focus": [
+          "Further work on increase respite planning and reduce caregiver burnout",
+          "Review barriers, supports, and pacing between sessions"
+        ],
+        "provenance": {
+          "source_type": "synthetic_generator",
+          "template_id": "synthetic-phi-client-record-template-v1",
+          "scenario_id": "caregiver_stress",
+          "generator_version": "0.1.0",
+          "claim_scope": "session_note",
+          "clinical_review_status": "not_clinician_reviewed"
+        }
+      },
+      {
+        "note_id": "note-client-synthetic-013-002",
+        "session_date": "2026-03-06",
+        "session_type": "individual",
+        "duration_minutes": 45,
+        "diagnoses_addressed": [
+          "diagnosis-013-001",
+          "diagnosis-013-002"
+        ],
+        "goals_addressed": [
+          "goal-013-001"
+        ],
+        "mental_status": {
+          "appearance": "casually dressed and appropriately groomed",
+          "behavior": "cooperative with mild restlessness during difficult topics",
+          "orientation": "oriented to person, place, time, and situation",
+          "speech": "normal rate and volume",
+          "mood": "anxious but engaged",
+          "affect": "congruent with discussed stressors",
+          "thought_process": "organized and goal directed",
+          "thought_content": "focused on current stressors without delusional elaboration",
+          "perception": "no acute perceptual disturbance observed in session",
+          "cognition": "attention adequate for session tasks",
+          "insight": "good",
+          "judgment": "fair",
+          "risk_observation": "Risk presentation remained low with no acute escalation during session."
+        },
+        "intervention_provided": [
+          "Synthetic session focused on increase respite planning and reduce caregiver burnout using collaborative skill rehearsal and reflective questioning."
+        ],
+        "client_response": "Client was receptive to structured support, identified barriers honestly, and described at least one situation where the intervention could be applied.",
+        "plan": [
+          "Continue current treatment focus and review between-session practice next visit.",
+          "Monitor functioning changes and coordinate with authorized supports when needed."
+        ],
+        "homework_or_between_session_practice": [
+          "track symptom intensity once daily"
+        ],
+        "progress_toward_goals": [
+          {
+            "goal_id": "goal-013-001",
+            "progress_summary": "Client showed early progress toward increase respite planning and reduce caregiver burnout with ongoing need for repetition and support.",
+            "progress_status": "partially_met"
+          }
+        ],
+        "risk_level": "low",
+        "next_session_focus": [
+          "Further work on increase respite planning and reduce caregiver burnout",
+          "Review barriers, supports, and pacing between sessions"
+        ],
+        "provenance": {
+          "source_type": "synthetic_generator",
+          "template_id": "synthetic-phi-client-record-template-v1",
+          "scenario_id": "caregiver_stress",
+          "generator_version": "0.1.0",
+          "claim_scope": "session_note",
+          "clinical_review_status": "not_clinician_reviewed"
+        }
+      }
+    ],
+    "record_provenance": {
+      "source_type": "synthetic_generator",
+      "template_id": "synthetic-phi-client-record-template-v1",
+      "scenario_id": "caregiver_stress",
+      "seed": "synthetic-seed-8213",
+      "generator_version": "0.1.0",
+      "generated_at": "2026-06-11T12:00:00Z",
+      "clinical_review_status": "not_clinician_reviewed"
+    },
+    "validation_expectations": {
+      "required_top_level_fields": [
+        "record_id",
+        "synthetic",
+        "sensitivity",
+        "client_record_id",
+        "age_band",
+        "demographics",
+        "administrative_context",
+        "presenting_problems",
+        "diagnostic_profile",
+        "clinical_history",
+        "risk_assessment",
+        "initial_evaluation",
+        "treatment_plan",
+        "session_notes",
+        "record_provenance"
+      ],
+      "reject_if": [
+        "synthetic is not true",
+        "sensitivity is not synthetic",
+        "provenance is missing from initial evaluation, treatment plan, session notes, or record",
+        "record contains actual PHI, copied clinical text, real staff names, real client names, real contact information, or production identifiers",
+        "treatment plan is missing SMART goals",
+        "treatment plan is missing minimal discharge criteria",
+        "session notes are missing mental_status, intervention_provided, client_response, or plan"
+      ]
+    }
+  }
+}
