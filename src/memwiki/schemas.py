@@ -7,7 +7,7 @@ from typing import Any, Dict
 SCHEMAS: Dict[str, Dict[str, Any]] = {
     "source": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "title": "Memwiki Source Record",
+        "title": "Agentic Wiki Source Record",
         "type": "object",
         "required": [
             "source_id",
@@ -22,17 +22,20 @@ SCHEMAS: Dict[str, Dict[str, Any]] = {
         "properties": {
             "source_id": {"type": "string"},
             "sha256": {"type": "string"},
-            "kind": {"enum": ["text", "markdown", "html", "pdf", "image"]},
+            "kind": {"enum": ["text", "markdown", "html", "json", "pdf", "image"]},
             "raw_path": {"type": "string"},
             "origin": {"type": "string"},
             "ingested_at": {"type": "string"},
             "extraction_status": {"enum": ["extracted", "partial", "failed"]},
             "metadata": {"type": "object"},
+            "sensitivity": {"enum": ["general", "phi", "deidentified", "synthetic"]},
+            "client_record_id": {"type": "string"},
+            "source_category": {"type": "string"},
         },
     },
     "page": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "title": "Memwiki Page Record",
+        "title": "Agentic Wiki Page Record",
         "type": "object",
         "required": ["page_id", "title", "slug", "page_type", "review_status", "html_path"],
         "properties": {
@@ -42,11 +45,13 @@ SCHEMAS: Dict[str, Dict[str, Any]] = {
             "page_type": {"enum": ["source", "entity", "concept", "claim", "contradiction", "index"]},
             "review_status": {"enum": ["draft", "accepted", "needs_review", "rejected"]},
             "html_path": {"type": "string"},
+            "sensitivity": {"enum": ["general", "phi", "deidentified", "synthetic"]},
+            "client_record_id": {"type": "string"},
         },
     },
     "claim": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "title": "Memwiki Claim Record",
+        "title": "Agentic Wiki Claim Record",
         "type": "object",
         "required": [
             "claim_id",
@@ -64,11 +69,18 @@ SCHEMAS: Dict[str, Dict[str, Any]] = {
             "review_status": {"enum": ["draft", "accepted", "needs_review", "rejected"]},
             "contradicts": {"type": "array", "items": {"type": "string"}},
             "provenance": {"type": "object"},
+            "sensitivity": {"enum": ["general", "phi", "deidentified", "synthetic"]},
+            "client_record_id": {"type": "string"},
+            "source_category": {"type": "string"},
+            "clinical_claim_type": {"enum": ["source_fact", "clinical_guidance"]},
+            "guidance_type": {"type": "string"},
+            "cited_claim_ids": {"type": "array", "items": {"type": "string"}},
+            "reviewed_by": {"type": "string"},
         },
     },
     "link": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "title": "Memwiki Link Record",
+        "title": "Agentic Wiki Link Record",
         "type": "object",
         "required": ["from_id", "to_id", "relationship"],
         "properties": {
@@ -79,7 +91,7 @@ SCHEMAS: Dict[str, Dict[str, Any]] = {
     },
     "event": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "title": "Memwiki Event Record",
+        "title": "Agentic Wiki Event Record",
         "type": "object",
         "required": ["event_id", "event_type", "created_at"],
         "properties": {

@@ -43,6 +43,17 @@ def test_ingest_registers_text_html_pdf_and_image_sources(tmp_path: Path) -> Non
     invoke(tmp_path, "init")
     text = tmp_path / "note.txt"
     text.write_text("Memory systems should preserve source provenance.", encoding="utf-8")
+    json_source = tmp_path / "record.json"
+    json_source.write_text(
+        json.dumps(
+            {
+                "client_record_id": "client-synthetic-001",
+                "presenting_problems": ["sleep disruption", "anxiety"],
+                "synthetic": True,
+            }
+        ),
+        encoding="utf-8",
+    )
     html = tmp_path / "page.html"
     html.write_text("<html><body><h1>HTML source</h1><p>Structured content.</p></body></html>")
     pdf = tmp_path / "empty.pdf"
@@ -56,15 +67,26 @@ def test_ingest_registers_text_html_pdf_and_image_sources(tmp_path: Path) -> Non
     image = tmp_path / "image.png"
     Image.new("RGB", (8, 4), "white").save(image)
 
-    for path in [text, html, pdf, image]:
+    for path in [text, json_source, html, pdf, image]:
         result = invoke(tmp_path, "ingest", str(path))
         assert result.exit_code == 0, result.output
 
     records = read_jsonl(tmp_path / "manifests/sources.jsonl")
-    assert [record["kind"] for record in records] == ["text", "html", "pdf", "image"]
+    assert [record["kind"] for record in records] == ["text", "json", "html", "pdf", "image"]
     for record in records:
         extracted = tmp_path / ".memwiki/extracted" / record["source_id"] / "text.txt"
         assert extracted.exists()
+    json_record = records[1]
+    assert json_record["metadata"]["json_top_level_type"] == "object"
+    assert json_record["metadata"]["json_keys"] == [
+        "client_record_id",
+        "presenting_problems",
+        "synthetic",
+    ]
+    extracted_json = (
+        tmp_path / ".memwiki/extracted" / json_record["source_id"] / "text.txt"
+    ).read_text(encoding="utf-8")
+    assert '"client_record_id": "client-synthetic-001"' in extracted_json
     image_record = records[-1]
     assert image_record["metadata"]["width"] == 8
     assert image_record["metadata"]["height"] == 4

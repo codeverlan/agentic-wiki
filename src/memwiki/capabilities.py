@@ -4,28 +4,72 @@ import json
 from pathlib import Path
 from typing import Any, Dict
 
+TOOL_CONTRACTS: Dict[str, Dict[str, Any]] = {
+    "init_workspace": {"mutates": True},
+    "ingest_source": {
+        "mutates": True,
+        "supports_dry_run": True,
+        "clinical_phi_requires_context": True,
+    },
+    "compile_source": {
+        "mutates": True,
+        "writes": "drafts/",
+        "clinical_phi_requires_context": True,
+    },
+    "validate_draft": {"mutates": False},
+    "promote_draft": {
+        "mutates": True,
+        "supports_check_only": True,
+        "clinical_phi_requires_context": True,
+    },
+    "query": {
+        "mutates": False,
+        "supports_draft_page": True,
+        "clinical_phi_requires_context": True,
+    },
+    "resolve": {"mutates": False, "clinical_phi_requires_context": True},
+    "backlinks": {"mutates": False, "clinical_phi_requires_context": True},
+    "docs_check": {"mutates": False},
+    "docs_draft": {
+        "mutates": True,
+        "writes": "drafts/",
+        "clinical_phi_requires_context": True,
+    },
+    "export_static": {
+        "mutates": True,
+        "writes": "caller-selected output",
+        "clinical_phi_requires_context": True,
+        "clinical_phi_policy": "blocked unless deidentified",
+    },
+}
+
+
+def _prefixed_tools(prefix: str) -> Dict[str, Dict[str, Any]]:
+    return {f"{prefix}.{name}": dict(contract) for name, contract in TOOL_CONTRACTS.items()}
+
+
 CAPABILITIES: Dict[str, Any] = {
-    "name": "memwiki",
+    "name": "agentic-wiki",
     "version": "0.1.0",
+    "compatibility": {
+        "legacy_package": "memwiki",
+        "legacy_class": "MemwikiWorkspace",
+        "legacy_cli": "memwiki",
+    },
     "defaults": {
         "storage": "plain-files",
         "canonical_format": "semantic-html",
-        "privacy": "local-first-opt-in-remote",
+        "privacy": "local-first-strict-phi-profile",
         "mutation_policy": "draft-then-promote",
+        "clinical_phi": {
+            "remote_models": "blocked",
+            "workspace_layout": "one-client-per-workspace",
+            "operation_context": "required",
+            "static_export": "blocked-unless-deidentified",
+            "cloud_phi": "blocked",
+        },
     },
-    "tools": {
-        "memwiki.init_workspace": {"mutates": True},
-        "memwiki.ingest_source": {"mutates": True, "supports_dry_run": True},
-        "memwiki.compile_source": {"mutates": True, "writes": "drafts/"},
-        "memwiki.validate_draft": {"mutates": False},
-        "memwiki.promote_draft": {"mutates": True, "supports_check_only": True},
-        "memwiki.query": {"mutates": False, "supports_draft_page": True},
-        "memwiki.resolve": {"mutates": False},
-        "memwiki.backlinks": {"mutates": False},
-        "memwiki.docs_check": {"mutates": False},
-        "memwiki.docs_draft": {"mutates": True, "writes": "drafts/"},
-        "memwiki.export_static": {"mutates": True, "writes": "caller-selected output"},
-    },
+    "tools": {**_prefixed_tools("agentic_wiki"), **_prefixed_tools("memwiki")},
 }
 
 

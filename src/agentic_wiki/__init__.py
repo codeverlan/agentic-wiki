@@ -1,4 +1,4 @@
-"""Compatibility package for Agentic Wiki's historical memwiki API."""
+"""Agentic Wiki public Python API."""
 
 from memwiki.api import (
     AgenticWikiWorkspace,

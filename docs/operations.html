@@ -1,27 +1,65 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><title>Memwiki Operations</title></head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic Wiki Operations</title>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "CreativeWork", "identifier": "docs-operations", "memwiki:commands": ["agentic-wiki init", "agentic-wiki init --profile clinical-phi --client-record-id <id> --attest-local-encryption", "agentic-wiki ingest <path>", "agentic-wiki ingest <path> --dry-run", "agentic-wiki ingest <path> --source-category <category>", "agentic-wiki compile <source-id>", "agentic-wiki promote <draft-id>", "agentic-wiki promote <draft-id> --check-only", "agentic-wiki query <question>", "agentic-wiki query <question> --json", "agentic-wiki resolve <object-id>", "agentic-wiki backlinks <object-id>", "agentic-wiki capabilities", "agentic-wiki lint", "agentic-wiki docs check", "agentic-wiki docs draft", "agentic-wiki export static"], "memwiki:doc": "operations", "memwiki:generatedAt": "1970-01-01T00:00:00+00:00", "memwiki:pageType": "concept", "name": "Agentic Wiki Operations"}</script>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.55; max-width: 72rem; }
+    nav a { margin-right: 1rem; }
+    article { margin-top: 1.5rem; }
+    .claim { border-left: 4px solid #2f6f73; padding-left: 1rem; }
+    .provenance { background: #f5f5f5; padding: 1rem; border-radius: 6px; }
+    code { background: #f2f2f2; padding: 0.1rem 0.25rem; }
+  </style>
+</head>
 <body>
-<article id="repo-operations">
-<h1>Memwiki Operations</h1>
-<p>Use the CLI through <code>uv run memwiki</code> during development.</p>
-<pre><code>uv run memwiki --workspace examples/basic init
-uv run memwiki --workspace examples/basic ingest examples/basic/source.txt
-uv run memwiki --workspace examples/basic ingest examples/basic/source.txt --dry-run
-uv run memwiki --workspace examples/basic compile &lt;source-id&gt;
-uv run memwiki --workspace examples/basic promote &lt;draft-id&gt; --check-only
-uv run memwiki --workspace examples/basic promote &lt;draft-id&gt;
-uv run memwiki --workspace examples/basic lint
-uv run memwiki --workspace examples/basic query "HTML-first memory" --json
-uv run memwiki --workspace examples/basic resolve &lt;object-id&gt;
-uv run memwiki --workspace examples/basic backlinks &lt;object-id&gt;
-uv run memwiki --workspace examples/basic capabilities
-uv run memwiki --workspace examples/basic docs check</code></pre>
-<h2>Repository</h2>
-<p>The canonical remote is <code>github-personal:codeverlan/agentic-wiki.git</code>.</p>
-<p>The project tracks the installed Codex skill through <code>skills/agentic-wiki-planner</code>,
-a symlink to <code>/Users/tyler-lcsw/.codex/skills/agentic-wiki-planner</code>. Keep skill-link
-changes on branch <code>skill/agentic-wiki-planner</code>.</p>
-</article>
+  <nav><a href="index.html">Index</a><a href="contradictions.html">Contradictions</a></nav>
+  <article id="docs-operations" data-page-type="concept">
+    <h1>Agentic Wiki Operations</h1>
+
+    <section id="commands">
+      <h2>Commands</h2>
+      <p>Use the canonical CLI through <code>uv run agentic-wiki</code> during development.
+      The legacy <code>uv run memwiki</code> alias remains available.</p>
+      <ul><li><code>agentic-wiki init</code></li><li><code>agentic-wiki init --profile clinical-phi --client-record-id <id> --attest-local-encryption</code></li><li><code>agentic-wiki ingest <path></code></li><li><code>agentic-wiki ingest <path> --dry-run</code></li><li><code>agentic-wiki ingest <path> --source-category <category></code></li><li><code>agentic-wiki compile <source-id></code></li><li><code>agentic-wiki promote <draft-id></code></li><li><code>agentic-wiki promote <draft-id> --check-only</code></li><li><code>agentic-wiki query <question></code></li><li><code>agentic-wiki query <question> --json</code></li><li><code>agentic-wiki resolve <object-id></code></li><li><code>agentic-wiki backlinks <object-id></code></li><li><code>agentic-wiki capabilities</code></li><li><code>agentic-wiki lint</code></li><li><code>agentic-wiki docs check</code></li><li><code>agentic-wiki docs draft</code></li><li><code>agentic-wiki export static</code></li></ul>
+    </section>
+    <section id="documentation-governance">
+      <h2>Documentation Governance</h2>
+      <p>Run <code>agentic-wiki docs check</code> after command, schema, workflow, storage,
+      or validation changes. In an initialized workspace, it checks generated documentation
+      under that workspace. In this source checkout, it uses a disposable initialized workspace
+      to render expected documentation and compares those files with the tracked
+      <code>docs/*.html</code> files, so repository development does not require turning the
+      repo root into a wiki workspace.</p>
+      <p>The legacy <code>memwiki docs check</code> alias follows the same behavior. Use
+      <code>agentic-wiki docs draft</code> inside initialized workspaces to prepare updates,
+      then promote the draft after validation.</p>
+    </section>
+    <section id="operation-context">
+      <h2>Operation Context</h2>
+      <p>Clinical PHI workspaces require <code>actor_id</code>, <code>actor_role</code>,
+      <code>purpose_of_use</code>, and <code>session_id</code> for PHI-reading or mutating operations.
+      Event logs record those fields with object IDs and result metadata, not raw source text.</p>
+    </section>
+    <section id="capability-contract">
+      <h2>Capability Contract</h2>
+      <p>The <code>.memwiki/agent-capabilities.json</code> manifest advertises the same
+      clinical PHI operation-context requirements and static-export restrictions for
+      legacy <code>memwiki.*</code> tools as for canonical <code>agentic_wiki.*</code> tools.
+      Static export from clinical PHI workspaces requires operation context and remains
+      blocked unless the caller explicitly marks the export as deidentified.</p>
+    </section>
+    <section id="repository">
+      <h2>Repository</h2>
+      <p>The canonical remote is <code>github-personal:codeverlan/agentic-wiki.git</code>.</p>
+      <p>The project tracks the installed Codex skill through
+      <code>skills/agentic-wiki-planner</code>, a symlink to
+      <code>/Users/tyler-lcsw/.codex/skills/agentic-wiki-planner</code>. Keep skill-link
+      changes on branch <code>skill/agentic-wiki-planner</code>.</p>
+    </section>
+
+  </article>
 </body>
 </html>

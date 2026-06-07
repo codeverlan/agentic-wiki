@@ -5,12 +5,19 @@ import shutil
 from pathlib import Path
 from typing import Dict, List
 
+from memwiki.policy import OperationContext, append_event, require_static_export_allowed
 from memwiki.query import SearchEntry, build_search_index
 from memwiki.workspace import Workspace
 
 
-def export_static(workspace: Workspace, output: Path) -> Dict[str, object]:
+def export_static(
+    workspace: Workspace,
+    output: Path,
+    context: OperationContext | None = None,
+    deidentified: bool = False,
+) -> Dict[str, object]:
     workspace.require()
+    require_static_export_allowed(workspace.config_path, context, deidentified=deidentified)
     output.mkdir(parents=True, exist_ok=True)
     for html_path in workspace.path("wiki").glob("*.html"):
         shutil.copy2(html_path, output / html_path.name)
@@ -29,4 +36,11 @@ def export_static(workspace: Workspace, output: Path) -> Dict[str, object]:
     (output / "search.json").write_text(
         json.dumps(search_records, indent=2, sort_keys=True), encoding="utf-8"
     )
-    return {"output": str(output), "pages": len(list(output.glob("*.html")))}
+    pages = len(list(output.glob("*.html")))
+    append_event(
+        workspace.root,
+        "export_static",
+        {"output": str(output), "pages": pages, "deidentified": deidentified},
+        context,
+    )
+    return {"output": str(output), "pages": pages}

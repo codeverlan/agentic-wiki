@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup
 from memwiki.claims import validate_claim
 from memwiki.html import validate_html_file
 from memwiki.manifest import read_jsonl
+from memwiki.policy import config_bool, is_clinical_phi
 from memwiki.workspace import Workspace
 
 
@@ -45,6 +46,13 @@ def _manifest_errors(workspace: Workspace, base: Path) -> List[str]:
         claim_ids.add(str(claim.get("claim_id")))
         if claim.get("source_id") not in source_ids:
             errors.append(f"claim {claim.get('claim_id')} references unknown source")
+    all_claims = read_jsonl(claims_path)
+    all_claim_ids = {str(claim.get("claim_id")) for claim in all_claims}
+    for claim in all_claims:
+        if claim.get("clinical_claim_type") == "clinical_guidance":
+            for cited_claim_id in claim.get("cited_claim_ids", []):
+                if str(cited_claim_id) not in all_claim_ids:
+                    errors.append(f"clinical guidance {claim.get('claim_id')} cites unknown claim {cited_claim_id}")
     known_ids = page_ids | claim_ids
     for link in read_jsonl(links_path):
         if link.get("from_id") not in known_ids:
@@ -77,6 +85,15 @@ def lint_workspace(workspace: Workspace, base: Path | None = None) -> LintResult
     lint_base = base or workspace.root
     errors: List[str] = []
     warnings: List[str] = []
+    if is_clinical_phi(workspace.config_path):
+        if config_bool(workspace.config_path, "models", "allow_remote", False):
+            errors.append("clinical PHI workspaces must keep models.allow_remote = false")
+        if config_bool(workspace.config_path, "privacy", "cloud_phi", False):
+            errors.append("clinical PHI workspaces must keep privacy.cloud_phi = false")
+        if not config_bool(workspace.config_path, "privacy", "require_operation_context", True):
+            errors.append("clinical PHI workspaces must require operation context")
+        if not config_bool(workspace.config_path, "privacy", "local_encrypted_storage_attested", False):
+            warnings.append("clinical PHI workspace has no local encrypted-storage attestation")
     wiki = lint_base / "wiki"
     if not wiki.exists():
         if base is not None and (lint_base / "docs").exists():

@@ -9,8 +9,9 @@ from typing import Dict, List, Tuple, TypedDict
 from bs4 import BeautifulSoup
 
 from memwiki.html import render_page
-from memwiki.ids import stable_id, utc_now
+from memwiki.ids import sha256_bytes, stable_id, utc_now
 from memwiki.manifest import read_jsonl
+from memwiki.policy import OperationContext, append_event, is_clinical_phi, require_operation_context
 from memwiki.workspace import Workspace
 
 
@@ -75,8 +76,83 @@ def _score(query_tokens: List[str], page_tokens: Counter[str]) -> int:
     return sum(page_tokens.get(token, 0) for token in query_tokens)
 
 
-def query_workspace_structured(workspace: Workspace, question: str, draft_page: bool = False) -> QueryResult:
+def _clinical_query(workspace: Workspace, question: str, draft_page: bool) -> QueryResult:
+    claims = read_jsonl(workspace.path("manifests/claims.jsonl"))
+    fact_claims = [claim for claim in claims if claim.get("clinical_claim_type") == "source_fact"]
+    guidance_claims = [claim for claim in claims if claim.get("clinical_claim_type") == "clinical_guidance"]
+    if not fact_claims and not guidance_claims:
+        return QueryResult(
+            question=question,
+            matches=[],
+            citations=[],
+            answer="No matching clinical wiki claims found.",
+        )
+    index = build_search_index(workspace)
+    query_tokens = _tokens(question)
+    ranked: List[Tuple[int, str, SearchEntry]] = sorted(
+        ((_score(query_tokens, value["tokens"]), key, value) for key, value in index.items()),
+        key=lambda item: item[0],
+        reverse=True,
+    )
+    matches = [item for item in ranked if item[0] > 0][:3]
+    query_matches = [
+        QueryMatch(path=page["path"], title=page["title"], summary=page["summary"], score=score)
+        for score, _, page in matches
+    ]
+    citations = sorted(
+        {
+            str(claim["source_id"])
+            for claim in fact_claims + guidance_claims
+            if isinstance(claim.get("source_id"), str)
+        }
+    )
+    lines = [f"Answer for: {question}", "", "Evidence summary"]
+    for claim in fact_claims[:5]:
+        lines.append(f"- {claim['text']} [source: {claim['source_id']}]")
+    lines.extend(["", "Decision support"])
+    for claim in guidance_claims[:5]:
+        cited = ", ".join(str(value) for value in claim.get("cited_claim_ids", []))
+        lines.append(f"- {claim['text']} [status: {claim['review_status']}; cited claims: {cited}]")
+    if citations:
+        lines.extend(["", "Citations: " + ", ".join(citations)])
+    answer = "\n".join(lines)
+    if draft_page:
+        draft_id = stable_id("draft", "query", question, utc_now())
+        draft_root = workspace.path(f"drafts/{draft_id}/wiki")
+        draft_root.mkdir(parents=True, exist_ok=True)
+        page_id = stable_id("page", "query", question)
+        html = render_page(
+            title=f"Query: {question}",
+            page_id=page_id,
+            page_type="concept",
+            body=f"<section id=\"answer\"><h2>Answer</h2><pre>{answer}</pre></section>",
+            metadata={"memwiki:queryHash": sha256_bytes(question.encode("utf-8"))},
+        )
+        (draft_root / f"{page_id}.html").write_text(html, encoding="utf-8")
+    return QueryResult(question=question, matches=query_matches, citations=citations, answer=answer)
+
+
+def query_workspace_structured(
+    workspace: Workspace,
+    question: str,
+    draft_page: bool = False,
+    context: OperationContext | None = None,
+) -> QueryResult:
     workspace.require()
+    require_operation_context(workspace.config_path, "query", context)
+    if is_clinical_phi(workspace.config_path):
+        result = _clinical_query(workspace, question, draft_page)
+        append_event(
+            workspace.root,
+            "query",
+            {
+                "question_sha256": sha256_bytes(question.encode("utf-8")),
+                "matches": len(result.matches),
+                "citations": result.citations,
+            },
+            context,
+        )
+        return result
     index = build_search_index(workspace)
     query_tokens = _tokens(question)
     ranked: List[Tuple[int, str, SearchEntry]] = sorted(
@@ -86,6 +162,12 @@ def query_workspace_structured(workspace: Workspace, question: str, draft_page: 
     )
     matches = [item for item in ranked if item[0] > 0][:3]
     if not matches:
+        append_event(
+            workspace.root,
+            "query",
+            {"question_sha256": sha256_bytes(question.encode("utf-8")), "matches": 0, "citations": []},
+            context,
+        )
         return QueryResult(
             question=question,
             matches=[],
@@ -137,8 +219,23 @@ def query_workspace_structured(workspace: Workspace, question: str, draft_page: 
             metadata={"memwiki:query": question},
         )
         (draft_root / f"{page_id}.html").write_text(html, encoding="utf-8")
+    append_event(
+        workspace.root,
+        "query",
+        {
+            "question_sha256": sha256_bytes(question.encode("utf-8")),
+            "matches": len(query_matches),
+            "citations": citations,
+        },
+        context,
+    )
     return QueryResult(question=question, matches=query_matches, citations=citations, answer=answer)
 
 
-def query_workspace(workspace: Workspace, question: str, draft_page: bool = False) -> str:
-    return query_workspace_structured(workspace, question, draft_page=draft_page).answer
+def query_workspace(
+    workspace: Workspace,
+    question: str,
+    draft_page: bool = False,
+    context: OperationContext | None = None,
+) -> str:
+    return query_workspace_structured(workspace, question, draft_page=draft_page, context=context).answer

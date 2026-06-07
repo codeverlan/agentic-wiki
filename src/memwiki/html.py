@@ -71,21 +71,39 @@ def render_source_page(
     claim_text: str,
     excerpt: str,
     source_record: Dict[str, Any],
+    guidance_claim: Dict[str, Any] | None = None,
 ) -> str:
+    guidance_section = ""
+    if guidance_claim is not None:
+        guidance_claim_id = escape(str(guidance_claim["claim_id"]))
+        guidance_section = f"""
+    <section id="{guidance_claim_id}" class="claim" data-claim-id="{guidance_claim_id}">
+      <h2>Decision Support</h2>
+      <p>{escape(str(guidance_claim["text"]))}</p>
+      <aside class="provenance">
+        <strong>Derived from:</strong>
+        <code>{escape(", ".join(str(value) for value in guidance_claim.get("cited_claim_ids", [])))}</code>
+      </aside>
+    </section>
+"""
     body = f"""
     <section id="summary">
-      <h2>Summary</h2>
+      <h2>Evidence summary</h2>
       <p>{escape(excerpt)}</p>
     </section>
     <section id="{escape(claim_id)}" class="claim" data-claim-id="{escape(claim_id)}">
-      <h2>Claim</h2>
+      <h2>Source Fact</h2>
       <p>{escape(claim_text)}</p>
       <aside class="provenance">
         <strong>Provenance:</strong>
         <a href="../{escape(source_record["raw_path"])}">{escape(source_id)}</a>
       </aside>
     </section>
+{guidance_section}
 """
+    claim_ids = [claim_id]
+    if guidance_claim is not None:
+        claim_ids.append(str(guidance_claim["claim_id"]))
     return render_page(
         title=title,
         page_id=page_id,
@@ -93,7 +111,76 @@ def render_source_page(
         body=body,
         metadata={
             "memwiki:sourceId": source_id,
-            "memwiki:claims": [claim_id],
+            "memwiki:claims": claim_ids,
+            "memwiki:source": source_record,
+        },
+    )
+
+
+def render_client_record_page(
+    *,
+    title: str,
+    page_id: str,
+    page_type: str,
+    source_id: str,
+    source_record: Dict[str, Any],
+    client_record_id: str,
+    sections_html: str,
+    claim: Dict[str, Any],
+    guidance_claim: Dict[str, Any] | None,
+    related_pages: List[Dict[str, str]],
+) -> str:
+    related_html = ""
+    if related_pages:
+        items = "".join(
+            f'<li><a href="{escape(item["href"])}">{escape(item["title"])}</a></li>'
+            for item in related_pages
+        )
+        related_html = f"""
+    <section id="related-pages">
+      <h2>Related Pages</h2>
+      <ul>{items}</ul>
+    </section>
+"""
+    guidance_html = ""
+    if guidance_claim is not None:
+        guidance_id = escape(str(guidance_claim["claim_id"]))
+        guidance_html = f"""
+    <section id="{guidance_id}" class="claim" data-claim-id="{guidance_id}">
+      <h2>Decision Support</h2>
+      <p>{escape(str(guidance_claim["text"]))}</p>
+      <aside class="provenance">
+        <strong>Derived from:</strong>
+        <code>{escape(", ".join(str(value) for value in guidance_claim.get("cited_claim_ids", [])))}</code>
+      </aside>
+    </section>
+"""
+    claim_id = escape(str(claim["claim_id"]))
+    body = f"""
+{related_html}
+{sections_html}
+    <section id="{claim_id}" class="claim" data-claim-id="{claim_id}">
+      <h2>Source Fact</h2>
+      <p>{escape(str(claim["text"]))}</p>
+      <aside class="provenance">
+        <strong>Provenance:</strong>
+        <a href="../{escape(source_record["raw_path"])}">{escape(source_id)}</a>
+      </aside>
+    </section>
+{guidance_html}
+"""
+    claim_ids = [str(claim["claim_id"])]
+    if guidance_claim is not None:
+        claim_ids.append(str(guidance_claim["claim_id"]))
+    return render_page(
+        title=title,
+        page_id=page_id,
+        page_type=page_type,
+        body=body,
+        metadata={
+            "memwiki:sourceId": source_id,
+            "memwiki:clientRecordId": client_record_id,
+            "memwiki:claims": claim_ids,
             "memwiki:source": source_record,
         },
     )
@@ -106,7 +193,7 @@ def render_index(pages: Iterable[Dict[str, Any]]) -> str:
         for page in pages
     )
     return render_page(
-        title="Memwiki Index",
+        title="Agentic Wiki Index",
         page_id="index",
         page_type="index",
         body=f"<section id=\"pages\"><h2>Pages</h2><ul>{rows}</ul></section>",
