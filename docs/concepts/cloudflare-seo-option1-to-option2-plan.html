@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cloudflare SEO Memwiki Implementation Plan</title>
-  <meta name="description" content="A comprehensive implementation plan for evolving a GitOps Memwiki static publishing workflow into R2-backed live publishing on Cloudflare.">
+  <title>Cloudflare SEO Agentic Wiki Implementation Plan</title>
+  <meta name="description" content="A comprehensive implementation plan for evolving a GitOps Agentic Wiki static publishing workflow into R2-backed live publishing on Cloudflare.">
   <style>
     :root {
       color-scheme: light;
@@ -188,9 +188,10 @@
   <article>
     <header>
       <p class="label">Implementation Plan</p>
-      <h1>Cloudflare SEO Memwiki: GitOps to Live Publishing</h1>
-      <p class="lede">A comprehensive plan for starting with reviewable GitOps static publishing, then evolving into R2-backed API publishing without changing Memwiki's canonical content model.</p>
-      <p class="meta">Prepared for the Memwiki project. Cloudflare platform references checked May 28, 2026.</p>
+      <h1>Cloudflare SEO Agentic Wiki: GitOps to Live Publishing</h1>
+      <p class="lede">A comprehensive plan for starting with reviewable GitOps static publishing, then evolving into R2-backed API publishing without changing Agentic Wiki's canonical content model.</p>
+      <p class="meta">Prepared for the Agentic Wiki project. Cloudflare platform references checked May 28, 2026.</p>
+      <p class="meta"><strong>PHI boundary:</strong> this Cloudflare publishing plan is not the PHI deployment path. Clinical PHI workspaces remain strict local-only unless a future BAA-cloud profile is explicitly designed and approved.</p>
     </header>
 
     <section class="panel" aria-labelledby="thesis">
@@ -203,7 +204,7 @@
       <h2 id="target-architecture">Target Architecture</h2>
       <p>The system has four logical layers:</p>
       <ol>
-        <li><strong>Memwiki core:</strong> source registration, extraction, compilation, linting, promotion, claim provenance, and static export.</li>
+        <li><strong>Agentic Wiki core:</strong> source registration, extraction, compilation, linting, promotion, claim provenance, and static export.</li>
         <li><strong>Publisher adapters:</strong> GitOps publisher first, R2 live publisher second, with a shared publish manifest.</li>
         <li><strong>Cloudflare runtime:</strong> Workers Static Assets for the public site and API routes, plus bindings to R2, KV, D1, and optional Vectorize.</li>
         <li><strong>SEO intelligence:</strong> content quality checks, internal link graph, structured data validation, redirect/canonical policy, freshness scoring, and content gap reports.</li>
@@ -249,7 +250,7 @@
 
     <section aria-labelledby="publisher-contract">
       <h2 id="publisher-contract">Publisher Contract</h2>
-      <p>Add a publisher abstraction to Memwiki before adding any Cloudflare-specific behavior. The important constraint is that the publish artifact format must be identical across GitOps and R2.</p>
+      <p>Add a publisher abstraction to Agentic Wiki before adding any Cloudflare-specific behavior. The important constraint is that the publish artifact format must be identical across GitOps and R2.</p>
       <pre><code>class Publisher(Protocol):
     def publish(self, manifest: PublishManifest) -&gt; PublishResult:
         ...
@@ -273,11 +274,11 @@ class PublishManifest(TypedDict):
       <h2 id="phase-1">Phase 1: GitOps Static Publishing</h2>
       <div class="phase">
         <h3>Goal</h3>
-        <p>Make Memwiki capable of updating a Cloudflare static site through reviewable repository changes. API clients and coding agents can submit source material, but public content changes still pass through Git review.</p>
+        <p>Make Agentic Wiki capable of updating a Cloudflare static site through reviewable repository changes. API clients and coding agents can submit source material, but public content changes still pass through Git review.</p>
 
         <h3>Implementation Steps</h3>
         <ol>
-          <li>Add <code>memwiki export cloudflare</code> or a library equivalent that exports static site artifacts into a configured site output directory.</li>
+          <li>Add <code>agentic-wiki export cloudflare</code> or a library equivalent that exports static site artifacts into a configured site output directory.</li>
           <li>Generate public pages from canonical <code>wiki/</code> HTML, preserving JSON-LD and adding site chrome only at export time.</li>
           <li>Generate <code>sitemap.xml</code>, <code>robots.txt</code>, RSS or Atom if relevant, search index JSON, entity index JSON, and related-link data.</li>
           <li>Generate Cloudflare-compatible <code>_headers</code> and redirect artifacts where appropriate. Classic Pages supports <code>_headers</code> and <code>_redirects</code>; Workers Static Assets projects can encode equivalent behavior in Worker code when needed.</li>
@@ -287,15 +288,15 @@ class PublishManifest(TypedDict):
         </ol>
 
         <h3>Cloudflare Runtime</h3>
-        <p>Deploy the static site with Workers Static Assets so the same project can later host API routes. The Worker should serve static assets directly except for reserved API paths such as <code>/api/memwiki/*</code>. Cloudflare documents this static-asset-plus-Worker pattern as a single deployment unit.</p>
+        <p>Deploy the static site with Workers Static Assets so the same project can later host API routes. The Worker should serve static assets directly except for reserved API paths such as <code>/api/agentic-wiki/*</code>. Cloudflare documents this static-asset-plus-Worker pattern as a single deployment unit.</p>
 
         <h3>API Behavior</h3>
         <p>The first API should be intentionally narrow:</p>
-        <pre><code>POST /api/memwiki/sources
-POST /api/memwiki/drafts
-POST /api/memwiki/drafts/:id/check
-POST /api/memwiki/drafts/:id/propose
-GET  /api/memwiki/proposals/:id</code></pre>
+        <pre><code>POST /api/agentic-wiki/sources
+POST /api/agentic-wiki/drafts
+POST /api/agentic-wiki/drafts/:id/check
+POST /api/agentic-wiki/drafts/:id/propose
+GET  /api/agentic-wiki/proposals/:id</code></pre>
         <p><code>propose</code> should create a Git branch and pull request, not publish directly.</p>
 
         <h3>Acceptance Criteria</h3>
@@ -383,7 +384,7 @@ versions/&lt;publish_id&gt;/pages/*.html</code></pre>
 
         <h3>Worker Request Flow</h3>
         <ol>
-          <li>If the request path is under <code>/api/memwiki/</code>, run the authenticated API handler.</li>
+          <li>If the request path is under <code>/api/agentic-wiki/</code>, run the authenticated API handler.</li>
           <li>If the request matches a deployed static asset, serve it through the assets binding.</li>
           <li>If the path maps to a live-published page in D1 or KV, fetch the HTML object from R2 and return it with appropriate cache headers.</li>
           <li>If no mapping exists, serve the static 404 page or a configured fallback.</li>
@@ -394,7 +395,7 @@ versions/&lt;publish_id&gt;/pages/*.html</code></pre>
           <li>API client submits source or draft promotion request.</li>
           <li>Worker validates auth, payload size, workspace policy, and mutation permission.</li>
           <li>Worker enqueues or calls a compiler job. If compilation remains outside Workers, the Worker stores the source and records a pending job for an external agent.</li>
-          <li>Memwiki compiles and validates the draft using the same checks as GitOps.</li>
+          <li>Agentic Wiki compiles and validates the draft using the same checks as GitOps.</li>
           <li>Promotion writes new page objects to versioned R2 keys first.</li>
           <li>D1 registry updates occur in a transaction-like sequence: create publish event, update page pointers, update redirects, update current index pointer.</li>
           <li>KV hot indexes are updated after D1 succeeds.</li>
@@ -403,17 +404,17 @@ versions/&lt;publish_id&gt;/pages/*.html</code></pre>
         </ol>
 
         <h3>API Expansion</h3>
-        <pre><code>POST /api/memwiki/sources
-GET  /api/memwiki/sources/:id
-POST /api/memwiki/drafts
-GET  /api/memwiki/drafts/:id
-POST /api/memwiki/drafts/:id/check
-POST /api/memwiki/drafts/:id/promote
-POST /api/memwiki/publishes/:id/rollback
-GET  /api/memwiki/pages/:slug
-GET  /api/memwiki/claims/:id
-GET  /api/memwiki/seo/report
-GET  /api/memwiki/events</code></pre>
+        <pre><code>POST /api/agentic-wiki/sources
+GET  /api/agentic-wiki/sources/:id
+POST /api/agentic-wiki/drafts
+GET  /api/agentic-wiki/drafts/:id
+POST /api/agentic-wiki/drafts/:id/check
+POST /api/agentic-wiki/drafts/:id/promote
+POST /api/agentic-wiki/publishes/:id/rollback
+GET  /api/agentic-wiki/pages/:slug
+GET  /api/agentic-wiki/claims/:id
+GET  /api/agentic-wiki/seo/report
+GET  /api/agentic-wiki/events</code></pre>
 
         <h3>Acceptance Criteria</h3>
         <ul>
@@ -532,7 +533,7 @@ GET  /api/memwiki/events</code></pre>
 
     <section aria-labelledby="testing">
       <h2 id="testing">Test Plan</h2>
-      <h3>Memwiki Core Tests</h3>
+      <h3>Agentic Wiki Core Tests</h3>
       <ul>
         <li>Publish manifest generation is deterministic.</li>
         <li>GitOps publisher stages only expected artifacts.</li>

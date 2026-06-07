@@ -37,6 +37,7 @@ Agentic Wiki builds on the original wiki-memory idea with a few deliberate upgra
 - **Draft-before-publish workflow:** generated pages land in drafts before they are promoted into the accepted wiki.
 - **Plain-file storage:** sources, pages, manifests, links, claims, and events are stored in ordinary files.
 - **Agent-ready operations:** dry-run ingest, check-only promotion, JSON query output, object resolution, backlinks, and capabilities are exposed for coding agents.
+- **Clinical local profile:** a strict local-only profile can isolate one pseudonymous client record per workspace and require host-supplied operation context for PHI workflows.
 - **Static export:** the wiki can become a browsable static site.
 - **Self-evolving documentation:** docs are treated as artifacts that can be checked, drafted, and promoted like content.
 - **Open-source posture:** the project is designed to be inspectable, portable, and provider-agnostic.
@@ -54,6 +55,23 @@ Good fits include:
 - A static website generated from curated knowledge.
 - An SEO content system where public pages remain readable, crawlable, and source-backed.
 - A plugin, coding-agent, or application feature that needs durable memory without adopting a database-first CMS.
+- A local clinical companion where source-backed evidence summaries and clinician-reviewed decision support are organized around one client record.
+
+## HIPAA-Local Direction
+
+The `hipaa` branch reshapes Agentic Wiki for localized, PHI-capable deployments without using real PHI in development.
+
+This branch provides HIPAA-supporting implementation controls, not a HIPAA certification. The intended v1 clinical deployment model is strict local-only:
+
+- one Agentic Wiki workspace per pseudonymous client record
+- no remote model adapters for PHI workspaces
+- no Cloudflare, cloud storage, telemetry, or external processing for PHI content
+- host applications pass authenticated `OperationContext` values for PHI-reading or mutating operations
+- event logs record actor, role, purpose of use, session, object IDs, and result metadata, not raw source text
+- static export is blocked for clinical PHI workspaces unless the caller explicitly treats the workspace as deidentified or synthetic
+- local encrypted storage is an operator prerequisite recorded in workspace configuration
+
+Clinical output is limited to evidence summaries, care considerations, risk flags, follow-up questions, and clinician-facing decision support. It is not autonomous diagnosis, orders, or patient-facing medical advice. Accepted clinical guidance must remain source-cited, provenance-backed, and clinician reviewed.
 
 ## Cloudflare and SEO Direction
 
@@ -71,17 +89,22 @@ See the `concept/cloudflare-seo` branch for the standalone HTML concept document
 
 ## Project Branches
 
-The repository currently has a few useful branches:
+The published repository currently has a few useful branches:
 
 - `main` is the baseline implementation branch.
-- `concept/cloudflare-seo` contains the Cloudflare SEO content-memory concept and implementation-plan documents.
 - `skill/agentic-wiki-planner` contains the Codex skill symlink and documentation for the Agentic Wiki integration planner.
 
 The planner skill is intended to be invoked while working in another codebase. It analyzes that project first, then recommends how Agentic Wiki could fit, including Cloudflare implementation options when relevant.
 
 ## Current Shape
 
-The project currently ships as a Python package and CLI named `memwiki` while the repository and product direction move under the Agentic Wiki name.
+The project now exposes canonical Python and CLI surfaces under the Agentic Wiki name:
+
+- Python package: `agentic_wiki`
+- Public class: `AgenticWikiWorkspace`
+- CLI: `agentic-wiki`
+
+The legacy `memwiki` package, `MemwikiWorkspace` class, and `memwiki` CLI remain as compatibility shims for existing callers. The generated `.memwiki/agent-capabilities.json` manifest advertises the same clinical PHI `OperationContext` requirements and static-export restrictions for legacy `memwiki.*` tool entries as for canonical `agentic_wiki.*` entries.
 
 Today it can:
 
@@ -103,20 +126,41 @@ For now, this is a developer-facing project. The fastest way to explore it is wi
 
 ```bash
 uv sync
-uv run memwiki --help
+uv run agentic-wiki --help
 ```
 
 A minimal flow looks like this:
 
 ```bash
-uv run memwiki --workspace my-wiki init
-uv run memwiki --workspace my-wiki ingest path/to/source.html
-uv run memwiki --workspace my-wiki compile <source-id>
-uv run memwiki --workspace my-wiki promote <draft-id>
-uv run memwiki --workspace my-wiki export static --output my-site
+uv run agentic-wiki --workspace my-wiki init
+uv run agentic-wiki --workspace my-wiki ingest path/to/source.html
+uv run agentic-wiki --workspace my-wiki compile <source-id>
+uv run agentic-wiki --workspace my-wiki promote <draft-id>
+uv run agentic-wiki --workspace my-wiki export static --output my-site
 ```
 
-The Python API exposes the same workflow through `MemwikiWorkspace`, which is the intended integration point for other programs and coding agents.
+The Python API exposes the same workflow through `AgenticWikiWorkspace`, which is the intended integration point for other programs and coding agents.
+
+```python
+from agentic_wiki import AgenticWikiWorkspace, OperationContext
+
+wiki = AgenticWikiWorkspace("client-workspace")
+wiki.init(
+    profile="clinical_phi",
+    client_record_id="client-synthetic-001",
+    local_encrypted_storage_attested=True,
+)
+
+context = OperationContext(
+    actor_id="clinician-001",
+    actor_role="clinician",
+    purpose_of_use="treatment",
+    session_id="session-001",
+)
+source = wiki.ingest("synthetic-note.txt", source_category="progress_note", context=context)
+draft = wiki.compile(source.source_id, context=context)
+wiki.promote(draft.draft_id, check_only=True, context=context)
+```
 
 ## Credits
 

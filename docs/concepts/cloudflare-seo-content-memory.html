@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Agentic Content Memory for Cloudflare SEO Sites</title>
-  <meta name="description" content="A concept for using Memwiki as a source-backed content memory layer for Cloudflare static sites, readable website content, and SEO optimization.">
+  <meta name="description" content="A concept for using Agentic Wiki as a source-backed content memory layer for Cloudflare static sites, readable website content, and SEO optimization.">
   <style>
     :root {
       color-scheme: light;
@@ -176,14 +176,15 @@
     <header>
       <p class="label">Concept</p>
       <h1>Agentic Content Memory for Cloudflare SEO Sites</h1>
-      <p class="lede">Use Memwiki as a source-backed content intelligence layer behind a Cloudflare-hosted static site. The public site stays fast, crawlable, and human-readable while Memwiki maintains the deeper knowledge graph, provenance, content briefs, SEO metadata, internal links, schema markup, and update workflow.</p>
-      <p class="meta">Prepared for the Memwiki project. Cloudflare platform references checked May 28, 2026.</p>
+      <p class="lede">Use Agentic Wiki as a source-backed content intelligence layer behind a Cloudflare-hosted static site. The public site stays fast, crawlable, and human-readable while Agentic Wiki maintains the deeper knowledge graph, provenance, content briefs, SEO metadata, internal links, schema markup, and update workflow.</p>
+      <p class="meta">Prepared for the Agentic Wiki project. Cloudflare platform references checked May 28, 2026.</p>
+      <p class="meta"><strong>PHI boundary:</strong> this Cloudflare concept is for public, deidentified, or synthetic content only. The strict HIPAA-local profile blocks Cloudflare, remote model adapters, telemetry, and cloud PHI storage.</p>
     </header>
 
     <section class="summary" aria-labelledby="core-idea">
       <h2 id="core-idea">Core Idea</h2>
       <p>The wiki is not just the CMS. It is the editorial memory system that knows why each page says what it says.</p>
-      <p>The readable website becomes a polished public projection of the wiki memory. Memwiki stores canonical HTML pages with embedded JSON-LD, claim-level provenance, internal links, redirects, and update history. A Cloudflare Worker exposes an authenticated content API that can ingest new source material, create drafts, validate them, promote them, and publish changed pages to the static site.</p>
+      <p>The readable website becomes a polished public projection of the wiki memory. Agentic Wiki stores canonical HTML pages with embedded JSON-LD, claim-level provenance, internal links, redirects, and update history. A Cloudflare Worker exposes an authenticated content API that can ingest new source material, create drafts, validate them, promote them, and publish changed pages to the static site.</p>
     </section>
 
     <section aria-labelledby="public-outputs">
@@ -216,7 +217,7 @@
           </tr>
           <tr>
             <td>Workers API routes</td>
-            <td>Expose authenticated update endpoints under paths such as <code>/api/memwiki/*</code>.</td>
+            <td>Expose authenticated update endpoints under paths such as <code>/api/agentic-wiki/*</code>.</td>
           </tr>
           <tr>
             <td>R2</td>
@@ -247,8 +248,8 @@
       <div class="flow">
         <ol>
           <li>Raw inputs arrive from documentation, PDFs, notes, existing pages, forms, product data, or API clients.</li>
-          <li>Memwiki registers immutable sources and extracts text, metadata, and source locators.</li>
-          <li>Memwiki creates draft HTML pages, claims, entity links, schema data, and SEO metadata.</li>
+          <li>Agentic Wiki registers immutable sources and extracts text, metadata, and source locators.</li>
+          <li>Agentic Wiki creates draft HTML pages, claims, entity links, schema data, and SEO metadata.</li>
           <li>Validation checks HTML structure, provenance, internal links, schema markup, canonical URLs, redirects, sitemap state, and stale content.</li>
           <li>Approved drafts are promoted into canonical content.</li>
           <li>The static site export publishes changed pages, indexes, and supporting files to Cloudflare.</li>
@@ -259,16 +260,16 @@
 
     <section aria-labelledby="api-shape">
       <h2 id="api-shape">API Shape</h2>
-      <p>The API should preserve the Memwiki draft-and-promote workflow instead of treating remote updates as direct writes to public content.</p>
-      <pre><code>POST /api/memwiki/sources
-POST /api/memwiki/drafts
-GET  /api/memwiki/drafts/:id
-POST /api/memwiki/drafts/:id/check
-POST /api/memwiki/drafts/:id/promote
-GET  /api/memwiki/pages/:slug
-GET  /api/memwiki/claims/:id
-GET  /api/memwiki/seo/report
-POST /api/memwiki/export/static</code></pre>
+      <p>The API should preserve the Agentic Wiki draft-and-promote workflow instead of treating remote updates as direct writes to public content.</p>
+      <pre><code>POST /api/agentic-wiki/sources
+POST /api/agentic-wiki/drafts
+GET  /api/agentic-wiki/drafts/:id
+POST /api/agentic-wiki/drafts/:id/check
+POST /api/agentic-wiki/drafts/:id/promote
+GET  /api/agentic-wiki/pages/:slug
+GET  /api/agentic-wiki/claims/:id
+GET  /api/agentic-wiki/seo/report
+POST /api/agentic-wiki/export/static</code></pre>
       <p>Every mutating request should append an event record, preserve source provenance, and be reviewable by humans or coding agents.</p>
     </section>
 
@@ -276,7 +277,7 @@ POST /api/memwiki/export/static</code></pre>
       <h2 id="implementation-options">Implementation Options</h2>
 
       <h3>Option 1: GitOps Static Publishing</h3>
-      <p>API requests create Memwiki drafts and open GitHub pull requests with changed HTML, sitemap, schema, redirect, and index artifacts. Merge triggers the Cloudflare deployment.</p>
+      <p>API requests create Agentic Wiki drafts and open GitHub pull requests with changed HTML, sitemap, schema, redirect, and index artifacts. Merge triggers the Cloudflare deployment.</p>
       <p><span class="status-good">Pros:</span> strongest auditability, reviewable content changes, clean rollback through Git, excellent SEO output because pages are real static HTML.</p>
       <p><span class="status-warn">Cons:</span> slower publishing and a dependency on repository automation. The API creates proposed content changes rather than instant public changes.</p>
 
@@ -286,14 +287,14 @@ POST /api/memwiki/export/static</code></pre>
       <p><span class="status-warn">Cons:</span> higher operational complexity, stricter cache invalidation requirements, and a stronger need for rollback and authorization controls.</p>
 
       <h3>Option 3: Hybrid Static and Edge Enhancement</h3>
-      <p>Main pages are deployed statically. The Worker uses Memwiki indexes to enhance pages at request time with related links, provenance panels, freshness banners, structured data, or canonical metadata. Cloudflare Workers include <a href="https://developers.cloudflare.com/workers/runtime-apis/html-rewriter/">HTMLRewriter</a>, which can transform HTML responses at the edge.</p>
+      <p>Main pages are deployed statically. The Worker uses Agentic Wiki indexes to enhance pages at request time with related links, provenance panels, freshness banners, structured data, or canonical metadata. Cloudflare Workers include <a href="https://developers.cloudflare.com/workers/runtime-apis/html-rewriter/">HTMLRewriter</a>, which can transform HTML responses at the edge.</p>
       <p><span class="status-good">Pros:</span> lower migration cost and useful for existing static sites.</p>
       <p><span class="status-warn">Cons:</span> SEO-critical content should remain in the original HTML where possible, and edge rewriting must stay limited enough to debug.</p>
     </section>
 
     <section aria-labelledby="seo-value">
       <h2 id="seo-value">SEO Value</h2>
-      <p>Memwiki can produce artifacts that normal CMS systems often handle weakly:</p>
+      <p>Agentic Wiki can produce artifacts that normal CMS systems often handle weakly:</p>
       <ul>
         <li>Topic and entity graph for internal linking.</li>
         <li>Source-backed claims for trustworthy public content.</li>

@@ -37,4 +37,4 @@ class Workspace:
 
     def require(self) -> None:
         if not self.config_path.exists():
-            raise RuntimeError(f"Not a memwiki workspace: {self.root}")
+            raise RuntimeError(f"Not an Agentic Wiki workspace: {self.root}")

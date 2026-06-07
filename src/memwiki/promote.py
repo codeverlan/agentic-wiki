@@ -5,9 +5,9 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 from memwiki.html import render_contradictions, render_index
-from memwiki.ids import stable_id, utc_now
 from memwiki.linter import lint_workspace
 from memwiki.manifest import append_jsonl, read_jsonl
+from memwiki.policy import OperationContext, append_event, require_operation_context
 from memwiki.workspace import Workspace
 
 
@@ -25,8 +25,14 @@ def _append_manifest_records(workspace: Workspace, draft_root: Path, name: str) 
     return records
 
 
-def promote_draft(workspace: Workspace, draft_id: str, check_only: bool = False) -> Dict[str, Any]:
+def promote_draft(
+    workspace: Workspace,
+    draft_id: str,
+    check_only: bool = False,
+    context: OperationContext | None = None,
+) -> Dict[str, Any]:
     workspace.require()
+    require_operation_context(workspace.config_path, "promote", context)
     draft_root = workspace.path(f"drafts/{draft_id}")
     if not draft_root.exists():
         raise ValueError(f"Draft does not exist: {draft_id}")
@@ -34,6 +40,12 @@ def promote_draft(workspace: Workspace, draft_id: str, check_only: bool = False)
     if not result.ok:
         raise ValueError("\n".join(result.errors))
     if check_only:
+        append_event(
+            workspace.root,
+            "promote_check",
+            {"draft_id": draft_id, "result": "valid"},
+            context,
+        )
         return {"draft_id": draft_id, "promoted_pages": 0, "check_only": True}
 
     promoted_pages: List[Dict[str, Any]] = []
@@ -53,13 +65,10 @@ def promote_draft(workspace: Workspace, draft_id: str, check_only: bool = False)
     claims = read_jsonl(workspace.path("manifests/claims.jsonl"))
     workspace.path("wiki/index.html").write_text(render_index(pages), encoding="utf-8")
     workspace.path("wiki/contradictions.html").write_text(render_contradictions(claims), encoding="utf-8")
-    append_jsonl(
-        workspace.path("manifests/events.jsonl"),
-        {
-            "event_id": stable_id("evt", draft_id, "promote", utc_now()),
-            "event_type": "promote",
-            "created_at": utc_now(),
-            "details": {"draft_id": draft_id, "pages": [p.get("page_id") for p in promoted_pages]},
-        },
+    append_event(
+        workspace.root,
+        "promote",
+        {"draft_id": draft_id, "pages": [p.get("page_id") for p in promoted_pages]},
+        context,
     )
     return {"draft_id": draft_id, "promoted_pages": len(promoted_pages), "check_only": False}

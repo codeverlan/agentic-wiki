@@ -1,21 +1,63 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><title>Memwiki Architecture</title></head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic Wiki Architecture</title>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "CreativeWork", "identifier": "docs-architecture", "memwiki:doc": "architecture", "memwiki:generatedAt": "1970-01-01T00:00:00+00:00", "memwiki:pageType": "concept", "name": "Agentic Wiki Architecture"}</script>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.55; max-width: 72rem; }
+    nav a { margin-right: 1rem; }
+    article { margin-top: 1.5rem; }
+    .claim { border-left: 4px solid #2f6f73; padding-left: 1rem; }
+    .provenance { background: #f5f5f5; padding: 1rem; border-radius: 6px; }
+    code { background: #f2f2f2; padding: 0.1rem 0.25rem; }
+  </style>
+</head>
 <body>
-<article id="repo-architecture">
-<h1>Memwiki Architecture</h1>
-<p>Memwiki is a local-first Python library and CLI that compiles raw sources into an HTML knowledge wiki.</p>
-<p>The public integration surface is <code>MemwikiWorkspace</code>. The CLI delegates to that API so other programs and coding agents can embed the same workflow directly.</p>
-<h2>Flow</h2>
-<ol>
-<li>Register immutable raw sources under <code>raw/</code>.</li>
-<li>Extract text and metadata into <code>.memwiki/extracted/</code>.</li>
-<li>Compile source-backed draft HTML pages and manifest deltas under <code>drafts/</code>.</li>
-<li>Validate drafts with <code>memwiki lint</code>.</li>
-<li>Promote valid drafts into canonical <code>wiki/</code>.</li>
-</ol>
-<h2>Agent Integration</h2>
-<p>Workspaces expose <code>.memwiki/agent-capabilities.json</code>, dry-run ingest, check-only promotion, JSON query output, object resolution, and backlinks.</p>
-</article>
+  <nav><a href="index.html">Index</a><a href="contradictions.html">Contradictions</a></nav>
+  <article id="docs-architecture" data-page-type="concept">
+    <h1>Agentic Wiki Architecture</h1>
+
+    <section id="architecture">
+      <h2>Architecture</h2>
+      <p>Agentic Wiki is a local-first Python library and CLI that compiles raw sources
+      into an HTML knowledge wiki. Raw sources are immutable, draft updates are validated
+      before promotion, and canonical memory lives as semantic HTML with embedded JSON-LD.</p>
+      <p>The canonical public integration surface is
+      <code>agentic_wiki.AgenticWikiWorkspace</code>. The legacy
+      <code>memwiki.MemwikiWorkspace</code> surface remains as a compatibility shim.
+      The CLI delegates to the public API so other programs and coding agents can embed
+      the same workflow directly.</p>
+    </section>
+    <section id="flow">
+      <h2>Flow</h2>
+      <ol>
+        <li>Register immutable raw sources under <code>raw/</code>.</li>
+        <li>Extract text and metadata into <code>.memwiki/extracted/</code>.</li>
+        <li>Compile source-backed draft HTML pages and manifest deltas under <code>drafts/</code>.</li>
+        <li>Validate drafts with <code>agentic-wiki lint</code>.</li>
+        <li>Promote valid drafts into canonical <code>wiki/</code>.</li>
+      </ol>
+    </section>
+    <section id="clinical-phi">
+      <h2>Clinical PHI Profile</h2>
+      <p>The <code>clinical_phi</code> profile treats one workspace as one pseudonymous
+      client record. PHI-reading and mutating operations require a host-supplied
+      <code>OperationContext</code> with actor, role, purpose of use, and session information.
+      Remote model adapters, cloud PHI storage, telemetry, and ordinary static export are
+      blocked by default.</p>
+      <p>Clinical compilation separates source facts from inferred guidance. Guidance is
+      clinician-facing decision support and remains reviewable unless accepted with source
+      citations, provenance, confidence, and reviewer metadata.</p>
+    </section>
+    <section id="agent-integration">
+      <h2>Agent Integration</h2>
+      <p>Workspaces expose <code>.memwiki/agent-capabilities.json</code>, dry-run ingest,
+      check-only promotion, JSON query output, object resolution, backlinks, and PHI-mode
+      mutation policy metadata.</p>
+    </section>
+
+  </article>
 </body>
 </html>

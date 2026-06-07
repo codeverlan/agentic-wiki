@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic Wiki HIPAA-Local Profile</title>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "CreativeWork", "identifier": "docs-hipaa-local", "memwiki:doc": "hipaa-local", "memwiki:generatedAt": "1970-01-01T00:00:00+00:00", "memwiki:pageType": "concept", "name": "Agentic Wiki HIPAA-Local Profile"}</script>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.55; max-width: 72rem; }
+    nav a { margin-right: 1rem; }
+    article { margin-top: 1.5rem; }
+    .claim { border-left: 4px solid #2f6f73; padding-left: 1rem; }
+    .provenance { background: #f5f5f5; padding: 1rem; border-radius: 6px; }
+    code { background: #f2f2f2; padding: 0.1rem 0.25rem; }
+  </style>
+</head>
+<body>
+  <nav><a href="index.html">Index</a><a href="contradictions.html">Contradictions</a></nav>
+  <article id="docs-hipaa-local" data-page-type="concept">
+    <h1>Agentic Wiki HIPAA-Local Profile</h1>
+
+    <section id="positioning">
+      <h2>Positioning</h2>
+      <p>The HIPAA-local profile provides implementation controls for localized PHI-capable
+      Agentic Wiki workspaces. It is not a HIPAA certification and does not replace
+      organizational risk analysis, workforce policy, legal review, incident response, or a
+      covered entity's compliance program.</p>
+    </section>
+    <section id="default-boundary">
+      <h2>Default Boundary</h2>
+      <ul>
+        <li>One workspace represents one pseudonymous client record.</li>
+        <li>Remote model adapters are blocked for clinical PHI workspaces.</li>
+        <li>Cloud PHI storage, telemetry, and Cloudflare publishing are blocked in this strict-local branch.</li>
+        <li>Host applications must pass operation context for PHI operations.</li>
+        <li>Operators must attest that the workspace is stored on local encrypted storage.</li>
+        <li>Static export is blocked unless the caller explicitly marks the export as deidentified or synthetic.</li>
+      </ul>
+    </section>
+    <section id="clinical-guidance-boundary">
+      <h2>Clinical Guidance Boundary</h2>
+      <p>Agentic Wiki separates source facts from inferred clinical guidance. Guidance can
+      include evidence summaries, risk flags, care considerations, follow-up questions, and
+      clinician-facing decision support. It must not be treated as autonomous diagnosis,
+      treatment orders, or patient-facing advice.</p>
+    </section>
+    <section id="audit-events">
+      <h2>Audit Events</h2>
+      <p>Clinical PHI events record actor ID, actor role, purpose of use, session ID,
+      operation, object IDs, and result metadata. Event logs must not include raw source text
+      or free-text query content; query events store a hash of the question.</p>
+    </section>
+    <section id="references">
+      <h2>References</h2>
+      <ul>
+        <li>HHS HIPAA Security Rule: <code>https://www.hhs.gov/hipaa/for-professionals/security/index.html</code></li>
+        <li>HHS de-identification guidance: <code>https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/</code></li>
+        <li>NIST SP 800-66 Rev. 2: <code>https://csrc.nist.gov/pubs/sp/800/66/r2/final</code></li>
+        <li>Cloudflare HIPAA statement: <code>https://www.cloudflare.com/privacy-and-compliance/hipaa/</code></li>
+      </ul>
+    </section>
+
+  </article>
+</body>
+</html>
