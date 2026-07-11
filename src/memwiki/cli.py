@@ -7,6 +7,7 @@ from typing import Optional
 import typer
 
 from agentic_wiki import AgenticWikiWorkspace, OperationContext
+from memwiki.coordinator_cli import coordinator_app
 from memwiki.linter import render_lint_errors
 
 app = typer.Typer(no_args_is_help=True)
@@ -17,6 +18,7 @@ memory_app = typer.Typer(no_args_is_help=True)
 app.add_typer(docs_app, name="docs")
 app.add_typer(export_app, name="export")
 app.add_typer(agent_app, name="agent")
+app.add_typer(coordinator_app, name="coordinator")
 agent_app.add_typer(memory_app, name="memory")
 
 

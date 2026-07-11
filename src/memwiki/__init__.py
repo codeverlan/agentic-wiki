@@ -17,10 +17,13 @@ from memwiki.api import (
     MemwikiWorkspace,
     PromoteResult,
 )
+from memwiki.coordinator_api import CoordinatorAPI, CoordinatorRuntime, RuntimeTick
 from memwiki.policy import AuthorityVerifier, OperationContext, VerifiedAuthority
 
 __all__ = [
     "AgenticWikiWorkspace",
+    "CoordinatorAPI",
+    "CoordinatorRuntime",
     "AuthorityVerifier",
     "AgentHandoffDigestRenderResult",
     "AgentContextResult",
@@ -37,6 +40,7 @@ __all__ = [
     "MemwikiWorkspace",
     "OperationContext",
     "PromoteResult",
+    "RuntimeTick",
     "VerifiedAuthority",
     "__version__",
 ]

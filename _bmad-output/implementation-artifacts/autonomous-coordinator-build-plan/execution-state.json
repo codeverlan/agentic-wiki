@@ -2,10 +2,10 @@
   "schema_version": 1,
   "run_id": "autonomous-coordinator-runtime-build-v1",
   "source_plan": "_bmad-output/implementation-artifacts/autonomous-coordinator-build-plan/plan.json",
-  "revision": 15,
-  "updated_at": "2026-07-11T22:00:00-04:00",
+  "revision": 16,
+  "updated_at": "2026-07-11T23:00:00-04:00",
   "run_status": "active",
-  "active_item_ids": ["AC-039", "AC-043"],
+  "active_item_ids": ["AC-040"],
   "items": [
     {"id":"AC-001","status":"completed","attempt":1},
     {"id":"AC-002","status":"completed","attempt":1},
@@ -45,11 +45,11 @@
     {"id":"AC-036","status":"completed","attempt":1},
     {"id":"AC-037","status":"completed","attempt":1},
     {"id":"AC-038","status":"completed","attempt":1},
-    {"id":"AC-039","status":"active","attempt":1},
-    {"id":"AC-040","status":"waiting","attempt":0},
+    {"id":"AC-039","status":"completed","attempt":1},
+    {"id":"AC-040","status":"active","attempt":1},
     {"id":"AC-041","status":"waiting","attempt":0},
     {"id":"AC-042","status":"completed","attempt":1},
-    {"id":"AC-043","status":"active","attempt":1},
+    {"id":"AC-043","status":"completed","attempt":1},
     {"id":"AC-044","status":"waiting","attempt":0},
     {"id":"AC-045","status":"waiting","attempt":0},
     {"id":"AC-046","status":"waiting","attempt":0},
@@ -252,6 +252,16 @@
       "item_id": "AC-038",
       "commands": ["uv run pytest tests/test_coordinator_completion.py -q"],
       "result": "16 tests passed; lint and type checks passed"
+    },
+    {
+      "item_id": "AC-039",
+      "commands": ["uv run pytest tests/test_coordinator_api.py tests/test_coordinator_cli.py -q"],
+      "result": "9 tests passed; lint and type checks passed"
+    },
+    {
+      "item_id": "AC-043",
+      "commands": ["uv run pytest tests/test_coordinator_properties.py tests/test_coordinator_faults.py -q"],
+      "result": "34 tests passed twice; lint passed"
     }
   ]
 }
