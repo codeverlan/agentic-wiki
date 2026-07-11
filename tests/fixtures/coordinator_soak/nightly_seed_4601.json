@@ -1,0 +1,14 @@
+{
+  "seed": 4601,
+  "initial_slices": 180,
+  "discovered_slices": 60,
+  "discovery_ticks": [23, 71, 149],
+  "max_workers": 6,
+  "checkpoint_every_events": 97,
+  "crash_ticks": [41, 113, 227, 389, 617],
+  "minimum_ticks": 750,
+  "max_ticks": 2000,
+  "retry_modulus": 9,
+  "block_modulus": 14,
+  "external_modulus": 11
+}

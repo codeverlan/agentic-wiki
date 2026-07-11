@@ -2,10 +2,10 @@
   "schema_version": 1,
   "run_id": "autonomous-coordinator-runtime-build-v1",
   "source_plan": "_bmad-output/implementation-artifacts/autonomous-coordinator-build-plan/plan.json",
-  "revision": 18,
-  "updated_at": "2026-07-12T01:00:00-04:00",
+  "revision": 19,
+  "updated_at": "2026-07-12T01:30:00-04:00",
   "run_status": "active",
-  "active_item_ids": ["AC-046", "AC-047"],
+  "active_item_ids": ["AC-048"],
   "items": [
     {"id":"AC-001","status":"completed","attempt":1},
     {"id":"AC-002","status":"completed","attempt":1},
@@ -52,9 +52,9 @@
     {"id":"AC-043","status":"completed","attempt":1},
     {"id":"AC-044","status":"completed","attempt":1},
     {"id":"AC-045","status":"completed","attempt":1},
-    {"id":"AC-046","status":"active","attempt":1},
-    {"id":"AC-047","status":"active","attempt":1},
-    {"id":"AC-048","status":"waiting","attempt":0}
+    {"id":"AC-046","status":"completed","attempt":1},
+    {"id":"AC-047","status":"completed","attempt":1},
+    {"id":"AC-048","status":"active","attempt":1}
   ],
   "blockers": [],
   "discovered_items": [],
@@ -288,6 +288,16 @@
       "item_id": "AC-045",
       "commands": ["uv run pytest tests/test_coordinator_e2e_lightweight.py -q"],
       "result": "lightweight end-to-end test passed"
+    },
+    {
+      "item_id": "AC-046",
+      "commands": ["uv run pytest tests/test_coordinator_soak.py -q"],
+      "result": "750-tick six-worker soak with five restarts passed in 6.43 seconds"
+    },
+    {
+      "item_id": "AC-047",
+      "commands": ["uv run pytest tests/test_coordinator_security.py -q"],
+      "result": "9 adversarial security and privacy tests passed with no confirmed defects"
     }
   ]
 }

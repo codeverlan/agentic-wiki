@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AC-047 Adversarial Security and Privacy Review</title>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Review","name":"AC-047 Adversarial Security and Privacy Review","dateCreated":"2026-07-11","reviewAspect":"Autonomous coordinator security and privacy controls","itemReviewed":{"@type":"SoftwareApplication","name":"Agentic Wiki autonomous coordinator"}}
+  </script>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; max-width: 90rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #bbb; padding: .5rem; text-align: left; vertical-align: top; }
+    th { background: #eee; } code { overflow-wrap: anywhere; }
+    .pass { color: #176b2c; font-weight: 700; } .none { color: #176b2c; }
+  </style>
+</head>
+<body>
+<header><h1>AC-047 Adversarial Security and Privacy Review</h1><p>Scope: coordinator runtime and installed local plugin helper. Test data is synthetic.</p></header>
+<main>
+<section id="findings"><h2>Findings</h2>
+  <p class="none"><strong>No confirmed production defects.</strong> All reviewed abuse cases were denied, escaped, fenced, redacted, or detected as designed.</p>
+  <p>Residual risk: these tests validate local deterministic boundaries. They do not establish compliance certification, operating-system isolation, or the behavior of future third-party adapters.</p>
+</section>
+<section id="results"><h2>Adversarial Results</h2>
+<table><thead><tr><th>Control</th><th>Attack</th><th>Result</th><th>Evidence</th></tr></thead><tbody>
+<tr><td>Path confinement</td><td>Traversal and symlink escape</td><td class="pass">Passed</td><td>Logical names reject traversal; storage refuses symlinked parents without outside writes.</td></tr>
+<tr><td>Command execution</td><td>Shell metacharacters embedded in argv</td><td class="pass">Passed</td><td>Validation executes argv without a shell; no injected file is created.</td></tr>
+<tr><td>Credentials</td><td>Nested nonstandard authentication shape and canary leakage</td><td class="pass">Passed</td><td>Arbitrary JSON shape resolves process-locally; metadata excludes values and tracks redaction canaries.</td></tr>
+<tr><td>PHI boundary</td><td>Remote adapter and cloud storage under yes/unknown profiles</td><td class="pass">Passed</td><td>Both profiles deny nonlocal operations even when inputs are marked synthetic.</td></tr>
+<tr><td>HTML output</td><td>Element/event-handler injection and unsafe URL scheme</td><td class="pass">Passed</td><td>Text is escaped and unsafe artifact links are replaced with <code>#</code>.</td></tr>
+<tr><td>Fencing</td><td>Writer continues after lease takeover</td><td class="pass">Passed</td><td>Old fencing token is rejected.</td></tr>
+<tr><td>Journal integrity</td><td>Payload mutation after event creation</td><td class="pass">Passed</td><td>Hash-chain verification detects the mutation.</td></tr>
+<tr><td>Plugin immutability</td><td>Unscoped proposal and post-snapshot source mutation</td><td class="pass">Passed</td><td>Proposal requires supervision; helper detects changed plugin source.</td></tr>
+<tr><td>Worker reports</td><td>Incomplete report, traversal path, stale fence, synthetic secret</td><td class="pass">Passed</td><td>Report is non-integrable; evidence is retained with canary redacted.</td></tr>
+</tbody></table></section>
+<section id="method"><h2>Method and Reproduction</h2>
+<p>Automated evidence is in <code>tests/test_coordinator_security.py</code>. Run <code>uv run pytest tests/test_coordinator_security.py -q</code> and <code>uv run ruff check tests/test_coordinator_security.py</code>.</p>
+</section>
+</main>
+</body>
+</html>
