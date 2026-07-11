@@ -2,10 +2,10 @@
   "schema_version": 1,
   "run_id": "autonomous-coordinator-runtime-build-v1",
   "source_plan": "_bmad-output/implementation-artifacts/autonomous-coordinator-build-plan/plan.json",
-  "revision": 6,
-  "updated_at": "2026-07-11T13:00:00-04:00",
+  "revision": 7,
+  "updated_at": "2026-07-11T14:00:00-04:00",
   "run_status": "active",
-  "active_item_ids": ["AC-012", "AC-019", "AC-029"],
+  "active_item_ids": ["AC-013", "AC-020", "AC-030"],
   "items": [
     {"id":"AC-001","status":"completed","attempt":1},
     {"id":"AC-002","status":"completed","attempt":1},
@@ -18,15 +18,15 @@
     {"id":"AC-009","status":"completed","attempt":1},
     {"id":"AC-010","status":"completed","attempt":1},
     {"id":"AC-011","status":"completed","attempt":1},
-    {"id":"AC-012","status":"active","attempt":1},
-    {"id":"AC-013","status":"waiting","attempt":0},
+    {"id":"AC-012","status":"completed","attempt":1},
+    {"id":"AC-013","status":"active","attempt":1},
     {"id":"AC-014","status":"completed","attempt":1},
     {"id":"AC-015","status":"waiting","attempt":0},
     {"id":"AC-016","status":"waiting","attempt":0},
     {"id":"AC-017","status":"completed","attempt":1},
     {"id":"AC-018","status":"waiting","attempt":0},
-    {"id":"AC-019","status":"active","attempt":1},
-    {"id":"AC-020","status":"waiting","attempt":0},
+    {"id":"AC-019","status":"completed","attempt":1},
+    {"id":"AC-020","status":"active","attempt":1},
     {"id":"AC-021","status":"waiting","attempt":0},
     {"id":"AC-022","status":"waiting","attempt":0},
     {"id":"AC-023","status":"waiting","attempt":0},
@@ -35,8 +35,8 @@
     {"id":"AC-026","status":"waiting","attempt":0},
     {"id":"AC-027","status":"waiting","attempt":0},
     {"id":"AC-028","status":"completed","attempt":1},
-    {"id":"AC-029","status":"active","attempt":1},
-    {"id":"AC-030","status":"waiting","attempt":0},
+    {"id":"AC-029","status":"completed","attempt":1},
+    {"id":"AC-030","status":"active","attempt":1},
     {"id":"AC-031","status":"waiting","attempt":0},
     {"id":"AC-032","status":"waiting","attempt":0},
     {"id":"AC-033","status":"waiting","attempt":0},
@@ -132,6 +132,21 @@
       "item_id": "AC-028",
       "commands": ["uv run pytest tests/test_coordinator_capabilities.py -q"],
       "result": "17 tests passed; lint and type checks passed"
+    },
+    {
+      "item_id": "AC-012",
+      "commands": ["uv run pytest tests/test_coordinator_slice_leases.py -q"],
+      "result": "23 tests passed; lint and type checks passed"
+    },
+    {
+      "item_id": "AC-019",
+      "commands": ["uv run pytest tests/test_coordinator_retry.py -q"],
+      "result": "9 tests passed; lint and type checks passed"
+    },
+    {
+      "item_id": "AC-029",
+      "commands": ["uv run pytest tests/test_coordinator_invocations.py -q"],
+      "result": "29 tests passed; lint and type checks passed"
     }
   ]
 }
