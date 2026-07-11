@@ -40,6 +40,14 @@ from memwiki.coordinator_engineering import (
     advise_decomposition,
     route_execution_tier,
 )
+from memwiki.coordinator_plugin_qualification import (
+    REQUIRED_ARCHETYPES,
+    PluginQualificationHarness,
+    PluginQualificationResult,
+    QualificationCase,
+    QualificationFiles,
+    QualificationStatus,
+)
 from memwiki.policy import AuthorityVerifier, OperationContext, VerifiedAuthority
 
 __all__ = [
@@ -76,6 +84,12 @@ __all__ = [
     "MemwikiWorkspace",
     "OperationContext",
     "PromoteResult",
+    "PluginQualificationHarness",
+    "PluginQualificationResult",
+    "QualificationCase",
+    "QualificationFiles",
+    "QualificationStatus",
+    "REQUIRED_ARCHETYPES",
     "SliceDefinition",
     "SliceEvaluation",
     "SliceRisk",
