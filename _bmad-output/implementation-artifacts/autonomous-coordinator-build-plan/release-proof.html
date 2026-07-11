@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Autonomous Coordinator Release Proof</title><script type="application/ld+json">{"@context":"https://schema.org","@type":"DigitalDocument","name":"Autonomous Coordinator Release Proof","dateCreated":"2026-07-12"}</script>
+<style>body{font:15px/1.5 system-ui;max-width:1050px;margin:auto;padding:28px}h1,h2{color:#16473e}.pass{color:#14633f;font-weight:700}table{border-collapse:collapse;width:100%}th,td{border:1px solid #bbb;padding:8px;text-align:left}</style></head>
+<body><main><h1>Autonomous Coordinator Release Proof</h1><p class="pass">Release candidate evidence: PASS</p>
+<section><h2>Implemented Surface</h2><p>All work items AC-001 through AC-048 are represented by durable runtime, adapter, policy, verification, plugin, end-to-end, security, soak, and documentation artifacts. The engine exposes a public Python API and machine-readable CLI and is connected to the immutable local Agent Development Coordinator plugin.</p></section>
+<section><h2>Verification Ledger</h2><table><thead><tr><th>Proof</th><th>Result</th></tr></thead><tbody><tr><td>Final repository test suite</td><td>654 passed</td></tr><tr><td>Ruff</td><td>All checks passed</td></tr><tr><td>Mypy</td><td>69 source files passed</td></tr><tr><td>BMAD end-to-end</td><td>Passed twice</td></tr><tr><td>Lightweight end-to-end</td><td>Passed</td></tr><tr><td>Soak</td><td>750 ticks, 240 slices, six workers, five restarts; byte-equivalent result; 6.43 seconds</td></tr><tr><td>Security review</td><td>Nine adversarial tests passed; no confirmed production defects</td></tr><tr><td>Plugin</td><td>Validation and five skill checks passed; exact source/cache parity</td></tr><tr><td>Installed plugin</td><td><code>agent-development-coordinator@personal 0.1.0+codex.20260711152410</code>, enabled</td></tr></tbody></table></section>
+<section><h2>Release Gates</h2><ul><li>Plugin source contains no project state or credentials.</li><li>BMAD and lightweight project state remains local to each disposable smoke project.</li><li>PHI mode enforces synthetic development data and local-only operation.</li><li>Completion proof rejects stale evidence, unresolved mandatory supervision, and reachable queue work.</li><li>Branch commits were pushed incrementally to <code>codex/agent-development-coordinator-foundation</code>.</li></ul></section>
+<section><h2>Final Audit Commands</h2><pre><code>uv run pytest -q
+uv run ruff check .
+uv run mypy src
+python3 ~/.codex/skills/.system/plugin-creator/scripts/validate_plugin.py ~/plugins/agent-development-coordinator
+git status --short</code></pre></section>
+</main></body></html>

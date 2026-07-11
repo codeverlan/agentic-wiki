@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Coordinator Operator Runbook</title>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"HowTo","name":"Coordinator Operator Runbook"}</script>
+<style>body{font:16px/1.55 system-ui;max-width:1000px;margin:auto;padding:28px;color:#17221f}h1,h2{color:#17483e}code,pre{background:#eef2f0}pre{padding:12px;overflow:auto}aside{border-left:4px solid #a44829;padding:8px 14px;background:#fff3ee}</style></head>
+<body><main><h1>Coordinator Operator Runbook</h1>
+<section><h2>Preflight and Initialization</h2><pre><code>python ~/.codex/plugins/cache/personal/agent-development-coordinator/&lt;version&gt;/scripts/coordinator.py --project-root . preflight
+python ~/.codex/plugins/cache/personal/agent-development-coordinator/&lt;version&gt;/scripts/coordinator.py --project-root . init --run-id &lt;id&gt; --max-workers 6
+memwiki --workspace . coordinator status</code></pre><p>Preflight detects BMAD versus lightweight storage and verifies that outputs remain project-local. Ask whether the project handles PHI before real execution.</p></section>
+<section><h2>Bounded Control Commands</h2><pre><code>memwiki --workspace . coordinator tick
+memwiki --workspace . coordinator run --max-ticks 100
+memwiki --workspace . coordinator stop --reason "user requested"
+memwiki --workspace . coordinator resume
+memwiki --workspace . coordinator verify
+memwiki --workspace . coordinator migrate
+memwiki --workspace . coordinator render --output coordinator-status.html</code></pre><p>The installed plugin helper also provides <code>inspect</code>, <code>status</code>, <code>lease</code>, <code>admit-report</code>, and <code>recover</code>. A real unattended runner should omit artificial tick limits and stop only at an explicit boundary or proven completion.</p></section>
+<section><h2>Blockers and Supervision</h2><p>Record user-input, missing-expected capability, technical, policy, and supervision blockers with affected descendants. Continue all independent work. A resource that should exist but is unavailable blocks its slice and triggers notification. A useful resource that does not exist becomes a future advisory. The supervision queue remains chronological; safety, legal, irreversible, destructive, financial, publication, and authorization actions require supervision.</p></section>
+<section><h2>Recovery</h2><ol><li>Verify journal, checkpoint, projection, and hashes.</li><li>Acquire a newer fenced coordinator lease.</li><li>Reconcile active assignments, worktrees, command receipts, and integrations.</li><li>Never repeat an external effect marked started with an uncertain outcome; route it to supervision.</li><li>Resume or requeue recoverable slices and continue independent work.</li></ol></section>
+<section><h2>Troubleshooting</h2><table><tbody><tr><th>Stale writer</th><td>Reject its fencing token and preserve its report as rejected evidence.</td></tr><tr><th>Torn journal tail</th><td>Quarantine only the incomplete final frame; immutable interior corruption requires intervention.</td></tr><tr><th>Dirty main checkout</th><td>Preserve it and use isolated worktrees; never destructively clean user changes.</td></tr><tr><th>Credential missing</th><td>Stop only the invocation-dependent slice and report the credential reference, never its value.</td></tr><tr><th>PHI policy violation</th><td>Deny the operation, store a hash-only violation, and continue non-PHI-safe work.</td></tr></tbody></table></section>
+<aside><strong>Hard stops:</strong> explicit user stop, declared deadline/time boundary, usage or budget exhaustion, a global safety boundary, or verified completion. A phase boundary is never a hard stop.</aside>
+</main></body></html>
