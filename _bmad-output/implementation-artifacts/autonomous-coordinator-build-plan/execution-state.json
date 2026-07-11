@@ -2,10 +2,10 @@
   "schema_version": 1,
   "run_id": "autonomous-coordinator-runtime-build-v1",
   "source_plan": "_bmad-output/implementation-artifacts/autonomous-coordinator-build-plan/plan.json",
-  "revision": 11,
-  "updated_at": "2026-07-11T18:00:00-04:00",
+  "revision": 12,
+  "updated_at": "2026-07-11T19:00:00-04:00",
   "run_status": "active",
-  "active_item_ids": ["AC-025", "AC-035", "AC-042"],
+  "active_item_ids": ["AC-026", "AC-027", "AC-036"],
   "items": [
     {"id":"AC-001","status":"completed","attempt":1},
     {"id":"AC-002","status":"completed","attempt":1},
@@ -31,9 +31,9 @@
     {"id":"AC-022","status":"completed","attempt":1},
     {"id":"AC-023","status":"completed","attempt":1},
     {"id":"AC-024","status":"completed","attempt":1},
-    {"id":"AC-025","status":"active","attempt":1},
-    {"id":"AC-026","status":"waiting","attempt":0},
-    {"id":"AC-027","status":"waiting","attempt":0},
+    {"id":"AC-025","status":"completed","attempt":1},
+    {"id":"AC-026","status":"active","attempt":1},
+    {"id":"AC-027","status":"active","attempt":1},
     {"id":"AC-028","status":"completed","attempt":1},
     {"id":"AC-029","status":"completed","attempt":1},
     {"id":"AC-030","status":"completed","attempt":1},
@@ -41,14 +41,14 @@
     {"id":"AC-032","status":"waiting","attempt":0},
     {"id":"AC-033","status":"completed","attempt":1},
     {"id":"AC-034","status":"completed","attempt":1},
-    {"id":"AC-035","status":"active","attempt":1},
-    {"id":"AC-036","status":"waiting","attempt":0},
+    {"id":"AC-035","status":"completed","attempt":1},
+    {"id":"AC-036","status":"active","attempt":1},
     {"id":"AC-037","status":"waiting","attempt":0},
     {"id":"AC-038","status":"waiting","attempt":0},
     {"id":"AC-039","status":"waiting","attempt":0},
     {"id":"AC-040","status":"waiting","attempt":0},
     {"id":"AC-041","status":"waiting","attempt":0},
-    {"id":"AC-042","status":"active","attempt":1},
+    {"id":"AC-042","status":"completed","attempt":1},
     {"id":"AC-043","status":"waiting","attempt":0},
     {"id":"AC-044","status":"waiting","attempt":0},
     {"id":"AC-045","status":"waiting","attempt":0},
@@ -212,6 +212,21 @@
       "item_id": "AC-033",
       "commands": ["uv run pytest tests/test_coordinator_design.py -q"],
       "result": "14 tests passed; lint and type checks passed"
+    },
+    {
+      "item_id": "AC-025",
+      "commands": ["uv run pytest tests/test_coordinator_checkpoints.py -q"],
+      "result": "13 tests passed; lint and type checks passed"
+    },
+    {
+      "item_id": "AC-035",
+      "commands": ["uv run pytest tests/test_coordinator_resources.py -q"],
+      "result": "13 tests passed; lint and type checks passed"
+    },
+    {
+      "item_id": "AC-042",
+      "commands": ["uv run pytest tests/test_coordinator_harness.py -q"],
+      "result": "12 tests passed; lint and type checks passed"
     }
   ]
 }
