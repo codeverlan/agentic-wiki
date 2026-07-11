@@ -84,6 +84,19 @@
       coordinators, reusable agent workflows, and future plugin packaging. They do not require
       Cloudflare, remote model adapters, or external services.</p>
     </section>
+    <section id="external-memory">
+      <h2>External Source And Relationship Memory</h2>
+      <p>Use <code>AgenticWikiWorkspace.register_external_entity</code> to store a portable external
+      identity and <code>update_external_entity</code> to append a checked revision. Use
+      <code>relate_external_memory</code> and <code>update_external_relationship</code> for typed,
+      evidence-bearing links. Query the graph with <code>external_neighbors</code>,
+      <code>external_backlinks</code>, <code>external_path</code>, <code>external_impact</code>, and
+      <code>explain_external_relationship</code>.</p>
+      <p><code>render_external_memory</code> writes a confined semantic HTML and JSON-LD projection
+      under the workspace. The standard graph index includes current external entity and
+      relationship revisions alongside canonical wiki links. Credentials are forbidden in entity
+      metadata and relationship evidence. Clinical workspaces require operation context.</p>
+    </section>
     <section id="repository">
       <h2>Repository</h2>
       <p>The canonical remote is <code>github-personal:codeverlan/agentic-wiki.git</code>.</p>

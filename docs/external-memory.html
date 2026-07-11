@@ -1,0 +1,19 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>External Source Relationship Memory</title>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","name":"External Source Relationship Memory","about":["agentic memory","external sources","project wiki","provenance","relationship graph"]}</script>
+<style>body{font:15px/1.55 system-ui;max-width:1050px;margin:auto;padding:28px;color:#17211e}h1,h2{color:#16473e}table{border-collapse:collapse;width:100%}th,td{border:1px solid #bcc7c2;padding:8px;text-align:left;vertical-align:top}code,pre{background:#edf2f0}pre{padding:12px;overflow:auto}.note{border-left:4px solid #18705a;background:#eaf5f1;padding:12px}</style></head><body><main>
+<h1>External Source Relationship Memory</h1><p>The Agentic Wiki stores external agents, plugins, skills, MCP servers, APIs, apps, connectors, services, datasets, documents, repositories, and websites as first-class project-memory entities.</p>
+<section><h2>Storage And Editing</h2><p>Each entity has a stable ID, portable locator, publisher, discovered version, capabilities, optional immutable wiki source reference, and credential-free metadata. Updates append a checked revision with a previous-revision hash. Existing history is never rewritten. Optimistic revision checks prevent silent concurrent overwrite, and tampered revisions fail integrity verification.</p></section>
+<section><h2>Relationships</h2><table><thead><tr><th>Relationship examples</th><th>Use</th></tr></thead><tbody><tr><td><code>uses</code>, <code>provides</code>, <code>depends_on</code></td><td>Architecture and capability dependencies</td></tr><tr><td><code>supports</code>, <code>contradicts</code>, <code>informs</code>, <code>derived_from</code></td><td>Claim and evidence provenance</td></tr><tr><td><code>references</code>, <code>documents</code>, <code>implements</code>, <code>implemented_by</code></td><td>Links to wiki pages, design records, and implementation slices</td></tr><tr><td><code>monitors</code>, <code>synchronizes_with</code>, <code>supersedes</code></td><td>Operational and lifecycle relationships</td></tr></tbody></table><p>Relationship revisions are also append-only and can carry evidence such as request hashes, review state, or source locators without credential values.</p></section>
+<section><h2>Understanding The Graph</h2><p>The public API resolves current entities, lists revision history, returns outgoing neighbors and backlinks, finds directed paths, reports transitive impact, and explains a relationship chain in readable form. The standard graph index combines current external entities and relationships with canonical wiki links.</p></section>
+<section><h2>Public API</h2><pre><code>workspace.register_external_entity(...)
+workspace.update_external_entity(entity_id, expected_revision=...)
+workspace.relate_external_memory(from_id, to_id, relationship, evidence=...)
+workspace.update_external_relationship(relationship_id, expected_revision=...)
+workspace.external_neighbors(object_id)
+workspace.external_backlinks(object_id)
+workspace.external_path(from_id, to_id)
+workspace.external_impact(object_id)
+workspace.explain_external_relationship(from_id, to_id)
+workspace.render_external_memory()</code></pre></section>
+<section><h2>Wiki Boundary</h2><div class="note">Raw ingested files remain immutable. External catalog edits never rewrite canonical HTML. New canonical knowledge still follows source-backed draft, validation, and promotion.</div><p>The default relationship projection is written to <code>.memwiki/index/external-memory.html</code> as XSS-safe semantic HTML with embedded JSON-LD. Clinical workspaces require <code>OperationContext</code>; credential-bearing entity metadata or relationship evidence is rejected.</p></section>
+</main></body></html>

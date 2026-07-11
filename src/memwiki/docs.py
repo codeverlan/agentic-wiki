@@ -152,6 +152,16 @@ def render_architecture_doc() -> str:
       <p>Workspaces expose <code>.memwiki/agent-capabilities.json</code>, dry-run ingest,
       check-only promotion, JSON query output, object resolution, backlinks, and PHI-mode
       mutation policy metadata.</p>
+      <p>External agents, plugins, MCP servers, APIs, apps, services, datasets, documents,
+      repositories, and websites can be registered as versioned external-memory entities.
+      Append-only revisions preserve edit history, while typed relationships connect those
+      entities to sources, pages, claims, drafts, design records, slices, and other external
+      entities. The public API supports neighbors, backlinks, path discovery, impact traversal,
+      relationship explanations, and an XSS-safe semantic HTML/JSON-LD relationship view.</p>
+      <p>Raw ingested source files remain immutable. Editing an external entity changes its
+      catalog revision and never rewrites source evidence or canonical wiki pages. Canonical
+      knowledge still enters through the normal source-backed draft, validation, and promotion
+      workflow.</p>
     </section>
     <section id="agent-development-memory">
       <h2>Agent Development Memory</h2>
@@ -253,6 +263,19 @@ def render_operations_doc() -> str:
       <p>These commands are provider-agnostic and are intended for local autonomous development
       coordinators, reusable agent workflows, and future plugin packaging. They do not require
       Cloudflare, remote model adapters, or external services.</p>
+    </section>
+    <section id="external-memory">
+      <h2>External Source And Relationship Memory</h2>
+      <p>Use <code>AgenticWikiWorkspace.register_external_entity</code> to store a portable external
+      identity and <code>update_external_entity</code> to append a checked revision. Use
+      <code>relate_external_memory</code> and <code>update_external_relationship</code> for typed,
+      evidence-bearing links. Query the graph with <code>external_neighbors</code>,
+      <code>external_backlinks</code>, <code>external_path</code>, <code>external_impact</code>, and
+      <code>explain_external_relationship</code>.</p>
+      <p><code>render_external_memory</code> writes a confined semantic HTML and JSON-LD projection
+      under the workspace. The standard graph index includes current external entity and
+      relationship revisions alongside canonical wiki links. Credentials are forbidden in entity
+      metadata and relationship evidence. Clinical workspaces require operation context.</p>
     </section>
     <section id="repository">
       <h2>Repository</h2>

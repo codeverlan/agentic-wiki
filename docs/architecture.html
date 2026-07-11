@@ -83,6 +83,16 @@
       <p>Workspaces expose <code>.memwiki/agent-capabilities.json</code>, dry-run ingest,
       check-only promotion, JSON query output, object resolution, backlinks, and PHI-mode
       mutation policy metadata.</p>
+      <p>External agents, plugins, MCP servers, APIs, apps, services, datasets, documents,
+      repositories, and websites can be registered as versioned external-memory entities.
+      Append-only revisions preserve edit history, while typed relationships connect those
+      entities to sources, pages, claims, drafts, design records, slices, and other external
+      entities. The public API supports neighbors, backlinks, path discovery, impact traversal,
+      relationship explanations, and an XSS-safe semantic HTML/JSON-LD relationship view.</p>
+      <p>Raw ingested source files remain immutable. Editing an external entity changes its
+      catalog revision and never rewrites source evidence or canonical wiki pages. Canonical
+      knowledge still enters through the normal source-backed draft, validation, and promotion
+      workflow.</p>
     </section>
     <section id="agent-development-memory">
       <h2>Agent Development Memory</h2>

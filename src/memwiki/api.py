@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Mapping, Optional, Sequence, Tuple
 
 from memwiki.agent_development import (
     AgentHandoffDigestMetadata,
@@ -31,6 +31,13 @@ from memwiki.capabilities import CAPABILITIES
 from memwiki.compiler import compile_source
 from memwiki.docs import DocsStatus, docs_status, draft_docs
 from memwiki.exporter import export_static
+from memwiki.external_memory import (
+    ExternalEntity,
+    ExternalEntityKind,
+    ExternalMemoryCatalog,
+    ExternalRelationship,
+    ExternalRelationshipKind,
+)
 from memwiki.graph import build_graph_index
 from memwiki.init import init_workspace
 from memwiki.linter import LintResult, lint_workspace
@@ -99,6 +106,75 @@ class ExportResult:
         return asdict(self)
 
 
+@dataclass(frozen=True)
+class ExternalEntityListResult:
+    entities: Tuple[ExternalEntity, ...]
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {"entities": [entity.to_dict() for entity in self.entities]}
+
+
+@dataclass(frozen=True)
+class ExternalRelationshipListResult:
+    relationships: Tuple[ExternalRelationship, ...]
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {"relationships": [relationship.to_dict() for relationship in self.relationships]}
+
+
+@dataclass(frozen=True)
+class ExternalMemoryViewResult:
+    output: str
+    entities: int
+    relationships: int
+
+    def to_dict(self) -> Dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True)
+class ExternalPathResult:
+    from_id: str
+    to_id: str
+    relationships: Tuple[ExternalRelationship, ...]
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "from_id": self.from_id,
+            "to_id": self.to_id,
+            "relationships": [relationship.to_dict() for relationship in self.relationships],
+        }
+
+
+@dataclass(frozen=True)
+class ExternalImpactItem:
+    object_id: str
+    depth: int
+    via: ExternalRelationshipKind
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {"object_id": self.object_id, "depth": self.depth, "via": self.via.value}
+
+
+@dataclass(frozen=True)
+class ExternalImpactResult:
+    object_id: str
+    items: Tuple[ExternalImpactItem, ...]
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {"object_id": self.object_id, "items": [item.to_dict() for item in self.items]}
+
+
+@dataclass(frozen=True)
+class ExternalExplanationResult:
+    from_id: str
+    to_id: str
+    explanation: str
+
+    def to_dict(self) -> Dict[str, Any]:
+        return asdict(self)
+
+
 class AgenticWikiWorkspace:
     """Stable library API for embedding Agentic Wiki in programs and coding-agent tools."""
 
@@ -144,18 +220,22 @@ class AgenticWikiWorkspace:
         context: Optional[OperationContext] = None,
     ) -> IngestResult:
         source_path = Path(path)
-        record = preview_source(
-            self.workspace,
-            source_path,
-            alias=alias,
-            source_category=source_category,
-            context=context,
-        ) if dry_run else register_source(
-            self.workspace,
-            source_path,
-            alias=alias,
-            source_category=source_category,
-            context=context,
+        record = (
+            preview_source(
+                self.workspace,
+                source_path,
+                alias=alias,
+                source_category=source_category,
+                context=context,
+            )
+            if dry_run
+            else register_source(
+                self.workspace,
+                source_path,
+                alias=alias,
+                source_category=source_category,
+                context=context,
+            )
         )
         return IngestResult(
             source_id=str(record["source_id"]),
@@ -229,6 +309,179 @@ class AgenticWikiWorkspace:
         with workspace_lock(self.workspace, exclusive=False):
             links = read_jsonl(self.workspace.path("manifests/links.jsonl"))
             return [record for record in links if record.get("to_id") == object_id]
+
+    def register_external_entity(
+        self,
+        *,
+        name: str,
+        kind: ExternalEntityKind,
+        locator: str,
+        version: str,
+        publisher: str,
+        capabilities: Sequence[str],
+        metadata: Mapping[str, Any] = {},
+        source_id: Optional[str] = None,
+        context: Optional[OperationContext] = None,
+    ) -> ExternalEntity:
+        require_operation_context(self.workspace.config_path, "register_external_entity", context)
+        return ExternalMemoryCatalog(self.workspace).register(
+            name=name,
+            kind=kind,
+            locator=locator,
+            version=version,
+            publisher=publisher,
+            capabilities=capabilities,
+            metadata=metadata,
+            source_id=source_id,
+        )
+
+    def update_external_entity(
+        self,
+        entity_id: str,
+        *,
+        expected_revision: int,
+        name: Optional[str] = None,
+        version: Optional[str] = None,
+        capabilities: Optional[Sequence[str]] = None,
+        metadata: Optional[Mapping[str, Any]] = None,
+        source_id: Optional[str] = None,
+        context: Optional[OperationContext] = None,
+    ) -> ExternalEntity:
+        require_operation_context(self.workspace.config_path, "update_external_entity", context)
+        return ExternalMemoryCatalog(self.workspace).update(
+            entity_id,
+            expected_revision=expected_revision,
+            name=name,
+            version=version,
+            capabilities=capabilities,
+            metadata=metadata,
+            source_id=source_id,
+        )
+
+    def resolve_external_entity(self, entity_id: str, context: Optional[OperationContext] = None) -> ExternalEntity:
+        require_operation_context(self.workspace.config_path, "resolve_external_entity", context)
+        with workspace_lock(self.workspace, exclusive=False):
+            return ExternalMemoryCatalog(self.workspace).resolve(entity_id)
+
+    def list_external_entities(self, context: Optional[OperationContext] = None) -> ExternalEntityListResult:
+        require_operation_context(self.workspace.config_path, "list_external_entities", context)
+        with workspace_lock(self.workspace, exclusive=False):
+            values = ExternalMemoryCatalog(self.workspace).graph_index()["external_entities"]
+            return ExternalEntityListResult(tuple(ExternalEntity.from_dict(value) for value in values))
+
+    def relate_external_memory(
+        self,
+        from_id: str,
+        to_id: str,
+        relationship: ExternalRelationshipKind,
+        *,
+        evidence: Mapping[str, Any] = {},
+        context: Optional[OperationContext] = None,
+    ) -> ExternalRelationship:
+        require_operation_context(self.workspace.config_path, "relate_external_memory", context)
+        with workspace_lock(self.workspace, exclusive=True):
+            return ExternalMemoryCatalog(self.workspace).relate(from_id, to_id, relationship, evidence=evidence)
+
+    def update_external_relationship(
+        self,
+        relationship_id: str,
+        *,
+        expected_revision: int,
+        relationship: ExternalRelationshipKind,
+        evidence: Mapping[str, Any],
+        context: Optional[OperationContext] = None,
+    ) -> ExternalRelationship:
+        require_operation_context(self.workspace.config_path, "update_external_relationship", context)
+        with workspace_lock(self.workspace, exclusive=True):
+            return ExternalMemoryCatalog(self.workspace).update_relationship(
+                relationship_id,
+                expected_revision=expected_revision,
+                relationship=relationship,
+                evidence=evidence,
+            )
+
+    def external_neighbors(
+        self, object_id: str, context: Optional[OperationContext] = None
+    ) -> ExternalRelationshipListResult:
+        require_operation_context(self.workspace.config_path, "external_neighbors", context)
+        with workspace_lock(self.workspace, exclusive=False):
+            values = ExternalMemoryCatalog(self.workspace).neighbors(object_id)
+            return ExternalRelationshipListResult(values)
+
+    def external_backlinks(
+        self, object_id: str, context: Optional[OperationContext] = None
+    ) -> ExternalRelationshipListResult:
+        require_operation_context(self.workspace.config_path, "external_backlinks", context)
+        with workspace_lock(self.workspace, exclusive=False):
+            values = ExternalMemoryCatalog(self.workspace).backlinks(object_id)
+            return ExternalRelationshipListResult(values)
+
+    def external_path(
+        self,
+        from_id: str,
+        to_id: str,
+        max_depth: int = 8,
+        context: Optional[OperationContext] = None,
+    ) -> ExternalPathResult:
+        require_operation_context(self.workspace.config_path, "external_path", context)
+        with workspace_lock(self.workspace, exclusive=False):
+            values = ExternalMemoryCatalog(self.workspace).find_path(from_id, to_id, max_depth=max_depth)
+            return ExternalPathResult(from_id, to_id, values)
+
+    def external_impact(
+        self,
+        object_id: str,
+        max_depth: int = 4,
+        context: Optional[OperationContext] = None,
+    ) -> ExternalImpactResult:
+        require_operation_context(self.workspace.config_path, "external_impact", context)
+        with workspace_lock(self.workspace, exclusive=False):
+            values = ExternalMemoryCatalog(self.workspace).impact(object_id, max_depth=max_depth)
+            items = tuple(
+                ExternalImpactItem(
+                    object_id=str(value["object_id"]),
+                    depth=int(value["depth"]),
+                    via=ExternalRelationshipKind(str(value["via"])),
+                )
+                for value in values
+            )
+            return ExternalImpactResult(object_id, items)
+
+    def explain_external_relationship(
+        self,
+        from_id: str,
+        to_id: str,
+        context: Optional[OperationContext] = None,
+    ) -> ExternalExplanationResult:
+        require_operation_context(self.workspace.config_path, "explain_external_relationship", context)
+        with workspace_lock(self.workspace, exclusive=False):
+            explanation = ExternalMemoryCatalog(self.workspace).explain(from_id, to_id)
+            return ExternalExplanationResult(from_id, to_id, explanation)
+
+    def render_external_memory(
+        self,
+        output: Path | str = ".memwiki/index/external-memory.html",
+        context: Optional[OperationContext] = None,
+    ) -> ExternalMemoryViewResult:
+        require_operation_context(self.workspace.config_path, "render_external_memory", context)
+        candidate = Path(output)
+        target = candidate.resolve() if candidate.is_absolute() else self.workspace.path(str(candidate)).resolve()
+        try:
+            target.relative_to(self.root)
+        except ValueError:
+            raise ValueError("external memory view must remain inside the workspace") from None
+        if target.exists() and target.is_symlink():
+            raise ValueError("external memory view cannot replace a symlink")
+        with workspace_lock(self.workspace, exclusive=True):
+            catalog = ExternalMemoryCatalog(self.workspace)
+            graph = catalog.graph_index()
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(catalog.render_html(), encoding="utf-8")
+            return ExternalMemoryViewResult(
+                output=str(target),
+                entities=len(graph["external_entities"]),
+                relationships=len(graph["external_relationships"]),
+            )
 
     def docs_check(self) -> DocsStatus:
         return docs_status(self.workspace, allow_repo_checkout=True)
@@ -389,6 +642,17 @@ __all__ = [
     "AgentMemoryProposalResult",
     "DraftResult",
     "ExportResult",
+    "ExternalEntity",
+    "ExternalEntityKind",
+    "ExternalEntityListResult",
+    "ExternalExplanationResult",
+    "ExternalImpactItem",
+    "ExternalImpactResult",
+    "ExternalPathResult",
+    "ExternalRelationship",
+    "ExternalRelationshipKind",
+    "ExternalRelationshipListResult",
+    "ExternalMemoryViewResult",
     "IngestResult",
     "InitResult",
     "MemwikiWorkspace",

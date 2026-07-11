@@ -94,6 +94,42 @@ TOOL_CONTRACTS: Dict[str, Dict[str, Any]] = {
         "clinical_phi_requires_context": True,
         "content_safety_policy": "local deterministic sensitive-content scan",
     },
+    "register_external_entity": {
+        "mutates": True,
+        "writes": "manifests/external-entities.jsonl",
+        "clinical_phi_requires_context": True,
+        "credential_policy": "credential values forbidden",
+    },
+    "update_external_entity": {
+        "mutates": True,
+        "writes": "append-only revision in manifests/external-entities.jsonl",
+        "clinical_phi_requires_context": True,
+        "concurrency": "optimistic expected revision",
+    },
+    "relate_external_memory": {
+        "mutates": True,
+        "writes": "manifests/external-relationships.jsonl",
+        "clinical_phi_requires_context": True,
+        "credential_policy": "credential values forbidden",
+    },
+    "update_external_relationship": {
+        "mutates": True,
+        "writes": "append-only revision in manifests/external-relationships.jsonl",
+        "clinical_phi_requires_context": True,
+        "concurrency": "optimistic expected revision",
+    },
+    "query_external_relationships": {
+        "mutates": False,
+        "operations": ["list", "resolve", "neighbors", "backlinks", "path", "impact", "explain"],
+        "clinical_phi_requires_context": True,
+    },
+    "render_external_memory": {
+        "mutates": True,
+        "writes": ".memwiki/index/external-memory.html by default",
+        "output": "semantic HTML and JSON-LD relationship projection",
+        "clinical_phi_requires_context": True,
+        "output_policy": "workspace-confined and symlink-rejecting",
+    },
     "export_static": {
         "mutates": True,
         "writes": "caller-selected output",
