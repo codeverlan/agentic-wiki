@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "run_id": "autonomous-coordinator-runtime-build-v1",
+  "source_plan": "_bmad-output/implementation-artifacts/autonomous-coordinator-build-plan/plan.json",
+  "revision": 3,
+  "updated_at": "2026-07-11T11:00:00-04:00",
+  "run_status": "active",
+  "active_item_ids": ["AC-004", "AC-008"],
+  "items": [
+    {"id":"AC-001","status":"completed","attempt":1},
+    {"id":"AC-002","status":"completed","attempt":1},
+    {"id":"AC-003","status":"completed","attempt":1},
+    {"id":"AC-004","status":"active","attempt":1},
+    {"id":"AC-005","status":"waiting","attempt":0},
+    {"id":"AC-006","status":"waiting","attempt":0},
+    {"id":"AC-007","status":"waiting","attempt":0},
+    {"id":"AC-008","status":"active","attempt":1},
+    {"id":"AC-009","status":"waiting","attempt":0},
+    {"id":"AC-010","status":"waiting","attempt":0},
+    {"id":"AC-011","status":"waiting","attempt":0},
+    {"id":"AC-012","status":"waiting","attempt":0},
+    {"id":"AC-013","status":"waiting","attempt":0},
+    {"id":"AC-014","status":"completed","attempt":1},
+    {"id":"AC-015","status":"waiting","attempt":0},
+    {"id":"AC-016","status":"waiting","attempt":0},
+    {"id":"AC-017","status":"waiting","attempt":0},
+    {"id":"AC-018","status":"waiting","attempt":0},
+    {"id":"AC-019","status":"waiting","attempt":0},
+    {"id":"AC-020","status":"waiting","attempt":0},
+    {"id":"AC-021","status":"waiting","attempt":0},
+    {"id":"AC-022","status":"waiting","attempt":0},
+    {"id":"AC-023","status":"waiting","attempt":0},
+    {"id":"AC-024","status":"waiting","attempt":0},
+    {"id":"AC-025","status":"waiting","attempt":0},
+    {"id":"AC-026","status":"waiting","attempt":0},
+    {"id":"AC-027","status":"waiting","attempt":0},
+    {"id":"AC-028","status":"waiting","attempt":0},
+    {"id":"AC-029","status":"waiting","attempt":0},
+    {"id":"AC-030","status":"waiting","attempt":0},
+    {"id":"AC-031","status":"waiting","attempt":0},
+    {"id":"AC-032","status":"waiting","attempt":0},
+    {"id":"AC-033","status":"waiting","attempt":0},
+    {"id":"AC-034","status":"waiting","attempt":0},
+    {"id":"AC-035","status":"waiting","attempt":0},
+    {"id":"AC-036","status":"waiting","attempt":0},
+    {"id":"AC-037","status":"waiting","attempt":0},
+    {"id":"AC-038","status":"waiting","attempt":0},
+    {"id":"AC-039","status":"waiting","attempt":0},
+    {"id":"AC-040","status":"waiting","attempt":0},
+    {"id":"AC-041","status":"waiting","attempt":0},
+    {"id":"AC-042","status":"waiting","attempt":0},
+    {"id":"AC-043","status":"waiting","attempt":0},
+    {"id":"AC-044","status":"waiting","attempt":0},
+    {"id":"AC-045","status":"waiting","attempt":0},
+    {"id":"AC-046","status":"waiting","attempt":0},
+    {"id":"AC-047","status":"waiting","attempt":0},
+    {"id":"AC-048","status":"waiting","attempt":0}
+  ],
+  "blockers": [],
+  "discovered_items": [],
+  "validation_evidence": [
+    {
+      "item_id": "AC-001",
+      "commands": [
+        "uv run pytest tests/test_coordinator_models.py -q",
+        "uv run ruff check src/memwiki/coordinator_models.py tests/test_coordinator_models.py",
+        "uv run mypy src/memwiki/coordinator_models.py"
+      ],
+      "result": "21 tests passed; lint and type checks passed"
+    },
+    {
+      "item_id": "AC-002",
+      "commands": ["uv run pytest tests/test_coordinator_events.py -q"],
+      "result": "6 tests passed; lint and type checks passed"
+    },
+    {
+      "item_id": "AC-003",
+      "commands": ["uv run pytest tests/test_coordinator_journal.py -q"],
+      "result": "5 tests passed; lint and type checks passed"
+    },
+    {
+      "item_id": "AC-014",
+      "commands": ["uv run pytest tests/test_coordinator_git.py -q"],
+      "result": "8 tests passed; lint passed"
+    }
+  ]
+}
