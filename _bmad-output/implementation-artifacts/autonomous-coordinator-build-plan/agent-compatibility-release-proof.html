@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Agent Compatibility Release Proof</title>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"DigitalDocument","name":"Agent Compatibility Release Proof","dateCreated":"2026-07-11","isPartOf":{"@type":"SoftwareSourceCode","name":"Autonomous Development Coordinator"},"about":["AX-001 through AX-014","Codex compatibility","ChatGPT compatibility","SEO Decision Lab"]}</script>
+<style>body{font:15px/1.5 system-ui;max-width:1080px;margin:auto;padding:28px;color:#182024}h1,h2{color:#16473e}.pass{color:#14633f;font-weight:700}.pending{color:#8a4b16;font-weight:700}table{border-collapse:collapse;width:100%}th,td{border:1px solid #bbb;padding:8px;text-align:left;vertical-align:top}code,pre{background:#eef2f0}pre{padding:12px;overflow:auto}</style></head>
+<body><main><h1>Agent Compatibility Release Proof</h1><p>Evidence manifest for the AX-001 through AX-014 extension to the autonomous coordinator.</p>
+<section><h2>Implemented Surface</h2><table><thead><tr><th>Work</th><th>Evidence</th></tr></thead><tbody>
+<tr><td>AX-001 to AX-004</td><td>Provider-neutral agent model, identity/trust/version registry, Codex discovery, and ChatGPT discovery with callable and metadata-only distinctions.</td></tr>
+<tr><td>AX-005 to AX-007</td><td>Qualification, deterministic selection and fallback, unified callable/handoff invocation, durable receipts, and duplicate-effect prevention.</td></tr>
+<tr><td>AX-008</td><td>SEO Decision Lab integration using <code>plugin://seo-decision-lab@personal/</code>, discovered version binding, auth/account checks, shortcut and generic MCP routing, redaction, assumptions, cost, and provenance.</td></tr>
+<tr><td>AX-009 to AX-011</td><td>Bounded context and memory admission, exact-invocation supervision, user-return behavior, and redacted semantic HTML/JSON-LD views.</td></tr>
+<tr><td>AX-012 to AX-013</td><td>Deterministic compatibility harness and cross-product end-to-end runs covering Codex, ChatGPT callable and handoff-only surfaces, public/private agents, fallback, restart, and queue drain.</td></tr>
+<tr><td>AX-014</td><td>Adapter authoring guide, qualification checklist, product operator guidance, public/private registration and immutability rules, worked example, troubleshooting, and exact verification commands.</td></tr>
+</tbody></table></section>
+<section><h2>Verification Ledger</h2><table><thead><tr><th>Evidence</th><th>Recorded result</th></tr></thead><tbody>
+<tr><td>Integrated repository gate</td><td class="pass">803 tests passed; Ruff passed; mypy passed for 81 source files; documentation check passed</td></tr>
+<tr><td>AX-002 registry</td><td class="pass">11 focused tests passed; Ruff and mypy passed</td></tr>
+<tr><td>AX-003 Codex discovery</td><td class="pass">7 focused tests passed; Ruff and mypy passed</td></tr>
+<tr><td>AX-004 ChatGPT discovery</td><td class="pass">11 focused tests passed; Ruff and mypy passed</td></tr>
+<tr><td>AX-005 qualification</td><td class="pass">24 focused tests passed; Ruff and mypy passed</td></tr>
+<tr><td>AX-006 selection</td><td class="pass">5 focused and 58 adjacent agent tests passed; Ruff and mypy passed</td></tr>
+<tr><td>AX-007 invocation</td><td class="pass">9 focused tests passed; Ruff and mypy passed</td></tr>
+<tr><td>AX-008 SEO adapter</td><td class="pass">12 focused tests passed; Ruff and mypy passed</td></tr>
+<tr><td>AX-009 context admission</td><td class="pass">9 focused tests passed; Ruff and mypy passed</td></tr>
+<tr><td>AX-010 supervision</td><td class="pass">17 focused and 103 adjacent agent tests passed; Ruff and mypy passed</td></tr>
+<tr><td>AX-011 views</td><td class="pass">6 focused tests passed; Ruff and mypy passed</td></tr>
+<tr><td>AX-012 harness</td><td class="pass">10 focused tests passed; Ruff and mypy passed</td></tr>
+<tr><td>AX-013 end-to-end</td><td class="pass">10 focused and 119 adjacent agent tests passed; Ruff passed; mypy passed for 81 source files</td></tr>
+<tr><td>AX-014 documentation</td><td id="ax014-result" class="pass">Documentation check passed; all three semantic HTML documents and JSON-LD payloads parsed successfully; terminology scan and <code>git diff --check</code> passed</td></tr>
+</tbody></table></section>
+<section><h2>Release Gates</h2><ul><li>Codex and ChatGPT surfaces are represented without embedding product-specific assumptions in the coordinator core.</li><li>Callable execution requires explicit discovery, qualification, authorization, and adapter support; otherwise the surface is handoff-only or rejected.</li><li>Public and private fallbacks independently qualify, and failure remains local to dependent slices.</li><li>Private plugin source remains immutable during project execution; project-specific behavior resides in project memory.</li><li>Credentials are referenced, not persisted. PHI and unknown-PHI projects use the restrictive synthetic/local policy.</li><li>Agent output requires redaction, schema validation, freshness, provenance, and memory admission.</li><li>Mandatory supervision cannot be bypassed through agent delegation.</li></ul></section>
+<section><h2>Integrated Release Commands</h2><pre><code>uv run pytest -q tests/test_coordinator_agent*.py tests/test_coordinator_agents.py tests/test_coordinator_seo_agent.py
+uv run ruff check .
+uv run mypy src
+uv run memwiki --workspace . docs check
+git diff --check</code></pre><p>The AX-014 row records the documentation checks executed against this working revision. Earlier focused results remain implementation evidence; the listed commands are the reproducible integrated release gate.</p></section>
+<section><h2>Documentation Artifacts</h2><ul><li><code>docs/agent-compatibility.html</code></li><li><code>docs/agent-compatibility-runbook.html</code></li><li><code>_bmad-output/implementation-artifacts/autonomous-coordinator-build-plan/agent-compatibility-release-proof.html</code></li></ul></section>
+</main></body></html>
