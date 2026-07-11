@@ -1,0 +1,278 @@
+{
+  "schema_version": 1,
+  "generated_by": "agent-development-plugin",
+  "updated_at": "2026-07-08T04:30:14-04:00",
+  "source_spec": "_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/SPEC.md",
+  "source_of_truth": true,
+  "human_review_artifact": "_bmad-output/implementation-artifacts/accepted-decisions/decision-matrix.html",
+  "source_confirmation": "User accepted the accelerated inferred decision table as correct and asked to implement it.",
+  "implementation_policy": "Rows are project-local decisions for the future reusable plugin. They do not mutate reusable plugin files unless an explicit plugin-development workflow starts.",
+  "decisions": [
+    {
+      "id": "AD-001",
+      "question": "Should incident/exception logs be append-only?",
+      "accepted_answer": "Yes.",
+      "elaboration": "Accepted entries are not edited in place. Corrections create superseding entries with links to prior entries.",
+      "implementation_surface": "incident-log; validation-contract; delivery-workflow"
+    },
+    {
+      "id": "AD-002",
+      "question": "How long should incident logs be retained?",
+      "accepted_answer": "Project-local default retention with no automatic deletion.",
+      "elaboration": "The plugin preserves logs unless the user explicitly directs retention, archival, deletion, redaction, or rotation rules.",
+      "implementation_surface": "incident-log; accepted-decisions; retention policy"
+    },
+    {
+      "id": "AD-003",
+      "question": "Should PHI-aware projects use stricter incident logging?",
+      "accepted_answer": "Yes.",
+      "elaboration": "Metadata-only logs, no PHI or secrets, monitoring phases, regular scan reminders, and abnormal-behavior review.",
+      "implementation_surface": "incident-log; HIPAA-aware monitoring"
+    },
+    {
+      "id": "AD-004",
+      "question": "Must intake ask whether the app handles PHI?",
+      "accepted_answer": "Yes, mandatory.",
+      "elaboration": "This is a preflight question before unattended continuous development.",
+      "implementation_surface": "intent-packet; preflight readiness"
+    },
+    {
+      "id": "AD-005",
+      "question": "Is HIPAA support legal certification?",
+      "accepted_answer": "No.",
+      "elaboration": "The plugin tracks HIPAA-aware development safeguards, not legal attestation or compliance certification.",
+      "implementation_surface": "HIPAA docs; incident-log"
+    },
+    {
+      "id": "AD-006",
+      "question": "Should the plugin be project-agnostic?",
+      "accepted_answer": "Yes.",
+      "elaboration": "It should support WordPress, web apps, CLIs, clinical tools, data workflows, and future project types through archetype-specific intake.",
+      "implementation_surface": "archetype registry; storage adapters"
+    },
+    {
+      "id": "AD-007",
+      "question": "Should BMAD be required?",
+      "accepted_answer": "No.",
+      "elaboration": "The plugin is BMAD-aware but not BMAD-dependent. Use the BMAD adapter when _bmad exists and the lightweight Agentic Wiki adapter otherwise.",
+      "implementation_surface": "storage adapter model"
+    },
+    {
+      "id": "AD-008",
+      "question": "Should project-specific guidance mutate the plugin?",
+      "accepted_answer": "No.",
+      "elaboration": "The plugin stays immutable unless an explicit plugin-development workflow starts. Project customization lives in local memory overlays.",
+      "implementation_surface": "plugin-project boundary; overlay"
+    },
+    {
+      "id": "AD-009",
+      "question": "Should overlays be able to broaden autonomy?",
+      "accepted_answer": "Yes, within higher-priority boundaries.",
+      "elaboration": "Project-local rules can enable needed skills, tools, and resources as long as safety, repo, user, and system constraints permit it.",
+      "implementation_surface": "project overlay; instruction precedence"
+    },
+    {
+      "id": "AD-010",
+      "question": "What is the primary plugin input?",
+      "accepted_answer": "Intent packet from interview, existing specs/resources, or hybrid intake.",
+      "elaboration": "The plugin normalizes all entry paths into project-local JSON plus HTML intent packet.",
+      "implementation_surface": "intent packet"
+    },
+    {
+      "id": "AD-011",
+      "question": "Should intake depth vary?",
+      "accepted_answer": "Yes.",
+      "elaboration": "Support quick start, standard preflight, and deep spec. Unattended continuous development requires at least standard preflight.",
+      "implementation_surface": "intent packet; preflight"
+    },
+    {
+      "id": "AD-012",
+      "question": "Should questions adapt by project type?",
+      "accepted_answer": "Yes.",
+      "elaboration": "WordPress, web app, clinical workspace, CLI/library, and other archetypes receive different question paths.",
+      "implementation_surface": "archetype registry"
+    },
+    {
+      "id": "AD-013",
+      "question": "Should visual/design work be part of intake?",
+      "accepted_answer": "Yes when material.",
+      "elaboration": "Use image generation, design skills, HTML mockups, or user assets to present selectable directions.",
+      "implementation_surface": "design-assisted intake"
+    },
+    {
+      "id": "AD-014",
+      "question": "Should milestone check-ins block unattended work?",
+      "accepted_answer": "No, advisory unless a safety or stop boundary applies.",
+      "elaboration": "The plugin suggests check-ins, but continuous work continues if the user has authorized unattended development.",
+      "implementation_surface": "handoff; run modes"
+    },
+    {
+      "id": "AD-015",
+      "question": "Should continuous runs create new slices autonomously?",
+      "accepted_answer": "Yes.",
+      "elaboration": "The coordinator may create and assign safe new slices without user approval inside the accepted scope.",
+      "implementation_surface": "slice queue; task graph"
+    },
+    {
+      "id": "AD-016",
+      "question": "What is the max parallelism default?",
+      "accepted_answer": "Coordinator plus up to six workers.",
+      "elaboration": "Workers own narrow slices; the coordinator owns shared control artifacts.",
+      "implementation_surface": "agent topology"
+    },
+    {
+      "id": "AD-017",
+      "question": "Who mutates shared control artifacts?",
+      "accepted_answer": "Coordinator only.",
+      "elaboration": "Workers propose queue, log, or overlay changes through worker reports.",
+      "implementation_surface": "agent topology; worker reports"
+    },
+    {
+      "id": "AD-018",
+      "question": "What happens when slice A blocks?",
+      "accepted_answer": "Continue independent slice B.",
+      "elaboration": "The blocked slice is recorded; dependent slices wait; independent work continues.",
+      "implementation_surface": "blocking policy; slice queue"
+    },
+    {
+      "id": "AD-019",
+      "question": "Should agents exhaust resources before blocking?",
+      "accepted_answer": "Yes.",
+      "elaboration": "Use local repo/tests/docs, official docs or web, browser tools, skills/plugins, subagents or review, then split or fallback.",
+      "implementation_surface": "blocking policy"
+    },
+    {
+      "id": "AD-020",
+      "question": "What if an expected tool is unavailable?",
+      "accepted_answer": "Stop affected slice and notify in chat.",
+      "elaboration": "If a resource should exist but is unavailable, affected slice blocks while independent slices continue.",
+      "implementation_surface": "resource gap handling"
+    },
+    {
+      "id": "AD-021",
+      "question": "What if a useful resource does not exist yet?",
+      "accepted_answer": "Continue and record a future opportunity.",
+      "elaboration": "Add to the simple chronological future-resource queue; advisory only.",
+      "implementation_surface": "future-resource queue"
+    },
+    {
+      "id": "AD-022",
+      "question": "How should credentials be handled?",
+      "accepted_answer": "Development-pragmatic, best-effort non-persistence.",
+      "elaboration": "If the user provides a credential in chat, use it for the approved task and avoid storing, echoing, or logging it.",
+      "implementation_surface": "credential policy"
+    },
+    {
+      "id": "AD-023",
+      "question": "Are project-local credential files allowed?",
+      "accepted_answer": "Allowed when needed, never plugin-owned.",
+      "elaboration": "Env, JSON, process env, and provider-specific formats are allowed; durable artifacts record metadata only.",
+      "implementation_surface": "external capabilities; credential sources"
+    },
+    {
+      "id": "AD-024",
+      "question": "Should external capabilities be first-class?",
+      "accepted_answer": "Yes.",
+      "elaboration": "Plugins, skills, APIs, MCP servers, browser tools, services, local tools, and spawned agents can be used inside authority.",
+      "implementation_surface": "external capability registry"
+    },
+    {
+      "id": "AD-025",
+      "question": "Should external capability results be auditable?",
+      "accepted_answer": "Yes.",
+      "elaboration": "Capture in worker report or JSON/HTML result packet; accepted packets are immutable and corrections supersede.",
+      "implementation_surface": "external capability result packets"
+    },
+    {
+      "id": "AD-026",
+      "question": "Should dashboards be supported?",
+      "accepted_answer": "Optional but supported.",
+      "elaboration": "Prepare bounded dashboard data and call visualization plugins/tools when requested. Dashboards show status, tasks, agents, tokens, logs, and external connections.",
+      "implementation_surface": "dashboard data contract"
+    },
+    {
+      "id": "AD-027",
+      "question": "What happens when the user returns?",
+      "accepted_answer": "Do not automatically interrupt safe work.",
+      "elaboration": "Append and prioritize the supervision queue at the next reasonable stopping point.",
+      "implementation_surface": "supervision queue"
+    },
+    {
+      "id": "AD-028",
+      "question": "How should status reporting work during unattended runs?",
+      "accepted_answer": "Local artifacts first.",
+      "elaboration": "Chat is reserved for blockers, safety boundaries, repair exhaustion, supervision tasks, whole-run stops, or requested summaries.",
+      "implementation_surface": "status lanes; handoff"
+    },
+    {
+      "id": "AD-029",
+      "question": "How should PR workflow behave?",
+      "accepted_answer": "Non-blocking audit and sync artifact.",
+      "elaboration": "PR approval should not halt continuous development unless user, repo, or platform policy requires it.",
+      "implementation_surface": "delivery workflow"
+    },
+    {
+      "id": "AD-030",
+      "question": "What is the validation repair policy?",
+      "accepted_answer": "Two bounded self-repair attempts.",
+      "elaboration": "After the second failure, stop affected slice, preserve evidence, and continue independent slices.",
+      "implementation_surface": "validation contract"
+    },
+    {
+      "id": "AD-031",
+      "question": "Is a high-risk review gate required?",
+      "accepted_answer": "Yes.",
+      "elaboration": "PHI/privacy, credentials, public API, schemas/storage, plugin-core, generated docs, security, and deployment require review or adversarial check.",
+      "implementation_surface": "high-risk review gate"
+    },
+    {
+      "id": "AD-032",
+      "question": "Should generated docs and schemas stay aligned?",
+      "accepted_answer": "Yes.",
+      "elaboration": "Code changes affecting commands, schemas, workflows, storage, or validation update docs and pass docs check.",
+      "implementation_surface": "docs governance"
+    },
+    {
+      "id": "AD-033",
+      "question": "How should handoff and compaction be handled?",
+      "accepted_answer": "Durable HTML handoff required.",
+      "elaboration": "Generate run-state and handoff digest at stops, stale leases, compaction risk, and user return.",
+      "implementation_surface": "run-state; handoff digest"
+    },
+    {
+      "id": "AD-034",
+      "question": "Should there be a branch ledger?",
+      "accepted_answer": "Yes, a living HTML table.",
+      "elaboration": "Track branch name, last updated timestamp, and brief contents description.",
+      "implementation_surface": "branch ledger"
+    },
+    {
+      "id": "AD-035",
+      "question": "When should future plugin packaging happen?",
+      "accepted_answer": "Later, after decisions are integrated.",
+      "elaboration": "Use plugin-creator only after scope and interview are complete and project-local decisions are durable.",
+      "implementation_surface": "plugin-development boundary"
+    },
+    {
+      "id": "AD-036",
+      "question": "Should the plugin own every future feature?",
+      "accepted_answer": "No.",
+      "elaboration": "It should coordinate external capabilities rather than hard-code every dashboard, browser, API, or workflow model.",
+      "implementation_surface": "external capability coordination"
+    },
+    {
+      "id": "AD-037",
+      "question": "Should logs include token and platform usage?",
+      "accepted_answer": "Yes when available.",
+      "elaboration": "Track token and platform usage in dashboard/status data if accessible; leave blank when unavailable.",
+      "implementation_surface": "dashboard data; run-state"
+    },
+    {
+      "id": "AD-038",
+      "question": "Should current project artifacts become reusable defaults?",
+      "accepted_answer": "Only after an explicit plugin-development step.",
+      "elaboration": "Project-local decisions can inform plugin candidates, but plugin files remain untouched until approved.",
+      "implementation_surface": "plugin improvement queue; plugin boundary"
+    }
+  ]
+}

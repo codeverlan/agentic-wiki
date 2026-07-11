@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic Wiki Continuous Run State</title>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"CreativeWork","identifier":"agentic-wiki-continuous-run-state-template","name":"Agentic Wiki Continuous Run State Template","dateModified":"2026-07-08T04:30:14-04:00","isBasedOn":"_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/SPEC.md","memwiki:pageType":"run_state_template"}</script>
+  <style>
+    :root {
+      color-scheme: light;
+      --border: #c9ced6;
+      --text: #1f2933;
+      --muted: #52616f;
+      --active: #d7ecff;
+      --blocked: #ffd9d9;
+      --waiting: #fff0bf;
+      --validated: #dff5df;
+      --merged: #d9f0e8;
+      --superseded: #e8e8ee;
+    }
+    body { color: var(--text); font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; max-width: 84rem; }
+    header, section { margin-bottom: 1.5rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid var(--border); padding: 0.55rem; text-align: left; vertical-align: top; }
+    th { background: #f4f6f8; }
+    code { background: #eef1f5; padding: 0.1rem 0.25rem; }
+    .meta { color: var(--muted); }
+    .status { border-radius: 0.25rem; display: inline-block; font-weight: 700; padding: 0.1rem 0.4rem; }
+    .status-active .status { background: var(--active); }
+    .status-blocked .status { background: var(--blocked); }
+    .status-waiting-on-dependent .status { background: var(--waiting); }
+    .status-validated .status { background: var(--validated); }
+    .status-merged .status { background: var(--merged); }
+    .status-superseded .status { background: var(--superseded); }
+    .diagram { border: 1px dashed var(--border); padding: 1rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Agentic Wiki Continuous Run State</h1>
+    <p class="meta">Render this file from <code>_bmad-output/implementation-artifacts/slice-queue.json</code>. That JSON file is the source of truth for active slice state.</p>
+  </header>
+  <main>
+    <article id="agentic-wiki-continuous-run-state-template" data-page-type="run_state_template">
+    <section id="run-summary">
+      <h2>Run Summary</h2>
+      <dl>
+        <dt>Objective</dt>
+        <dd><!-- Fill from current run objective. --></dd>
+        <dt>Stop reason</dt>
+        <dd><!-- time | token | work budget | platform usage limit | stop condition | external blocker | queue drain --></dd>
+        <dt>Active branch</dt>
+        <dd><code><!-- branch --></code></dd>
+        <dt>Commit</dt>
+        <dd><code><!-- sha --></code></dd>
+        <dt>Remote / PR</dt>
+        <dd><!-- remote and PR URL, or reason none exists. --></dd>
+      </dl>
+    </section>
+    <section id="status-lanes">
+      <h2>Status Lanes</h2>
+      <p>Use the combined run summary for the top-level status. Use these lanes to separate where progress, blockers, validation evidence, and supervision needs came from.</p>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Lane</th>
+            <th scope="col">Current</th>
+            <th scope="col">Blocked</th>
+            <th scope="col">Completed</th>
+            <th scope="col">Last updated</th>
+            <th scope="col">Evidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Internal agent work</td><td><!-- active coordinator/workers/slices --></td><td><!-- blocked internal work --></td><td><!-- completed internal work --></td><td><!-- ISO timestamp --></td><td><!-- slice queue, worker reports, run-state --></td></tr>
+          <tr><td>External capability activity</td><td><!-- active/used external capabilities --></td><td><!-- blocked/unavailable expected capabilities --></td><td><!-- completed external invocations --></td><td><!-- ISO timestamp --></td><td><!-- registry, result packets, worker reports --></td></tr>
+          <tr><td>Validation/evidence</td><td><!-- active validation/review/evidence work --></td><td><!-- failing validation or exhausted repair --></td><td><!-- passing validation and accepted evidence --></td><td><!-- ISO timestamp --></td><td><!-- validation output, memlog, source evidence --></td></tr>
+          <tr><td>Supervision-required items</td><td><!-- active supervision/user-return items --></td><td><!-- supervision boundary blockers --></td><td><!-- resolved supervised items --></td><td><!-- ISO timestamp --></td><td><!-- supervision queue, authority ledger --></td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="worker-leases">
+      <h2>Worker Leases</h2>
+      <p>Use leases to detect stale workers, preserve slice-owned work, and reassign or supersede stalled slices without blocking independent slices.</p>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Slice ID</th>
+            <th scope="col">Lease ID</th>
+            <th scope="col">Worker ID</th>
+            <th scope="col">Branch</th>
+            <th scope="col">Assigned paths</th>
+            <th scope="col">Heartbeat</th>
+            <th scope="col">Lease status</th>
+            <th scope="col">Stale after</th>
+            <th scope="col">Stale handling</th>
+            <th scope="col">Reassignment or supersession</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><!-- SLICE-001 --></td>
+            <td><!-- LEASE-001 --></td>
+            <td><!-- worker id --></td>
+            <td><code><!-- branch --></code></td>
+            <td><!-- assigned paths --></td>
+            <td><!-- ISO timestamp --></td>
+            <td><!-- active | stale | released | reassigned | superseded --></td>
+            <td><!-- ISO timestamp or policy --></td>
+            <td><!-- inspect and preserve slice-owned work before reassignment --></td>
+            <td><!-- reassigned worker, superseding slice, or none --></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="intent-packet">
+      <h2>Intent Packet</h2>
+      <p>Normalize guided preflight interview answers, existing specs/resources, or hybrid intake into one project-local work contract before dispatch.</p>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Field</th>
+            <th scope="col">Value</th>
+            <th scope="col">Source or evidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Entry path</td>
+            <td><!-- guided preflight spec | existing spec/resources | hybrid intake --></td>
+            <td><!-- user answer, SPEC path, resource path, or clarifying question --></td>
+          </tr>
+          <tr>
+            <td>Run mode</td>
+            <td><!-- interactive-intake | unattended-continuous-run | status-only-report | plugin-improvement-review --></td>
+            <td><!-- explicit selection or safe inference, requirements check, and ambiguity disposition --></td>
+          </tr>
+          <tr>
+            <td>Run mode transition</td>
+            <td><!-- none | from mode to mode; narrowing | broadening --></td>
+            <td><!-- transition authority, requirement check, and disposition --></td>
+          </tr>
+          <tr>
+            <td>Authority ledger</td>
+            <td><code><!-- _bmad-output/implementation-artifacts/authority-ledger/<ledger>.html --></code></td>
+            <td><!-- append-only policy, active directives, inferred permissions, broadening authority, and expiration/supersession entries --></td>
+          </tr>
+          <tr>
+            <td>Worker report templates</td>
+            <td><code><!-- _bmad-output/implementation-artifacts/worker-reports/template.html --></code></td>
+            <td><!-- loaded | generated | needs repair; required before coordinator disposition --></td>
+          </tr>
+          <tr>
+            <td>Control index</td>
+            <td><code><!-- _bmad-output/implementation-artifacts/control-index.html --></code></td>
+            <td><!-- navigation-only index status and categorized HTML artifact coverage --></td>
+          </tr>
+          <tr>
+            <td>Handoff digest</td>
+            <td><code><!-- _bmad-output/implementation-artifacts/handoff-digest/<digest>.html --></code></td>
+            <td><!-- trigger, active authority, queue status, supervision items, and exact resume command/path --></td>
+          </tr>
+          <tr>
+            <td>Incident/exception log</td>
+            <td><code><!-- _bmad-output/implementation-artifacts/incident-log/<log>.html --></code></td>
+            <td><!-- PHI-handling answer, HIPAA-aware variant status, monitoring phases, incident counts, and no-sensitive-values check --></td>
+          </tr>
+          <tr>
+            <td>Accepted decision matrix</td>
+            <td><code><!-- _bmad-output/implementation-artifacts/accepted-decisions/decision-matrix.html --></code></td>
+            <td><!-- accepted/superseded row count, source confirmation, and plugin-mutation boundary --></td>
+          </tr>
+          <tr>
+            <td>Dashboard data</td>
+            <td><code><!-- _bmad-output/implementation-artifacts/dashboard-data/template.html --></code></td>
+            <td><!-- rich dashboard requested/generated, status lane coverage, external visualization capability, artifact path, or not requested --></td>
+          </tr>
+          <tr>
+            <td>External capabilities</td>
+            <td><code><!-- _bmad-output/implementation-artifacts/external-capabilities/template.html --></code></td>
+            <td><!-- plugins, skills, APIs, MCP servers, browser tools, services, local tools, or spawned agents used/needed --></td>
+          </tr>
+          <tr>
+            <td>External capability results</td>
+            <td><code><!-- _bmad-output/implementation-artifacts/external-capability-results/<result>.html --></code></td>
+            <td><!-- current worker-report/result-packet evidence, replay/audit summary, supersession history, and immutability check --></td>
+          </tr>
+          <tr>
+            <td>External capability autonomy</td>
+            <td><!-- autonomous | supervision needed | blocked | not applicable --></td>
+            <td><!-- active authority, local/dev boundary, supervision boundary, and any sensitive-action stop --></td>
+          </tr>
+          <tr>
+            <td>Credential sources</td>
+            <td><!-- project-local env/json | process env | chat ephemeral | none --></td>
+            <td><!-- source path/reference and rotation note only; no secret values or standardized credential payload --></td>
+          </tr>
+          <tr>
+            <td>Plugin workflow skill</td>
+            <td><!-- intake-preflight | continuous-run-coordinator | status-report-handoff | plugin-improvement-review --></td>
+            <td><!-- current task ownership, shared plugin assets touched, and selected project output route --></td>
+          </tr>
+          <tr>
+            <td>Skill mutation permission</td>
+            <td><!-- allowed | reroute required | blocked --></td>
+            <td><!-- planned writes and selected skill permission --></td>
+          </tr>
+          <tr>
+            <td>Intake depth</td>
+            <td><!-- quick start | standard preflight | deep spec --></td>
+            <td><!-- selected depth, source, and sufficiency for requested work mode --></td>
+          </tr>
+          <tr>
+            <td>Storage adapter</td>
+            <td><!-- bmad | agentic-wiki-lightweight --></td>
+            <td><!-- _bmad detection and project memory root --></td>
+          </tr>
+          <tr>
+            <td>JSON dispatch input</td>
+            <td><code><!-- _bmad-output/implementation-artifacts/intent-packet/<packet>.json --></code></td>
+            <td><!-- source or generation evidence --></td>
+          </tr>
+          <tr>
+            <td>HTML review surface</td>
+            <td><code><!-- _bmad-output/implementation-artifacts/intent-packet/<packet>.html --></code></td>
+            <td><!-- source or generation evidence --></td>
+          </tr>
+          <tr>
+            <td>Project archetype</td>
+            <td><!-- WordPress website | web application | CLI/library | mobile app | data workflow | clinical workspace | mixed | unknown --></td>
+            <td><!-- discriminating answer, resource, or assumption --></td>
+          </tr>
+          <tr>
+            <td>Archetype registry</td>
+            <td><code><!-- _bmad-output/implementation-artifacts/archetype-registry/<registry>.json --></code></td>
+            <td><!-- selected profile, secondary profiles, overrides, or missing-resource action --></td>
+          </tr>
+          <tr>
+            <td>Primary orchestration profile</td>
+            <td><!-- archetype id --></td>
+            <td><!-- source or reason --></td>
+          </tr>
+          <tr>
+            <td>Secondary scoped profiles</td>
+            <td><!-- archetype ids or none --></td>
+            <td><!-- scoped slices or project areas --></td>
+          </tr>
+          <tr>
+            <td>Objective</td>
+            <td><!-- objective --></td>
+            <td><!-- source --></td>
+          </tr>
+          <tr>
+            <td>Design pathway status</td>
+            <td><!-- not-needed | pending | selected | deferred --></td>
+            <td><!-- generated image, design skill, HTML mockup, user-supplied source, or reason not needed --></td>
+          </tr>
+          <tr>
+            <td>Unattended mode</td>
+            <td><!-- interactive check-ins | unattended continuous development --></td>
+            <td><!-- user direction or assumption --></td>
+          </tr>
+          <tr>
+            <td>Unattended preflight minimum</td>
+            <td><!-- not requested | primary standard preflight satisfied | enabling slice needed --></td>
+            <td><!-- primary profile depth and secondary profile exceptions --></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="authority-ledger">
+      <h2>Authority Ledger</h2>
+      <p>Use the authority ledger before relying on old chat context for broadening transitions, unattended dispatch, or continuous-run directives. Source entries are append-only; generated views may derive current-active state from later entries.</p>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Entry ID</th>
+            <th scope="col">Status</th>
+            <th scope="col">Authority type</th>
+            <th scope="col">Directive or permission</th>
+            <th scope="col">Scope</th>
+            <th scope="col">Authorizes</th>
+            <th scope="col">Expiration or supersession entry</th>
+            <th scope="col">Evidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><!-- AUTH-001 --></td>
+            <td><!-- active | superseded | expired --></td>
+            <td><!-- user-directive | inferred-permission | mode-transition | continuous-run-directive --></td>
+            <td><!-- directive or permission --></td>
+            <td><!-- project | slice | mode | workflow --></td>
+            <td><!-- broadening transition | unattended run | resource use --></td>
+            <td><!-- none | entry IDs referenced by later expiration/supersession entries --></td>
+            <td><!-- source artifact, chat reference, or intent packet field --></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="preflight-readiness">
+      <h2>Preflight Readiness</h2>
+      <p>Pass this gate before worker dispatch. Gate failures become enabling or blocker slices; stop the whole run only when no independent work exists or a boundary applies.</p>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Check</th>
+            <th scope="col">Status</th>
+            <th scope="col">Evidence</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Spec or intent packet loaded</td><td><!-- pass | fail --></td><td><!-- path --></td><td><!-- continue | enabling slice | blocker --></td></tr>
+          <tr><td>Intent packet JSON and HTML forms present</td><td><!-- pass | fail --></td><td><!-- paths --></td><td><!-- continue | create/repair forms | blocker --></td></tr>
+          <tr><td>Plugin workflow skill selected</td><td><!-- pass | fail --></td><td><!-- selected skill and task fit --></td><td><!-- continue | select skill | blocker --></td></tr>
+          <tr><td>Plugin workflow mutation permission matched</td><td><!-- pass | fail --></td><td><!-- planned writes and skill permission --></td><td><!-- continue | reroute skill | blocker --></td></tr>
+          <tr><td>Plugin run mode selected or safely inferred</td><td><!-- pass | fail --></td><td><!-- selected mode and inference evidence --></td><td><!-- continue | ask enabling question | blocker --></td></tr>
+          <tr><td>Run-mode requirements satisfied</td><td><!-- pass | fail --></td><td><!-- standard preflight, read/report-only status, or plugin-development workflow evidence --></td><td><!-- continue | create enabling slice | blocker --></td></tr>
+          <tr><td>Run-mode transition authority verified</td><td><!-- pass | fail | not applicable --></td><td><!-- narrowing or broadening authority evidence --></td><td><!-- continue | ask enabling question | blocker --></td></tr>
+          <tr><td>Authority ledger loaded and checked</td><td><!-- pass | fail --></td><td><!-- JSON/HTML paths, append-only policy, active directive status, and transition evidence --></td><td><!-- continue | create/repair ledger | blocker --></td></tr>
+          <tr><td>Worker-report templates loaded</td><td><!-- pass | fail --></td><td><!-- JSON/HTML paths and required fields --></td><td><!-- continue | create/repair templates | blocker --></td></tr>
+          <tr><td>Worker lease model ready</td><td><!-- pass | fail | not applicable --></td><td><!-- slice queue worker_lease fields, heartbeat policy, stale handling --></td><td><!-- continue | create/repair leases | blocker --></td></tr>
+          <tr><td>Control index loaded</td><td><!-- pass | fail --></td><td><!-- path and categorized artifact coverage --></td><td><!-- continue | create/repair index | blocker --></td></tr>
+          <tr><td>Dashboard data contract ready when needed</td><td><!-- pass | fail | not applicable --></td><td><!-- path, external visualization need, and snapshot status --></td><td><!-- continue | create/repair dashboard data | blocker --></td></tr>
+          <tr><td>Dashboard status lanes prepared when needed</td><td><!-- pass | fail | not applicable --></td><td><!-- internal agent work, external capability activity, validation/evidence, supervision-required lane summaries --></td><td><!-- continue | create/repair lane summaries | blocker --></td></tr>
+          <tr><td>External-capability registry ready when needed</td><td><!-- pass | fail | not applicable --></td><td><!-- path, capability needs, availability status, and autonomy boundary --></td><td><!-- continue | create/repair registry | blocker --></td></tr>
+          <tr><td>External-capability result packet path ready when needed</td><td><!-- pass | fail | not applicable --></td><td><!-- worker-report capture or external-capability-results packet path --></td><td><!-- continue | create/repair result packet | blocker --></td></tr>
+          <tr><td>External result-packet immutability checked</td><td><!-- pass | fail | not applicable --></td><td><!-- accepted packets unchanged; superseding packet created for correction; dashboard current/history links --></td><td><!-- continue | create superseding packet | blocker --></td></tr>
+          <tr><td>Credential-source metadata ready when needed</td><td><!-- pass | fail | not applicable --></td><td><!-- local env/json path, process-env reference, chat-ephemeral use, auth scheme label, rotation note, and no stored values --></td><td><!-- continue | create local source | supervision queue | blocker --></td></tr>
+          <tr><td>Storage adapter selected and writable</td><td><!-- pass | fail --></td><td><!-- adapter, memory root, primitive paths --></td><td><!-- continue | create/repair adapter mapping | blocker --></td></tr>
+          <tr><td>Intake depth selected and sufficient</td><td><!-- pass | fail --></td><td><!-- quick start | standard preflight | deep spec; primary/secondary sufficiency --></td><td><!-- continue | standard-preflight enabling slice | deep-spec enabling slice --></td></tr>
+          <tr><td>Archetype registry loaded and applied</td><td><!-- pass | fail --></td><td><!-- registry paths, primary profile, secondary profiles --></td><td><!-- continue | create/repair registry | blocker --></td></tr>
+          <tr><td>Handoff and repo instructions loaded</td><td><!-- pass | fail --></td><td><!-- paths --></td><td><!-- continue | enabling slice | blocker --></td></tr>
+          <tr><td>Slice queue parseable</td><td><!-- pass | fail --></td><td><!-- command/result --></td><td><!-- continue | create queue | blocker --></td></tr>
+          <tr><td>Dirty-worktree intake complete</td><td><!-- pass | fail --></td><td><!-- status summary --></td><td><!-- continue | stop overlapping slice --></td></tr>
+          <tr><td>Branch ledger current</td><td><!-- pass | fail --></td><td><!-- branch ledger path/time --></td><td><!-- continue | update ledger --></td></tr>
+          <tr><td>Run-state and handoff digest renderers available</td><td><!-- pass | fail --></td><td><!-- command/test --></td><td><!-- continue | enabling slice --></td></tr>
+          <tr><td>Validation baseline selected</td><td><!-- pass | fail --></td><td><!-- commands --></td><td><!-- continue | define baseline --></td></tr>
+          <tr><td>Resource, credential-source, and supervision needs identified</td><td><!-- pass | fail --></td><td><!-- queue/status and credential-source metadata without values --></td><td><!-- continue | blocker | supervision queue --></td></tr>
+          <tr><td>Project archetype classified</td><td><!-- pass | fail --></td><td><!-- archetype and source --></td><td><!-- continue | ask discriminating question | blocker --></td></tr>
+          <tr><td>Design pathway status recorded when relevant</td><td><!-- pass | fail | not applicable --></td><td><!-- artifact or reason --></td><td><!-- continue | generate options | defer | blocker --></td></tr>
+          <tr><td>Safe slice ready</td><td><!-- pass | fail --></td><td><!-- slice id --></td><td><!-- dispatch | create enabling slice | stop run --></td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="dirty-worktree-intake">
+      <h2>Dirty Worktree Intake</h2>
+      <p>Before dispatching workers, classify existing dirty paths. Preserve user/unowned paths and stop only slices that overlap unclear dirty work while continuing independent slices.</p>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Path</th>
+            <th scope="col">Git status</th>
+            <th scope="col">Classification</th>
+            <th scope="col">Owner or slice</th>
+            <th scope="col">Action</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><!-- path --></td>
+            <td><code><!-- git status short code --></code></td>
+            <td><!-- active slice | prior-agent work | user/unowned work | generated artifact --></td>
+            <td><!-- coordinator | worker id | slice id | user/unowned | generated --></td>
+            <td><!-- preserve | assign | stop overlapping slice | safe to modify | regenerate if needed --></td>
+            <td><!-- evidence or reason --></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="slice-state">
+      <h2>Slice State</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Slice ID</th>
+            <th scope="col">Status</th>
+            <th scope="col">Branch</th>
+            <th scope="col">Description</th>
+            <th scope="col">Dependency/Blocker</th>
+            <th scope="col">Validation</th>
+            <th scope="col">Next action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="status-active">
+            <td>SLICE-001</td>
+            <td><span class="status">active</span></td>
+            <td><code>codex/YYYY-MM-DD-short-goal</code></td>
+            <td>Replace this placeholder with the first active slice from slice-queue.json.</td>
+            <td>None</td>
+            <td>Pending</td>
+            <td>Continue implementation</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="dependency-diagram">
+      <h2>Dependency Diagram</h2>
+      <div class="diagram">
+        <pre>SLICE-001 --&gt; SLICE-002
+SLICE-003 independent</pre>
+      </div>
+    </section>
+    <section id="completed-work">
+      <h2>Completed Work</h2>
+      <ul>
+        <li><!-- completed item --></li>
+      </ul>
+    </section>
+    <section id="remaining-work">
+      <h2>Remaining Work</h2>
+      <ul>
+        <li><!-- remaining item --></li>
+      </ul>
+    </section>
+    <section id="worker-reports">
+      <h2>Worker Reports</h2>
+      <p>Only the coordinator may mutate shared control artifacts. Workers write slice-local reports and submit proposed queue, ledger, run-state, handoff digest, supervision, resource, plugin-improvement, or overlay changes there for coordinator acceptance after validation.</p>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Worker</th>
+            <th scope="col">Slice ID</th>
+            <th scope="col">Report JSON</th>
+            <th scope="col">Report HTML</th>
+            <th scope="col">Assigned paths</th>
+            <th scope="col">Changes made</th>
+            <th scope="col">Validation</th>
+            <th scope="col">Blockers</th>
+            <th scope="col">Proposed control-artifact changes</th>
+            <th scope="col">Authority or resource evidence</th>
+            <th scope="col">Coordinator decision</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><!-- worker id --></td>
+            <td><!-- slice id --></td>
+            <td><code><!-- report json path --></code></td>
+            <td><code><!-- report html path --></code></td>
+            <td><!-- assigned paths and forbidden paths --></td>
+            <td><!-- changes made and files intentionally not touched --></td>
+            <td><!-- validation summary --></td>
+            <td><!-- blockers or dependencies --></td>
+            <td><!-- proposed updates or none --></td>
+            <td><!-- authority ledger entries, resource evidence, or non-local source evidence --></td>
+            <td><!-- pending | accepted | rejected | needs repair | superseded --></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="control-index-and-dashboards">
+      <h2>Control Index And Dashboards</h2>
+      <p>The control index is navigation-only. Rich dashboards are optional generated artifacts built from bounded project-local data through external visualization capabilities.</p>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Surface</th>
+            <th scope="col">Path</th>
+            <th scope="col">Status</th>
+            <th scope="col">Source or capability</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Control index</td><td><code>_bmad-output/implementation-artifacts/control-index.html</code></td><td><!-- current | stale | missing --></td><td>Project-local artifact links</td></tr>
+          <tr><td>Handoff digest</td><td><code>_bmad-output/implementation-artifacts/handoff-digest/2026-07-08-agent-development-memory.html</code></td><td><!-- current | stale | missing --></td><td>Generated from slice queue at stop, compaction-risk, stale-lease, or user-return trigger</td></tr>
+          <tr><td>Dashboard data contract</td><td><code>_bmad-output/implementation-artifacts/dashboard-data/template.html</code></td><td><!-- template-only | generated | rendered | not requested --></td><td><!-- dashboard data JSON and source artifacts --></td></tr>
+          <tr><td>Worker leases</td><td><code>_bmad-output/implementation-artifacts/slice-queue.json</code></td><td><!-- active | stale | reassigned | none --></td><td><!-- worker reports and coordinator evidence --></td></tr>
+          <tr><td>External connections dataset</td><td><code>_bmad-output/implementation-artifacts/dashboard-data/template.json</code></td><td><!-- present | missing | not applicable --></td><td><!-- APIs, MCP servers, plugins, skills, browser tools, services, local tools, spawned agents; no credentials --></td></tr>
+          <tr><td>Rich dashboard</td><td><code><!-- dashboard artifact path --></code></td><td><!-- not requested | requested | generated | unavailable --></td><td><!-- build-web-data-visualization | Data Analytics widgets | project tool --></td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="external-capabilities">
+      <h2>External Capabilities</h2>
+      <p>Coordinate plugins, skills, APIs, MCP servers, browser tools, external services, local tools, and spawned agents through the external-capability registry.</p>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Capability</th>
+            <th scope="col">Type</th>
+            <th scope="col">Availability</th>
+            <th scope="col">Authority/autonomy</th>
+            <th scope="col">Credential source</th>
+            <th scope="col">Related slice</th>
+            <th scope="col">Evidence or worker report</th>
+            <th scope="col">Result packet</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><!-- name/reference --></td>
+            <td><!-- plugin | skill | api | mcp-server | browser-tool | external-service | spawned-agent | local-tool --></td>
+            <td><!-- available | expected-unavailable | future-opportunity | unknown --></td>
+            <td><!-- authority, autonomy boundary, supervision, privacy boundary --></td>
+            <td><!-- project-local env/json path, process-env reference, chat-ephemeral use, auth scheme label, rotation note, no secret values --></td>
+            <td><!-- slice id --></td>
+            <td><!-- evidence or worker report path --></td>
+            <td><!-- external-capability-results/*.html or none --></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="chat-status">
+      <h2>Chat Status</h2>
+      <p>Routine progress is recorded in local artifacts. Chat notifications are limited to expected-but-unavailable resources, exhausted repair loops, supervision-required tasks, whole-run stops, safety/privacy boundaries, user-return queue presentation, and user-requested summaries.</p>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Event</th>
+            <th scope="col">Chat notification</th>
+            <th scope="col">Artifact source</th>
+            <th scope="col">Summary requested</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><!-- status event --></td>
+            <td><!-- sent | not needed --></td>
+            <td><!-- slice queue | run-state | ledger | memlog | queue file --></td>
+            <td><!-- yes | no --></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="milestone-check-ins">
+      <h2>Milestone Check-Ins</h2>
+      <p>Suggested check-ins are advisory during unattended continuous development unless a stop, safety, or supervision boundary applies.</p>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Milestone</th>
+            <th scope="col">Suggested check-in</th>
+            <th scope="col">Mode</th>
+            <th scope="col">Disposition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><!-- intent packet ready | architecture decision | high-risk review | validation repair exhausted | queue phase complete | queue drain --></td>
+            <td><!-- message or summary to present --></td>
+            <td><!-- interactive | unattended advisory | supervision required --></td>
+            <td><!-- pending | presented | skipped with reason | queued for return --></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="credential-handling">
+      <h2>Credential Handling</h2>
+      <p>Do not record credential values in this artifact. Record only whether auth was used or needed, whether the source was chat-ephemeral, process environment, project-local env, or project-local JSON, how persistence or commit risk was avoided, and whether any production or account-linking boundary remains.</p>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Slice ID</th>
+            <th scope="col">Credential source</th>
+            <th scope="col">Use</th>
+            <th scope="col">Persistence avoidance</th>
+            <th scope="col">Boundary</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><!-- slice id --></td>
+            <td><!-- user-provided development credential | project-local env/json | process env | none; path/reference only, no secret values --></td>
+            <td><!-- used | not used | needed --></td>
+            <td><!-- no value stored in artifacts/logs/diffs --></td>
+            <td><!-- development only | supervision required | none --></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="source-evidence">
+      <h2>Non-Local Source Evidence</h2>
+      <p>Record metadata for web search, official docs, browser verification, installed plugins, or external tool output that justified implementation, blockers, or architecture/product decisions. Do not copy large external source content into this artifact.</p>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Source or tool</th>
+            <th scope="col">Retrieval/check time</th>
+            <th scope="col">Supported claim</th>
+            <th scope="col">Decision/blocker supported</th>
+            <th scope="col">Official/current assessment</th>
+            <th scope="col">Limitations</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><!-- URL, docs page, browser check, plugin, or tool --></td>
+            <td><!-- ISO 8601 local time --></td>
+            <td><!-- claim supported --></td>
+            <td><!-- implementation | blocker | architecture | product --></td>
+            <td><!-- official/current enough | not official | stale risk --></td>
+            <td><!-- limitations or none --></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="high-risk-review">
+      <h2>High-Risk Review</h2>
+      <p>Require review-worker or adversarial review before merge or integration for slices touching PHI/privacy, credentials, public API compatibility, schema/storage layout, plugin-core behavior, generated docs contracts, security boundaries, or deployment/publishing behavior.</p>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Slice ID</th>
+            <th scope="col">Risk surface</th>
+            <th scope="col">Review type</th>
+            <th scope="col">Reviewer</th>
+            <th scope="col">Findings</th>
+            <th scope="col">Disposition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><!-- slice id --></td>
+            <td><!-- PHI/privacy | credentials | public API | schema/storage | plugin-core | docs contract | security | deployment/publishing | low-risk --></td>
+            <td><!-- review-worker | adversarial | coordinator low-risk review --></td>
+            <td><!-- reviewer id --></td>
+            <td><!-- findings or none --></td>
+            <td><!-- approved | fixes required | blocked | low-risk not required --></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="validation">
+      <h2>Validation</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Command</th>
+            <th scope="col">Status</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>uv run pytest</code></td>
+            <td><!-- passed | failed | not run --></td>
+            <td><!-- summary --></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="validation-repair">
+      <h2>Validation Repair</h2>
+      <p>Failed implementation slices get at most two bounded self-repair attempts. After the second unsuccessful attempt, stop the affected slice, record evidence, preserve or revert only slice-owned changes as appropriate, and continue independent slices.</p>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Slice ID</th>
+            <th scope="col">Attempt</th>
+            <th scope="col">Failing command</th>
+            <th scope="col">Fix hypothesis</th>
+            <th scope="col">Touched paths</th>
+            <th scope="col">Rerun result</th>
+            <th scope="col">Preserve/revert decision</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><!-- slice id --></td>
+            <td><!-- 1 | 2 --></td>
+            <td><code><!-- command --></code></td>
+            <td><!-- hypothesis --></td>
+            <td><!-- paths --></td>
+            <td><!-- passed | failed --></td>
+            <td><!-- preserve slice-owned changes | revert slice-owned changes | not applicable --></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="decision-evidence">
+      <h2>Decision Evidence</h2>
+      <p>Unresolved architecture or product decisions stop only the affected slice and dependent slices. Pause the whole run only when the decision affects the run boundary, shared architecture, safety constraints, plugin-core mutation, PHI/privacy boundary, public API compatibility, or all remaining work.</p>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Decision type</th>
+            <th scope="col">Decision</th>
+            <th scope="col">Rationale</th>
+            <th scope="col">Authority/source</th>
+            <th scope="col">Reversibility</th>
+            <th scope="col">Validation or review</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>implementation</code></td>
+            <td><!-- decision made --></td>
+            <td><!-- rationale --></td>
+            <td><!-- agent autonomy, SPEC/BMAD/user source, or blocker reference --></td>
+            <td><!-- why reversible, or why higher-authority decision was not made autonomously --></td>
+            <td><!-- tests, validation, user review, or supervision queue reference --></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="supervision-queue">
+      <h2>Supervision Queue</h2>
+      <p>Load <code>_bmad-output/implementation-artifacts/supervision-queue.html</code> when the user announces their return. Present queued items at the next reasonable stopping point.</p>
+    </section>
+    <section id="resume">
+      <h2>Resume Instructions</h2>
+      <ol>
+        <li>Read <code>_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/SPEC.md</code>.</li>
+        <li>Load <code>_bmad-output/implementation-artifacts/authority-ledger/template.html</code> and its matching JSON before broadening authority or unattended dispatch.</li>
+        <li>Load <code>_bmad-output/implementation-artifacts/slice-queue.json</code>.</li>
+        <li>Start with the first <code>active</code> slice in the queue.</li>
+        <li>Run the listed validation before the next commit.</li>
+        <li>Do not use computer-use or GUI-driving workflows without user supervision.</li>
+      </ol>
+    </section>
+    </article>
+  </main>
+</body>
+</html>

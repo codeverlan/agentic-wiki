@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Development External Capability Result Packet</title>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"CreativeWork","identifier":"agent-development-external-capability-result-template","name":"Agent Development External Capability Result Packet Template","description":"Project-local JSON and semantic HTML result packet for auditing or replaying external capability invocations without storing secrets or oversized payloads.","dateModified":"2026-07-08T03:14:02-04:00","isBasedOn":"_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/SPEC.md","memwiki:pageType":"external_capability_result_template","memwiki:sourceOfTruth":true}</script>
+  <style>
+    body { color: #1f2933; font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; max-width: 84rem; }
+    header, section { margin-bottom: 1.5rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #c9ced6; padding: 0.55rem; text-align: left; vertical-align: top; }
+    th { background: #f4f6f8; }
+    code { background: #eef1f5; padding: 0.1rem 0.25rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Agent Development External Capability Result Packet</h1>
+    <p>Use this packet to audit or replay an external capability invocation without storing credential values, hidden reasoning, PHI, or oversized payloads.</p>
+  </header>
+  <main>
+    <article id="agent-development-external-capability-result-template" data-page-type="external_capability_result_template">
+      <section id="metadata">
+        <h2>Metadata</h2>
+        <dl>
+          <dt>JSON source</dt>
+          <dd><code>_bmad-output/implementation-artifacts/external-capability-results/template.json</code></dd>
+          <dt>Updated</dt>
+          <dd><time datetime="2026-07-08T03:14:02-04:00">2026-07-08T03:14:02-04:00</time></dd>
+          <dt>Registry source</dt>
+          <dd><code>_bmad-output/implementation-artifacts/external-capabilities/template.json</code></dd>
+        </dl>
+      </section>
+      <section id="lifecycle">
+        <h2>Lifecycle</h2>
+        <p>Accepted result packets are immutable. Corrections create a superseding packet linked to the accepted packet.</p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Status</th>
+              <th scope="col">Accepted</th>
+              <th scope="col">Supersedes</th>
+              <th scope="col">Superseded by</th>
+              <th scope="col">Current packet</th>
+              <th scope="col">History</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><!-- draft | submitted | accepted | superseded | rejected --></td>
+              <td><!-- accepted_at and accepted_by --></td>
+              <td><!-- prior result id/path or none --></td>
+              <td><!-- superseding result id/path or none --></td>
+              <td><code>_bmad-output/implementation-artifacts/external-capability-results/template.json</code></td>
+              <td><!-- prior/current packet links for dashboard history --></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="connection">
+        <h2>Connection</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Result ID</th>
+              <th scope="col">Capability ID</th>
+              <th scope="col">Invocation ID</th>
+              <th scope="col">Connection type</th>
+              <th scope="col">Name/reference</th>
+              <th scope="col">Dashboard visible</th>
+              <th scope="col">Related slice</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>EXT-CAP-RESULT-001</td>
+              <td>EXT-CAP-001</td>
+              <td><!-- invocation id --></td>
+              <td><!-- plugin | skill | api | mcp-server | browser-tool | external-service | spawned-agent | local-tool --></td>
+              <td><!-- name/reference --></td>
+              <td>true</td>
+              <td><!-- slice id --></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="authority-and-credentials">
+        <h2>Authority And Credentials</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Authority source</th>
+              <th scope="col">Autonomy boundary</th>
+              <th scope="col">Supervision</th>
+              <th scope="col">Privacy boundary</th>
+              <th scope="col">Credential source metadata</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><!-- authority source --></td>
+              <td>Inside active project authority, development/local boundaries, and existing supervision rules</td>
+              <td><!-- required | not required | queued --></td>
+              <td><!-- privacy boundary --></td>
+              <td><!-- source type, path/reference, auth scheme label, rotation notes; no credential values --></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="input-output">
+        <h2>Input And Output</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Input summary</th>
+              <th scope="col">Output summary</th>
+              <th scope="col">Artifacts produced</th>
+              <th scope="col">Replay notes</th>
+              <th scope="col">Omissions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><!-- bounded summary or reference --></td>
+              <td><!-- bounded summary or reference --></td>
+              <td><!-- artifact paths --></td>
+              <td><!-- replay-safe notes, non-secret inputs required --></td>
+              <td>Secrets, credential values, hidden reasoning, PHI, and oversized payloads omitted.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="dashboard-row">
+        <h2>Dashboard Connection Row</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Connection ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Type</th>
+              <th scope="col">Status</th>
+              <th scope="col">Evidence</th>
+              <th scope="col">History</th>
+              <th scope="col">Credential display</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>EXT-CONN-001</td>
+              <td><!-- connection name --></td>
+              <td><!-- connection type --></td>
+              <td><!-- planned | available | used | blocked | unavailable | retired --></td>
+              <td><code>_bmad-output/implementation-artifacts/external-capability-results/template.json</code></td>
+              <td><!-- prior/current packet links --></td>
+              <td>metadata only, no values</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </article>
+  </main>
+</body>
+</html>

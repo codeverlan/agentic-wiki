@@ -1,0 +1,351 @@
+{
+  "schema_version": 1,
+  "generated_by": "agent-development-plugin",
+  "updated_at": "2026-07-08T04:11:58-04:00",
+  "source_of_truth": true,
+  "human_review_artifact": "_bmad-output/implementation-artifacts/intent-packet/template.html",
+  "entry_path": "guided-preflight-spec | existing-spec-or-resources | hybrid-intake",
+  "run_mode": {
+    "selected": "interactive-intake | unattended-continuous-run | status-only-report | plugin-improvement-review",
+    "inference": "explicit-user-selection | safely-inferred | needs-clarification",
+    "available_modes": [
+      "interactive-intake",
+      "unattended-continuous-run",
+      "status-only-report",
+      "plugin-improvement-review"
+    ],
+    "requirements": {
+      "interactive-intake": "May write project-local intake, readiness, resource, queue, and supervision artifacts.",
+      "unattended-continuous-run": "Requires standard preflight for the primary profile before dispatch.",
+      "status-only-report": "Read/report-only except generated project-local reports and presentations.",
+      "plugin-improvement-review": "May write project-local candidate analysis; plugin files remain immutable unless explicit plugin-development work starts."
+    },
+    "requirements_check": "pass | enabling-question-needed | blocked",
+    "mode_ambiguity": "",
+    "transition": {
+      "from": "",
+      "to": "",
+      "classification": "narrowing | broadening | none",
+      "authority": "autonomous-narrowing | user-intent | recorded-continuous-run-directive | standard-preflight | explicit-plugin-development-work | not-required | missing",
+      "requirements_check": "pass | enabling-question-needed | blocked",
+      "notes": ""
+    }
+  },
+  "plugin_workflow": {
+    "selected_skill": "intake-preflight | continuous-run-coordinator | status-report-handoff | plugin-improvement-review",
+    "available_skills": [
+      "intake-preflight",
+      "continuous-run-coordinator",
+      "status-report-handoff",
+      "plugin-improvement-review"
+    ],
+    "shared_plugin_assets": [
+      "schemas",
+      "templates",
+      "scripts"
+    ],
+    "project_output_route": "selected storage adapter",
+    "planned_writes": [],
+    "permission_check": "allowed | reroute-required | blocked",
+    "mutation_permissions": {
+      "intake-preflight": [
+        "intent-packet",
+        "preflight-readiness-artifacts",
+        "initial-queue-artifacts",
+        "resource-artifacts",
+        "supervision-needs",
+        "project-local-overlays-needed-for-intake"
+      ],
+      "continuous-run-coordinator": [
+        "assigned-project-code",
+        "docs",
+        "tests",
+        "fixtures",
+        "coordinator-owned-shared-control-artifacts"
+      ],
+      "status-report-handoff": [
+        "generated-project-local-reports",
+        "status-summaries",
+        "resume-surfaces",
+        "user-return-presentations"
+      ],
+      "plugin-improvement-review": [
+        "project-local-candidate-analysis",
+        "plugin-improvement-queue-updates"
+      ]
+    }
+  },
+  "storage_adapter": {
+    "selected": "bmad | agentic-wiki-lightweight",
+    "selection_rule": "Use bmad when _bmad exists; otherwise use agentic-wiki-lightweight.",
+    "project_memory_root": "",
+    "bmad_detected": false,
+    "primitives": {
+      "intent_packet": "",
+      "authority_ledger": "",
+      "worker_reports": "",
+      "control_index": "",
+      "handoff_digest": "",
+      "dashboard_data": "",
+      "external_capabilities": "",
+      "external_capability_results": "",
+      "run_state_html": "",
+      "branch_ledger": "",
+      "incident_log_json": "",
+      "incident_log_html": "",
+      "supervision_queue": "",
+      "future_resource_queue": "",
+      "decision_log": "",
+      "project_plugin_overlay": "",
+      "plugin_improvement_queue": ""
+    }
+  },
+  "authority_ledger": {
+    "json_artifact": "_bmad-output/implementation-artifacts/authority-ledger/template.json",
+    "html_artifact": "_bmad-output/implementation-artifacts/authority-ledger/template.html",
+    "append_only": true,
+    "mutation_policy": "Append new source entries for directives, inferred permissions, expirations, and supersessions; do not rewrite prior source entries in place. Generated views may derive current-active status from later entries.",
+    "active_directives": [],
+    "inferred_permissions": [],
+    "mode_transition_authority": [],
+    "continuous_run_directives": [],
+    "expiration_or_supersession_notes": []
+  },
+  "worker_reports": {
+    "json_template": "_bmad-output/implementation-artifacts/worker-reports/template.json",
+    "html_template": "_bmad-output/implementation-artifacts/worker-reports/template.html",
+    "external_capability_result_json_template": "_bmad-output/implementation-artifacts/external-capability-results/template.json",
+    "external_capability_result_html_template": "_bmad-output/implementation-artifacts/external-capability-results/template.html",
+    "required_before_coordinator_disposition": true,
+    "required_fields": [
+      "worker_id",
+      "slice_id",
+      "worker_lease",
+      "assigned_paths",
+      "forbidden_paths",
+      "files_changed",
+      "files_intentionally_not_touched",
+      "changes_made",
+      "validation",
+      "blockers",
+      "proposed_shared_control_artifact_changes",
+      "authority_or_resource_evidence",
+      "external_capability_results",
+      "coordinator_disposition"
+    ]
+  },
+  "control_index": {
+    "html_artifact": "_bmad-output/implementation-artifacts/control-index.html",
+    "source_of_truth": false,
+    "purpose": "Navigation-only index of project-local agent-development artifacts and categorized HTML files."
+  },
+  "handoff_digest": {
+    "html_template": "_bmad-output/implementation-artifacts/handoff-digest/template.html",
+    "latest_html_artifact": "_bmad-output/implementation-artifacts/handoff-digest/2026-07-08-agent-development-memory.html",
+    "source_of_truth": false,
+    "purpose": "Human-facing stop, compaction-risk, stale-lease, and user-return digest generated from the slice queue."
+  },
+  "dashboard_data": {
+    "json_template": "_bmad-output/implementation-artifacts/dashboard-data/template.json",
+    "html_template": "_bmad-output/implementation-artifacts/dashboard-data/template.html",
+    "rich_dashboard_requested": false,
+    "external_visualization_capabilities": [
+      "build-web-data-visualization",
+      "Data Analytics widgets"
+    ],
+    "status_lanes_required": true,
+    "status_lane_ids": [
+      "internal_agent_work",
+      "external_capability_activity",
+      "validation_evidence",
+      "supervision_required"
+    ],
+    "combined_project_status_allowed": true,
+    "visible_external_connections_required": true,
+    "status": "template-only"
+  },
+  "external_capabilities": {
+    "json_template": "_bmad-output/implementation-artifacts/external-capabilities/template.json",
+    "html_template": "_bmad-output/implementation-artifacts/external-capabilities/template.html",
+    "result_json_template": "_bmad-output/implementation-artifacts/external-capability-results/template.json",
+    "result_html_template": "_bmad-output/implementation-artifacts/external-capability-results/template.html",
+    "supported_types": [
+      "plugin",
+      "skill",
+      "api",
+      "mcp-server",
+      "browser-tool",
+      "external-service",
+      "spawned-agent",
+      "local-tool"
+    ],
+    "autonomy_boundary": {
+      "autonomous_when": "inside-active-project-authority-development-local-boundaries-and-existing-supervision-rules",
+      "supervision_required_for": [
+        "new-or-unclear-credential-authorization",
+        "production-changes",
+        "publishing-or-deployment",
+        "personal-account-actions",
+        "broad-computer-use",
+        "sensitive-data-access"
+      ],
+      "requirements_check": "pass | supervision-needed | blocked"
+    },
+    "credential_sources": {
+      "allowed_source_types": [
+        "project-local-env-file",
+        "project-local-json-file",
+        "process-env",
+        "user-chat-ephemeral"
+      ],
+      "plugin_embeds_credentials": false,
+      "standardized_payload_required": false,
+      "entries": [
+        {
+          "id": "CRED-SOURCE-001",
+          "capability_id": "",
+          "source_type": "project-local-env-file | project-local-json-file | process-env | user-chat-ephemeral | none",
+          "local_path_or_reference": "",
+          "auth_scheme_label": "",
+          "format_notes": "Provider-specific; do not standardize credential payload in the reusable plugin.",
+          "rotation_notes": "",
+          "local_only_or_gitignore_expected": true,
+          "secret_values_recorded": false,
+          "status": "not-needed | needed | configured | rotation-needed | blocked"
+        }
+      ]
+    },
+    "result_capture": {
+      "required_for_each_invocation": true,
+      "allowed_capture_locations": [
+        "slice-local-worker-report",
+        "external-capability-result-packet"
+      ],
+      "dashboard_connection_list_visible": true,
+      "accepted_result_packets_immutable": true,
+      "corrections_create_superseding_packets": true,
+      "dashboard_shows_current_packet_and_history": true,
+      "omit_from_results": [
+        "secrets",
+        "credential-values",
+        "hidden-reasoning",
+        "phi",
+        "oversized-payloads"
+      ]
+    }
+  },
+  "intake_depth": {
+    "selected": "quick-start | standard-preflight | deep-spec",
+    "primary_profile_minimum": "standard-preflight-required-for-unattended-continuous-development",
+    "secondary_profile_minimum": "essential-fields-unless-high-risk",
+    "unattended_continuous_development_ready": false,
+    "deep_spec_required_reasons": []
+  },
+  "project": {
+    "name": "",
+    "root": "",
+    "archetype": "wordpress-website | web-application | cli-or-library | mobile-app | data-workflow | clinical-workspace | mixed | unknown",
+    "primary_surface": "",
+    "technical_substrate": "",
+    "deployment_surface": ""
+  },
+  "archetype_registry": {
+    "registry_source": "_bmad-output/implementation-artifacts/archetype-registry/template.json",
+    "human_review_artifact": "_bmad-output/implementation-artifacts/archetype-registry/template.html",
+    "primary_orchestration_profile": "",
+    "selected_profile": "",
+    "secondary_profiles": [],
+    "mixed_project_policy_applied": false,
+    "project_local_overrides": []
+  },
+  "objective": {
+    "summary": "",
+    "success_signal": "",
+    "non_goals": []
+  },
+  "sources": [
+    {
+      "type": "spec | readme | issue | ticket | architecture-note | codebase | user-answer | design-source",
+      "path_or_url": "",
+      "used_for": "",
+      "retrieved_or_checked_at": ""
+    }
+  ],
+  "scope": {
+    "audience": "",
+    "primary_journeys": [],
+    "content_needs": [],
+    "data_needs": [],
+    "account_or_auth_needs": [],
+    "commerce_needs": [],
+    "integration_needs": [],
+    "publishing_or_production_boundaries": []
+  },
+  "design": {
+    "visual_work_is_material": false,
+    "design_agreement_status": "not-needed | pending | selected | deferred",
+    "design_system_or_platform": "",
+    "brand_constraints": [],
+    "accessibility_needs": [],
+    "suggested_pathways": [
+      {
+        "id": "DESIGN-PATH-001",
+        "source": "image-generation | installed-design-skill | html-mockup | user-supplied",
+        "artifact": "",
+        "description": "",
+        "disposition": "suggested | selected | rejected | deferred"
+      }
+    ],
+    "selected_direction": ""
+  },
+  "privacy_compliance": {
+    "will_handle_phi": "yes | no | unknown",
+    "question_required_before_unattended_run": true,
+    "hipaa_aware_incident_log_required_when_phi": true,
+    "incident_log_json": "_bmad-output/implementation-artifacts/incident-log/incident-log.json",
+    "incident_log_html": "_bmad-output/implementation-artifacts/incident-log/2026-07-08-agent-development-memory.html",
+    "monitoring_phases_required_when_phi": [
+      "preflight-security-baseline",
+      "implementation-monitoring",
+      "recurring-security-scan",
+      "incident-response-review"
+    ],
+    "security_scan_reminders": [
+      "dependency scan",
+      "secret scan",
+      "static analysis",
+      "access review"
+    ],
+    "abnormal_behavior_monitoring": true,
+    "no_phi_or_secret_values_in_logs": true,
+    "compliance_note": "HIPAA-aware development safeguards are not legal certification."
+  },
+  "boundaries": {
+    "stop_conditions": [],
+    "supervision_required": [],
+    "credential_handling": "",
+    "privacy_or_regulatory": []
+  },
+  "resources": {
+    "skills_needed": [],
+    "tools_needed": [],
+    "expected_unavailable": [],
+    "future_resource_opportunities": []
+  },
+  "validation": {
+    "baseline_commands": [],
+    "high_risk_review_needed": false,
+    "review_reasons": []
+  },
+  "work": {
+    "initial_slices": [],
+    "dependencies": [],
+    "known_blockers": [],
+    "open_questions": []
+  },
+  "check_ins": {
+    "mode": "interactive | unattended-continuous-development",
+    "suggested_milestones": [],
+    "advisory_when_unattended": true
+  }
+}

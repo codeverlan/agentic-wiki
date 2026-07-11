@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Development Plugin Readiness Contract</title>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","identifier":"agent-development-plugin-readiness-contract","name":"Agent Development Plugin Readiness Contract","description":"Project-local readiness and implementation record for the local reusable agent-development-coordinator plugin.","dateModified":"2026-07-08T04:48:55-04:00","isBasedOn":"_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/SPEC.md","distribution":{"@type":"DataDownload","contentUrl":"_bmad-output/implementation-artifacts/plugin-development-readiness/readiness-contract.json","encodingFormat":"application/json"},"memwiki:pageType":"plugin_development_readiness","memwiki:sourceOfTruth":true}</script>
+  <style>
+    body { color: #1f2933; font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; max-width: 96rem; }
+    header, section { margin-bottom: 1.5rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #c9ced6; padding: 0.55rem; text-align: left; vertical-align: top; }
+    th { background: #f4f6f8; }
+    code { background: #eef1f5; padding: 0.1rem 0.25rem; }
+    .notice { border-left: 0.3rem solid #476b9b; padding-left: 0.75rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Agent Development Plugin Readiness Contract</h1>
+    <p class="notice">This artifact records the local plugin-development workflow. The plugin has been scaffolded and installed for local use through the personal marketplace.</p>
+  </header>
+  <main>
+    <article id="agent-development-plugin-readiness-contract" data-page-type="plugin_development_readiness">
+      <section id="metadata">
+        <h2>Metadata</h2>
+        <dl>
+          <dt>JSON source</dt><dd><code>_bmad-output/implementation-artifacts/plugin-development-readiness/readiness-contract.json</code></dd>
+          <dt>Updated</dt><dd><time datetime="2026-07-08T04:48:55-04:00">2026-07-08T04:48:55-04:00</time></dd>
+          <dt>Readiness state</dt><dd>Local plugin scaffolded, installed, and enabled for future Codex threads</dd>
+          <dt>Recommended working plugin name</dt><dd><code>agent-development-coordinator</code></dd>
+          <dt>Source plugin root</dt><dd><code>/Users/tyler-lcsw/plugins/agent-development-coordinator</code></dd>
+          <dt>Installed plugin root</dt><dd><code>/Users/tyler-lcsw/.codex/plugins/cache/personal/agent-development-coordinator/0.1.0</code></dd>
+          <dt>Marketplace</dt><dd><code>/Users/tyler-lcsw/.agents/plugins/marketplace.json</code> as <code>personal</code></dd>
+        </dl>
+      </section>
+      <section id="plugin-shape">
+        <h2>Recommended Plugin Shape</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Skill</th>
+              <th scope="col">Responsibility</th>
+              <th scope="col">Mutation boundary</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>agent-dev-intake-preflight</td><td>Normalize user intent, referred specs, and archetype-specific questions into an intent packet and readiness gate.</td><td>Writes project-local intent, readiness, queue, resource, authority, and supervision artifacts only.</td></tr>
+            <tr><td>agent-dev-continuous-coordinator</td><td>Run continuous delivery with coordinator-owned slices, validation, blockers, run-state, handoff, incident logs, and branch ledger.</td><td>May edit project code, docs, tests, fixtures, and coordinator-owned project-local control artifacts inside active authority.</td></tr>
+            <tr><td>agent-dev-status-handoff</td><td>Generate status summaries, run-state artifacts, handoff digests, dashboard handoff data, incident summaries, and user-return presentations.</td><td>Read-only against project implementation except generated reports and presentations.</td></tr>
+            <tr><td>agent-dev-improvement-review</td><td>Review project-local plugin-improvement candidates and prepare explicit plugin-development recommendations.</td><td>May write candidate analysis and queues; cannot edit plugin files unless explicit plugin-development work has started.</td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="artifact-mapping">
+        <h2>Project Artifact Mapping</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Current artifact</th>
+              <th scope="col">Reusable candidate</th>
+              <th scope="col">Packaging treatment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>accepted-decisions/decision-matrix.json</code></td><td>Accepted decision matrix schema and template</td><td>Generalize as reusable template; current rows are examples, not defaults.</td></tr>
+            <tr><td><code>slice-queue.json</code></td><td>Slice queue schema and status-lane model</td><td>Generalize status values, lease fields, and four-lane summaries.</td></tr>
+            <tr><td><code>incident-log/incident-log.json</code></td><td>Incident and PHI-aware monitoring schema</td><td>Generalize metadata-only event types and HIPAA-aware reminders without PHI or secrets.</td></tr>
+            <tr><td><code>external-capabilities/template.json</code></td><td>External capability registry schema</td><td>Generalize connection metadata, authority, credential-source metadata, and supervision boundaries.</td></tr>
+            <tr><td><code>dashboard-data/template.json</code></td><td>Bounded dashboard handoff schema</td><td>Generalize optional visualization handoff; do not hard-code a dashboard renderer.</td></tr>
+            <tr><td><code>project-plugin-overlay.html</code></td><td>Project overlay template</td><td>Generalize overlay mechanism; keep current overlays project-local examples.</td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="scaffold-sequence">
+        <h2>Scaffold Sequence</h2>
+        <p>The local scaffold and install steps have started. Fresh-thread smoke testing remains pending.</p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Step</th>
+              <th scope="col">Command</th>
+              <th scope="col">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Scaffold</td><td><code>python3 scripts/create_basic_plugin.py agent-development-coordinator --with-skills --with-scripts --with-assets --with-marketplace</code></td><td>Completed for local personal marketplace.</td></tr>
+            <tr><td>Manifest cleanup</td><td><code>Edit ~/plugins/agent-development-coordinator/.codex-plugin/plugin.json</code></td><td>Completed with local-use metadata and no apps or mcpServers.</td></tr>
+            <tr><td>Validate plugin</td><td><code>python3 scripts/validate_plugin.py ~/plugins/agent-development-coordinator</code></td><td>Completed; plugin validation passed.</td></tr>
+            <tr><td>Install</td><td><code>codex plugin add agent-development-coordinator@personal</code></td><td>Completed; plugin installed and enabled.</td></tr>
+            <tr><td>Iteration cachebuster</td><td><code>python3 scripts/update_plugin_cachebuster.py ~/plugins/agent-development-coordinator</code></td><td>Deferred until a future local iteration changes the plugin.</td></tr>
+            <tr><td>Fresh-thread smoke test</td><td>Start a new Codex thread in disposable BMAD and non-BMAD projects.</td><td>Pending; needed so newly installed skills load in the thread.</td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="implemented-files">
+        <h2>Implemented Local Plugin Files</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Surface</th>
+              <th scope="col">Path</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Manifest</td><td><code>/Users/tyler-lcsw/plugins/agent-development-coordinator/.codex-plugin/plugin.json</code></td><td>Validated</td></tr>
+            <tr><td>Skills</td><td><code>/Users/tyler-lcsw/plugins/agent-development-coordinator/skills/</code></td><td>Four skills added</td></tr>
+            <tr><td>Assets</td><td><code>/Users/tyler-lcsw/plugins/agent-development-coordinator/assets/agent-development-coordinator-contract.json</code></td><td>Reusable contract asset added</td></tr>
+            <tr><td>Marketplace</td><td><code>/Users/tyler-lcsw/.agents/plugins/marketplace.json</code></td><td>Personal marketplace entry present</td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="exclusions">
+        <h2>Exclusions</h2>
+        <ul>
+          <li>Do not package Agentic Wiki repo-specific decisions as plugin defaults.</li>
+          <li>Do not package user chat history, credentials, secret values, PHI, generated run logs, project queue state, or project-specific accepted decision rows.</li>
+          <li>Do not package BMAD as a dependency; keep BMAD as one storage adapter when <code>_bmad</code> exists.</li>
+          <li>Do not include Cloudflare-specific deployment assumptions.</li>
+          <li>Do not create marketplace entries, plugin folders, cachebusters, or plugin installs until explicit plugin-development work starts.</li>
+        </ul>
+      </section>
+      <section id="acceptance-tests">
+        <h2>Acceptance Tests</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Gate</th>
+              <th scope="col">Expected evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Manifest validation</td><td><code>validate_plugin.py</code> passes with no TODO placeholders.</td></tr>
+            <tr><td>Fresh-thread skill load</td><td>Installed plugin skills appear after reinstall and new-thread startup.</td></tr>
+            <tr><td>BMAD smoke test</td><td>Intake/preflight creates project-local artifacts under a BMAD output root.</td></tr>
+            <tr><td>Non-BMAD smoke test</td><td>Intake/preflight creates equivalent artifacts under a lightweight Agentic Wiki memory root.</td></tr>
+            <tr><td>Continuous coordinator smoke test</td><td>Creates a slice queue with status lanes, leases, and validation commands without touching plugin files.</td></tr>
+            <tr><td>Handoff smoke test</td><td>Renders run-state and handoff digest from slice queue.</td></tr>
+            <tr><td>Safety smoke test</td><td>Incident logs, PHI-aware monitoring, external capability records, and dashboard data omit PHI, secrets, and credential values.</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </article>
+  </main>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Development Control Index</title>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","identifier":"agent-development-control-index","name":"Agent Development Control Index","description":"Navigation-only index of project-local agent-development artifacts and categorized HTML surfaces.","dateModified":"2026-07-11T01:02:17-04:00","isBasedOn":"_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/SPEC.md","memwiki:pageType":"control_index","memwiki:sourceOfTruth":false}</script>
+  <style>
+    body { color: #1f2933; font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; max-width: 84rem; }
+    header, section { margin-bottom: 1.5rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #c9ced6; padding: 0.55rem; text-align: left; vertical-align: top; }
+    th { background: #f4f6f8; }
+    code { background: #eef1f5; padding: 0.1rem 0.25rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Agent Development Control Index</h1>
+    <p>This page is a navigation surface only. The linked artifacts remain the sources of truth.</p>
+  </header>
+  <main>
+    <article id="agent-development-control-index" data-page-type="control_index">
+      <section id="core-control-artifacts">
+        <h2>Core Control Artifacts</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Category</th>
+              <th scope="col">Artifact</th>
+              <th scope="col">Path</th>
+              <th scope="col">Source-of-truth status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Intent</td><td>Intent packet JSON</td><td><code>_bmad-output/implementation-artifacts/intent-packet/template.json</code></td><td>Dispatch input template</td></tr>
+            <tr><td>Intent</td><td>Intent packet HTML</td><td><a href="intent-packet/template.html">intent-packet/template.html</a></td><td>Human review surface</td></tr>
+            <tr><td>Authority</td><td>Authority ledger</td><td><a href="authority-ledger/template.html">authority-ledger/template.html</a></td><td>Human review surface for matching JSON</td></tr>
+            <tr><td>Queue</td><td>Slice queue</td><td><code>_bmad-output/implementation-artifacts/slice-queue.json</code></td><td>Source of truth for slice state and worker leases</td></tr>
+            <tr><td>Run state</td><td>Latest run-state HTML</td><td><a href="run-state/2026-07-11-agentic-memory-hardening.html">run-state/2026-07-11-agentic-memory-hardening.html</a></td><td>Queue-drained agentic-memory implementation and hardening state</td></tr>
+            <tr><td>Handoff</td><td>Latest handoff digest</td><td><a href="handoff-digest/2026-07-11-agentic-memory-hardening.html">handoff-digest/2026-07-11-agentic-memory-hardening.html</a></td><td>Validated four-slice handoff with no remaining current task</td></tr>
+            <tr><td>Incident</td><td>Latest incident/exception log</td><td><a href="incident-log/2026-07-08-agent-development-memory.html">incident-log/2026-07-08-agent-development-memory.html</a></td><td>Rendered from append-only incident-log JSON with PHI-aware metadata-only monitoring posture</td></tr>
+            <tr><td>Decisions</td><td>Accepted decision matrix</td><td><a href="accepted-decisions/decision-matrix.html">accepted-decisions/decision-matrix.html</a></td><td>Source of truth for user-approved accelerated interview decisions; JSON is the machine-readable source</td></tr>
+            <tr><td>Branch</td><td>Branch ledger</td><td><a href="branch-ledger.html">branch-ledger.html</a></td><td>Living branch ledger</td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="queues-and-reports">
+        <h2>Queues And Reports</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Category</th>
+              <th scope="col">Artifact</th>
+              <th scope="col">Path</th>
+              <th scope="col">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Supervision</td><td>Supervision queue</td><td><a href="supervision-queue.html">supervision-queue.html</a></td><td>Tasks requiring supervised user action</td></tr>
+            <tr><td>Handoff</td><td>Handoff digest template</td><td><a href="handoff-digest/template.html">handoff-digest/template.html</a></td><td>Reusable HTML shape for generated handoff digests</td></tr>
+            <tr><td>Incident</td><td>Incident log template</td><td><a href="incident-log/template.html">incident-log/template.html</a></td><td>Reusable metadata-only incident/exception log with HIPAA-aware variant</td></tr>
+            <tr><td>Resources</td><td>Future-resource queue</td><td><a href="future-resource-queue.html">future-resource-queue.html</a></td><td>Chronological advisory queue</td></tr>
+            <tr><td>Plugin</td><td>Plugin-improvement queue</td><td><a href="plugin-improvement-queue.html">plugin-improvement-queue.html</a></td><td>Reusable plugin improvement candidates</td></tr>
+            <tr><td>Plugin</td><td>Plugin-development readiness contract</td><td><a href="plugin-development-readiness/readiness-contract.html">plugin-development-readiness/readiness-contract.html</a></td><td>Project-local readiness source for the future explicit plugin-development workflow; no plugin files scaffolded</td></tr>
+            <tr><td>Architecture plan</td><td>Agentic memory architecture and plugin integration plan</td><td><a href="agentic-memory-architecture-plan/implementation-plan.html">agentic-memory-architecture-plan/implementation-plan.html</a></td><td>Human review surface for the proposed, not-started two-hour implementation contract and long-running roadmap; matching JSON is the machine-readable source</td></tr>
+            <tr><td>Workers</td><td>Worker report template</td><td><a href="worker-reports/template.html">worker-reports/template.html</a></td><td>Slice-local worker report template with lease heartbeat fields</td></tr>
+            <tr><td>Overlay</td><td>Project plugin overlay</td><td><a href="project-plugin-overlay.html">project-plugin-overlay.html</a></td><td>Project-local plugin behavior overlay</td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="dashboards-and-external-capabilities">
+        <h2>Dashboards And External Capabilities</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Category</th>
+              <th scope="col">Artifact</th>
+              <th scope="col">Path</th>
+              <th scope="col">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Dashboard data</td><td>Dashboard data contract</td><td><a href="dashboard-data/template.html">dashboard-data/template.html</a></td><td>Bounded data handoff for optional visualization tools, including four status lanes</td></tr>
+            <tr><td>External resources</td><td>External-capability registry</td><td><a href="external-capabilities/template.html">external-capabilities/template.html</a></td><td>Plugins, skills, APIs, MCP servers, browser tools, external services, and spawned agents</td></tr>
+            <tr><td>External resources</td><td>External-capability result packet</td><td><a href="external-capability-results/template.html">external-capability-results/template.html</a></td><td>Auditable external invocation result packets and dashboard-visible connection rows</td></tr>
+            <tr><td>Archetypes</td><td>Archetype registry</td><td><a href="archetype-registry/template.html">archetype-registry/template.html</a></td><td>Project-type intake and validation defaults</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </article>
+  </main>
+</body>
+</html>

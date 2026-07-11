@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Dict, Optional, Protocol, Tuple
 
 from memwiki.ids import stable_id, utc_now
 from memwiki.manifest import append_jsonl
@@ -19,15 +19,82 @@ class OperationContext:
     purpose_of_use: str
     session_id: str
     reason: Optional[str] = None
+    authority_token: Optional[str] = field(default=None, repr=False)
 
     def __post_init__(self) -> None:
-        for field in ["actor_id", "actor_role", "purpose_of_use", "session_id"]:
-            if not str(getattr(self, field)).strip():
-                raise ValueError(f"OperationContext.{field} is required")
+        for field_name in ["actor_id", "actor_role", "purpose_of_use", "session_id"]:
+            if not str(getattr(self, field_name)).strip():
+                raise ValueError(f"OperationContext.{field_name} is required")
 
     def to_dict(self) -> Dict[str, str]:
-        data = {key: str(value) for key, value in asdict(self).items() if value is not None}
-        return data
+        return {
+            key: str(value)
+            for key, value in {
+                "actor_id": self.actor_id,
+                "actor_role": self.actor_role,
+                "purpose_of_use": self.purpose_of_use,
+                "session_id": self.session_id,
+                "reason": self.reason,
+            }.items()
+            if value is not None
+        }
+
+
+@dataclass(frozen=True)
+class VerifiedAuthority:
+    subject_id: str
+    roles: Tuple[str, ...]
+    issuer: str
+    credential_id: str
+    allowed_operations: Tuple[str, ...]
+    workspace: str
+    session_id: str
+
+    def audit_details(self) -> Dict[str, object]:
+        return {
+            "subject_id": self.subject_id,
+            "roles": list(self.roles),
+            "issuer": self.issuer,
+            "credential_id": self.credential_id,
+        }
+
+
+class AuthorityVerifier(Protocol):
+    def verify(
+        self,
+        token: str,
+        *,
+        operation: str,
+        workspace: Path,
+        session_id: str,
+    ) -> VerifiedAuthority:
+        ...
+
+
+def verify_coordinator_authority(
+    context: Optional[OperationContext],
+    verifier: Optional[AuthorityVerifier],
+    operation: str,
+    workspace: Path,
+) -> VerifiedAuthority:
+    if context is None or not context.authority_token or verifier is None:
+        raise PolicyError("Verified coordinator authority is required")
+    try:
+        verified = verifier.verify(
+            context.authority_token,
+            operation=operation,
+            workspace=workspace,
+            session_id=context.session_id,
+        )
+    except Exception:
+        raise PolicyError("Authority credential verification failed") from None
+    if verified.subject_id != context.actor_id:
+        raise PolicyError("Verified authority identity does not match operation context")
+    if "coordinator" not in verified.roles or operation not in verified.allowed_operations:
+        raise PolicyError("Verified coordinator authority does not permit this operation")
+    if Path(verified.workspace).resolve() != workspace.resolve() or verified.session_id != context.session_id:
+        raise PolicyError("Verified coordinator authority scope does not match this workspace or session")
+    return verified
 
 
 def normalize_profile(profile: str) -> str:

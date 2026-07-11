@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Development Handoff Digest</title>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "CreativeWork", "identifier": "page_d179ebf356a95861", "memwiki:activeAuthority": "_bmad-output/implementation-artifacts/agentic-memory-architecture-plan/implementation-plan.json", "memwiki:agentMemoryType": "agent_development_handoff_digest", "memwiki:generatedAt": "2026-07-11T05:38:26+00:00", "memwiki:handoffDigest": true, "memwiki:handoffTrigger": "first-sprint-validated", "memwiki:humanArtifacts": {"accepted_decision_matrix_html": "_bmad-output/implementation-artifacts/accepted-decisions/decision-matrix.html", "accepted_decision_matrix_json": "_bmad-output/implementation-artifacts/accepted-decisions/decision-matrix.json", "archetype_registry_html_template": "_bmad-output/implementation-artifacts/archetype-registry/template.html", "archetype_registry_json_template": "_bmad-output/implementation-artifacts/archetype-registry/template.json", "authority_ledger_html_template": "_bmad-output/implementation-artifacts/authority-ledger/template.html", "authority_ledger_json_template": "_bmad-output/implementation-artifacts/authority-ledger/template.json", "branch_ledger": "_bmad-output/implementation-artifacts/branch-ledger.html", "control_index": "_bmad-output/implementation-artifacts/control-index.html", "dashboard_data_html_template": "_bmad-output/implementation-artifacts/dashboard-data/template.html", "dashboard_data_json_template": "_bmad-output/implementation-artifacts/dashboard-data/template.json", "external_capabilities_html_template": "_bmad-output/implementation-artifacts/external-capabilities/template.html", "external_capabilities_json_template": "_bmad-output/implementation-artifacts/external-capabilities/template.json", "external_capability_results_html_template": "_bmad-output/implementation-artifacts/external-capability-results/template.html", "external_capability_results_json_template": "_bmad-output/implementation-artifacts/external-capability-results/template.json", "handoff_digest_template": "_bmad-output/implementation-artifacts/handoff-digest/template.html", "incident_log_json": "_bmad-output/implementation-artifacts/incident-log/incident-log.json", "incident_log_template_html": "_bmad-output/implementation-artifacts/incident-log/template.html", "incident_log_template_json": "_bmad-output/implementation-artifacts/incident-log/template.json", "installed_plugin_root": "/Users/tyler-lcsw/.codex/plugins/cache/personal/agent-development-coordinator/0.1.0+codex.20260711052459", "intent_packet_html_template": "_bmad-output/implementation-artifacts/intent-packet/template.html", "intent_packet_json_template": "_bmad-output/implementation-artifacts/intent-packet/template.json", "latest_handoff_digest": "_bmad-output/implementation-artifacts/handoff-digest/2026-07-11-agentic-memory-sprint-1.html", "latest_incident_log": "_bmad-output/implementation-artifacts/incident-log/2026-07-08-agent-development-memory.html", "local_plugin_source_root": "/Users/tyler-lcsw/plugins/agent-development-coordinator", "personal_marketplace_manifest": "/Users/tyler-lcsw/.agents/plugins/marketplace.json", "plugin_development_readiness_html": "_bmad-output/implementation-artifacts/plugin-development-readiness/readiness-contract.html", "plugin_development_readiness_json": "_bmad-output/implementation-artifacts/plugin-development-readiness/readiness-contract.json", "run_state_format": "html", "run_state_template": "_bmad-output/implementation-artifacts/run-state/template.html", "worker_report_html_template": "_bmad-output/implementation-artifacts/worker-reports/template.html", "worker_report_json_template": "_bmad-output/implementation-artifacts/worker-reports/template.json"}, "memwiki:pageType": "agent_handoff_digest", "memwiki:queueUpdatedAt": "2026-07-11T01:34:23-04:00", "memwiki:resumeCommand": "Open the implementation plan and slice queue, then begin the next highest-priority ready slice with tests first.", "memwiki:resumePath": "_bmad-output/implementation-artifacts/agentic-memory-architecture-plan/implementation-plan.json", "memwiki:sliceCount": 2, "memwiki:sliceStatusCounts": {"validated": 2}, "memwiki:sourceOfTruth": true, "memwiki:sourceQueue": "_bmad-output/implementation-artifacts/slice-queue.json", "memwiki:sourceSpec": "_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/SPEC.md", "memwiki:statusLanes": ["internal_agent_work", "external_capability_activity", "validation_evidence", "supervision_required"], "memwiki:workerLeases": true, "name": "Agent Development Handoff Digest"}</script>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.55; max-width: 72rem; }
+    nav a { margin-right: 1rem; }
+    article { margin-top: 1.5rem; }
+    .claim { border-left: 4px solid #2f6f73; padding-left: 1rem; }
+    .provenance { background: #f5f5f5; padding: 1rem; border-radius: 6px; }
+    code { background: #f2f2f2; padding: 0.1rem 0.25rem; }
+  </style>
+</head>
+<body>
+  <nav><a href="index.html">Index</a><a href="contradictions.html">Contradictions</a></nav>
+  <article id="page_d179ebf356a95861" data-page-type="agent_handoff_digest">
+    <h1>Agent Development Handoff Digest</h1>
+
+    <section id="handoff-summary">
+      <h2>Handoff Summary</h2>
+      <dl>
+        <dt>Objective</dt><dd>Implement and validate the first agentic-memory vertical slice before the 2:00 AM hard stop.</dd>
+        <dt>Trigger</dt><dd>first-sprint-validated</dd>
+        <dt>Active authority</dt><dd>_bmad-output/implementation-artifacts/agentic-memory-architecture-plan/implementation-plan.json</dd>
+        <dt>Queue</dt><dd>_bmad-output/implementation-artifacts/slice-queue.json</dd>
+        <dt>Queue updated</dt><dd>2026-07-11T01:34:23-04:00</dd>
+        <dt>Slice status counts</dt><dd>validated: 2</dd>
+      </dl>
+    </section>
+    <section id="queue-state">
+      <h2>Queue State</h2>
+      <p>The queue remains the machine-readable source of truth. This digest is a human-readable
+      resume surface for stops, compaction risk, stale leases, and user-return checkpoints.</p>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Lane ID</th>
+            <th scope="col">Lane</th>
+            <th scope="col">Current</th>
+            <th scope="col">Blocked</th>
+            <th scope="col">Completed</th>
+            <th scope="col">Last updated</th>
+            <th scope="col">Source artifacts</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>internal_agent_work</code></td>
+            <td>Internal agent work</td>
+            <td>First agentic-memory sprint is validated; fresh-thread BMAD and non-BMAD plugin smoke testing remains pending.</td>
+            <td>No internal agent blocker recorded.</td>
+            <td>Typed events and proposals, immutable source-backed drafts, PHI and design-memory policies, bounded context, transitive impact, CLI/API contracts, and the expanded memory-steward plugin are implemented.</td>
+            <td>2026-07-11T01:34:23-04:00</td>
+            <td>_bmad-output/implementation-artifacts/slice-queue.json, _bmad-output/implementation-artifacts/accepted-decisions/decision-matrix.json, _bmad-output/implementation-artifacts/plugin-development-readiness/readiness-contract.json, _bmad-output/implementation-artifacts/handoff-digest/template.html, _bmad-output/implementation-artifacts/incident-log/incident-log.json, _bmad-output/implementation-artifacts/worker-reports/template.html</td>
+          </tr>
+          <tr>
+            <td><code>external_capability_activity</code></td>
+            <td>External capability activity</td>
+            <td>External capability registry, connection visibility, result packets, result supersession policy, and plugin packaging constraints are represented in project-local templates.</td>
+            <td>No expected external capability is currently unavailable for this specification slice.</td>
+            <td>Dashboard-visible external connection tracking, external capability coordination, and accepted result-packet immutability are recorded in the decision matrix and supporting templates.</td>
+            <td>2026-07-08T04:50:58-04:00</td>
+            <td>_bmad-output/implementation-artifacts/accepted-decisions/decision-matrix.html, _bmad-output/implementation-artifacts/external-capabilities/template.html, _bmad-output/implementation-artifacts/external-capability-results/template.html</td>
+          </tr>
+          <tr>
+            <td><code>validation_evidence</code></td>
+            <td>Validation/evidence</td>
+            <td>First-sprint repository, documentation, CLI, plugin source, installed cache, and parity validation passed.</td>
+            <td>No validation blocker recorded.</td>
+            <td>64 tests passed; Ruff, mypy, and docs checks passed; bounded context enforces record and byte budgets with truncation accounting; plugin source and installed cache validate and match; plugin is installed and enabled at cachebuster version 0.1.0+codex.20260711052459.</td>
+            <td>2026-07-11T01:34:23-04:00</td>
+            <td>_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/.memlog.md, tests/test_agent_development_memory.py, _bmad-output/implementation-artifacts/accepted-decisions/decision-matrix.json, _bmad-output/implementation-artifacts/plugin-development-readiness/readiness-contract.json, _bmad-output/implementation-artifacts/incident-log/incident-log.json</td>
+          </tr>
+          <tr>
+            <td><code>supervision_required</code></td>
+            <td>Supervision-required items</td>
+            <td>Fresh-thread smoke testing is recommended because newly installed plugin skills load in new threads.</td>
+            <td>No supervision boundary is blocking this specification slice.</td>
+            <td>User approved the project-local PHI-aware incident/exception log, monitoring model, and accepted decision matrix in chat.</td>
+            <td>2026-07-08T04:50:58-04:00</td>
+            <td>_bmad-output/implementation-artifacts/accepted-decisions/decision-matrix.html, _bmad-output/implementation-artifacts/plugin-development-readiness/readiness-contract.html, _bmad-output/implementation-artifacts/project-plugin-overlay.html</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="worker-leases">
+      <h2>Worker Leases</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Slice ID</th>
+            <th scope="col">Lease ID</th>
+            <th scope="col">Worker ID</th>
+            <th scope="col">Branch</th>
+            <th scope="col">Assigned paths</th>
+            <th scope="col">Heartbeat</th>
+            <th scope="col">Lease status</th>
+            <th scope="col">Stale after</th>
+            <th scope="col">Stale handling</th>
+            <th scope="col">Reassignment or supersession</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>SLICE-001</td>
+            <td>LEASE-001</td>
+            <td>current-codex-thread</td>
+            <td><code>codex/2026-07-07-agent-development-memory</code></td>
+            <td>src/agentic_wiki/, src/memwiki/, tests/, docs/, README.md, _bmad-output/</td>
+            <td>2026-07-08T04:50:58-04:00</td>
+            <td>released</td>
+            <td>next coordinator heartbeat or explicit handoff</td>
+            <td>Coordinator inspects and preserves slice-owned work before reassignment or supersession.</td>
+            <td>Not recorded.</td>
+          </tr>
+          <tr>
+            <td>SLICE-002</td>
+            <td>LEASE-002</td>
+            <td>coordinator-plus-five-agents</td>
+            <td><code>codex/2026-07-07-agent-development-memory</code></td>
+            <td>src/, tests/, docs/, README.md, _bmad-output/, /Users/tyler-lcsw/plugins/agent-development-coordinator</td>
+            <td>2026-07-11T01:34:23-04:00</td>
+            <td>released</td>
+            <td>completed</td>
+            <td>No reassignment required; all agents were closed after reports and validation.</td>
+            <td>Not recorded.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="blockers-validation">
+      <h2>Blockers And Validation</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Slice ID</th>
+            <th scope="col">Status</th>
+            <th scope="col">Branch</th>
+            <th scope="col">Description</th>
+            <th scope="col">Dependency/Blocker</th>
+            <th scope="col">Validation</th>
+            <th scope="col">Next action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="status-validated">
+            <td>SLICE-001</td>
+            <td><span class="status">validated</span></td>
+            <td><code>codex/2026-07-07-agent-development-memory</code></td>
+            <td>Implement provider-agnostic agent-development memory foundation and begin local plugin packaging: run-state renderer, handoff digest renderer, PHI-aware incident/exception log renderer, accepted decision matrix, plugin-development readiness contract, local agent-development-coordinator scaffold/install, draft workflow, API/CLI commands, capabilities, generated docs, archetype registry, mixed-profile, intake-depth, storage-adapter artifacts, multi-skill plugin workflow artifacts, skill-level mutation-permission artifacts, explicit run-mode artifacts, run-mode transition artifacts, authority-ledger artifacts, append-only authority-ledger mutation policy, worker-report JSON/HTML artifacts, worker lease model, control index, dashboard data contract, four-lane status/dashboard model, external-capability registry, autonomous external capability boundary, project-local credential source handling, external-capability result packets, dashboard-visible external connection tracking, accepted result-packet immutability, supersession links, and tests.</td>
+            <td>None</td>
+            <td>uv run pytest, uv run ruff check ., uv run mypy src, uv run agentic-wiki docs check</td>
+            <td>Use a fresh Codex thread to smoke test the installed local plugin in a BMAD project and a non-BMAD project.</td>
+          </tr>
+          <tr class="status-validated">
+            <td>SLICE-002</td>
+            <td><span class="status">validated</span></td>
+            <td><code>codex/2026-07-07-agent-development-memory</code></td>
+            <td>First agentic-memory plugin expansion sprint: PHI yes/no/unknown policy, synthetic-only safeguards, design memory, typed events and worker proposals, immutable source-backed drafts, bounded context, transitive impact, public API/CLI/capabilities, generated docs, plugin memory steward, cache refresh, reinstall, and validation.</td>
+            <td>Dependencies: SLICE-001</td>
+            <td>uv run pytest, uv run ruff check ., uv run mypy src, uv run agentic-wiki docs check, plugin source/cache validate and diff</td>
+            <td>Use a fresh Codex task to smoke test the reinstalled plugin in disposable BMAD and non-BMAD projects, then begin trusted coordinator authority and atomic promotion slices.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="external-capabilities">
+      <h2>External Capabilities</h2>
+      <p>External connections, plugin use, MCP servers, API integrations, and dashboard data remain
+      tracked by project-local artifacts. Credentials are not displayed in this digest.</p>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Artifact</th>
+            <th scope="col">Path</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>accepted decision matrix html</td>
+            <td><code>_bmad-output/implementation-artifacts/accepted-decisions/decision-matrix.html</code></td>
+          </tr>
+          <tr>
+            <td>accepted decision matrix json</td>
+            <td><code>_bmad-output/implementation-artifacts/accepted-decisions/decision-matrix.json</code></td>
+          </tr>
+          <tr>
+            <td>archetype registry html template</td>
+            <td><code>_bmad-output/implementation-artifacts/archetype-registry/template.html</code></td>
+          </tr>
+          <tr>
+            <td>archetype registry json template</td>
+            <td><code>_bmad-output/implementation-artifacts/archetype-registry/template.json</code></td>
+          </tr>
+          <tr>
+            <td>authority ledger html template</td>
+            <td><code>_bmad-output/implementation-artifacts/authority-ledger/template.html</code></td>
+          </tr>
+          <tr>
+            <td>authority ledger json template</td>
+            <td><code>_bmad-output/implementation-artifacts/authority-ledger/template.json</code></td>
+          </tr>
+          <tr>
+            <td>branch ledger</td>
+            <td><code>_bmad-output/implementation-artifacts/branch-ledger.html</code></td>
+          </tr>
+          <tr>
+            <td>control index</td>
+            <td><code>_bmad-output/implementation-artifacts/control-index.html</code></td>
+          </tr>
+          <tr>
+            <td>dashboard data html template</td>
+            <td><code>_bmad-output/implementation-artifacts/dashboard-data/template.html</code></td>
+          </tr>
+          <tr>
+            <td>dashboard data json template</td>
+            <td><code>_bmad-output/implementation-artifacts/dashboard-data/template.json</code></td>
+          </tr>
+          <tr>
+            <td>external capabilities html template</td>
+            <td><code>_bmad-output/implementation-artifacts/external-capabilities/template.html</code></td>
+          </tr>
+          <tr>
+            <td>external capabilities json template</td>
+            <td><code>_bmad-output/implementation-artifacts/external-capabilities/template.json</code></td>
+          </tr>
+          <tr>
+            <td>external capability results html template</td>
+            <td><code>_bmad-output/implementation-artifacts/external-capability-results/template.html</code></td>
+          </tr>
+          <tr>
+            <td>external capability results json template</td>
+            <td><code>_bmad-output/implementation-artifacts/external-capability-results/template.json</code></td>
+          </tr>
+          <tr>
+            <td>handoff digest template</td>
+            <td><code>_bmad-output/implementation-artifacts/handoff-digest/template.html</code></td>
+          </tr>
+          <tr>
+            <td>incident log json</td>
+            <td><code>_bmad-output/implementation-artifacts/incident-log/incident-log.json</code></td>
+          </tr>
+          <tr>
+            <td>incident log template html</td>
+            <td><code>_bmad-output/implementation-artifacts/incident-log/template.html</code></td>
+          </tr>
+          <tr>
+            <td>incident log template json</td>
+            <td><code>_bmad-output/implementation-artifacts/incident-log/template.json</code></td>
+          </tr>
+          <tr>
+            <td>installed plugin root</td>
+            <td><code>/Users/tyler-lcsw/.codex/plugins/cache/personal/agent-development-coordinator/0.1.0+codex.20260711052459</code></td>
+          </tr>
+          <tr>
+            <td>intent packet html template</td>
+            <td><code>_bmad-output/implementation-artifacts/intent-packet/template.html</code></td>
+          </tr>
+          <tr>
+            <td>intent packet json template</td>
+            <td><code>_bmad-output/implementation-artifacts/intent-packet/template.json</code></td>
+          </tr>
+          <tr>
+            <td>latest handoff digest</td>
+            <td><code>_bmad-output/implementation-artifacts/handoff-digest/2026-07-11-agentic-memory-sprint-1.html</code></td>
+          </tr>
+          <tr>
+            <td>latest incident log</td>
+            <td><code>_bmad-output/implementation-artifacts/incident-log/2026-07-08-agent-development-memory.html</code></td>
+          </tr>
+          <tr>
+            <td>local plugin source root</td>
+            <td><code>/Users/tyler-lcsw/plugins/agent-development-coordinator</code></td>
+          </tr>
+          <tr>
+            <td>personal marketplace manifest</td>
+            <td><code>/Users/tyler-lcsw/.agents/plugins/marketplace.json</code></td>
+          </tr>
+          <tr>
+            <td>plugin development readiness html</td>
+            <td><code>_bmad-output/implementation-artifacts/plugin-development-readiness/readiness-contract.html</code></td>
+          </tr>
+          <tr>
+            <td>plugin development readiness json</td>
+            <td><code>_bmad-output/implementation-artifacts/plugin-development-readiness/readiness-contract.json</code></td>
+          </tr>
+          <tr>
+            <td>run state format</td>
+            <td><code>html</code></td>
+          </tr>
+          <tr>
+            <td>run state template</td>
+            <td><code>_bmad-output/implementation-artifacts/run-state/template.html</code></td>
+          </tr>
+          <tr>
+            <td>worker report html template</td>
+            <td><code>_bmad-output/implementation-artifacts/worker-reports/template.html</code></td>
+          </tr>
+          <tr>
+            <td>worker report json template</td>
+            <td><code>_bmad-output/implementation-artifacts/worker-reports/template.json</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="incident-monitoring">
+      <h2>Incident And PHI Monitoring</h2>
+      <p>Incident and exception logs are project-local metadata-only artifacts. PHI-aware projects
+      use the HIPAA-focused variant and do not store PHI, credentials, tokens, passwords, or raw
+      secret values in durable incident evidence.</p>
+      <dl>
+        <dt>Incident log JSON</dt><dd>_bmad-output/implementation-artifacts/incident-log/incident-log.json</dd>
+        <dt>Latest incident log</dt><dd>_bmad-output/implementation-artifacts/incident-log/2026-07-08-agent-development-memory.html</dd>
+        <dt>Incident log template</dt><dd>_bmad-output/implementation-artifacts/incident-log/template.html</dd>
+      </dl>
+    </section>
+    <section id="supervision-resume">
+      <h2>Supervision And Resume</h2>
+      <dl>
+        <dt>Resume path</dt><dd>_bmad-output/implementation-artifacts/agentic-memory-architecture-plan/implementation-plan.json</dd>
+        <dt>Resume command</dt><dd>Open the implementation plan and slice queue, then begin the next highest-priority ready slice with tests first.</dd>
+      </dl>
+      <ol>
+        <li>Inspect the source queue and this digest before resuming work.</li>
+        <li>Prioritize supervision-required items after the current task reaches a reasonable stop.</li>
+        <li>Continue independent slices when one slice is blocked, stale, or waiting on a dependency.</li>
+        <li>Run the validation listed for each slice before promotion, merge, or handoff.</li>
+      </ol>
+    </section>
+
+  </article>
+</body>
+</html>

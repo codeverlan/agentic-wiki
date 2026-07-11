@@ -15,6 +15,55 @@ from memwiki.policy import config_bool, is_clinical_phi
 from memwiki.workspace import Workspace
 
 
+def _normalized_text(value: str) -> str:
+    return " ".join(value.split())
+
+
+def _claim_evidence_errors(workspace: Workspace, claim: dict[str, object]) -> List[str]:
+    if claim.get("clinical_claim_type") == "clinical_guidance":
+        return []
+    source_id = str(claim.get("source_id", ""))
+    provenance = claim.get("provenance")
+    locator = provenance.get("source_locator") if isinstance(provenance, dict) else None
+    locator_value = locator.get("value") if isinstance(locator, dict) else None
+    locator_type = locator.get("type") if isinstance(locator, dict) else None
+    if isinstance(locator_value, str) and locator_value != "extracted/text.txt":
+        if locator_type != "json":
+            return []
+        source = next(
+            (
+                record
+                for record in read_jsonl(workspace.path("manifests/sources.jsonl"))
+                if record.get("source_id") == source_id
+            ),
+            None,
+        )
+        if source is None:
+            return []
+        raw_path = workspace.path(str(source.get("raw_path", "")))
+        try:
+            payload = json.loads(raw_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return [f"claim {claim.get('claim_id')} JSON source evidence is unreadable"]
+        if not isinstance(payload, dict) or locator_value.split(".", 1)[0] not in payload:
+            return [f"claim {claim.get('claim_id')} source_locator does not resolve"]
+        return []
+    claim_text = str(claim.get("text", ""))
+    prefix = f"Source {source_id} states: "
+    if not claim_text.startswith(prefix):
+        return [f"claim {claim.get('claim_id')} is not supported by extracted source evidence"]
+    evidence = _normalized_text(claim_text[len(prefix) :])
+    extracted_path = workspace.path(f".memwiki/extracted/{source_id}/text.txt")
+    if not extracted_path.is_file():
+        return [f"claim {claim.get('claim_id')} extracted source evidence is missing"]
+    extracted = _normalized_text(extracted_path.read_text(encoding="utf-8"))
+    if evidence == "No extractable text." and not extracted:
+        return []
+    if evidence not in extracted:
+        return [f"claim {claim.get('claim_id')} is not supported by extracted source evidence"]
+    return []
+
+
 @dataclass(frozen=True)
 class LintResult:
     errors: List[str]
@@ -43,6 +92,7 @@ def _manifest_errors(workspace: Workspace, base: Path) -> List[str]:
             errors.append(f"page HTML missing for {page.get('page_id')}: {html_path}")
     for claim in read_jsonl(claims_path):
         errors.extend(validate_claim(claim))
+        errors.extend(_claim_evidence_errors(workspace, claim))
         claim_ids.add(str(claim.get("claim_id")))
         if claim.get("source_id") not in source_ids:
             errors.append(f"claim {claim.get('claim_id')} references unknown source")

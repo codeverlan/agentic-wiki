@@ -1,7 +1,15 @@
 """Compatibility package for Agentic Wiki's historical memwiki API."""
 
 from memwiki.api import (
+    AgentContextResult,
+    AgentHandoffDigestRenderResult,
     AgenticWikiWorkspace,
+    AgentIncidentLogRenderResult,
+    AgentMemoryImpactResult,
+    AgentMemoryObservationResult,
+    AgentMemoryProposalResult,
+    AgentRunStateDraftResult,
+    AgentRunStateRenderResult,
     DraftResult,
     ExportResult,
     IngestResult,
@@ -9,10 +17,19 @@ from memwiki.api import (
     MemwikiWorkspace,
     PromoteResult,
 )
-from memwiki.policy import OperationContext
+from memwiki.policy import AuthorityVerifier, OperationContext, VerifiedAuthority
 
 __all__ = [
     "AgenticWikiWorkspace",
+    "AuthorityVerifier",
+    "AgentHandoffDigestRenderResult",
+    "AgentContextResult",
+    "AgentIncidentLogRenderResult",
+    "AgentMemoryImpactResult",
+    "AgentMemoryObservationResult",
+    "AgentMemoryProposalResult",
+    "AgentRunStateDraftResult",
+    "AgentRunStateRenderResult",
     "DraftResult",
     "ExportResult",
     "IngestResult",
@@ -20,6 +37,7 @@ __all__ = [
     "MemwikiWorkspace",
     "OperationContext",
     "PromoteResult",
+    "VerifiedAuthority",
     "__version__",
 ]
 

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Agentic Wiki Operations</title>
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "CreativeWork", "identifier": "docs-operations", "memwiki:commands": ["agentic-wiki init", "agentic-wiki init --profile clinical-phi --client-record-id <id> --attest-local-encryption", "agentic-wiki ingest <path>", "agentic-wiki ingest <path> --dry-run", "agentic-wiki ingest <path> --source-category <category>", "agentic-wiki compile <source-id>", "agentic-wiki promote <draft-id>", "agentic-wiki promote <draft-id> --check-only", "agentic-wiki query <question>", "agentic-wiki query <question> --json", "agentic-wiki resolve <object-id>", "agentic-wiki backlinks <object-id>", "agentic-wiki capabilities", "agentic-wiki lint", "agentic-wiki docs check", "agentic-wiki docs draft", "agentic-wiki export static"], "memwiki:doc": "operations", "memwiki:generatedAt": "1970-01-01T00:00:00+00:00", "memwiki:pageType": "concept", "name": "Agentic Wiki Operations"}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "CreativeWork", "identifier": "docs-operations", "memwiki:commands": ["agentic-wiki init", "agentic-wiki init --profile clinical-phi --client-record-id <id> --attest-local-encryption", "agentic-wiki ingest <path>", "agentic-wiki ingest <path> --dry-run", "agentic-wiki ingest <path> --source-category <category>", "agentic-wiki compile <source-id>", "agentic-wiki promote <draft-id>", "agentic-wiki promote <draft-id> --check-only", "agentic-wiki query <question>", "agentic-wiki query <question> --json", "agentic-wiki resolve <object-id>", "agentic-wiki backlinks <object-id>", "agentic-wiki capabilities", "agentic-wiki lint", "agentic-wiki docs check", "agentic-wiki docs draft", "agentic-wiki agent render-run-state <queue.json> --output <run-state.html>", "agentic-wiki agent render-handoff-digest <queue.json> --output <handoff.html>", "agentic-wiki agent render-incident-log <incident-log.json> --output <incident-log.html>", "agentic-wiki agent draft-run-state <queue.json>", "agentic-wiki agent memory observe <event.json>", "agentic-wiki agent memory propose <proposal.json>", "agentic-wiki agent memory context <memory-state.json> <request.json>", "agentic-wiki agent memory impact <memory-state.json> <changed-record-id>", "agentic-wiki export static"], "memwiki:doc": "operations", "memwiki:generatedAt": "1970-01-01T00:00:00+00:00", "memwiki:pageType": "concept", "name": "Agentic Wiki Operations"}</script>
   <style>
     body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.55; max-width: 72rem; }
     nav a { margin-right: 1rem; }
@@ -23,7 +23,7 @@
       <h2>Commands</h2>
       <p>Use the canonical CLI through <code>uv run agentic-wiki</code> during development.
       The legacy <code>uv run memwiki</code> alias remains available.</p>
-      <ul><li><code>agentic-wiki init</code></li><li><code>agentic-wiki init --profile clinical-phi --client-record-id <id> --attest-local-encryption</code></li><li><code>agentic-wiki ingest <path></code></li><li><code>agentic-wiki ingest <path> --dry-run</code></li><li><code>agentic-wiki ingest <path> --source-category <category></code></li><li><code>agentic-wiki compile <source-id></code></li><li><code>agentic-wiki promote <draft-id></code></li><li><code>agentic-wiki promote <draft-id> --check-only</code></li><li><code>agentic-wiki query <question></code></li><li><code>agentic-wiki query <question> --json</code></li><li><code>agentic-wiki resolve <object-id></code></li><li><code>agentic-wiki backlinks <object-id></code></li><li><code>agentic-wiki capabilities</code></li><li><code>agentic-wiki lint</code></li><li><code>agentic-wiki docs check</code></li><li><code>agentic-wiki docs draft</code></li><li><code>agentic-wiki export static</code></li></ul>
+      <ul><li><code>agentic-wiki init</code></li><li><code>agentic-wiki init --profile clinical-phi --client-record-id <id> --attest-local-encryption</code></li><li><code>agentic-wiki ingest <path></code></li><li><code>agentic-wiki ingest <path> --dry-run</code></li><li><code>agentic-wiki ingest <path> --source-category <category></code></li><li><code>agentic-wiki compile <source-id></code></li><li><code>agentic-wiki promote <draft-id></code></li><li><code>agentic-wiki promote <draft-id> --check-only</code></li><li><code>agentic-wiki query <question></code></li><li><code>agentic-wiki query <question> --json</code></li><li><code>agentic-wiki resolve <object-id></code></li><li><code>agentic-wiki backlinks <object-id></code></li><li><code>agentic-wiki capabilities</code></li><li><code>agentic-wiki lint</code></li><li><code>agentic-wiki docs check</code></li><li><code>agentic-wiki docs draft</code></li><li><code>agentic-wiki agent render-run-state <queue.json> --output <run-state.html></code></li><li><code>agentic-wiki agent render-handoff-digest <queue.json> --output <handoff.html></code></li><li><code>agentic-wiki agent render-incident-log <incident-log.json> --output <incident-log.html></code></li><li><code>agentic-wiki agent draft-run-state <queue.json></code></li><li><code>agentic-wiki agent memory observe <event.json></code></li><li><code>agentic-wiki agent memory propose <proposal.json></code></li><li><code>agentic-wiki agent memory context <memory-state.json> <request.json></code></li><li><code>agentic-wiki agent memory impact <memory-state.json> <changed-record-id></code></li><li><code>agentic-wiki export static</code></li></ul>
     </section>
     <section id="documentation-governance">
       <h2>Documentation Governance</h2>
@@ -50,6 +50,39 @@
       legacy <code>memwiki.*</code> tools as for canonical <code>agentic_wiki.*</code> tools.
       Static export from clinical PHI workspaces requires operation context and remains
       blocked unless the caller explicitly marks the export as deidentified.</p>
+    </section>
+    <section id="agent-development-memory">
+      <h2>Agent Development Memory</h2>
+      <p>Use <code>agentic-wiki agent render-run-state</code> to turn a slice queue JSON file
+      into standalone semantic HTML. Use <code>agentic-wiki agent render-handoff-digest</code>
+      to create a stop, compaction-risk, stale-lease, or user-return digest from the same queue.
+      Use <code>agentic-wiki agent draft-run-state</code> to preserve that queue as a raw source
+      and create a draft wiki page with provenance before promotion.</p>
+      <p>If the queue includes <code>human_artifacts</code>, rendered run-state pages show those
+      review paths and include the same map in JSON-LD metadata.</p>
+      <p>If the queue includes <code>status_lanes</code>, rendered run-state pages show internal
+      agent work, external capability activity, validation/evidence, and supervision-required
+      summaries. Queues without lane data still render the four default lanes as empty review rows.</p>
+      <p>If slice entries include <code>worker_lease</code>, rendered run-state pages show heartbeat
+      and stale-worker handling so coordinators can reassign or supersede stalled slices while
+      preserving slice-owned work.</p>
+      <p>Handoff digests include the objective, active authority, queue state, worker leases,
+      blockers, validation, external-capability artifacts, supervision items, and exact resume
+      command or path.</p>
+      <p>Use <code>agentic-wiki agent render-incident-log</code> to create append-only incident
+      and exception log HTML from a project-local incident log JSON file. PHI-capable projects use
+      the HIPAA-aware metadata-only variant, which rejects explicit PHI or secret value fields,
+      reminds the user to run regular security scans, and records abnormal-behavior monitoring
+      without claiming legal compliance.</p>
+      <p>Use <code>agentic-wiki agent memory observe</code> to validate a typed event and, in an
+      initialized workspace, preserve it as source evidence with a draft wiki page. Use
+      <code>agentic-wiki agent memory propose</code> to preserve a worker proposal as immutable
+      evidence and draft-only semantic knowledge. Use
+      <code>agentic-wiki agent memory context</code> for bounded tag-selected active records and
+      <code>agentic-wiki agent memory impact</code> for explicit relationship impact.</p>
+      <p>These commands are provider-agnostic and are intended for local autonomous development
+      coordinators, reusable agent workflows, and future plugin packaging. They do not require
+      Cloudflare, remote model adapters, or external services.</p>
     </section>
     <section id="repository">
       <h2>Repository</h2>

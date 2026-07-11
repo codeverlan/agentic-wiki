@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "generated_by": "agent-development-plugin",
+  "updated_at": "2026-07-08T02:15:05-04:00",
+  "source_of_truth": true,
+  "human_review_artifact": "_bmad-output/implementation-artifacts/authority-ledger/template.html",
+  "append_only": true,
+  "mutation_policy": {
+    "source_entries": "Append new entries only; do not rewrite prior source entries in place.",
+    "supersession": "Append a new supersession entry whose supersedes_entries references prior entry IDs.",
+    "expiration": "Append a new expiration entry whose expires_entries references prior entry IDs, unless the expiration was known when the original entry was created.",
+    "generated_views": "HTML and report views may derive current-active, superseded, or expired status from later entries."
+  },
+  "entries": [
+    {
+      "id": "AUTH-001",
+      "entry_kind": "assertion | supersession | expiration | note",
+      "recorded_status": "active | supersession | expiration | informational",
+      "authority_type": "user-directive | inferred-permission | mode-transition | continuous-run-directive | mutation-policy",
+      "recorded_at": "",
+      "source": "chat | intent-packet | bmad-artifact | project-overlay | run-state",
+      "directive_or_permission": "",
+      "scope": "",
+      "authorizes": "",
+      "expires_at": "",
+      "supersedes_entries": [],
+      "expires_entries": [],
+      "evidence": "",
+      "notes": ""
+    }
+  ]
+}

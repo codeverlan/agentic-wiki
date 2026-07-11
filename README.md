@@ -55,6 +55,7 @@ Good fits include:
 - A static website generated from curated knowledge.
 - An SEO content system where public pages remain readable, crawlable, and source-backed.
 - A plugin, coding-agent, or application feature that needs durable memory without adopting a database-first CMS.
+- An autonomous software-development coordinator that needs source-backed run state, blocked-slice reports, validation evidence, and resumable HTML handoffs.
 - A local clinical companion where source-backed evidence summaries and clinician-reviewed decision support are organized around one client record.
 
 ## HIPAA-Local Direction
@@ -117,6 +118,8 @@ Today it can:
 - inspect pages, sources, claims, and backlinks
 - export a static HTML site
 - check and draft documentation updates
+- render and draft provider-agnostic agent-development run-state pages from machine-readable slice queues, including queue-advertised human review artifacts, four-lane status summaries, worker lease heartbeats, handoff digests for stops, compaction risk, stale leases, and user-return checkpoints, and PHI-aware incident/exception logs for abnormal coordinator events
+- validate typed agent-memory events and worker proposals, preserve them as immutable source-backed drafts, compile bounded active-record context, assess explicit relationship impact, and carry project-local PHI-aware design references and visual variance contracts through the agent-development coordinator plugin
 
 The important part is not the command names. The important part is the workflow: preserve sources, generate drafts, validate them, promote accepted knowledge, and keep the result readable by both people and agents.
 

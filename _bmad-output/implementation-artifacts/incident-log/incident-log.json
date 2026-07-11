@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "generated_by": "agent-development-plugin",
+  "updated_at": "2026-07-08T04:11:58-04:00",
+  "source_spec": "_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/SPEC.md",
+  "source_of_truth": true,
+  "append_only": true,
+  "phi_profile": {
+    "handles_phi": true,
+    "hipaa_log_variant": true,
+    "no_phi_or_secret_values": true,
+    "compliance_note": "Metadata-only log for PHI-relevant software development; not legal certification.",
+    "best_practice_awareness": [
+      "least privilege",
+      "audit logging",
+      "regular security scans",
+      "secret scanning",
+      "access review",
+      "incident response planning",
+      "deidentification discipline"
+    ]
+  },
+  "monitoring_phases": [
+    {
+      "phase_id": "preflight-security-baseline",
+      "cadence": "before unattended continuous run or release",
+      "reminder": "Run dependency, secret, static analysis, and access-control checks.",
+      "evidence": "scan report path and reviewed access-control notes",
+      "user_action": "Confirm baseline security posture before PHI-capable development proceeds."
+    },
+    {
+      "phase_id": "implementation-monitoring",
+      "cadence": "during implementation slices",
+      "reminder": "Monitor logs, audit events, and unexpected file or network activity for abnormal behavior.",
+      "evidence": "metadata-only audit summary",
+      "user_action": "Review possible information, credential, plan, or PHI leakage indicators."
+    },
+    {
+      "phase_id": "recurring-security-scan",
+      "cadence": "monthly or before release",
+      "reminder": "Run dependency, secret, static analysis, and access-review checks.",
+      "evidence": "scan report path",
+      "user_action": "Review abnormal behavior and possible information leakage."
+    },
+    {
+      "phase_id": "incident-response-review",
+      "cadence": "when an incident or suspicious event is recorded",
+      "reminder": "Preserve metadata-only evidence and escalate user-supervised response.",
+      "evidence": "incident ID, timestamps, hashes, and evidence pointers",
+      "user_action": "Decide containment, notification, credential rotation, and follow-up review steps."
+    }
+  ],
+  "incidents": []
+}

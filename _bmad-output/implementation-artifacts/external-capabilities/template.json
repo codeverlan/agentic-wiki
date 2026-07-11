@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "generated_by": "agent-development-plugin",
+  "updated_at": "2026-07-08T03:14:02-04:00",
+  "source_of_truth": true,
+  "human_review_artifact": "_bmad-output/implementation-artifacts/external-capabilities/template.html",
+  "entries": [
+    {
+      "id": "EXT-CAP-001",
+      "capability_type": "plugin | skill | api | mcp-server | browser-tool | external-service | spawned-agent | local-tool",
+      "name": "",
+      "reference": "",
+      "purpose": "",
+      "related_slices": [],
+      "availability": "available | expected-unavailable | future-opportunity | unknown",
+      "authority_source": "",
+      "autonomy_boundary": {
+        "autonomous_when": "inside-active-project-authority-and-existing-supervision-rules",
+        "requires_supervision_for": [
+          "new-or-unclear-credential-authorization",
+          "production-changes",
+          "publishing-or-deployment",
+          "personal-account-actions",
+          "broad-computer-use",
+          "sensitive-data-access"
+        ],
+        "requirements_check": "pass | supervision-needed | blocked"
+      },
+      "supervision_required": false,
+      "credential_handling": "",
+      "credential_source": {
+        "source_type": "project-local-env-file | project-local-json-file | process-env | user-chat-ephemeral | none",
+        "local_path_or_reference": "",
+        "auth_scheme_label": "",
+        "format_notes": "Provider-specific; no reusable-plugin schema requirement.",
+        "rotation_notes": "",
+        "local_only_or_gitignore_expected": true,
+        "secret_values_recorded": false
+      },
+      "privacy_boundary": "",
+      "inputs": [],
+      "outputs": [],
+      "result_packets": [
+        "_bmad-output/implementation-artifacts/external-capability-results/template.json"
+      ],
+      "current_result_packet": "_bmad-output/implementation-artifacts/external-capability-results/template.json",
+      "result_packet_history": [],
+      "result_packet_mutation_policy": "Accepted result packets are immutable; corrections create superseding packets linked to the prior packet.",
+      "dashboard_connection": {
+        "connection_id": "EXT-CONN-001",
+        "visible_on_dashboard": true,
+        "credential_display": "metadata-only-no-values"
+      },
+      "evidence_capture": "",
+      "limitations": "",
+      "fallback": "",
+      "worker_report": "",
+      "status": "candidate | selected | used | blocked | deferred | superseded"
+    }
+  ],
+  "coordination_rules": [
+    "Use external capabilities when project needs exceed built-in plugin surfaces.",
+    "Use external capabilities autonomously only inside active project authority, development/local boundaries, and existing supervision rules.",
+    "Stop or queue supervision for credentials, production changes, publishing, personal-account actions, broad computer-use, sensitive data access, or unclear authorization.",
+    "Use project-local env files, JSON files, process environment, or approved ephemeral chat credentials for auth; never embed credential values in plugin files or durable artifacts.",
+    "Do not require a standardized credential payload because each capability can use provider-specific auth.",
+    "Capture every external invocation in a worker report or dedicated external-capability result packet.",
+    "Accepted result packets are immutable; corrections create superseding result packets linked to the prior accepted packet.",
+    "Programmed dashboards show external connection presence and status while omitting credential values.",
+    "Record expected-unavailable capabilities as affected-slice blockers with chat notification.",
+    "Record useful nonexistent capabilities in the future-resource queue instead of blocking work with available substitutes.",
+    "External capability work delegated to agents requires a slice-local worker report before coordinator acceptance."
+  ]
+}

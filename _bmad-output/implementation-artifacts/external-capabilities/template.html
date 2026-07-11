@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Development External Capability Registry</title>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","identifier":"agent-development-external-capabilities-template","name":"Agent Development External Capability Registry Template","description":"Project-local registry for external plugins, skills, APIs, MCP servers, browser tools, services, local tools, and spawned agents coordinated by the agent-development plugin.","dateModified":"2026-07-08T03:14:02-04:00","isBasedOn":"_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/SPEC.md","memwiki:pageType":"external_capability_registry_template"}</script>
+  <style>
+    body { color: #1f2933; font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; max-width: 84rem; }
+    header, section { margin-bottom: 1.5rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #c9ced6; padding: 0.55rem; text-align: left; vertical-align: top; }
+    th { background: #f4f6f8; }
+    code { background: #eef1f5; padding: 0.1rem 0.25rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Agent Development External Capability Registry</h1>
+    <p>Use this registry to coordinate external plugins, skills, APIs, MCP servers, browser tools, services, local tools, and spawned agents.</p>
+  </header>
+  <main>
+    <article id="agent-development-external-capabilities-template" data-page-type="external_capability_registry_template">
+      <section id="metadata">
+        <h2>Metadata</h2>
+        <dl>
+          <dt>JSON source</dt>
+          <dd><code>_bmad-output/implementation-artifacts/external-capabilities/template.json</code></dd>
+          <dt>Updated</dt>
+          <dd><time datetime="2026-07-08T03:14:02-04:00">2026-07-08T03:14:02-04:00</time></dd>
+          <dt>Purpose</dt>
+          <dd>Record which external capabilities are available, selected, blocked, or useful future opportunities for project-specific work.</dd>
+          <dt>Credential source policy</dt>
+          <dd>Credential source files are project-local env or JSON files, process environment references, or approved ephemeral chat credentials. Record metadata only; never record secret values or require a standardized credential payload.</dd>
+        </dl>
+      </section>
+      <section id="capabilities">
+        <h2>Capabilities</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Type</th>
+              <th scope="col">Name/reference</th>
+              <th scope="col">Purpose</th>
+              <th scope="col">Related slices</th>
+              <th scope="col">Availability</th>
+              <th scope="col">Authority and autonomy</th>
+              <th scope="col">Credential source</th>
+              <th scope="col">Inputs/outputs</th>
+              <th scope="col">Evidence and limitations</th>
+              <th scope="col">Result packet</th>
+              <th scope="col">Result history</th>
+              <th scope="col">Dashboard visibility</th>
+              <th scope="col">Fallback</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>EXT-CAP-001</td>
+              <td><!-- plugin | skill | api | mcp-server | browser-tool | external-service | spawned-agent | local-tool --></td>
+              <td><!-- name and reference --></td>
+              <td><!-- purpose --></td>
+              <td><!-- slice ids --></td>
+              <td><!-- available | expected-unavailable | future-opportunity | unknown --></td>
+              <td><!-- authority source, autonomous inside active project authority and existing supervision rules; supervision for credentials, production, publishing, personal accounts, broad computer-use, sensitive data, or unclear authorization --></td>
+              <td><!-- project-local env/json path, process-env reference, chat-ephemeral use, auth scheme label, rotation note, no secret values --></td>
+              <td><!-- expected inputs and outputs --></td>
+              <td><!-- evidence capture and limitations --></td>
+              <td><!-- current external-capability-results/*.json and *.html, or worker report path --></td>
+              <td><!-- superseded packet history links --></td>
+              <td><!-- visible on dashboard; credential display metadata-only-no-values --></td>
+              <td><!-- fallback or none --></td>
+              <td><!-- candidate | selected | used | blocked | deferred | superseded --></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="coordination-rules">
+        <h2>Coordination Rules</h2>
+        <ul>
+          <li>Use external capabilities when project needs exceed built-in plugin surfaces.</li>
+          <li>Use external capabilities autonomously only inside active project authority, development/local boundaries, and existing supervision rules.</li>
+          <li>Stop or queue supervision for credentials, production changes, publishing, personal-account actions, broad computer-use, sensitive data access, or unclear authorization.</li>
+          <li>Use project-local env files, JSON files, process environment, or approved ephemeral chat credentials for auth; never embed credential values in plugin files or durable artifacts.</li>
+          <li>Do not require a standardized credential payload because each capability can use provider-specific auth.</li>
+          <li>Capture every external invocation in a worker report or dedicated external-capability result packet.</li>
+          <li>Accepted result packets are immutable; corrections create superseding result packets linked to the prior accepted packet.</li>
+          <li>Programmed dashboards show external connection presence and status while omitting credential values.</li>
+          <li>Record expected-unavailable capabilities as affected-slice blockers with chat notification.</li>
+          <li>Record useful nonexistent capabilities in the future-resource queue instead of blocking work with available substitutes.</li>
+          <li>External capability work delegated to agents requires a slice-local worker report before coordinator acceptance.</li>
+          <li>External capability use must preserve authority, credential, supervision, privacy, and evidence boundaries.</li>
+        </ul>
+      </section>
+    </article>
+  </main>
+</body>
+</html>

@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "generated_by": "agent-development-plugin",
+  "updated_at": "2026-07-08T03:14:02-04:00",
+  "source_of_truth": true,
+  "human_review_artifact": "_bmad-output/implementation-artifacts/external-capability-results/template.html",
+  "result_id": "EXT-CAP-RESULT-001",
+  "capability_id": "EXT-CAP-001",
+  "invocation_id": "",
+  "lifecycle": {
+    "status": "draft | submitted | accepted | superseded | rejected",
+    "accepted_at": "",
+    "accepted_by": "",
+    "immutable_after_acceptance": true,
+    "mutation_policy": "Accepted result packets are immutable. Create a superseding packet for corrections, reruns, stale results, or replacement evidence.",
+    "supersedes_result_id": "",
+    "supersedes_result_packet": "",
+    "superseded_by_result_id": "",
+    "superseded_by_result_packet": "",
+    "current_result_id": "EXT-CAP-RESULT-001",
+    "current_result_packet": "_bmad-output/implementation-artifacts/external-capability-results/template.json",
+    "history": []
+  },
+  "related_slice": "",
+  "caller": {
+    "coordinator_or_worker": "",
+    "worker_report": ""
+  },
+  "connection": {
+    "connection_id": "EXT-CONN-001",
+    "connection_type": "plugin | skill | api | mcp-server | browser-tool | external-service | spawned-agent | local-tool",
+    "name": "",
+    "reference": "",
+    "status": "planned | available | used | blocked | unavailable | retired",
+    "dashboard_visible": true
+  },
+  "authority": {
+    "authority_source": "",
+    "autonomy_boundary": "inside-active-project-authority-development-local-boundaries-and-existing-supervision-rules",
+    "supervision_required": false,
+    "privacy_boundary": ""
+  },
+  "credential_source_metadata": {
+    "source_type": "project-local-env-file | project-local-json-file | process-env | user-chat-ephemeral | none",
+    "local_path_or_reference": "",
+    "auth_scheme_label": "",
+    "rotation_notes": "",
+    "secret_values_recorded": false
+  },
+  "input_summary": {
+    "summary": "",
+    "bounded_payload_reference": "",
+    "full_prompt_or_payload_stored": false,
+    "sensitive_content_omitted": true
+  },
+  "output_summary": {
+    "summary": "",
+    "bounded_payload_reference": "",
+    "artifacts_produced": [],
+    "oversized_payload_omitted": true
+  },
+  "provenance": {
+    "checked_at": "",
+    "tool_or_provider": "",
+    "source_url_or_reference": "",
+    "supports": "",
+    "official_or_current_enough": "",
+    "limitations": ""
+  },
+  "replay": {
+    "replay_safe": false,
+    "replay_notes": "",
+    "required_non_secret_inputs": [],
+    "credential_source_required": false
+  },
+  "dashboard_connection_row": {
+    "connection_id": "EXT-CONN-001",
+    "name": "",
+    "type": "",
+    "status": "planned | available | used | blocked | unavailable | retired",
+    "related_slice": "",
+    "current_result_packet": "_bmad-output/implementation-artifacts/external-capability-results/template.json",
+    "result_history": [],
+    "credential_display": "metadata-only-no-values"
+  },
+  "omissions": {
+    "secrets_omitted": true,
+    "credential_values_omitted": true,
+    "hidden_reasoning_omitted": true,
+    "phi_omitted": true,
+    "oversized_payloads_omitted": true
+  }
+}

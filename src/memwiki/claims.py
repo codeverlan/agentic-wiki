@@ -94,6 +94,30 @@ def validate_claim(record: Dict[str, Any]) -> List[str]:
     for key in ["generated_at", "model_adapter", "source_locator"]:
         if key not in provenance:
             errors.append(f"claim {record.get('claim_id', '<unknown>')} provenance missing {key}")
+    locator = provenance.get("source_locator")
+    if not isinstance(locator, dict):
+        errors.append(f"claim {record.get('claim_id', '<unknown>')} source_locator is not an object")
+    else:
+        locator_type = locator.get("type")
+        locator_value = locator.get("value")
+        allowed_types = {"text", "markdown", "html", "json", "pdf", "image", "derived_claim"}
+        if locator_type not in allowed_types:
+            errors.append(f"claim {record.get('claim_id', '<unknown>')} source_locator has unsupported type")
+        if not isinstance(locator_value, str) or not locator_value:
+            errors.append(f"claim {record.get('claim_id', '<unknown>')} source_locator value is required")
+        elif locator_type == "json":
+            logical_json_path = all(
+                part and all(character.isalnum() or character in {"_", "-"} for character in part)
+                for part in locator_value.split(".")
+            )
+            if locator_value != "extracted/text.txt" and not logical_json_path:
+                errors.append(f"claim {record.get('claim_id', '<unknown>')} source_locator has unsafe JSON path")
+        elif locator_type != "derived_claim" and locator_value != "extracted/text.txt":
+            errors.append(f"claim {record.get('claim_id', '<unknown>')} source_locator must use extracted/text.txt")
+    if record.get("clinical_claim_type") != "clinical_guidance":
+        expected_claim_id = stable_id("claim", str(record.get("source_id", "")), str(record.get("text", "")))
+        if record.get("claim_id") != expected_claim_id:
+            errors.append(f"claim {record.get('claim_id', '<unknown>')} identity does not match its content")
     if record.get("clinical_claim_type") == "clinical_guidance":
         if not record.get("guidance_type"):
             errors.append(f"clinical guidance {record.get('claim_id', '<unknown>')} missing guidance_type")

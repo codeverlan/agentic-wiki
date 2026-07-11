@@ -1,0 +1,443 @@
+{
+  "schemaVersion": 1,
+  "title": "BMAD Guided Path Starters",
+  "description": "Codex-native routing catalog for starting BMAD paths while preserving the intended CLI/editor workflow behavior.",
+  "paths": [
+    {
+      "id": "not-sure",
+      "label": "Not Sure Yet",
+      "phase": "anytime",
+      "menuCode": "BH",
+      "entrySkill": "bmad-help",
+      "when": "Use when the user wants BMAD but is unsure which path fits.",
+      "firstQuestion": "What outcome do you want BMAD to help you reach first: understand the project, shape an idea, plan work, design the solution, implement, review, or debug?",
+      "nextSkills": ["bmad-help", "bmad-guided-paths"]
+    },
+    {
+      "id": "full-lifecycle",
+      "label": "Full Lifecycle",
+      "phase": "1-analysis",
+      "menuCode": "CB",
+      "entrySkill": "bmad-product-brief",
+      "when": "Use for serious new product or feature work that should progress from concept through implementation.",
+      "firstQuestion": "What are we trying to build, who is it for, and what would make it worth building?",
+      "nextSkills": [
+        "bmad-prd",
+        "bmad-ux",
+        "bmad-architecture",
+        "bmad-create-epics-and-stories",
+        "bmad-check-implementation-readiness",
+        "bmad-sprint-planning"
+      ]
+    },
+    {
+      "id": "document-project",
+      "label": "Document Existing Project",
+      "phase": "anytime",
+      "menuCode": "DP",
+      "entrySkill": "bmad-document-project",
+      "when": "Use for brownfield projects where BMAD should understand the current codebase before planning changes.",
+      "firstQuestion": "Should I run an initial scan, a full rescan, or a focused deep dive, and are there specific folders or documents I should prioritize?",
+      "nextSkills": ["bmad-generate-project-context", "bmad-prd", "bmad-architecture"]
+    },
+    {
+      "id": "generate-project-context",
+      "label": "Generate Project Context",
+      "phase": "anytime",
+      "menuCode": "GPC",
+      "entrySkill": "bmad-generate-project-context",
+      "when": "Use when an existing project needs a compact project-context.md for downstream agents.",
+      "firstQuestion": "What project areas, conventions, or implementation rules must downstream agents preserve?",
+      "nextSkills": ["bmad-prd", "bmad-architecture", "bmad-quick-dev"]
+    },
+    {
+      "id": "brainstorming",
+      "label": "Brainstorm Project",
+      "phase": "1-analysis",
+      "menuCode": "BP",
+      "entrySkill": "bmad-brainstorming",
+      "when": "Use when the idea is still fluid or the user is stuck generating options.",
+      "firstQuestion": "What problem, audience, or constraint should the brainstorming session focus on?",
+      "nextSkills": ["bmad-product-brief", "bmad-prfaq", "bmad-prd"]
+    },
+    {
+      "id": "market-research",
+      "label": "Market Research",
+      "phase": "1-analysis",
+      "menuCode": "MR",
+      "entrySkill": "bmad-market-research",
+      "when": "Use to validate customer, market, competitor, or trend assumptions.",
+      "firstQuestion": "What market question are we trying to answer, and what decision will this research support?",
+      "nextSkills": ["bmad-product-brief", "bmad-prfaq", "bmad-prd"]
+    },
+    {
+      "id": "domain-research",
+      "label": "Domain Research",
+      "phase": "1-analysis",
+      "menuCode": "DR",
+      "entrySkill": "bmad-domain-research",
+      "when": "Use for industry, policy, operational, terminology, or subject-matter discovery.",
+      "firstQuestion": "What domain do we need to understand, and what decisions depend on that understanding?",
+      "nextSkills": ["bmad-product-brief", "bmad-prd", "bmad-architecture"]
+    },
+    {
+      "id": "technical-research",
+      "label": "Technical Research",
+      "phase": "1-analysis",
+      "menuCode": "TR",
+      "entrySkill": "bmad-technical-research",
+      "when": "Use to explore feasibility, architecture options, or implementation approaches before deciding.",
+      "firstQuestion": "What technical choice or feasibility question needs evidence before we commit?",
+      "nextSkills": ["bmad-architecture", "bmad-prd", "bmad-quick-dev"]
+    },
+    {
+      "id": "product-brief",
+      "label": "Create Product Brief",
+      "phase": "1-analysis",
+      "menuCode": "CB",
+      "entrySkill": "bmad-product-brief",
+      "when": "Use when the concept is plausible and needs a clear strategic brief.",
+      "firstQuestion": "What product or feature are we shaping, and what is the strongest user-value claim we need to test?",
+      "nextSkills": ["bmad-prd", "bmad-prfaq"]
+    },
+    {
+      "id": "prfaq",
+      "label": "PRFAQ Challenge",
+      "phase": "1-analysis",
+      "menuCode": "WB",
+      "entrySkill": "bmad-prfaq",
+      "when": "Use to stress-test a product concept through a working-backwards PRFAQ.",
+      "firstQuestion": "What launch claim should survive the PRFAQ gauntlet, and what would make it fail?",
+      "nextSkills": ["bmad-product-brief", "bmad-prd"]
+    },
+    {
+      "id": "prd-create",
+      "label": "Create PRD",
+      "phase": "2-planning",
+      "menuCode": "PRD",
+      "entrySkill": "bmad-prd",
+      "entryAction": "create",
+      "when": "Use to create requirements through coached discovery.",
+      "firstQuestion": "What are we building, and what source material should the PRD discovery use?",
+      "nextSkills": ["bmad-ux", "bmad-architecture"]
+    },
+    {
+      "id": "prd-update",
+      "label": "Update PRD",
+      "phase": "2-planning",
+      "menuCode": "PRD",
+      "entrySkill": "bmad-prd",
+      "entryAction": "update",
+      "when": "Use when an existing PRD must be reconciled with a change signal.",
+      "firstQuestion": "Which PRD should be updated, and what change signal or new evidence should it absorb?",
+      "nextSkills": ["bmad-validate-prd", "bmad-ux", "bmad-architecture"]
+    },
+    {
+      "id": "prd-validate",
+      "label": "Validate PRD",
+      "phase": "2-planning",
+      "menuCode": "PRD",
+      "entrySkill": "bmad-prd",
+      "entryAction": "validate",
+      "when": "Use to review a finished PRD against BMAD readiness criteria.",
+      "firstQuestion": "Which PRD should be validated, and what standard or risk lens matters most?",
+      "nextSkills": ["bmad-ux", "bmad-architecture", "bmad-correct-course"]
+    },
+    {
+      "id": "ux",
+      "label": "Create UX",
+      "phase": "2-planning",
+      "menuCode": "CU",
+      "entrySkill": "bmad-ux",
+      "when": "Use when screens, journeys, service design, accessibility, or usability materially affect success.",
+      "firstQuestion": "Which users, journeys, or screens need design decisions before architecture or stories?",
+      "nextSkills": ["bmad-architecture", "bmad-create-epics-and-stories"]
+    },
+    {
+      "id": "architecture",
+      "label": "Architecture",
+      "phase": "3-solutioning",
+      "menuCode": "CA",
+      "entrySkill": "bmad-architecture",
+      "when": "Use when requirements exist and the project needs implementation boundaries, ADRs, and system decisions.",
+      "firstQuestion": "What requirements, UX artifacts, constraints, and existing system context should the architecture ratify?",
+      "nextSkills": ["bmad-create-epics-and-stories", "bmad-generate-project-context"]
+    },
+    {
+      "id": "epics-stories",
+      "label": "Create Epics and Stories",
+      "phase": "3-solutioning",
+      "menuCode": "CE",
+      "entrySkill": "bmad-create-epics-and-stories",
+      "when": "Use when PRD and architecture are ready to break into implementable work.",
+      "firstQuestion": "Which PRD and architecture artifacts should drive the epic and story breakdown?",
+      "nextSkills": ["bmad-check-implementation-readiness", "bmad-sprint-planning"]
+    },
+    {
+      "id": "implementation-readiness",
+      "label": "Check Implementation Readiness",
+      "phase": "3-solutioning",
+      "menuCode": "IR",
+      "entrySkill": "bmad-check-implementation-readiness",
+      "when": "Use before implementation to check alignment across PRD, UX, architecture, epics, and stories.",
+      "firstQuestion": "Which planning artifacts should be checked, and what risk would block implementation?",
+      "nextSkills": ["bmad-sprint-planning", "bmad-correct-course"]
+    },
+    {
+      "id": "sprint-planning",
+      "label": "Sprint Planning",
+      "phase": "4-implementation",
+      "menuCode": "SP",
+      "entrySkill": "bmad-sprint-planning",
+      "when": "Use to initialize or refresh the sprint plan for implementation agents.",
+      "firstQuestion": "Which approved stories should enter the sprint plan, and what sequencing constraints matter?",
+      "nextSkills": ["bmad-create-story", "bmad-sprint-status"]
+    },
+    {
+      "id": "sprint-status",
+      "label": "Sprint Status",
+      "phase": "4-implementation",
+      "menuCode": "SS",
+      "entrySkill": "bmad-sprint-status",
+      "when": "Use to summarize implementation status and route to the next story-cycle step.",
+      "firstQuestion": "Which sprint-status file should I read, and are we looking for next action, risks, or a summary?",
+      "nextSkills": ["bmad-create-story", "bmad-dev-story", "bmad-code-review", "bmad-retrospective"]
+    },
+    {
+      "id": "create-story",
+      "label": "Create Story",
+      "phase": "4-implementation",
+      "menuCode": "CS",
+      "entrySkill": "bmad-create-story",
+      "entryAction": "create",
+      "when": "Use to prepare the next story from the sprint plan.",
+      "firstQuestion": "Should I select the next story from sprint status or prepare a specific epic/story?",
+      "nextSkills": ["bmad-create-story", "bmad-dev-story"]
+    },
+    {
+      "id": "validate-story",
+      "label": "Validate Story",
+      "phase": "4-implementation",
+      "menuCode": "VS",
+      "entrySkill": "bmad-create-story",
+      "entryAction": "validate",
+      "when": "Use to verify story readiness before development.",
+      "firstQuestion": "Which story should be validated before development begins?",
+      "nextSkills": ["bmad-dev-story", "bmad-correct-course"]
+    },
+    {
+      "id": "dev-story",
+      "label": "Develop Story",
+      "phase": "4-implementation",
+      "menuCode": "DS",
+      "entrySkill": "bmad-dev-story",
+      "when": "Use to implement a prepared and validated story with tests.",
+      "firstQuestion": "Which validated story should be implemented, and what local validation command should prove it?",
+      "nextSkills": ["bmad-code-review", "bmad-create-story"]
+    },
+    {
+      "id": "code-review",
+      "label": "Code Review",
+      "phase": "4-implementation",
+      "menuCode": "CR",
+      "entrySkill": "bmad-code-review",
+      "when": "Use after story implementation to review behavior, quality, and acceptance criteria.",
+      "firstQuestion": "Which story implementation or diff should be reviewed, and what acceptance criteria must be checked?",
+      "nextSkills": ["bmad-dev-story", "bmad-create-story", "bmad-retrospective"]
+    },
+    {
+      "id": "qa-e2e-tests",
+      "label": "QA Automation Tests",
+      "phase": "4-implementation",
+      "menuCode": "QA",
+      "entrySkill": "bmad-qa-generate-e2e-tests",
+      "when": "Use to generate API or E2E tests for implemented behavior.",
+      "firstQuestion": "Which implemented behavior needs automated coverage, and what test environment is available?",
+      "nextSkills": ["bmad-code-review", "bmad-dev-story"]
+    },
+    {
+      "id": "checkpoint-preview",
+      "label": "Checkpoint Preview",
+      "phase": "4-implementation",
+      "menuCode": "CK",
+      "entrySkill": "bmad-checkpoint-preview",
+      "when": "Use for a guided human review of a branch, commit, PR, or checkpoint.",
+      "firstQuestion": "What change should be previewed, and what decision do you need from the review?",
+      "nextSkills": ["bmad-code-review", "bmad-correct-course"]
+    },
+    {
+      "id": "retrospective",
+      "label": "Retrospective",
+      "phase": "4-implementation",
+      "menuCode": "ER",
+      "entrySkill": "bmad-retrospective",
+      "when": "Use after an epic or meaningful work slice to capture lessons and next actions.",
+      "firstQuestion": "What work slice are we reviewing, and what outcome should the retrospective improve?",
+      "nextSkills": ["bmad-create-story", "bmad-correct-course", "bmad-customize"]
+    },
+    {
+      "id": "quick-dev",
+      "label": "Quick Dev",
+      "phase": "anytime",
+      "menuCode": "QQ",
+      "entrySkill": "bmad-quick-dev",
+      "when": "Use for small bounded implementation where full lifecycle ceremony would slow the work down.",
+      "firstQuestion": "What exact change should be made, what files or behavior are in scope, and how should it be verified?",
+      "nextSkills": ["bmad-code-review", "bmad-retrospective"]
+    },
+    {
+      "id": "investigate",
+      "label": "Investigate",
+      "phase": "anytime",
+      "menuCode": "IN",
+      "entrySkill": "bmad-investigate",
+      "when": "Use for unclear bugs, incidents, regressions, contradictions, or forensic analysis.",
+      "firstQuestion": "What is the observed symptom, what changed recently, and what evidence do we already have?",
+      "nextSkills": ["bmad-correct-course", "bmad-dev-story", "bmad-code-review"]
+    },
+    {
+      "id": "correct-course",
+      "label": "Correct Course",
+      "phase": "anytime",
+      "menuCode": "CC",
+      "entrySkill": "bmad-correct-course",
+      "when": "Use when requirements, architecture, stories, or implementation have drifted.",
+      "firstQuestion": "What changed, which artifacts are affected, and should we repair, replan, or restart a path?",
+      "nextSkills": ["bmad-prd", "bmad-architecture", "bmad-sprint-planning"]
+    },
+    {
+      "id": "write-document",
+      "label": "Write Document",
+      "phase": "anytime",
+      "menuCode": "WD",
+      "entrySkill": "bmad-agent-tech-writer",
+      "entryAction": "write",
+      "when": "Use for structured technical or product documentation.",
+      "firstQuestion": "What document should be written, who is the audience, and what source material should ground it?",
+      "nextSkills": ["bmad-editorial-review-prose", "bmad-editorial-review-structure"]
+    },
+    {
+      "id": "mermaid-generate",
+      "label": "Generate Mermaid Diagram",
+      "phase": "anytime",
+      "menuCode": "MG",
+      "entrySkill": "bmad-agent-tech-writer",
+      "entryAction": "mermaid",
+      "when": "Use to create a Mermaid diagram from a description.",
+      "firstQuestion": "What should the diagram communicate, and do you prefer flowchart, sequence, state, class, ER, or timeline?",
+      "nextSkills": ["bmad-editorial-review-structure"]
+    },
+    {
+      "id": "validate-document",
+      "label": "Validate Document",
+      "phase": "anytime",
+      "menuCode": "VD",
+      "entrySkill": "bmad-agent-tech-writer",
+      "entryAction": "validate",
+      "when": "Use to review a document against documentation standards.",
+      "firstQuestion": "Which document should be validated, and what standard or audience should guide the review?",
+      "nextSkills": ["bmad-editorial-review-prose", "bmad-editorial-review-structure"]
+    },
+    {
+      "id": "explain-concept",
+      "label": "Explain Concept",
+      "phase": "anytime",
+      "menuCode": "EC",
+      "entrySkill": "bmad-agent-tech-writer",
+      "entryAction": "explain",
+      "when": "Use for clear technical explanations with examples and diagrams.",
+      "firstQuestion": "What concept should be explained, and what background should I assume?",
+      "nextSkills": ["bmad-agent-tech-writer", "bmad-editorial-review-prose"]
+    },
+    {
+      "id": "spec",
+      "label": "Spec",
+      "phase": "anytime",
+      "menuCode": "SP",
+      "entrySkill": "bmad-spec",
+      "when": "Use to distill mixed intent into a concise SPEC.md contract before implementation.",
+      "firstQuestion": "What input should be distilled into a spec, and what downstream work must the spec control?",
+      "nextSkills": ["bmad-architecture", "bmad-quick-dev"]
+    },
+    {
+      "id": "party-mode",
+      "label": "Party Mode",
+      "phase": "anytime",
+      "menuCode": "PM",
+      "entrySkill": "bmad-party-mode",
+      "when": "Use when multiple BMAD perspectives would materially improve the decision.",
+      "firstQuestion": "What question should the BMAD agents discuss, and which perspectives do you want at the table?",
+      "nextSkills": ["bmad-product-brief", "bmad-prd", "bmad-architecture", "bmad-correct-course"]
+    },
+    {
+      "id": "customize",
+      "label": "Customize BMAD",
+      "phase": "anytime",
+      "menuCode": "BC",
+      "entrySkill": "bmad-customize",
+      "when": "Use to persist recurring preferences, agent behavior, templates, hooks, or project conventions.",
+      "firstQuestion": "What recurring preference or workflow behavior should BMAD remember or change?",
+      "nextSkills": ["bmad-help", "bmad-guided-paths"]
+    },
+    {
+      "id": "index-docs",
+      "label": "Index Docs",
+      "phase": "anytime",
+      "menuCode": "ID",
+      "entrySkill": "bmad-index-docs",
+      "when": "Use when the agent needs to understand available docs without loading everything.",
+      "firstQuestion": "Which documentation folder or corpus should be indexed, and what question should the index support?",
+      "nextSkills": ["bmad-help", "bmad-document-project"]
+    },
+    {
+      "id": "shard-doc",
+      "label": "Shard Document",
+      "phase": "anytime",
+      "menuCode": "SD",
+      "entrySkill": "bmad-shard-doc",
+      "when": "Use when a document is too large to manage effectively in one context.",
+      "firstQuestion": "Which document should be sharded, and what structure should the shards preserve?",
+      "nextSkills": ["bmad-index-docs", "bmad-editorial-review-structure"]
+    },
+    {
+      "id": "editorial-review-prose",
+      "label": "Editorial Review - Prose",
+      "phase": "anytime",
+      "menuCode": "EP",
+      "entrySkill": "bmad-editorial-review-prose",
+      "when": "Use after drafting to polish clarity, style, and wording.",
+      "firstQuestion": "Which document should receive prose review, and what tone or audience should it target?",
+      "nextSkills": ["bmad-editorial-review-structure"]
+    },
+    {
+      "id": "editorial-review-structure",
+      "label": "Editorial Review - Structure",
+      "phase": "anytime",
+      "menuCode": "ES",
+      "entrySkill": "bmad-editorial-review-structure",
+      "when": "Use when a document needs organization, flow, or multi-source structural improvement.",
+      "firstQuestion": "Which document needs structural review, and what outcome should the structure support?",
+      "nextSkills": ["bmad-editorial-review-prose"]
+    },
+    {
+      "id": "adversarial-review",
+      "label": "Adversarial Review",
+      "phase": "anytime",
+      "menuCode": "AR",
+      "entrySkill": "bmad-review-adversarial-general",
+      "when": "Use for quality assurance before finalizing deliverables.",
+      "firstQuestion": "What deliverable should be reviewed, and what failure modes matter most?",
+      "nextSkills": ["bmad-review-edge-case-hunter", "bmad-correct-course"]
+    },
+    {
+      "id": "edge-case-review",
+      "label": "Edge Case Hunter Review",
+      "phase": "anytime",
+      "menuCode": "ECH",
+      "entrySkill": "bmad-review-edge-case-hunter",
+      "when": "Use to mechanically enumerate unhandled branching paths and boundary conditions.",
+      "firstQuestion": "What code, spec, or process should be traced for unhandled edge cases?",
+      "nextSkills": ["bmad-review-adversarial-general", "bmad-correct-course"]
+    }
+  ]
+}

@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic Wiki Project Plugin Overlay</title>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","identifier":"agentic-wiki-project-plugin-overlay","name":"Agentic Wiki Project Plugin Overlay","description":"Project-local overlays that customize plugin output, guidance, and behavior without mutating the reusable plugin.","dateModified":"2026-07-08T04:30:14-04:00","memwiki:pageType":"project_plugin_overlay"}</script>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; max-width: 84rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #c8c8c8; padding: 0.6rem; text-align: left; vertical-align: top; }
+    th { background: #f3f3f3; }
+    code { background: #f2f2f2; padding: 0.1rem 0.25rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <article id="agentic-wiki-project-plugin-overlay" data-page-type="project_plugin_overlay">
+      <h1>Agentic Wiki Project Plugin Overlay</h1>
+      <p>Use this project-local overlay to customize plugin output, guidance, and behavior for this project without mutating the reusable plugin.</p>
+      <table>
+        <caption>Project-Local Plugin Overlays</caption>
+        <thead>
+          <tr>
+            <th scope="col">Overlay ID</th>
+            <th scope="col">Date/time updated</th>
+            <th scope="col">Applies to</th>
+            <th scope="col">Project-specific rule or guidance</th>
+            <th scope="col">Reason/source memory</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>OVERLAY-001</td>
+            <td><time datetime="2026-07-07T01:18:38-04:00">2026-07-07T01:18:38-04:00</time></td>
+            <td>All plugin output and guidance in this project</td>
+            <td>Project-local memory may adjust plugin output, guidance, and behavior after plugin defaults are applied; plugin source files, cache files, marketplace entries, and global skills remain immutable unless the user explicitly starts plugin development.</td>
+            <td>User decision during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-002</td>
+            <td><time datetime="2026-07-07T01:23:00-04:00">2026-07-07T01:23:00-04:00</time></td>
+            <td>Instruction conflict resolution and overlay application</td>
+            <td>Apply this project's overlays only after system/developer/user safety and active request, repo-local instructions, and BMAD artifacts. Plugin defaults follow project overlays, and agent judgment is last.</td>
+            <td>User-approved precedence order during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-003</td>
+            <td><time datetime="2026-07-07T01:33:04-04:00">2026-07-07T01:33:04-04:00</time></td>
+            <td>Project-specific autonomy and skill selection</td>
+            <td>Project overlays may broaden agent autonomy and enable additional agent skill sets when that autonomy remains inside higher-priority safety, repo, BMAD, and active-request boundaries.</td>
+            <td>User-approved overlay autonomy rule during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-004</td>
+            <td><time datetime="2026-07-07T05:32:12-04:00">2026-07-07T05:32:12-04:00</time></td>
+            <td>Intent-to-resource scoping language</td>
+            <td>Plugin output should translate user intent into needed resources, agent skill sets, validation, escalation, and supervision needs without describing the process as sandboxing or an autonomy profile.</td>
+            <td>User correction during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-005</td>
+            <td><time datetime="2026-07-07T05:41:22-04:00">2026-07-07T05:41:22-04:00</time></td>
+            <td>Resource gap handling</td>
+            <td>If an expected resource should be available but is not, stop the affected slice and notify the user in chat. If a useful resource does not exist yet, continue with available resources and note the future resource opportunity.</td>
+            <td>User decision during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-006</td>
+            <td><time datetime="2026-07-07T05:47:55-04:00">2026-07-07T05:47:55-04:00</time></td>
+            <td>Future-resource opportunity queue</td>
+            <td>Nonexistent-but-useful resources get their own living HTML queue at <code>_bmad-output/implementation-artifacts/future-resource-queue.html</code>; they do not block current work when available substitutes exist.</td>
+            <td>User decision during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-007</td>
+            <td><time datetime="2026-07-07T05:51:50-04:00">2026-07-07T05:51:50-04:00</time></td>
+            <td>Future-resource promotion</td>
+            <td>Future-resource queue entries remain advisory and do not become project work slices unless the user explicitly promotes them or an explicit plugin-development workflow promotes them; keep the queue chronological without priority or status triage.</td>
+            <td>User decision during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-008</td>
+            <td><time datetime="2026-07-07T06:02:58-04:00">2026-07-07T06:02:58-04:00</time></td>
+            <td>Reversible implementation decision authority</td>
+            <td>Agents may make reversible implementation-level decisions autonomously when they stay inside current requirements and safety boundaries, and must record the decision and rationale in run evidence.</td>
+            <td>User decision during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-009</td>
+            <td><time datetime="2026-07-07T06:05:50-04:00">2026-07-07T06:05:50-04:00</time></td>
+            <td>Decision evidence taxonomy</td>
+            <td>Run evidence must classify decisions as <code>implementation</code>, <code>architecture</code>, or <code>product</code> so reversible local choices are separated from higher-authority choices.</td>
+            <td>User decision during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-010</td>
+            <td><time datetime="2026-07-07T06:20:02-04:00">2026-07-07T06:20:02-04:00</time></td>
+            <td>Higher-authority decision blocking</td>
+            <td>Unresolved <code>architecture</code> or <code>product</code> decisions stop only affected slices and dependents while independent slices continue. Pause the whole run only when the decision affects the run boundary, shared architecture, safety constraints, plugin-core mutation, PHI/privacy boundary, public API compatibility, or all remaining work.</td>
+            <td>User accepted the recommended policy during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-011</td>
+            <td><time datetime="2026-07-07T06:22:14-04:00">2026-07-07T06:22:14-04:00</time></td>
+            <td>Validation failure repair loop</td>
+            <td>Failed implementation slices get two bounded self-repair attempts before the slice stops with evidence. Preserve or revert only slice-owned changes as appropriate, and never roll back unrelated user changes or other slices.</td>
+            <td>User accepted the recommended policy during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-012</td>
+            <td><time datetime="2026-07-07T06:25:24-04:00">2026-07-07T06:25:24-04:00</time></td>
+            <td>Shared control artifact ownership</td>
+            <td>Only the coordinator mutates shared control artifacts such as slice queue, branch ledger, run-state artifacts, handoff digest artifacts, incident-log artifacts, supervision queue, future-resource queue, plugin-improvement queue, and project overlay. Workers modify assigned slice files and report proposed control-artifact changes for coordinator acceptance after validation.</td>
+            <td>User accepted the recommended policy during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-013</td>
+            <td><time datetime="2026-07-07T06:49:16-04:00">2026-07-07T06:49:16-04:00</time></td>
+            <td>Status reporting and chat notifications</td>
+            <td>Routine unattended progress updates local artifacts rather than chat. Chat notifications are reserved for expected-but-unavailable resources, exhausted repair loops, supervision-required tasks, whole-run stops, safety/privacy boundaries, user-return queue presentation, and user-requested summaries.</td>
+            <td>User accepted the recommended policy with summary available in chat on request.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-014</td>
+            <td><time datetime="2026-07-07T06:53:33-04:00">2026-07-07T06:53:33-04:00</time></td>
+            <td>Development credential handling</td>
+            <td>If the user passes a credential in chat for development work, agents may use it for the approved task with best-effort non-persistence. Do not store, echo, log, commit, or persist credential values in durable artifacts. Assume development credentials, policies, and passwords differ from production.</td>
+            <td>User rejected the hardline credential recommendation and supplied this pragmatic development boundary.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-015</td>
+            <td><time datetime="2026-07-07T06:57:01-04:00">2026-07-07T06:57:01-04:00</time></td>
+            <td>Non-local source evidence</td>
+            <td>When web search, official docs, browser verification, installed plugins, or external tool output justify implementation, blockers, or architecture/product decisions, record source/tool metadata, retrieval or check time, supported claim, and official/current-enough assessment without copying large source content.</td>
+            <td>User accepted the recommended policy during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-016</td>
+            <td><time datetime="2026-07-07T07:29:35-04:00">2026-07-07T07:29:35-04:00</time></td>
+            <td>High-risk review gate</td>
+            <td>Slices touching PHI/privacy, credentials, public API compatibility, schema/storage layout, plugin-core behavior, generated docs contracts, security boundaries, or deployment/publishing behavior require review-worker or adversarial review before merge or integration. Low-risk slices may rely on tests plus coordinator review.</td>
+            <td>User accepted the recommended policy during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-017</td>
+            <td><time datetime="2026-07-07T07:36:04-04:00">2026-07-07T07:36:04-04:00</time></td>
+            <td>Dirty-worktree intake</td>
+            <td>Every continuous run starts with coordinator dirty-worktree intake. Classify existing changes by path as active slice, prior-agent work, user/unowned work, or generated artifact before dispatching workers; preserve user/unowned paths and stop overlapping unclear slices while continuing independent slices.</td>
+            <td>User accepted the recommended policy during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-018</td>
+            <td><time datetime="2026-07-07T07:41:39-04:00">2026-07-07T07:41:39-04:00</time></td>
+            <td>Preflight readiness gate</td>
+            <td>Before worker dispatch, verify spec and handoff loaded, slice queue parseable, dirty-worktree intake complete, branch ledger current, run-state and handoff digest renderers available, validation baseline selected, resource/credential/supervision needs identified, and at least one safe slice or enabling slice ready.</td>
+            <td>User accepted the recommended policy during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-019</td>
+            <td><time datetime="2026-07-07T07:41:39-04:00">2026-07-07T07:41:39-04:00</time></td>
+            <td>Plugin primary input</td>
+            <td>Normalize guided preflight interview answers, existing specs/resources, or hybrid intake into one project-local intent packet before dispatch. Ask additional focused questions only when needed to make the work actionable.</td>
+            <td>User direction and coordinator recommendation during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-020</td>
+            <td><time datetime="2026-07-07T07:41:39-04:00">2026-07-07T07:41:39-04:00</time></td>
+            <td>Milestone check-ins</td>
+            <td>Suggest natural user check-ins at major milestones, but keep them advisory during user-declared unattended continuous development unless a stop, safety, or supervision boundary applies.</td>
+            <td>User direction during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-021</td>
+            <td><time datetime="2026-07-07T07:52:51-04:00">2026-07-07T07:52:51-04:00</time></td>
+            <td>Intent packet forms</td>
+            <td>Maintain intent packets in synchronized JSON and semantic HTML forms. JSON is the machine-readable dispatch input; HTML is the human-facing user/review surface.</td>
+            <td>User accepted the recommended dual-form intent-packet policy.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-022</td>
+            <td><time datetime="2026-07-07T07:52:51-04:00">2026-07-07T07:52:51-04:00</time></td>
+            <td>Domain-specific intake</td>
+            <td>Classify project archetype early and adapt interview questions, resource needs, validation, and slices to that project type. A WordPress website and a web application should not receive the same generic question path.</td>
+            <td>User direction during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-023</td>
+            <td><time datetime="2026-07-07T07:52:51-04:00">2026-07-07T07:52:51-04:00</time></td>
+            <td>Design-assisted intake</td>
+            <td>For visual/frontend work, capture graphic-design agreement and use image generation, installed design/UX skills, or local HTML mockups as user-selectable pathway aids. Store generated or selected design evidence in project-local artifacts, not plugin files.</td>
+            <td>User direction during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-024</td>
+            <td><time datetime="2026-07-07T09:04:16-04:00">2026-07-07T09:04:16-04:00</time></td>
+            <td>Archetype registry</td>
+            <td>Use the plugin's small built-in archetype registry for early intake, with project-local memory allowed to add, narrow, or override registry guidance without mutating plugin files.</td>
+            <td>User accepted the recommended built-in registry with project-local override policy.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-025</td>
+            <td><time datetime="2026-07-07T09:30:00-04:00">2026-07-07T09:30:00-04:00</time></td>
+            <td>Mixed archetype intake</td>
+            <td>For mixed projects, select one primary orchestration profile and attach secondary archetypes as scoped profiles or slices. Stop only affected slices for profile conflicts unless the conflict crosses a whole-project or higher-risk shared boundary.</td>
+            <td>User accepted the recommended mixed-archetype policy.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-026</td>
+            <td><time datetime="2026-07-07T10:23:33-04:00">2026-07-07T10:23:33-04:00</time></td>
+            <td>Intake depth</td>
+            <td>Support quick start, standard preflight, and deep spec intake depths. Unattended continuous development requires at least standard preflight for the primary profile; secondary profiles require essential fields unless they become high-risk or shape shared architecture.</td>
+            <td>User accepted the recommended intake-depth policy.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-027</td>
+            <td><time datetime="2026-07-07T12:44:20-04:00">2026-07-07T12:44:20-04:00</time></td>
+            <td>Storage adapter model</td>
+            <td>Use a project-local storage adapter: BMAD adapter when <code>_bmad</code> exists, lightweight Agentic Wiki adapter otherwise. Both adapters expose the same primitives for intent packet, authority ledger, worker reports, control index, dashboard data contract, external-capability registry, run-state HTML, handoff digest HTML, incident/exception log JSON and HTML, branch ledger, supervision queue, future-resource queue, decision log, project plugin overlay, and plugin improvement queue.</td>
+            <td>User accepted the recommended storage adapter model.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-028</td>
+            <td><time datetime="2026-07-07T17:51:30-04:00">2026-07-07T17:51:30-04:00</time></td>
+            <td>Plugin workflow skill shape</td>
+            <td>Use one reusable plugin with focused skills for intake/preflight, continuous-run coordination, status/report handoff, and plugin-improvement review. Shared schemas, templates, and scripts remain plugin-owned; project-specific outputs are written through the selected storage adapter.</td>
+            <td>User accepted the recommended multi-skill plugin shape.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-029</td>
+            <td><time datetime="2026-07-07T18:23:42-04:00">2026-07-07T18:23:42-04:00</time></td>
+            <td>Skill-level mutation permissions</td>
+            <td>Enforce mutation permissions by selected workflow skill: intake/preflight writes only intent, readiness, queue, and resource artifacts; coordinator may edit project code, docs, tests, fixtures, and shared control artifacts; status/report handoff is read-only except generated reports and presentations; plugin-improvement review writes candidate analysis and queue updates without modifying plugin files unless explicit plugin development starts.</td>
+            <td>User accepted the recommended skill-level mutation permissions.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-030</td>
+            <td><time datetime="2026-07-07T18:28:05-04:00">2026-07-07T18:28:05-04:00</time></td>
+            <td>Plugin run modes</td>
+            <td>Intent packets record one run mode: <code>interactive-intake</code>, <code>unattended-continuous-run</code>, <code>status-only-report</code>, or <code>plugin-improvement-review</code>. The plugin may infer mode from user intent when safe; unattended mode requires standard preflight, status-only remains read/report-only, and plugin-improvement review cannot mutate plugin files without explicit plugin-development work.</td>
+            <td>User accepted the recommended explicit run-mode model.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-031</td>
+            <td><time datetime="2026-07-07T18:32:57-04:00">2026-07-07T18:32:57-04:00</time></td>
+            <td>Run-mode transitions</td>
+            <td>Classify mode transitions before behavior changes. Narrowing transitions may happen autonomously, such as unattended run to status-only for user return or blocker reporting. Broadening transitions require authority: status-only back to unattended needs user intent or a recorded continuous-run directive, interactive intake to unattended requires standard preflight, and plugin-improvement review to plugin file changes requires explicit plugin-development work.</td>
+            <td>User accepted the recommended mode-transition rules.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-032</td>
+            <td><time datetime="2026-07-07T18:38:09-04:00">2026-07-07T18:38:09-04:00</time></td>
+            <td>Authority ledger</td>
+            <td>Maintain a project-local authority ledger in synchronized JSON and semantic HTML forms. Record active user directives, inferred permissions, selected run modes, mode transitions, continuous-run directives, expiration or supersession notes, and evidence used before broadening transitions so future agents do not rely on stale chat assumptions.</td>
+            <td>User accepted the recommended authority-ledger policy during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-033</td>
+            <td><time datetime="2026-07-08T02:15:05-04:00">2026-07-08T02:15:05-04:00</time></td>
+            <td>Authority-ledger mutation policy</td>
+            <td>Authority-ledger source entries are append-only. Add new entries for new directives, inferred permissions, expirations, and supersessions; do not rewrite prior source entries in place. Generated HTML and reports may derive current-active, superseded, or expired status from later entries.</td>
+            <td>User accepted the recommended append-only authority-ledger policy during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-034</td>
+            <td><time datetime="2026-07-08T02:20:48-04:00">2026-07-08T02:20:48-04:00</time></td>
+            <td>Worker report artifacts</td>
+            <td>Each worker produces a slice-local JSON and semantic HTML worker report before coordinator acceptance or rejection. Reports include assigned paths, changes made, validation run, blockers, proposed shared-control-artifact changes, and authority or resource evidence; proposed shared-control changes are not applied until coordinator acceptance.</td>
+            <td>User accepted the recommended worker-report policy during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-035</td>
+            <td><time datetime="2026-07-08T02:40:35-04:00">2026-07-08T02:40:35-04:00</time></td>
+            <td>Control index and dashboard handoff</td>
+            <td>Maintain a navigation-only semantic HTML control index linking project-local control artifacts and categorized HTML files. Support optional rich per-project dashboards by preparing bounded dashboard data and coordinating with external visualization capabilities such as <code>build-web-data-visualization</code> or Data Analytics widgets rather than hard-coding every dashboard model into the plugin.</td>
+            <td>User expanded the control-index recommendation to include optional external visualization dashboards.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-036</td>
+            <td><time datetime="2026-07-08T02:40:35-04:00">2026-07-08T02:40:35-04:00</time></td>
+            <td>External capability coordination</td>
+            <td>The plugin coordinator may call, route to, or spawn work through external plugins, skills, APIs, MCP servers, browser tools, external services, local tools, and spawned agents inside project authority, credential, supervision, privacy, and evidence boundaries.</td>
+            <td>User clarified that the plugin should coordinate external resources beyond plugins, including APIs and MCP servers.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-037</td>
+            <td><time datetime="2026-07-08T02:55:10-04:00">2026-07-08T02:55:10-04:00</time></td>
+            <td>External capability autonomy and credential sources</td>
+            <td>External capability use may proceed autonomously only inside active project authority, development/local boundaries, and existing supervision rules. Capability credentials live in project-local env files, project-local JSON files, process environment, or approved ephemeral chat use; durable artifacts record source metadata only, never secret values, and the reusable plugin must not standardize provider-specific credential payloads.</td>
+            <td>User accepted the recommended external capability autonomy boundary and added project-local env/JSON credential-source requirements.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-038</td>
+            <td><time datetime="2026-07-08T03:07:33-04:00">2026-07-08T03:07:33-04:00</time></td>
+            <td>External capability results and dashboard connections</td>
+            <td>Each external capability invocation must be captured in a slice-local worker report or a dedicated JSON/HTML result packet with replay/audit metadata, bounded input/output summaries, provenance, and omissions for secrets, credential values, hidden reasoning, PHI, and oversized payloads. Programmed dashboards must visibly list external connections such as APIs, MCP servers, plugins, skills, browser tools, services, local tools, and spawned agents without displaying credentials.</td>
+            <td>User accepted the result-packet recommendation and added dashboard-visible external connection reporting.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-039</td>
+            <td><time datetime="2026-07-08T03:14:02-04:00">2026-07-08T03:14:02-04:00</time></td>
+            <td>Accepted result-packet immutability</td>
+            <td>After coordinator acceptance, external-capability result packets are immutable source records. Corrections, reruns, stale results, or replacement evidence create a superseding result packet linked to the prior packet. Dashboards display the current packet and preserve history links to superseded packets.</td>
+            <td>User accepted the recommended result-packet immutability and supersession policy.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-040</td>
+            <td><time datetime="2026-07-08T03:24:04-04:00">2026-07-08T03:24:04-04:00</time></td>
+            <td>Dashboard status lanes</td>
+            <td>Status and dashboard data separate internal agent work, external capability activity, validation/evidence, and supervision-required items into distinct lanes. Each lane records current, blocked, completed, and last-updated summaries while the project may still display one combined top-level status.</td>
+            <td>User accepted the recommended four-lane status/dashboard model.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-041</td>
+            <td><time datetime="2026-07-08T03:35:15-04:00">2026-07-08T03:35:15-04:00</time></td>
+            <td>Worker lease model</td>
+            <td>Active slices record worker ID, branch, assigned paths, lease or heartbeat timestamp, and stale-worker handling. If a worker stalls or disappears, the coordinator marks the lease stale, inspects and preserves slice-owned work, then reassigns or supersedes the slice without blocking independent slices.</td>
+            <td>User accepted the recommended worker lease and stale-worker handling model.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-042</td>
+            <td><time datetime="2026-07-08T03:49:13-04:00">2026-07-08T03:49:13-04:00</time></td>
+            <td>Handoff digest artifacts</td>
+            <td>Generate a project-local semantic HTML handoff digest at every run stop, compaction-risk point, stale lease, or user-return checkpoint. The digest summarizes objective, active authority, queue state, worker leases, blockers, validation, external capabilities, supervision items, and the exact resume command or path.</td>
+            <td>User accepted the recommended project-local handoff digest model.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-043</td>
+            <td><time datetime="2026-07-08T04:11:58-04:00">2026-07-08T04:11:58-04:00</time></td>
+            <td>Incident/exception logging and PHI-aware monitoring</td>
+            <td>Maintain an append-only project-local incident/exception log in JSON and semantic HTML forms for abnormal coordinator events, expected resource outages, exhausted repair loops, stale leases, safety/privacy stops, credential or secret exposure risk, suspicious behavior, and PHI monitoring alerts. The interview must expressly ask whether the application handles PHI. PHI-handling projects use a HIPAA-aware metadata-only variant with monitoring phases that remind the user to run regular security scans and review abnormal behavior for possible leakage of information, credentials, plans, or PHI. The log stores evidence pointers and summaries only; it must not store PHI, credentials, tokens, passwords, raw secret values, or raw sensitive text, and it is not legal certification.</td>
+            <td>User accepted the PHI-aware incident/exception log and monitoring requirement during Agentic Wiki continuous-development specification interview.</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>OVERLAY-044</td>
+            <td><time datetime="2026-07-08T04:30:14-04:00">2026-07-08T04:30:14-04:00</time></td>
+            <td>Accelerated accepted decision matrix</td>
+            <td>The user-approved inferred decision table is the project-local source of truth at <code>_bmad-output/implementation-artifacts/accepted-decisions/decision-matrix.html</code> and <code>decision-matrix.json</code>. Future agents must consult it before reopening interview questions. Accepted rows are implemented as project-local requirements; corrections or replacements use project-local update or supersession artifacts. Reusable plugin defaults change only through an explicit plugin-development workflow.</td>
+            <td>User accepted the accelerated inferred decision table as correct and asked for implementation.</td>
+            <td>Active</td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+  </main>
+</body>
+</html>

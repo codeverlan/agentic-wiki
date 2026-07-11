@@ -1,0 +1,267 @@
+{
+  "schema_version": 1,
+  "generated_by": "agent-development-plugin",
+  "updated_at": "2026-07-07T09:30:00-04:00",
+  "source_of_truth": true,
+  "human_review_artifact": "_bmad-output/implementation-artifacts/archetype-registry/template.html",
+  "source_spec": "_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/archetype-registry.md",
+  "override_policy": "Project-local memory may add, narrow, or override archetype guidance after plugin defaults without mutating plugin files.",
+  "archetypes": [
+    {
+      "id": "wordpress-content-website",
+      "label": "WordPress/content website",
+      "discriminating_questions": [
+        "What content model, page templates, and editorial workflow are needed?",
+        "What theme, block, plugin, hosting, SEO, redirects, forms, analytics, accessibility, and performance constraints apply?"
+      ],
+      "likely_design_needs": [
+        "Brand expression, typography, imagery, content hierarchy, reusable blocks, responsive page layouts, accessibility contrast, and editorial component consistency."
+      ],
+      "validation_baseline": [
+        "Rendered page checks",
+        "Link and redirect checks",
+        "Block or theme smoke tests",
+        "Accessibility scan",
+        "Performance scan where available",
+        "Backup and deploy verification for live sidecars"
+      ],
+      "high_risk_surfaces": [
+        "Production publishing",
+        "Credentials",
+        "Personal-account login",
+        "Commerce",
+        "Sensitive forms",
+        "SEO-critical redirects",
+        "Live content deletion"
+      ],
+      "common_slice_patterns": [
+        "Content inventory",
+        "Theme or block audit",
+        "Design direction",
+        "Template implementation",
+        "Form integration",
+        "SEO or redirect pass",
+        "Accessibility and performance pass",
+        "Deployment verification"
+      ]
+    },
+    {
+      "id": "web-application-saas",
+      "label": "Web application/SaaS",
+      "discriminating_questions": [
+        "What user roles, core workflows, data model, authentication, authorization, API contracts, state, environments, billing, observability, acceptance criteria, and deployment target apply?"
+      ],
+      "likely_design_needs": [
+        "Application information architecture, task density, component system, dashboard and table patterns, form states, empty/error/loading states, responsive behavior, and accessibility floor."
+      ],
+      "validation_baseline": [
+        "Unit and integration tests",
+        "API contract tests",
+        "Auth and permission tests",
+        "Frontend interaction tests",
+        "Build, typecheck, and lint",
+        "Smoke or e2e tests for critical flows"
+      ],
+      "high_risk_surfaces": [
+        "Authentication",
+        "Billing",
+        "Privacy",
+        "Public API compatibility",
+        "Schema migrations",
+        "Production data",
+        "External integrations",
+        "Deployment or publishing"
+      ],
+      "common_slice_patterns": [
+        "Domain model characterization",
+        "Auth boundary",
+        "Core workflow test",
+        "API integration",
+        "UI state implementation",
+        "Observability",
+        "E2E smoke",
+        "Deployment readiness"
+      ]
+    },
+    {
+      "id": "cli-library",
+      "label": "CLI/library",
+      "discriminating_questions": [
+        "What public API, compatibility shim, command surface, JSON output contract, package target, supported runtime, documentation generation, and migration policy apply?"
+      ],
+      "likely_design_needs": [
+        "Documentation hierarchy, examples, terminal output clarity, and error-message style."
+      ],
+      "validation_baseline": [
+        "Unit tests",
+        "Integration tests",
+        "Command snapshot or JSON tests",
+        "Typecheck",
+        "Lint",
+        "Docs check",
+        "Compatibility tests"
+      ],
+      "high_risk_surfaces": [
+        "Public API changes",
+        "Command output shape",
+        "Schema or storage layout",
+        "Packaging",
+        "Deprecation or removal"
+      ],
+      "common_slice_patterns": [
+        "Characterization tests",
+        "API shim alignment",
+        "Command behavior",
+        "Docs generation",
+        "Capability manifest",
+        "Release notes"
+      ]
+    },
+    {
+      "id": "mobile-desktop-app",
+      "label": "Mobile/desktop app",
+      "discriminating_questions": [
+        "What target platforms, native or web stack, device capabilities, offline behavior, notifications, permissions, app-store or notarization path, accessibility, and telemetry rules apply?"
+      ],
+      "likely_design_needs": [
+        "Platform conventions, navigation, responsive or adaptive layout, touch and keyboard input, native component patterns, iconography, and motion."
+      ],
+      "validation_baseline": [
+        "Build and test for target platform",
+        "UI smoke",
+        "Accessibility checks",
+        "Simulator or device validation",
+        "Packaging and signing checks when applicable"
+      ],
+      "high_risk_surfaces": [
+        "Device permissions",
+        "App-store publishing",
+        "Credentials",
+        "User data",
+        "Push notifications",
+        "Platform signing"
+      ],
+      "common_slice_patterns": [
+        "Platform scaffold",
+        "Navigation shell",
+        "Key flow",
+        "Persistence or offline support",
+        "Permissions",
+        "Packaging",
+        "Simulator or device QA"
+      ]
+    },
+    {
+      "id": "data-automation-workflow",
+      "label": "Data/automation workflow",
+      "discriminating_questions": [
+        "What data sources, schemas, schedules, transformations, idempotency, retry behavior, observability, error handling, storage, and manual review points apply?"
+      ],
+      "likely_design_needs": [
+        "Operator dashboard, logs, reports, status tables, alert presentation, and artifact readability."
+      ],
+      "validation_baseline": [
+        "Fixture-based data tests",
+        "Schema validation",
+        "Dry-run",
+        "Idempotency checks",
+        "Error-path tests",
+        "Output artifact validation"
+      ],
+      "high_risk_surfaces": [
+        "Destructive data writes",
+        "Credentials",
+        "Production data",
+        "Personal data",
+        "External automation side effects",
+        "Irreversible actions"
+      ],
+      "common_slice_patterns": [
+        "Source connector",
+        "Parser or schema",
+        "Transform",
+        "Dry-run report",
+        "Scheduler",
+        "Alerting",
+        "Recovery path"
+      ]
+    },
+    {
+      "id": "clinical-regulated-workspace",
+      "label": "Clinical/regulated workspace",
+      "discriminating_questions": [
+        "What regulated data type, privacy boundary, local-only requirement, operation context, audit logging, deidentification, retention, access control, and synthetic test strategy apply?"
+      ],
+      "likely_design_needs": [
+        "Conservative workflow UI, clear status labels, audit evidence tables, accessible review surfaces, and no real PHI in examples or screenshots."
+      ],
+      "validation_baseline": [
+        "Policy tests",
+        "Synthetic-only fixture review",
+        "Audit/event checks",
+        "Local-only checks",
+        "Export/deidentification tests",
+        "Docs check"
+      ],
+      "high_risk_surfaces": [
+        "PHI or private data",
+        "Credentials",
+        "Cloud storage",
+        "Telemetry",
+        "Static export",
+        "Production data",
+        "Legal or compliance labels"
+      ],
+      "common_slice_patterns": [
+        "Policy gate",
+        "Synthetic fixture",
+        "Audit trail",
+        "Local-only enforcement",
+        "Export guard",
+        "Compliance docs"
+      ]
+    },
+    {
+      "id": "infrastructure-devops-tooling",
+      "label": "Infrastructure/devops tooling",
+      "discriminating_questions": [
+        "What target environment, provisioning tool, secrets model, deployment topology, rollback, observability, access boundary, blast radius, and cost constraints apply?"
+      ],
+      "likely_design_needs": [
+        "Runbooks, topology diagrams, status dashboards, and alert or incident views."
+      ],
+      "validation_baseline": [
+        "Plan or dry-run",
+        "Config validation",
+        "Tests for generators",
+        "Least-privilege checks",
+        "Smoke checks",
+        "Rollback verification where safe"
+      ],
+      "high_risk_surfaces": [
+        "Production infrastructure",
+        "Credentials or secrets",
+        "DNS",
+        "Destructive operations",
+        "Cost",
+        "Public exposure",
+        "Account-level permissions"
+      ],
+      "common_slice_patterns": [
+        "Inventory",
+        "Plan validation",
+        "Secret handling",
+        "Environment scaffold",
+        "Deployment smoke",
+        "Monitoring",
+        "Rollback runbook"
+      ]
+    }
+  ],
+  "project_local_overrides": [],
+  "mixed_project_policy": {
+    "primary_profile": "Select one primary archetype for orchestration, top-level intake, queue shape, and milestone framing.",
+    "secondary_profiles": "Attach other applicable archetypes as scoped subprofiles or slices with their own targeted questions, validation baselines, high-risk surfaces, and slice patterns.",
+    "conflict_policy": "Conflicts stop only affected slices and dependents unless they change the whole project boundary, shared architecture, safety boundary, plugin-core behavior, PHI/privacy boundary, public API compatibility, or all remaining work."
+  }
+}

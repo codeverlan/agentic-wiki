@@ -73,6 +73,24 @@ def init_workspace(
 ) -> Workspace:
     normalized_profile = normalize_profile(profile)
     workspace = Workspace(root)
+    if workspace.config_path.exists():
+        workspace.ensure_dirs()
+        for manifest_name in ["sources", "pages", "claims", "links", "events"]:
+            workspace.path(f"manifests/{manifest_name}.jsonl").touch(exist_ok=True)
+        return workspace
+    managed_paths = [
+        "wiki/index.html",
+        "wiki/contradictions.html",
+        "docs/architecture.html",
+        "docs/schema.html",
+        "docs/operations.html",
+        "docs/cli-reference.html",
+        "docs/hipaa-local.html",
+        ".memwiki/agent-capabilities.json",
+    ]
+    collision = next((path for path in managed_paths if workspace.path(path).exists()), None)
+    if collision is not None:
+        raise ValueError(f"Agentic Wiki managed file already exists in non-workspace: {collision}")
     workspace.ensure_dirs()
     resolved_client_record_id = client_record_id or (
         stable_id("client", str(workspace.root), utc_now()) if normalized_profile == "clinical_phi" else ""
@@ -105,7 +123,9 @@ def init_workspace(
     write_schemas(workspace.path("schemas"))
     for manifest_name in ["sources", "pages", "claims", "links", "events"]:
         workspace.path(f"manifests/{manifest_name}.jsonl").touch(exist_ok=True)
-    (workspace.root / "AGENTS.md").write_text(AGENTS_TEMPLATE, encoding="utf-8")
+    agents_path = workspace.root / "AGENTS.md"
+    if not agents_path.exists():
+        agents_path.write_text(AGENTS_TEMPLATE, encoding="utf-8")
     render_all_docs(workspace, target_root=workspace.root)
     (workspace.path("wiki/index.html")).write_text(render_index([]), encoding="utf-8")
     (workspace.path("wiki/contradictions.html")).write_text(render_contradictions([]), encoding="utf-8")

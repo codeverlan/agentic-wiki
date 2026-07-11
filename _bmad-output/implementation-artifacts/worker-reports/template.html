@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Development Worker Report</title>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"CreativeWork","identifier":"agent-development-worker-report-template","name":"Agent Development Worker Report Template","description":"Slice-local worker report used by the coordinator before accepting, rejecting, repairing, or superseding worker output.","dateModified":"2026-07-08T03:35:15-04:00","isBasedOn":"_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/SPEC.md","memwiki:pageType":"worker_report_template"}</script>
+  <style>
+    body { color: #1f2933; font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; max-width: 84rem; }
+    header, section { margin-bottom: 1.5rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #c9ced6; padding: 0.55rem; text-align: left; vertical-align: top; }
+    th { background: #f4f6f8; }
+    code { background: #eef1f5; padding: 0.1rem 0.25rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Agent Development Worker Report</h1>
+    <p>This semantic HTML form is the human-facing review surface for the matching JSON worker report.</p>
+  </header>
+  <main>
+    <article id="agent-development-worker-report-template" data-page-type="worker_report_template">
+      <section id="report-metadata">
+        <h2>Report Metadata</h2>
+        <dl>
+          <dt>JSON source</dt>
+          <dd><code>_bmad-output/implementation-artifacts/worker-reports/template.json</code></dd>
+          <dt>Updated</dt>
+          <dd><time datetime="2026-07-08T03:35:15-04:00">2026-07-08T03:35:15-04:00</time></dd>
+          <dt>Coordinator gate</dt>
+          <dd>Required before coordinator acceptance, rejection, repair request, merge, or supersession of worker output.</dd>
+        </dl>
+      </section>
+      <section id="assignment">
+        <h2>Assignment</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Report ID</th>
+              <th scope="col">Worker ID</th>
+              <th scope="col">Slice ID</th>
+              <th scope="col">Branch</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><!-- WORKER-REPORT-001 --></td>
+              <td><!-- worker id --></td>
+              <td><!-- slice id --></td>
+              <td><code><!-- branch --></code></td>
+              <td><!-- draft | submitted | accepted | rejected | needs-repair | superseded --></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="worker-lease">
+        <h2>Worker Lease</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Lease ID</th>
+              <th scope="col">Heartbeat</th>
+              <th scope="col">Lease status</th>
+              <th scope="col">Stale after</th>
+              <th scope="col">Stale handling</th>
+              <th scope="col">Reassignment or supersession</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><!-- LEASE-001 --></td>
+              <td><!-- ISO timestamp --></td>
+              <td><!-- active | stale | released | reassigned | superseded --></td>
+              <td><!-- ISO timestamp or policy --></td>
+              <td>Coordinator inspects and preserves slice-owned work before reassignment or supersession.</td>
+              <td><!-- reassigned worker, superseding slice, or none --></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="paths-and-changes">
+        <h2>Paths And Changes</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Assigned paths</th>
+              <th scope="col">Forbidden paths</th>
+              <th scope="col">Files changed</th>
+              <th scope="col">Files intentionally not touched</th>
+              <th scope="col">Changes made</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><!-- assigned paths --></td>
+              <td><!-- forbidden paths --></td>
+              <td><!-- files changed --></td>
+              <td><!-- files intentionally not touched --></td>
+              <td><!-- concise change summary --></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="validation">
+        <h2>Validation</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Command</th>
+              <th scope="col">Status</th>
+              <th scope="col">Summary</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code><!-- validation command --></code></td>
+              <td><!-- passed | failed | not run --></td>
+              <td><!-- validation summary --></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="blockers-and-evidence">
+        <h2>Blockers And Evidence</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Blockers</th>
+              <th scope="col">Dependency discoveries</th>
+              <th scope="col">Dirty-path overlaps</th>
+              <th scope="col">Authority or resource evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><!-- blockers or none --></td>
+              <td><!-- dependencies or none --></td>
+              <td><!-- overlaps discovered or avoided --></td>
+              <td><!-- authority ledger entries, resource evidence, external capability evidence, non-local source metadata, validation output, or local artifact evidence --></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="proposed-control-changes">
+        <h2>Proposed Shared-Control-Artifact Changes</h2>
+        <p>These are proposals only. The coordinator applies accepted changes after review.</p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Artifact</th>
+              <th scope="col">Proposed change</th>
+              <th scope="col">Reason</th>
+              <th scope="col">Coordinator disposition</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><!-- artifact path --></td>
+              <td><!-- proposed change --></td>
+              <td><!-- reason --></td>
+              <td><!-- pending | accepted | rejected | needs-repair | superseded --></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="proposed-status-lane-updates">
+        <h2>Proposed Status Lane Updates</h2>
+        <p>Workers may propose status-lane updates here. The coordinator applies accepted updates to shared dashboard or run-state artifacts after review.</p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Lane</th>
+              <th scope="col">Current</th>
+              <th scope="col">Blocked</th>
+              <th scope="col">Completed</th>
+              <th scope="col">Last updated</th>
+              <th scope="col">Source artifacts</th>
+              <th scope="col">Coordinator disposition</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><!-- internal_agent_work | external_capability_activity | validation_evidence | supervision_required --></td>
+              <td><!-- current summary --></td>
+              <td><!-- blocked summary --></td>
+              <td><!-- completed summary --></td>
+              <td><!-- ISO timestamp --></td>
+              <td><!-- worker report, slice queue, validation, result packet, supervision queue, or authority ledger paths --></td>
+              <td><!-- pending | accepted | rejected | needs-repair | superseded --></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="external-capability-results">
+        <h2>External Capability Results</h2>
+        <p>Record external capability invocations here or link to a dedicated result packet. Do not include secrets, credential values, hidden reasoning, PHI, or oversized payloads.</p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Capability ID</th>
+              <th scope="col">Connection type</th>
+              <th scope="col">Name/reference</th>
+              <th scope="col">Result packet</th>
+              <th scope="col">History</th>
+              <th scope="col">Dashboard visible</th>
+              <th scope="col">Bounded summary</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><!-- EXT-CAP-001 --></td>
+              <td><!-- plugin | skill | api | mcp-server | browser-tool | external-service | spawned-agent | local-tool --></td>
+              <td><!-- name/reference --></td>
+              <td><!-- current external-capability-results/*.html or JSON path --></td>
+              <td><!-- supersedes/superseded-by packet links; accepted packet not edited in place --></td>
+              <td>true</td>
+              <td><!-- summary with no secrets or oversized payloads --></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="decisions-and-review">
+        <h2>Decisions And Review</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Slice-local decisions</th>
+              <th scope="col">High-risk review</th>
+              <th scope="col">Coordinator disposition</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><!-- decision type, decision, rationale, authority, reversibility, validation/review --></td>
+              <td><!-- required, risk surface, reviewer, findings, disposition --></td>
+              <td><!-- pending | accepted | rejected | needs-repair | superseded; reviewer and time --></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </article>
+  </main>
+</body>
+</html>

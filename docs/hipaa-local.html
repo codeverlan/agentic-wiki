@@ -50,6 +50,22 @@
       operation, object IDs, and result metadata. Event logs must not include raw source text
       or free-text query content; query events store a hash of the question.</p>
     </section>
+    <section id="phi-aware-development-monitoring">
+      <h2>PHI-Aware Development Monitoring</h2>
+      <p>Agent-development incident logs for PHI-capable software must use the HIPAA-aware
+      metadata-only variant. The log records incident IDs, timestamps, severity, category,
+      evidence pointers, monitoring phase, and next action; it must not record PHI, credentials,
+      tokens, passwords, raw secret values, or raw sensitive text.</p>
+      <p>The intake interview must ask whether the application will handle PHI. If the answer is
+      yes, the project should maintain monitoring phases that remind the user to run regular
+      dependency, secret, static-analysis, and access-review scans and to monitor abnormal behavior
+      that may indicate leakage of information, credentials, plans, or PHI.</p>
+      <p>These controls support HIPAA-aware software development practices such as least privilege,
+      audit logging, access review, encryption planning, backup planning, incident response, and
+      deidentification discipline. They are implementation safeguards, not a HIPAA certification
+      or substitute for organizational risk analysis, legal review, workforce policy, BAAs, or
+      production compliance operations.</p>
+    </section>
     <section id="references">
       <h2>References</h2>
       <ul>

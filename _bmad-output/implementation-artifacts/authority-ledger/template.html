@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Development Authority Ledger</title>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","identifier":"agent-development-authority-ledger-template","name":"Agent Development Authority Ledger Template","description":"Project-local append-only ledger of active directives, inferred permissions, mode transitions, continuous-run directives, and broadening authority evidence.","dateModified":"2026-07-08T02:15:05-04:00","isBasedOn":"_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/SPEC.md","memwiki:pageType":"authority_ledger_template"}</script>
+  <style>
+    body { color: #1f2933; font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; max-width: 84rem; }
+    header, section { margin-bottom: 1.5rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #c9ced6; padding: 0.55rem; text-align: left; vertical-align: top; }
+    th { background: #f4f6f8; }
+    code { background: #eef1f5; padding: 0.1rem 0.25rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Agent Development Authority Ledger</h1>
+    <p>This semantic HTML form is the human-facing review surface for the matching JSON authority ledger.</p>
+  </header>
+  <main>
+    <article id="agent-development-authority-ledger-template" data-page-type="authority_ledger_template">
+      <section id="ledger-metadata">
+        <h2>Ledger Metadata</h2>
+        <dl>
+          <dt>JSON source</dt>
+          <dd><code>_bmad-output/implementation-artifacts/authority-ledger/template.json</code></dd>
+          <dt>Updated</dt>
+          <dd><time datetime="2026-07-08T02:15:05-04:00">2026-07-08T02:15:05-04:00</time></dd>
+          <dt>Mutation policy</dt>
+          <dd>Append new source entries only. Supersession and expiration are recorded by later entries that reference prior entry IDs. Generated views may derive current-active status from later entries.</dd>
+          <dt>Purpose</dt>
+          <dd>Record active user directives, inferred permissions, mode transitions, continuous-run directives, expiration or supersession notes, and authority evidence used before broadening behavior.</dd>
+        </dl>
+      </section>
+      <section id="authority-entries">
+        <h2>Authority Entries</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Entry ID</th>
+              <th scope="col">Entry kind</th>
+              <th scope="col">Recorded status</th>
+              <th scope="col">Authority type</th>
+              <th scope="col">Recorded at</th>
+              <th scope="col">Source</th>
+              <th scope="col">Directive or permission</th>
+              <th scope="col">Scope</th>
+              <th scope="col">Authorizes</th>
+              <th scope="col">Expiration</th>
+              <th scope="col">Supersedes</th>
+              <th scope="col">Expires entries</th>
+              <th scope="col">Evidence</th>
+              <th scope="col">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>AUTH-001</td>
+              <td><!-- assertion | supersession | expiration | note --></td>
+              <td><!-- active | supersession | expiration | informational --></td>
+              <td><!-- user-directive | inferred-permission | mode-transition | continuous-run-directive | mutation-policy --></td>
+              <td><!-- ISO 8601 local time --></td>
+              <td><!-- chat | intent packet | BMAD artifact | project overlay | run-state --></td>
+              <td><!-- directive or permission --></td>
+              <td><!-- project | slice | workflow | resource | mode --></td>
+              <td><!-- unattended dispatch | broadening transition | resource use | plugin-development change --></td>
+              <td><!-- none | expires at --></td>
+              <td><!-- prior entry IDs superseded by this entry --></td>
+              <td><!-- prior entry IDs expired by this entry --></td>
+              <td><!-- source artifact, user statement, or requirements check --></td>
+              <td><!-- concise notes --></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="usage-rules">
+        <h2>Usage Rules</h2>
+        <ul>
+          <li>Check this ledger before broadening authority, dispatching unattended work, or relying on a continuous-run directive from prior context.</li>
+          <li>Record narrowing transitions when useful, but do not require them to block safe work.</li>
+          <li>Append new source entries for new directives, inferred permissions, expirations, and supersessions; do not rewrite prior source entries in place.</li>
+          <li>Do not store credentials, personal account secrets, or sensitive values in this ledger.</li>
+          <li>Generated HTML and report views may derive current-active, superseded, or expired status from later entries to make review easier.</li>
+        </ul>
+      </section>
+    </article>
+  </main>
+</body>
+</html>

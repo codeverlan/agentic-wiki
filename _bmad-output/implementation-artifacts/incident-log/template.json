@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "generated_by": "agent-development-plugin",
+  "updated_at": "2026-07-08T04:11:58-04:00",
+  "source_spec": "_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/SPEC.md",
+  "source_of_truth": true,
+  "append_only": true,
+  "template_note": "Project-local incident and exception log template. Use the HIPAA-aware metadata-only variant when the application handles PHI.",
+  "phi_profile": {
+    "handles_phi": true,
+    "hipaa_log_variant": true,
+    "no_phi_or_secret_values": true,
+    "compliance_note": "Metadata-only log; not legal certification.",
+    "best_practice_awareness": [
+      "least privilege",
+      "audit logging",
+      "regular security scans",
+      "secret scanning",
+      "access review",
+      "incident response planning",
+      "deidentification discipline"
+    ]
+  },
+  "monitoring_phases": [
+    {
+      "phase_id": "preflight-security-baseline",
+      "cadence": "before unattended continuous run or release",
+      "reminder": "Run dependency, secret, static analysis, and access-control checks.",
+      "evidence": "scan report path and reviewed access-control notes",
+      "user_action": "Confirm baseline security posture before PHI-capable development proceeds."
+    },
+    {
+      "phase_id": "implementation-monitoring",
+      "cadence": "during implementation slices",
+      "reminder": "Monitor logs, audit events, and unexpected file or network activity for abnormal behavior.",
+      "evidence": "metadata-only audit summary",
+      "user_action": "Review possible information, credential, plan, or PHI leakage indicators."
+    },
+    {
+      "phase_id": "recurring-security-scan",
+      "cadence": "monthly or before release",
+      "reminder": "Run dependency, secret, static analysis, and access-review checks.",
+      "evidence": "scan report path",
+      "user_action": "Review abnormal behavior and possible information leakage."
+    },
+    {
+      "phase_id": "incident-response-review",
+      "cadence": "when an incident or suspicious event is recorded",
+      "reminder": "Preserve metadata-only evidence and escalate user-supervised response.",
+      "evidence": "incident ID, timestamps, hashes, and evidence pointers",
+      "user_action": "Decide containment, notification, credential rotation, and follow-up review steps."
+    }
+  ],
+  "incidents": [
+    {
+      "id": "INC-TEMPLATE-001",
+      "timestamp": "2026-07-08T04:11:58-04:00",
+      "severity": "warning",
+      "category": "abnormal_behavior",
+      "summary": "Template example: abnormal behavior needs review without storing sensitive values.",
+      "trigger": "implementation-monitoring",
+      "related_slice": "",
+      "status": "open",
+      "evidence": [
+        "metadata-only evidence pointer"
+      ],
+      "monitoring_phase": "implementation-monitoring",
+      "next_action": "Review the evidence pointer, decide whether containment or escalation is needed, and continue independent slices when safe."
+    }
+  ]
+}

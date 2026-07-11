@@ -127,6 +127,8 @@ def test_compile_promote_lint_query_and_export_static(tmp_path: Path) -> None:
 
     promote = invoke(tmp_path, "promote", draft_id)
     assert promote.exit_code == 0, promote.output
+    clean_again = invoke(tmp_path, "docs", "check")
+    assert clean_again.exit_code == 0, clean_again.output
     lint = invoke(tmp_path, "lint")
     assert lint.exit_code == 0, lint.output
     assert "OK" in lint.output
@@ -181,8 +183,50 @@ def test_docs_check_and_draft_detect_schema_drift(tmp_path: Path) -> None:
 
     promote = invoke(tmp_path, "promote", draft_id)
     assert promote.exit_code == 0, promote.output
-    clean_again = invoke(tmp_path, "docs", "check")
-    assert clean_again.exit_code == 0, clean_again.output
+
+
+def test_static_export_rejects_outside_and_existing_destinations(tmp_path: Path) -> None:
+    assert invoke(tmp_path, "init").exit_code == 0
+    outside = tmp_path.parent / "outside-static-export"
+    outside_result = invoke(tmp_path, "export", "static", "--output", str(outside))
+    assert outside_result.exit_code == 1
+    assert "remain inside the workspace" in outside_result.output
+    assert not outside.exists()
+
+    existing = tmp_path / "existing-export"
+    existing.mkdir()
+    marker = existing / "user-file.txt"
+    marker.write_text("preserve", encoding="utf-8")
+    existing_result = invoke(tmp_path, "export", "static", "--output", str(existing))
+    assert existing_result.exit_code == 1
+    assert "must not already exist" in existing_result.output
+    assert marker.read_text(encoding="utf-8") == "preserve"
+
+
+def test_init_preserves_existing_project_instructions_and_reinit_is_idempotent(tmp_path: Path) -> None:
+    agents = tmp_path / "AGENTS.md"
+    agents.write_text("# Existing project instructions\n", encoding="utf-8")
+
+    first = invoke(tmp_path, "init")
+    assert first.exit_code == 0, first.output
+    events_before = (tmp_path / "manifests/events.jsonl").read_bytes()
+    second = invoke(tmp_path, "init")
+
+    assert second.exit_code == 0, second.output
+    assert agents.read_text(encoding="utf-8") == "# Existing project instructions\n"
+    assert (tmp_path / "manifests/events.jsonl").read_bytes() == events_before
+
+
+def test_init_rejects_managed_file_collision_before_overwrite(tmp_path: Path) -> None:
+    managed = tmp_path / "docs" / "operations.html"
+    managed.parent.mkdir(parents=True)
+    managed.write_text("user-authored", encoding="utf-8")
+
+    result = invoke(tmp_path, "init")
+
+    assert result.exit_code == 1
+    assert "managed file already exists" in result.output
+    assert managed.read_text(encoding="utf-8") == "user-authored"
 
 
 def test_dry_run_model_adapter_is_local_and_deterministic() -> None:

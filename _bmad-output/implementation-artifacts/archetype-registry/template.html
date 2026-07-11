@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Development Archetype Registry</title>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","identifier":"agent-development-archetype-registry-template","name":"Agent Development Archetype Registry Template","dateModified":"2026-07-07T09:30:00-04:00","isBasedOn":"_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/archetype-registry.md","memwiki:pageType":"archetype_registry_template","memwiki:sourceOfTruth":true}</script>
+  <style>
+    body { color: #1f2933; font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; max-width: 90rem; }
+    header, section { margin-bottom: 1.5rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #c9ced6; padding: 0.55rem; text-align: left; vertical-align: top; }
+    th { background: #f4f6f8; }
+    code { background: #eef1f5; padding: 0.1rem 0.25rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Agent Development Archetype Registry</h1>
+    <p>This project-local HTML form reviews the default archetype registry and any project-local overrides. The matching JSON form is the machine-readable registry source.</p>
+  </header>
+  <main>
+    <article id="agent-development-archetype-registry-template" data-page-type="archetype_registry_template">
+      <section id="metadata">
+        <h2>Registry Metadata</h2>
+        <dl>
+          <dt>JSON source</dt>
+          <dd><code>_bmad-output/implementation-artifacts/archetype-registry/template.json</code></dd>
+          <dt>Source spec</dt>
+          <dd><code>_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/archetype-registry.md</code></dd>
+          <dt>Override policy</dt>
+          <dd>Project-local memory may add, narrow, or override archetype guidance after plugin defaults without mutating plugin files.</dd>
+        </dl>
+      </section>
+      <section id="default-archetypes">
+        <h2>Default Archetypes</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Archetype</th>
+              <th scope="col">Discriminating questions</th>
+              <th scope="col">Likely design needs</th>
+              <th scope="col">Validation baseline</th>
+              <th scope="col">High-risk surfaces</th>
+              <th scope="col">Common slice patterns</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>WordPress/content website</td>
+              <td>Content model, page templates, block/theme strategy, plugin inventory, editorial workflow, hosting, SEO, redirects, forms, analytics, accessibility, and performance budget.</td>
+              <td>Brand expression, typography, imagery, content hierarchy, reusable blocks, responsive page layouts, accessibility contrast, and editorial component consistency.</td>
+              <td>Rendered page checks; link/redirect checks; block/theme smoke tests; accessibility scan; performance scan; backup/deploy verification for live sidecars.</td>
+              <td>Production publishing; credentials; personal-account login; commerce; sensitive forms; SEO-critical redirects; live content deletion.</td>
+              <td>Content inventory; theme/block audit; design direction; template implementation; form integration; SEO/redirect pass; accessibility/performance pass; deployment verification.</td>
+            </tr>
+            <tr>
+              <td>Web application/SaaS</td>
+              <td>User roles, core workflows, data model, authentication, authorization, API contracts, state, environments, billing, observability, acceptance criteria, and deployment target.</td>
+              <td>Application information architecture, task density, component system, dashboard/table patterns, form states, empty/error/loading states, responsive behavior, and accessibility floor.</td>
+              <td>Unit/integration tests; API contract tests; auth/permission tests; frontend interaction tests; build/typecheck/lint; smoke/e2e tests.</td>
+              <td>Authentication; billing; privacy; public API compatibility; schema migrations; production data; external integrations; deployment/publishing.</td>
+              <td>Domain model characterization; auth boundary; core workflow test; API integration; UI state implementation; observability; e2e smoke; deployment readiness.</td>
+            </tr>
+            <tr>
+              <td>CLI/library</td>
+              <td>Public API, compatibility shims, command surface, JSON output contracts, package targets, supported runtimes, documentation generation, and migration policy.</td>
+              <td>Documentation hierarchy, examples, terminal output clarity, and error-message style.</td>
+              <td>Unit tests; integration tests; command snapshot/JSON tests; typecheck; lint; docs check; compatibility tests.</td>
+              <td>Public API changes; command output shape; schema/storage layout; packaging; deprecation/removal.</td>
+              <td>Characterization tests; API shim alignment; command behavior; docs generation; capability manifest; release notes.</td>
+            </tr>
+            <tr>
+              <td>Mobile/desktop app</td>
+              <td>Target platforms, native/web stack, device capabilities, offline behavior, notifications, permissions, app-store or notarization path, accessibility, and telemetry.</td>
+              <td>Platform conventions, navigation, responsive/adaptive layout, touch/keyboard input, native component patterns, iconography, and motion.</td>
+              <td>Build/test for target platform; UI smoke; accessibility checks; simulator/device validation; packaging/signing checks when applicable.</td>
+              <td>Device permissions; app-store publishing; credentials; user data; push notifications; platform signing.</td>
+              <td>Platform scaffold; navigation shell; key flow; persistence/offline; permissions; packaging; simulator/device QA.</td>
+            </tr>
+            <tr>
+              <td>Data/automation workflow</td>
+              <td>Data sources, schemas, schedules, transformations, idempotency, retry behavior, observability, error handling, storage, and manual review points.</td>
+              <td>Operator dashboard, logs/reports, status tables, alert presentation, and artifact readability.</td>
+              <td>Fixture-based data tests; schema validation; dry-run; idempotency checks; error-path tests; output artifact validation.</td>
+              <td>Destructive data writes; credentials; production data; personal data; external automation side effects; irreversible actions.</td>
+              <td>Source connector; parser/schema; transform; dry-run report; scheduler; alerting; recovery path.</td>
+            </tr>
+            <tr>
+              <td>Clinical/regulated workspace</td>
+              <td>Regulated data type, privacy boundary, local-only requirements, operation context, audit logging, deidentification, retention, access control, and synthetic test strategy.</td>
+              <td>Conservative workflow UI, clear status labels, audit evidence tables, accessible review surfaces, and no real PHI in examples or screenshots.</td>
+              <td>Policy tests; synthetic-only fixture review; audit/event checks; local-only checks; export/deidentification tests; docs check.</td>
+              <td>PHI/private data; credentials; cloud storage; telemetry; static export; production data; legal/compliance labels.</td>
+              <td>Policy gate; synthetic fixture; audit trail; local-only enforcement; export guard; compliance docs.</td>
+            </tr>
+            <tr>
+              <td>Infrastructure/devops tooling</td>
+              <td>Target environment, provisioning tool, secrets model, deployment topology, rollback, observability, access boundaries, blast radius, and cost constraints.</td>
+              <td>Runbooks, topology diagrams, status dashboards, and alert/incident views.</td>
+              <td>Plan/dry-run; config validation; tests for generators; least-privilege checks; smoke checks; rollback verification where safe.</td>
+              <td>Production infrastructure; credentials/secrets; DNS; destructive operations; cost; public exposure; account-level permissions.</td>
+              <td>Inventory; plan validation; secret handling; environment scaffold; deployment smoke; monitoring; rollback runbook.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="mixed-project-policy">
+        <h2>Mixed-Project Policy</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Policy area</th>
+              <th scope="col">Rule</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Primary profile</td>
+              <td>Select one primary archetype for orchestration, top-level intake, queue shape, and milestone framing.</td>
+            </tr>
+            <tr>
+              <td>Secondary profiles</td>
+              <td>Attach other applicable archetypes as scoped subprofiles or slices with their own targeted questions, validation baselines, high-risk surfaces, and slice patterns.</td>
+            </tr>
+            <tr>
+              <td>Conflict handling</td>
+              <td>Stop only affected slices and dependents unless the conflict changes the whole project boundary, shared architecture, safety boundary, plugin-core behavior, PHI/privacy boundary, public API compatibility, or all remaining work.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="project-local-overrides">
+        <h2>Project-Local Overrides</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Override ID</th>
+              <th scope="col">Archetype</th>
+              <th scope="col">Project-specific change</th>
+              <th scope="col">Authority/source</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><!-- OVERRIDE-001 --></td>
+              <td><!-- archetype id or new archetype --></td>
+              <td><!-- add, narrow, or override guidance --></td>
+              <td><!-- user answer, project memory, BMAD artifact, or spec path --></td>
+              <td><!-- active | superseded --></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </article>
+  </main>
+</body>
+</html>

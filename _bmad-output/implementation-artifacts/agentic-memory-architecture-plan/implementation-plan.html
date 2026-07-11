@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic Memory Architecture And Plugin Integration Plan</title>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","identifier":"agentic-memory-architecture-plugin-integration-v1","name":"Agentic Memory Architecture And Plugin Integration Plan","description":"Implementable long-running plan for making Agentic Wiki the deterministic memory runtime of agent-development-coordinator, including design memory and PHI-aware synthetic development behavior.","dateCreated":"2026-07-11T01:02:17-04:00","dateModified":"2026-07-11T02:43:46-04:00","isBasedOn":["_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/SPEC.md","_bmad-output/implementation-artifacts/plugin-development-readiness/readiness-contract.json"],"encodingFormat":"text/html","memwiki:pageType":"agentic_memory_implementation_plan","memwiki:sourceOfTruth":false,"memwiki:machineReadableSource":"implementation-plan.json","memwiki:executionStatus":"current-implementation-queue-validated","memwiki:hardStopAt":"2026-07-11T02:00:00-04:00"}</script>
+  <style>
+    :root { color-scheme: light; --ink: #1f2933; --muted: #52606d; --line: #cbd2d9; --soft: #f5f7fa; --blue: #245b8a; --green: #286749; --amber: #8a5a14; --red: #9b2c2c; }
+    * { box-sizing: border-box; }
+    body { color: var(--ink); font-family: system-ui, sans-serif; line-height: 1.5; margin: 0; }
+    header, main { margin: 0 auto; max-width: 96rem; padding: 1.5rem 2rem; }
+    header { border-bottom: 4px solid var(--blue); }
+    h1, h2, h3 { letter-spacing: 0; }
+    h1 { font-size: 2rem; margin: 0 0 0.5rem; }
+    h2 { border-bottom: 1px solid var(--line); margin-top: 2rem; padding-bottom: 0.35rem; }
+    code { background: #edf2f7; padding: 0.1rem 0.25rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid var(--line); padding: 0.55rem; text-align: left; vertical-align: top; }
+    th { background: var(--soft); }
+    .notice { border-left: 5px solid var(--amber); background: #fffaf0; padding: 0.75rem 1rem; }
+    .flow { background: #f0f6fb; border: 1px solid #9fbdd5; font-family: ui-monospace, monospace; overflow-x: auto; padding: 1rem; white-space: pre; }
+    .status { color: var(--amber); font-weight: 700; }
+    .gate { color: var(--green); font-weight: 700; }
+    .risk { color: var(--red); font-weight: 700; }
+    dl { display: grid; grid-template-columns: minmax(11rem, 16rem) 1fr; gap: 0.35rem 1rem; }
+    dt { font-weight: 700; }
+    dd { margin: 0; }
+    @media (max-width: 760px) { header, main { padding: 1rem; } dl { display: block; } dt { margin-top: 0.75rem; } table { display: block; overflow-x: auto; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Agentic Memory Architecture And Plugin Integration Plan</h1>
+    <p>Two-hour implementable vertical slice plus a long-running roadmap for making Agentic Wiki the durable development-process anchor.</p>
+    <p class="notice"><strong>Execution state:</strong> <span class="gate">First sprint validated.</span> Activated at 1:20 AM and completed at 1:34 AM, before the 2:00 AM hard stop. The matching JSON file is the machine-readable source of truth.</p>
+  </header>
+  <main>
+    <article id="agentic-memory-architecture-plan" data-page-type="agentic_memory_implementation_plan">
+      <section id="metadata">
+        <h2>Plan Metadata</h2>
+        <dl>
+          <dt>Machine source</dt><dd><code>_bmad-output/implementation-artifacts/agentic-memory-architecture-plan/implementation-plan.json</code></dd>
+          <dt>Source specification</dt><dd><code>_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/SPEC.md</code></dd>
+          <dt>Readiness contract</dt><dd><code>_bmad-output/implementation-artifacts/plugin-development-readiness/readiness-contract.json</code></dd>
+          <dt>Time boundary</dt><dd>120 minutes, with scope freeze at minute 100 and handoff preparation beginning at minute 115.</dd>
+          <dt>Plugin destination</dt><dd><code>/Users/tyler-lcsw/plugins/agent-development-coordinator</code></dd>
+          <dt>Core boundary</dt><dd>Local-only, provider-agnostic, mandatory PHI intake, synthetic-only behavior for PHI-capable or unknown projects, no Cloudflare dependency, and no unsupervised broad computer use.</dd>
+        </dl>
+      </section>
+
+      <section id="first-sprint-outcome">
+        <h2>First Sprint Outcome</h2>
+        <p>The first vertical slice is implemented and validated: typed PHI and design-memory behavior, event and worker-proposal validation, immutable source-backed drafts, additive supersession, bounded context, transitive relationship impact, compatible Python and CLI surfaces, generated documentation, and the expanded local plugin.</p>
+        <p><strong>Validation:</strong> 64 tests passed; Ruff, mypy, and docs checks passed; plugin source and installed cache validate and match. Bounded context now reports byte-budget truncation and omitted-record counts.</p>
+        <p>High-risk authority, transactional promotion, raw-evidence re-hashing, content-level PHI detection, output-path confinement, deeper provenance validation, supervised design-baseline authority, and canonical packet revision controls remain explicit follow-on slices.</p>
+      </section>
+
+      <section id="hardening-outcome">
+        <h2>Hardening Outcome</h2>
+        <p>The current queue is drained. Verified coordinator authority, locked promotion and shared reader consistency, rollback, source integrity, content safety, provenance validation, confined outputs, acyclic supersession, supervised design baselines, screenshot verification, and non-destructive initialization are implemented.</p>
+        <p><strong>Validation:</strong> 110 tests passed; Ruff, mypy across 27 source files, and docs checks passed. Plugin source/cache validation and parity passed at <code>0.1.0+codex.20260711064312</code>; disposable BMAD and lightweight fresh-context smoke tests passed.</p>
+      </section>
+
+      <section id="phi-intake">
+        <h2>Mandatory PHI Intake And Behavior</h2>
+        <p>The plugin must ask: <strong>Will the application being developed create, receive, maintain, transmit, display, or otherwise handle PHI?</strong> The answer is recorded as <code>yes</code>, <code>no</code>, or <code>unknown</code> in the intent packet, authority ledger, memory profile, and incident-log profile.</p>
+        <table>
+          <thead><tr><th>Answer</th><th>Required behavior</th></tr></thead>
+          <tbody>
+            <tr><td>Yes</td><td>Use synthetic or verified deidentified development data only. Keep screenshots, references, fixtures, prompts, logs, examples, and generated documentation free of real PHI. Use the HIPAA-aware metadata-only incident log and prohibit remote PHI processing.</td></tr>
+            <tr><td>No</td><td>Use the standard project privacy, credential, and metadata-only incident rules.</td></tr>
+            <tr><td>Unknown</td><td>Use precautionary synthetic-only behavior and place the question in the supervision queue without blocking unrelated synthetic development.</td></tr>
+          </tbody>
+        </table>
+        <p>This supports privacy-conscious development and does not claim legal certification or replace project-specific compliance review.</p>
+      </section>
+
+      <section id="design-memory">
+        <h2>Design Memory Capability</h2>
+        <p>Design memory is a reusable plugin capability whose content remains project-local. It preserves design principles, tokens, component patterns, user flows, screen references, responsive states, accessibility requirements, visual validation evidence, intentional exceptions, variances, and supersessions.</p>
+        <table>
+          <thead><tr><th>Memory type</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr><td>Design principle</td><td>Accepted or proposed visual, interaction, responsive, accessibility, and brand guidance.</td></tr>
+            <tr><td>Component pattern</td><td>Approved component variants, states, tokens, behavior, and implementation references.</td></tr>
+            <tr><td>Screen reference</td><td>Hashed screenshot or mockup with route, feature, role, viewport, application state, revision, source, PHI status, and provenance.</td></tr>
+            <tr><td>Visual validation result</td><td>Evidence-backed comparison between current implementation and accepted references.</td></tr>
+            <tr><td>Design variance</td><td>Material deviation, rationale, affected screens and components, authority need, and proposed disposition.</td></tr>
+          </tbody>
+        </table>
+        <p>Before frontend work, agents receive bounded design context. After material frontend work, they capture synthetic visual evidence at required states and viewports, compare it with approved references, and record either validation or a design variance. Historical images remain immutable and are superseded rather than deleted.</p>
+        <p>Users can add, browse, query, approve, correct, supersede, compare, and mark intentional exceptions. Image generation, design skills, browser capture, Playwright, visual-regression tooling, and Figma remain optional external adapters.</p>
+      </section>
+
+      <section id="objective">
+        <h2>Objective And Architecture</h2>
+        <p>The two-hour objective is a complete vertical spine, not the full future runtime. A development event must become immutable evidence, produce a controlled memory proposal, affect context and impact analysis, appear as a draft wiki update, and be consumable by the plugin.</p>
+        <div class="flow">Project event
+  -&gt; memory observation
+  -&gt; immutable source
+  -&gt; typed memory delta
+  -&gt; draft wiki update
+  -&gt; policy and impact evaluation
+  -&gt; bounded context package
+  -&gt; coordinator disposition
+  -&gt; promotion or supervision
+  -&gt; updated planning and worker assignment</div>
+        <p>Agentic Wiki remains deterministic and inspectable. The plugin supplies coordination and reasoning. Workers submit memory delta packets; only the coordinator writes shared memory and disposes drafts.</p>
+      </section>
+
+      <section id="memory-layers">
+        <h2>Memory Layers</h2>
+        <table>
+          <thead><tr><th>Layer</th><th>Purpose</th><th>Mutation model</th></tr></thead>
+          <tbody>
+            <tr><td>Working state</td><td>Queue, leases, blockers, and current validation.</td><td>Mutable coordinator-owned control plane.</td></tr>
+            <tr><td>Draft knowledge</td><td>Proposed facts, decisions, variances, and relationships.</td><td>Validated before disposition.</td></tr>
+            <tr><td>Canonical wiki</td><td>Accepted semantic HTML knowledge with provenance.</td><td>Promotion-policy controlled.</td></tr>
+            <tr><td>Evidence</td><td>Immutable sources, historical snapshots, and superseded records.</td><td>Append and supersede; never silently rewrite.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="contracts">
+        <h2>Foundation Contracts</h2>
+        <table>
+          <thead><tr><th>Contract</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><code>memory_event</code></td><td>Immutable observation of a meaningful project event.</td></tr>
+            <tr><td><code>memory_delta</code></td><td>Worker-proposed additions, corrections, links, supersessions, and obligations.</td></tr>
+            <tr><td><code>context_request</code></td><td>Bounded request identifying slice, objective, scope, memory types, and budget.</td></tr>
+            <tr><td><code>context_package</code></td><td>Relevant accepted knowledge, evidence, warnings, authority, and citations.</td></tr>
+            <tr><td><code>impact_report</code></td><td>Affected components, slices, validations, pages, decisions, and supervision needs.</td></tr>
+            <tr><td><code>promotion_disposition</code></td><td>Promote, retain as draft, reject, supersede, or request supervision.</td></tr>
+            <tr><td><code>design_principle</code></td><td>Visual, interaction, responsive, accessibility, and brand guidance.</td></tr>
+            <tr><td><code>screen_reference</code></td><td>Hashed screenshot or mockup reference with state, viewport, revision, PHI status, and provenance.</td></tr>
+            <tr><td><code>visual_validation_result</code></td><td>Comparison evidence against accepted design memory.</td></tr>
+            <tr><td><code>design_variance</code></td><td>Material visual deviation and its required disposition.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="timeline">
+        <h2>Two-Hour Execution Timeline</h2>
+        <table>
+          <thead><tr><th>Window</th><th>Phase</th><th>Primary result</th><th>Gate</th></tr></thead>
+          <tbody>
+            <tr><td>0-15</td><td>Baseline and contract freeze</td><td>Dirty-tree classification, tests, schemas, ownership, and frozen scope.</td><td>Contracts and baseline accepted.</td></tr>
+            <tr><td>15-45</td><td>Event-to-draft vertical slice</td><td>Typed event becomes immutable source and provenance-backed draft.</td><td>Idempotence, supersession, and sensitive-value rejection pass.</td></tr>
+            <tr><td>30-65</td><td>Context, impact, and design memory</td><td>Bounded context package, dependency impact report, design references, and visual variance handling.</td><td>Relevant records included; superseded and unrelated records excluded; material design drift becomes a variance.</td></tr>
+            <tr><td>45-80</td><td>API, CLI, and capabilities</td><td>Equivalent structured agent-facing operations.</td><td>Compatibility and draft-before-promote preserved.</td></tr>
+            <tr><td>65-100</td><td>Plugin integration</td><td>Memory steward, assets, bridge, and updated coordinator behaviors.</td><td>Plugin remains project-agnostic and validates.</td></tr>
+            <tr><td>90-115</td><td>Validation and review</td><td>Repository checks, plugin checks, adversarial review, and reinstall proof.</td><td>All required checks pass or evidence-backed blockers are preserved.</td></tr>
+            <tr><td>115-120</td><td>Durable handoff</td><td>Queue, dispositions, run-state, handoff, and exact resume instructions.</td><td>Future coordinator can resume without chat history.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="phase-details">
+        <h2>Phase Deliverables</h2>
+        <h3>Phase 0: Baseline And Contract Freeze</h3>
+        <ul>
+          <li>Preserve the existing dirty tree and run focused baseline tests before behavior changes.</li>
+          <li>Define lifecycle, provenance, authority, relationships, and prohibited-value rules for all six contracts.</li>
+          <li>Require the PHI-handling answer and activate precautionary synthetic-only behavior while it remains unknown.</li>
+          <li>Define design-memory, screenshot metadata, immutable image storage, and visual-reference promotion rules.</li>
+          <li>Defer MCP, dashboards, background daemons, remote models, and Cloudflare.</li>
+        </ul>
+        <h3>Phase 1: Event-To-Draft Vertical Slice</h3>
+        <ul>
+          <li>Add the focused agentic-memory implementation and tests.</li>
+          <li>Register event packets as immutable sources and create semantic HTML drafts, claims, links, and event records.</li>
+          <li>Prove idempotence, supersession, and PHI, secret, credential, and hidden-reasoning exclusion.</li>
+        </ul>
+        <h3>Phase 2: Context, Impact, And Design Memory</h3>
+        <ul>
+          <li>Generate bounded context packages from active typed records and explicit relationships.</li>
+          <li>Exclude superseded records by default and surface stale or contradictory active records.</li>
+          <li>Report affected work and proposed follow-ups without directly changing the active queue.</li>
+          <li>Compile design principles, tokens, components, flows, responsive states, accessibility requirements, and approved screen references for frontend slices.</li>
+          <li>Store hashed synthetic screenshots and mockups as immutable sources; record material differences as design variances.</li>
+        </ul>
+        <h3>Phase 3: Public Integration Surface</h3>
+        <ul>
+          <li>Expose <code>observe</code>, <code>propose</code>, <code>context</code>, <code>impact</code>, <code>disposition</code>, and <code>checkpoint</code> through Python and CLI JSON contracts.</li>
+          <li>Keep <code>AgenticWikiWorkspace</code> canonical and <code>MemwikiWorkspace</code> compatible.</li>
+          <li>Advertise mutation and PHI rules in the generated capability manifest.</li>
+        </ul>
+        <h3>Phase 4: Plugin Integration</h3>
+        <ul>
+          <li>Add <code>agent-dev-memory-steward</code> and update preflight, coordination, status, handoff, and improvement-review guidance.</li>
+          <li>Ask the mandatory PHI question and enforce synthetic-only development behavior for yes or unknown answers.</li>
+          <li>Add design-memory guidance and require frontend slices to submit visual evidence or a documented not-applicable disposition.</li>
+          <li>Package generic schemas and a provider-agnostic local bridge.</li>
+          <li>Keep BMAD as a control-plane adapter and project data out of reusable plugin files.</li>
+        </ul>
+        <h3>Phase 5 And 6: Proof And Handoff</h3>
+        <ul>
+          <li>Run focused tests, full tests, Ruff, mypy, docs checks, plugin validation, cache refresh, reinstall, and parity checks.</li>
+          <li>Use a fresh-context reviewer for provenance, concurrency, idempotence, supersession, context limits, PHI, secret handling, screenshot safety, and design-baseline integrity.</li>
+          <li>Freeze feature scope at minute 100 and begin handoff no later than minute 115.</li>
+        </ul>
+      </section>
+
+      <section id="workers">
+        <h2>Worker Ownership</h2>
+        <table>
+          <thead><tr><th>Worker</th><th>Exclusive responsibility</th></tr></thead>
+          <tbody>
+            <tr><td>Coordinator</td><td>Contracts, shared API and CLI files, active queue, integration, dispositions, validation, and final handoff.</td></tr>
+            <tr><td>Worker A</td><td>Memory event and delta vertical slice with focused tests.</td></tr>
+            <tr><td>Worker B</td><td>Bounded context compiler with focused tests.</td></tr>
+            <tr><td>Worker C</td><td>Impact, contradiction, staleness, supersession, design memory, screenshot metadata, and visual variance behavior.</td></tr>
+            <tr><td>Worker D</td><td>Plugin assets, bridge script, and memory-steward skill.</td></tr>
+            <tr><td>Worker E</td><td>Generated documentation and semantic HTML review surfaces.</td></tr>
+            <tr><td>Worker F</td><td>Fresh-context adversarial review and safety regression analysis.</td></tr>
+          </tbody>
+        </table>
+        <p>Workers submit reports and proposed shared-file changes. The coordinator is the only writer for shared control artifacts and disposes overlapping changes.</p>
+      </section>
+
+      <section id="promotion-policy">
+        <h2>Promotion Policy Defaults</h2>
+        <table>
+          <thead><tr><th>Class</th><th>Examples</th></tr></thead>
+          <tbody>
+            <tr><td class="gate">Autonomous</td><td>Validated operational snapshots, accepted worker summaries, test evidence, reversible implementation decisions, and synthetic visual evidence matching an approved baseline.</td></tr>
+            <tr><td class="status">Supervision required</td><td>Product requirement changes, material architecture or visual-direction changes, new design-baseline approval, compliance interpretations, credential or production policy, and sensitive-data policy.</td></tr>
+            <tr><td class="risk">Prohibited durable content</td><td>PHI, unverified PHI-bearing screenshots, secret or credential values, hidden reasoning, oversized external payloads, and project data embedded in plugin defaults.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="verification">
+        <h2>Verification Commands</h2>
+        <pre><code>uv run pytest tests/test_agentic_memory_runtime.py tests/test_agent_development_memory.py
+uv run pytest
+uv run ruff check .
+uv run mypy src
+uv run agentic-wiki docs check
+python3 scripts/validate_plugin.py /Users/tyler-lcsw/plugins/agent-development-coordinator</code></pre>
+        <p>After plugin changes, update the local cachebuster, reinstall, compare source and cache, and confirm <code>codex plugin list</code>. Final skill-loading proof occurs in a fresh Codex task.</p>
+      </section>
+
+      <section id="roadmap">
+        <h2>Post-Sprint Long-Running Roadmap</h2>
+        <table>
+          <thead><tr><th>Phase</th><th>Scope</th></tr></thead>
+          <tbody>
+            <tr><td>Prospective memory</td><td>Wake conditions, review dates, release gates, resource-availability triggers, and follow-up obligations.</td></tr>
+            <tr><td>Memory quality automation</td><td>Contradiction, staleness, orphan, validation-gap, and drift monitoring.</td></tr>
+            <tr><td>User memory and design workbench</td><td>HTML add, query, correct, supersede, approve, defer, compare, screen-inventory, design-baseline, and impact-review workflows.</td></tr>
+            <tr><td>Branch-aware memory</td><td>Worktree snapshots, branch lineage, conflict reconciliation, and accepted-result supersession.</td></tr>
+            <tr><td>Memory consolidation</td><td>Episodic-to-semantic summaries, recurring blocker extraction, runbooks, and plugin-improvement candidates.</td></tr>
+            <tr><td>Optional adapters</td><td>MCP tools, visualization dashboard, and provider-specific external capabilities without changing the core contract.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="activation">
+        <h2>Activation And Stop Rules</h2>
+        <p>Implementation starts only after explicit user authorization. During execution, blocked slices do not stop independent work. The whole run stops at the time boundary, platform limit, queue drain, a safety or supervision boundary with no independent work, or when no safe enabling slice remains.</p>
+      </section>
+    </article>
+  </main>
+</body>
+</html>

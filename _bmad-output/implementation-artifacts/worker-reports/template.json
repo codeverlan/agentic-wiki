@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "generated_by": "agent-development-plugin",
+  "updated_at": "2026-07-08T03:35:15-04:00",
+  "source_of_truth": true,
+  "human_review_artifact": "_bmad-output/implementation-artifacts/worker-reports/template.html",
+  "report_id": "WORKER-REPORT-001",
+  "worker_id": "",
+  "slice_id": "",
+  "branch": "",
+  "status": "draft | submitted | accepted | rejected | needs-repair | superseded",
+  "worker_lease": {
+    "lease_id": "",
+    "heartbeat_at": "",
+    "lease_status": "active | stale | released | reassigned | superseded",
+    "stale_after": "",
+    "stale_handling": "Coordinator inspects and preserves slice-owned work before reassignment or supersession.",
+    "reassignment_or_supersession": ""
+  },
+  "assigned_paths": [],
+  "forbidden_paths": [],
+  "files_changed": [],
+  "files_intentionally_not_touched": [],
+  "changes_made": [],
+  "validation": [
+    {
+      "command": "",
+      "status": "passed | failed | not-run",
+      "summary": ""
+    }
+  ],
+  "blockers": [],
+  "dependency_discoveries": [],
+  "dirty_path_overlaps": [],
+  "proposed_shared_control_artifact_changes": [
+    {
+      "artifact": "",
+      "proposed_change": "",
+      "reason": "",
+      "coordinator_disposition": "pending | accepted | rejected | needs-repair | superseded"
+    }
+  ],
+  "proposed_status_lane_updates": [
+    {
+      "lane_id": "internal_agent_work | external_capability_activity | validation_evidence | supervision_required",
+      "current_summary": "",
+      "blocked_summary": "",
+      "completed_summary": "",
+      "last_updated": "",
+      "source_artifacts": [],
+      "coordinator_disposition": "pending | accepted | rejected | needs-repair | superseded"
+    }
+  ],
+  "authority_or_resource_evidence": [
+    {
+      "type": "authority-ledger | resource | non-local-source | validation-output | local-artifact | plugin | skill | api | mcp-server | browser-tool | external-service | spawned-agent | local-tool",
+      "source": "",
+      "checked_at": "",
+      "supports": "",
+      "limitations": ""
+    }
+  ],
+  "external_capability_results": [
+    {
+      "capability_id": "",
+      "connection_type": "plugin | skill | api | mcp-server | browser-tool | external-service | spawned-agent | local-tool",
+      "name": "",
+      "current_result_packet": "",
+      "supersedes_result_packet": "",
+      "superseded_by_result_packet": "",
+      "accepted_packet_edited_in_place": false,
+      "dashboard_visible": true,
+      "credential_values_recorded": false,
+      "bounded_summary": ""
+    }
+  ],
+  "slice_local_decisions": [
+    {
+      "decision_type": "implementation | architecture | product",
+      "decision": "",
+      "rationale": "",
+      "authority_source": "",
+      "reversibility": "",
+      "validation_or_review": ""
+    }
+  ],
+  "high_risk_review": {
+    "required": false,
+    "risk_surface": "",
+    "reviewer": "",
+    "findings": "",
+    "disposition": "not-required | pending | accepted | fixes-required | blocked"
+  },
+  "coordinator_disposition": {
+    "status": "pending | accepted | rejected | needs-repair | superseded",
+    "reviewed_by": "",
+    "reviewed_at": "",
+    "notes": ""
+  }
+}

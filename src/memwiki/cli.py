@@ -12,8 +12,12 @@ from memwiki.linter import render_lint_errors
 app = typer.Typer(no_args_is_help=True)
 docs_app = typer.Typer(no_args_is_help=True)
 export_app = typer.Typer(no_args_is_help=True)
+agent_app = typer.Typer(no_args_is_help=True)
+memory_app = typer.Typer(no_args_is_help=True)
 app.add_typer(docs_app, name="docs")
 app.add_typer(export_app, name="export")
+app.add_typer(agent_app, name="agent")
+agent_app.add_typer(memory_app, name="memory")
 
 
 class CliState:
@@ -87,13 +91,15 @@ def init(
         help="Record operator attestation that the local workspace is on encrypted storage.",
     ),
 ) -> None:
-    _json(
-        state.wiki.init(
+    try:
+        result = state.wiki.init(
             profile=profile,
             client_record_id=client_record_id,
             local_encrypted_storage_attested=attest_local_encryption,
         )
-    )
+    except Exception as exc:
+        _fail(str(exc))
+    _json(result)
 
 
 @app.command()
@@ -200,6 +206,136 @@ def docs_check() -> None:
 def docs_draft() -> None:
     try:
         result = state.wiki.docs_draft(context=_context())
+    except Exception as exc:
+        _fail(str(exc))
+    _json(result)
+
+
+@agent_app.command("render-run-state")
+def agent_render_run_state(
+    queue: Path,
+    output: Path = typer.Option(..., "--output", "-o", help="HTML output path."),
+    objective: str = typer.Option("", "--objective", help="Run objective."),
+    stop_reason: str = typer.Option("", "--stop-reason", help="Run stop reason."),
+    active_branch: str = typer.Option("", "--active-branch", help="Active branch name."),
+    commit: str = typer.Option("", "--commit", help="Current commit SHA."),
+    remote_pr: str = typer.Option("", "--remote-pr", help="Remote or pull request URL/status."),
+    branch_ledger: str = typer.Option("", "--branch-ledger", help="Branch ledger path or status."),
+) -> None:
+    try:
+        result = state.wiki.render_agent_run_state(
+            queue,
+            output,
+            objective=objective,
+            stop_reason=stop_reason,
+            active_branch=active_branch,
+            commit=commit,
+            remote_pr=remote_pr,
+            branch_ledger=branch_ledger,
+        )
+    except Exception as exc:
+        _fail(str(exc))
+    _json(result)
+
+
+@agent_app.command("draft-run-state")
+def agent_draft_run_state(
+    queue: Path,
+    objective: str = typer.Option("", "--objective", help="Run objective."),
+    stop_reason: str = typer.Option("", "--stop-reason", help="Run stop reason."),
+    active_branch: str = typer.Option("", "--active-branch", help="Active branch name."),
+    commit: str = typer.Option("", "--commit", help="Current commit SHA."),
+    remote_pr: str = typer.Option("", "--remote-pr", help="Remote or pull request URL/status."),
+    branch_ledger: str = typer.Option("", "--branch-ledger", help="Branch ledger path or status."),
+) -> None:
+    try:
+        result = state.wiki.draft_agent_run_state(
+            queue,
+            objective=objective,
+            stop_reason=stop_reason,
+            active_branch=active_branch,
+            commit=commit,
+            remote_pr=remote_pr,
+            branch_ledger=branch_ledger,
+            context=_context(),
+        )
+    except Exception as exc:
+        _fail(str(exc))
+    _json(result)
+
+
+@agent_app.command("render-handoff-digest")
+def agent_render_handoff_digest(
+    queue: Path,
+    output: Path = typer.Option(..., "--output", "-o", help="HTML output path."),
+    objective: str = typer.Option("", "--objective", help="Run objective."),
+    trigger: str = typer.Option(
+        "",
+        "--trigger",
+        help="Digest trigger such as stop, compaction-risk, stale-lease, or user-return.",
+    ),
+    active_authority: str = typer.Option("", "--active-authority", help="Current authority source for resuming work."),
+    resume_command: str = typer.Option("", "--resume-command", help="Exact command or instruction for resuming work."),
+    resume_path: str = typer.Option("", "--resume-path", help="Path the next agent should open first."),
+) -> None:
+    try:
+        result = state.wiki.render_agent_handoff_digest(
+            queue,
+            output,
+            objective=objective,
+            trigger=trigger,
+            active_authority=active_authority,
+            resume_command=resume_command,
+            resume_path=resume_path,
+        )
+    except Exception as exc:
+        _fail(str(exc))
+    _json(result)
+
+
+@agent_app.command("render-incident-log")
+def agent_render_incident_log(
+    incident_log: Path,
+    output: Path = typer.Option(..., "--output", "-o", help="HTML output path."),
+) -> None:
+    try:
+        result = state.wiki.render_agent_incident_log(incident_log, output)
+    except Exception as exc:
+        _fail(str(exc))
+    _json(result)
+
+
+@memory_app.command("observe")
+def agent_memory_observe(event: Path) -> None:
+    try:
+        result = state.wiki.observe_agent_memory(event, context=_context())
+    except Exception as exc:
+        _fail(str(exc))
+    _json(result)
+
+
+@memory_app.command("context")
+def agent_memory_context(memory_state: Path, request: Path) -> None:
+    try:
+        result = state.wiki.build_agent_context(memory_state, request, context=_context())
+    except Exception as exc:
+        _fail(str(exc))
+    _json(result)
+
+
+@memory_app.command("propose")
+def agent_memory_propose(delta: Path) -> None:
+    try:
+        result = state.wiki.propose_agent_memory(delta, context=_context())
+    except Exception as exc:
+        _fail(str(exc))
+    _json(result)
+
+
+@memory_app.command("impact")
+def agent_memory_impact(memory_state: Path, changed_record_id: str) -> None:
+    try:
+        result = state.wiki.assess_agent_memory_impact(memory_state, changed_record_id, context=_context())
     except Exception as exc:
         _fail(str(exc))
     _json(result)

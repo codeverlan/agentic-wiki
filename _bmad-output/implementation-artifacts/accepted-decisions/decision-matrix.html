@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Development Accepted Decision Matrix</title>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","identifier":"agent-development-accepted-decision-matrix","name":"Agent Development Accepted Decision Matrix","description":"Project-local source-of-truth matrix of user-accepted agent-development plugin decisions inferred from the accelerated interview table.","dateModified":"2026-07-08T04:30:14-04:00","isBasedOn":"_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/SPEC.md","encodingFormat":["text/html","application/json"],"distribution":{"@type":"DataDownload","contentUrl":"_bmad-output/implementation-artifacts/accepted-decisions/decision-matrix.json","encodingFormat":"application/json"},"memwiki:pageType":"accepted_decision_matrix","memwiki:sourceOfTruth":true}</script>
+  <style>
+    body { color: #1f2933; font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; max-width: 96rem; }
+    header, section { margin-bottom: 1.5rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #c9ced6; padding: 0.55rem; text-align: left; vertical-align: top; }
+    th { background: #f4f6f8; }
+    code { background: #eef1f5; padding: 0.1rem 0.25rem; }
+    .source { border-left: 0.3rem solid #476b9b; padding-left: 0.75rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Agent Development Accepted Decision Matrix</h1>
+    <p class="source">The user accepted the accelerated inferred decision table as correct and asked for implementation. This matrix is project-local source of truth for those accepted rows. Corrections or replacements should create project-local superseding entries rather than mutating reusable plugin files.</p>
+  </header>
+  <main>
+    <article id="agent-development-accepted-decision-matrix" data-page-type="accepted_decision_matrix">
+      <section id="metadata">
+        <h2>Metadata</h2>
+        <dl>
+          <dt>JSON source</dt>
+          <dd><code>_bmad-output/implementation-artifacts/accepted-decisions/decision-matrix.json</code></dd>
+          <dt>Source spec</dt>
+          <dd><code>_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/SPEC.md</code></dd>
+          <dt>Updated</dt>
+          <dd><time datetime="2026-07-08T04:30:14-04:00">2026-07-08T04:30:14-04:00</time></dd>
+          <dt>Implementation policy</dt>
+          <dd>Rows are project-local requirements for future reusable plugin packaging. They do not mutate plugin installation files, cache files, marketplace entries, or global skill files unless an explicit plugin-development workflow starts.</dd>
+        </dl>
+      </section>
+      <section id="accepted-decisions">
+        <h2>Accepted Decisions</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Decision ID</th>
+              <th scope="col">Question</th>
+              <th scope="col">Accepted answer</th>
+              <th scope="col">Implementation consequence</th>
+              <th scope="col">Surface</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>AD-001</td><td>Should incident/exception logs be append-only?</td><td>Yes.</td><td>Accepted entries are not edited in place. Corrections create superseding entries with links to prior entries.</td><td>incident-log; validation-contract; delivery-workflow</td></tr>
+            <tr><td>AD-002</td><td>How long should incident logs be retained?</td><td>Project-local default retention with no automatic deletion.</td><td>The plugin preserves logs unless the user explicitly directs retention, archival, deletion, redaction, or rotation rules.</td><td>incident-log; accepted-decisions; retention policy</td></tr>
+            <tr><td>AD-003</td><td>Should PHI-aware projects use stricter incident logging?</td><td>Yes.</td><td>Metadata-only logs, no PHI or secrets, monitoring phases, regular scan reminders, and abnormal-behavior review.</td><td>incident-log; HIPAA-aware monitoring</td></tr>
+            <tr><td>AD-004</td><td>Must intake ask whether the app handles PHI?</td><td>Yes, mandatory.</td><td>This is a preflight question before unattended continuous development.</td><td>intent-packet; preflight readiness</td></tr>
+            <tr><td>AD-005</td><td>Is HIPAA support legal certification?</td><td>No.</td><td>The plugin tracks HIPAA-aware development safeguards, not legal attestation or compliance certification.</td><td>HIPAA docs; incident-log</td></tr>
+            <tr><td>AD-006</td><td>Should the plugin be project-agnostic?</td><td>Yes.</td><td>It should support WordPress, web apps, CLIs, clinical tools, data workflows, and future project types through archetype-specific intake.</td><td>archetype registry; storage adapters</td></tr>
+            <tr><td>AD-007</td><td>Should BMAD be required?</td><td>No.</td><td>The plugin is BMAD-aware but not BMAD-dependent. Use the BMAD adapter when <code>_bmad</code> exists and the lightweight Agentic Wiki adapter otherwise.</td><td>storage adapter model</td></tr>
+            <tr><td>AD-008</td><td>Should project-specific guidance mutate the plugin?</td><td>No.</td><td>The plugin stays immutable unless an explicit plugin-development workflow starts. Project customization lives in local memory overlays.</td><td>plugin-project boundary; overlay</td></tr>
+            <tr><td>AD-009</td><td>Should overlays be able to broaden autonomy?</td><td>Yes, within higher-priority boundaries.</td><td>Project-local rules can enable needed skills, tools, and resources as long as safety, repo, user, and system constraints permit it.</td><td>project overlay; instruction precedence</td></tr>
+            <tr><td>AD-010</td><td>What is the primary plugin input?</td><td>Intent packet from interview, existing specs/resources, or hybrid intake.</td><td>The plugin normalizes all entry paths into project-local JSON plus HTML intent packet.</td><td>intent packet</td></tr>
+            <tr><td>AD-011</td><td>Should intake depth vary?</td><td>Yes.</td><td>Support quick start, standard preflight, and deep spec. Unattended continuous development requires at least standard preflight.</td><td>intent packet; preflight</td></tr>
+            <tr><td>AD-012</td><td>Should questions adapt by project type?</td><td>Yes.</td><td>WordPress, web app, clinical workspace, CLI/library, and other archetypes receive different question paths.</td><td>archetype registry</td></tr>
+            <tr><td>AD-013</td><td>Should visual/design work be part of intake?</td><td>Yes when material.</td><td>Use image generation, design skills, HTML mockups, or user assets to present selectable directions.</td><td>design-assisted intake</td></tr>
+            <tr><td>AD-014</td><td>Should milestone check-ins block unattended work?</td><td>No, advisory unless a safety or stop boundary applies.</td><td>The plugin suggests check-ins, but continuous work continues if the user has authorized unattended development.</td><td>handoff; run modes</td></tr>
+            <tr><td>AD-015</td><td>Should continuous runs create new slices autonomously?</td><td>Yes.</td><td>The coordinator may create and assign safe new slices without user approval inside the accepted scope.</td><td>slice queue; task graph</td></tr>
+            <tr><td>AD-016</td><td>What is the max parallelism default?</td><td>Coordinator plus up to six workers.</td><td>Workers own narrow slices; the coordinator owns shared control artifacts.</td><td>agent topology</td></tr>
+            <tr><td>AD-017</td><td>Who mutates shared control artifacts?</td><td>Coordinator only.</td><td>Workers propose queue, log, or overlay changes through worker reports.</td><td>agent topology; worker reports</td></tr>
+            <tr><td>AD-018</td><td>What happens when slice A blocks?</td><td>Continue independent slice B.</td><td>The blocked slice is recorded; dependent slices wait; independent work continues.</td><td>blocking policy; slice queue</td></tr>
+            <tr><td>AD-019</td><td>Should agents exhaust resources before blocking?</td><td>Yes.</td><td>Use local repo/tests/docs, official docs or web, browser tools, skills/plugins, subagents or review, then split or fallback.</td><td>blocking policy</td></tr>
+            <tr><td>AD-020</td><td>What if an expected tool is unavailable?</td><td>Stop affected slice and notify in chat.</td><td>If a resource should exist but is unavailable, affected slice blocks while independent slices continue.</td><td>resource gap handling</td></tr>
+            <tr><td>AD-021</td><td>What if a useful resource does not exist yet?</td><td>Continue and record a future opportunity.</td><td>Add to the simple chronological future-resource queue; advisory only.</td><td>future-resource queue</td></tr>
+            <tr><td>AD-022</td><td>How should credentials be handled?</td><td>Development-pragmatic, best-effort non-persistence.</td><td>If the user provides a credential in chat, use it for the approved task and avoid storing, echoing, or logging it.</td><td>credential policy</td></tr>
+            <tr><td>AD-023</td><td>Are project-local credential files allowed?</td><td>Allowed when needed, never plugin-owned.</td><td>Env, JSON, process env, and provider-specific formats are allowed; durable artifacts record metadata only.</td><td>external capabilities; credential sources</td></tr>
+            <tr><td>AD-024</td><td>Should external capabilities be first-class?</td><td>Yes.</td><td>Plugins, skills, APIs, MCP servers, browser tools, services, local tools, and spawned agents can be used inside authority.</td><td>external capability registry</td></tr>
+            <tr><td>AD-025</td><td>Should external capability results be auditable?</td><td>Yes.</td><td>Capture in worker report or JSON/HTML result packet; accepted packets are immutable and corrections supersede.</td><td>external capability result packets</td></tr>
+            <tr><td>AD-026</td><td>Should dashboards be supported?</td><td>Optional but supported.</td><td>Prepare bounded dashboard data and call visualization plugins/tools when requested. Dashboards show status, tasks, agents, tokens, logs, and external connections.</td><td>dashboard data contract</td></tr>
+            <tr><td>AD-027</td><td>What happens when the user returns?</td><td>Do not automatically interrupt safe work.</td><td>Append and prioritize the supervision queue at the next reasonable stopping point.</td><td>supervision queue</td></tr>
+            <tr><td>AD-028</td><td>How should status reporting work during unattended runs?</td><td>Local artifacts first.</td><td>Chat is reserved for blockers, safety boundaries, repair exhaustion, supervision tasks, whole-run stops, or requested summaries.</td><td>status lanes; handoff</td></tr>
+            <tr><td>AD-029</td><td>How should PR workflow behave?</td><td>Non-blocking audit and sync artifact.</td><td>PR approval should not halt continuous development unless user, repo, or platform policy requires it.</td><td>delivery workflow</td></tr>
+            <tr><td>AD-030</td><td>What is the validation repair policy?</td><td>Two bounded self-repair attempts.</td><td>After the second failure, stop affected slice, preserve evidence, and continue independent slices.</td><td>validation contract</td></tr>
+            <tr><td>AD-031</td><td>Is a high-risk review gate required?</td><td>Yes.</td><td>PHI/privacy, credentials, public API, schemas/storage, plugin-core, generated docs, security, and deployment require review or adversarial check.</td><td>high-risk review gate</td></tr>
+            <tr><td>AD-032</td><td>Should generated docs and schemas stay aligned?</td><td>Yes.</td><td>Code changes affecting commands, schemas, workflows, storage, or validation update docs and pass docs check.</td><td>docs governance</td></tr>
+            <tr><td>AD-033</td><td>How should handoff and compaction be handled?</td><td>Durable HTML handoff required.</td><td>Generate run-state and handoff digest at stops, stale leases, compaction risk, and user return.</td><td>run-state; handoff digest</td></tr>
+            <tr><td>AD-034</td><td>Should there be a branch ledger?</td><td>Yes, a living HTML table.</td><td>Track branch name, last updated timestamp, and brief contents description.</td><td>branch ledger</td></tr>
+            <tr><td>AD-035</td><td>When should future plugin packaging happen?</td><td>Later, after decisions are integrated.</td><td>Use plugin-creator only after scope and interview are complete and project-local decisions are durable.</td><td>plugin-development boundary</td></tr>
+            <tr><td>AD-036</td><td>Should the plugin own every future feature?</td><td>No.</td><td>It should coordinate external capabilities rather than hard-code every dashboard, browser, API, or workflow model.</td><td>external capability coordination</td></tr>
+            <tr><td>AD-037</td><td>Should logs include token and platform usage?</td><td>Yes when available.</td><td>Track token and platform usage in dashboard/status data if accessible; leave blank when unavailable.</td><td>dashboard data; run-state</td></tr>
+            <tr><td>AD-038</td><td>Should current project artifacts become reusable defaults?</td><td>Only after an explicit plugin-development step.</td><td>Project-local decisions can inform plugin candidates, but plugin files remain untouched until approved.</td><td>plugin improvement queue; plugin boundary</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </article>
+  </main>
+</body>
+</html>

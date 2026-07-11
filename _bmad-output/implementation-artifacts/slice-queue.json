@@ -1,0 +1,226 @@
+{
+  "schema_version": 1,
+  "generated_by": "bmad-spec",
+  "updated_at": "2026-07-11T02:43:46-04:00",
+  "source_spec": "_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/SPEC.md",
+  "source_of_truth": true,
+  "human_artifacts": {
+    "run_state_format": "html",
+    "run_state_template": "_bmad-output/implementation-artifacts/run-state/template.html",
+    "handoff_digest_template": "_bmad-output/implementation-artifacts/handoff-digest/template.html",
+    "latest_handoff_digest": "_bmad-output/implementation-artifacts/handoff-digest/2026-07-11-agentic-memory-hardening.html",
+    "incident_log_json": "_bmad-output/implementation-artifacts/incident-log/incident-log.json",
+    "incident_log_template_json": "_bmad-output/implementation-artifacts/incident-log/template.json",
+    "incident_log_template_html": "_bmad-output/implementation-artifacts/incident-log/template.html",
+    "latest_incident_log": "_bmad-output/implementation-artifacts/incident-log/2026-07-08-agent-development-memory.html",
+    "intent_packet_json_template": "_bmad-output/implementation-artifacts/intent-packet/template.json",
+    "intent_packet_html_template": "_bmad-output/implementation-artifacts/intent-packet/template.html",
+    "authority_ledger_json_template": "_bmad-output/implementation-artifacts/authority-ledger/template.json",
+    "authority_ledger_html_template": "_bmad-output/implementation-artifacts/authority-ledger/template.html",
+    "worker_report_json_template": "_bmad-output/implementation-artifacts/worker-reports/template.json",
+    "worker_report_html_template": "_bmad-output/implementation-artifacts/worker-reports/template.html",
+    "control_index": "_bmad-output/implementation-artifacts/control-index.html",
+    "dashboard_data_json_template": "_bmad-output/implementation-artifacts/dashboard-data/template.json",
+    "dashboard_data_html_template": "_bmad-output/implementation-artifacts/dashboard-data/template.html",
+    "external_capabilities_json_template": "_bmad-output/implementation-artifacts/external-capabilities/template.json",
+    "external_capabilities_html_template": "_bmad-output/implementation-artifacts/external-capabilities/template.html",
+    "external_capability_results_json_template": "_bmad-output/implementation-artifacts/external-capability-results/template.json",
+    "external_capability_results_html_template": "_bmad-output/implementation-artifacts/external-capability-results/template.html",
+    "archetype_registry_json_template": "_bmad-output/implementation-artifacts/archetype-registry/template.json",
+    "archetype_registry_html_template": "_bmad-output/implementation-artifacts/archetype-registry/template.html",
+    "accepted_decision_matrix_json": "_bmad-output/implementation-artifacts/accepted-decisions/decision-matrix.json",
+    "accepted_decision_matrix_html": "_bmad-output/implementation-artifacts/accepted-decisions/decision-matrix.html",
+    "plugin_development_readiness_json": "_bmad-output/implementation-artifacts/plugin-development-readiness/readiness-contract.json",
+    "plugin_development_readiness_html": "_bmad-output/implementation-artifacts/plugin-development-readiness/readiness-contract.html",
+    "local_plugin_source_root": "/Users/tyler-lcsw/plugins/agent-development-coordinator",
+    "installed_plugin_root": "/Users/tyler-lcsw/.codex/plugins/cache/personal/agent-development-coordinator/0.1.0+codex.20260711064312",
+    "personal_marketplace_manifest": "/Users/tyler-lcsw/.agents/plugins/marketplace.json",
+    "branch_ledger": "_bmad-output/implementation-artifacts/branch-ledger.html"
+  },
+  "status_values": [
+    "active",
+    "blocked",
+    "waiting-on-dependent",
+    "validated",
+    "merged",
+    "superseded"
+  ],
+  "status_lanes": [
+    {
+      "lane_id": "internal_agent_work",
+      "label": "Internal agent work",
+      "current_summary": "The current agentic-memory implementation and hardening queue is drained and validated.",
+      "blocked_summary": "No internal agent blocker recorded.",
+      "completed_summary": "Typed memory, bounded context, verified authority, atomic locked promotion, source integrity, content safety, provenance, output confinement, supervised design baselines, cycle controls, and both plugin adapters are implemented.",
+      "last_updated": "2026-07-11T02:43:46-04:00",
+      "source_artifacts": [
+        "_bmad-output/implementation-artifacts/slice-queue.json",
+        "_bmad-output/implementation-artifacts/accepted-decisions/decision-matrix.json",
+        "_bmad-output/implementation-artifacts/plugin-development-readiness/readiness-contract.json",
+        "_bmad-output/implementation-artifacts/handoff-digest/template.html",
+        "_bmad-output/implementation-artifacts/incident-log/incident-log.json",
+        "_bmad-output/implementation-artifacts/worker-reports/template.html"
+      ]
+    },
+    {
+      "lane_id": "external_capability_activity",
+      "label": "External capability activity",
+      "current_summary": "External capability registry, connection visibility, result packets, result supersession policy, and plugin packaging constraints are represented in project-local templates.",
+      "blocked_summary": "No expected external capability is currently unavailable for this specification slice.",
+      "completed_summary": "Dashboard-visible external connection tracking, external capability coordination, and accepted result-packet immutability are recorded in the decision matrix and supporting templates.",
+      "last_updated": "2026-07-08T04:50:58-04:00",
+      "source_artifacts": [
+        "_bmad-output/implementation-artifacts/accepted-decisions/decision-matrix.html",
+        "_bmad-output/implementation-artifacts/external-capabilities/template.html",
+        "_bmad-output/implementation-artifacts/external-capability-results/template.html"
+      ]
+    },
+    {
+      "lane_id": "validation_evidence",
+      "label": "Validation/evidence",
+      "current_summary": "Repository, documentation, CLI, plugin source, installed cache, parity, and disposable adapter smoke validation passed.",
+      "blocked_summary": "No validation blocker recorded.",
+      "completed_summary": "110 tests passed; Ruff, mypy across 27 source files, and docs checks passed; plugin source and installed cache validate and match; BMAD and lightweight fresh-context smoke tests passed; plugin is installed and enabled at 0.1.0+codex.20260711064312.",
+      "last_updated": "2026-07-11T02:43:46-04:00",
+      "source_artifacts": [
+        "_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/.memlog.md",
+        "tests/test_agent_development_memory.py",
+        "_bmad-output/implementation-artifacts/accepted-decisions/decision-matrix.json",
+        "_bmad-output/implementation-artifacts/plugin-development-readiness/readiness-contract.json",
+        "_bmad-output/implementation-artifacts/incident-log/incident-log.json"
+      ]
+    },
+    {
+      "lane_id": "supervision_required",
+      "label": "Supervision-required items",
+      "current_summary": "No supervision-required item remains for the current implementation queue.",
+      "blocked_summary": "No supervision boundary is blocking this specification slice.",
+      "completed_summary": "User approved the project-local PHI-aware model; fresh-context plugin smoke tests confirmed both BMAD and lightweight adapter behavior.",
+      "last_updated": "2026-07-11T02:43:46-04:00",
+      "source_artifacts": [
+        "_bmad-output/implementation-artifacts/accepted-decisions/decision-matrix.html",
+        "_bmad-output/implementation-artifacts/plugin-development-readiness/readiness-contract.html",
+        "_bmad-output/implementation-artifacts/project-plugin-overlay.html"
+      ]
+    }
+  ],
+  "slices": [
+    {
+      "id": "SLICE-001",
+      "status": "validated",
+      "branch": "codex/2026-07-07-agent-development-memory",
+      "description": "Implement provider-agnostic agent-development memory foundation and begin local plugin packaging: run-state renderer, handoff digest renderer, PHI-aware incident/exception log renderer, accepted decision matrix, plugin-development readiness contract, local agent-development-coordinator scaffold/install, draft workflow, API/CLI commands, capabilities, generated docs, archetype registry, mixed-profile, intake-depth, storage-adapter artifacts, multi-skill plugin workflow artifacts, skill-level mutation-permission artifacts, explicit run-mode artifacts, run-mode transition artifacts, authority-ledger artifacts, append-only authority-ledger mutation policy, worker-report JSON/HTML artifacts, worker lease model, control index, dashboard data contract, four-lane status/dashboard model, external-capability registry, autonomous external capability boundary, project-local credential source handling, external-capability result packets, dashboard-visible external connection tracking, accepted result-packet immutability, supersession links, and tests.",
+      "dependencies": [],
+      "blocked_by": [],
+      "proposed_by": "coordinator",
+      "assigned_to": "current-codex-thread",
+      "worker_lease": {
+        "lease_id": "LEASE-001",
+        "worker_id": "current-codex-thread",
+        "branch": "codex/2026-07-07-agent-development-memory",
+        "assigned_paths": [
+          "src/agentic_wiki/",
+          "src/memwiki/",
+          "tests/",
+          "docs/",
+          "README.md",
+          "_bmad-output/"
+        ],
+        "heartbeat_at": "2026-07-08T04:50:58-04:00",
+        "status": "released",
+        "stale_after": "next coordinator heartbeat or explicit handoff",
+        "stale_handling": "Coordinator inspects and preserves slice-owned work before reassignment or supersession.",
+        "reassignment_or_supersession": ""
+      },
+      "allowed_paths": [
+        "src/agentic_wiki/",
+        "src/memwiki/",
+        "tests/",
+        "docs/",
+        "README.md",
+        "_bmad-output/"
+      ],
+      "forbidden_paths": [
+        "raw/",
+        "wiki/",
+        "plugins/",
+        ".codex-plugin/"
+      ],
+      "validation": [
+        "uv run pytest",
+        "uv run ruff check .",
+        "uv run mypy src",
+        "uv run agentic-wiki docs check"
+      ],
+      "next_action": "Use a fresh Codex thread to smoke test the installed local plugin in a BMAD project and a non-BMAD project.",
+      "updated_at": "2026-07-08T04:50:58-04:00"
+    },
+    {
+      "id": "SLICE-002",
+      "status": "validated",
+      "branch": "codex/2026-07-07-agent-development-memory",
+      "description": "First agentic-memory plugin expansion sprint: PHI yes/no/unknown policy, synthetic-only safeguards, design memory, typed events and worker proposals, immutable source-backed drafts, bounded context, transitive impact, public API/CLI/capabilities, generated docs, plugin memory steward, cache refresh, reinstall, and validation.",
+      "dependencies": ["SLICE-001"],
+      "blocked_by": [],
+      "proposed_by": "coordinator",
+      "assigned_to": "coordinator-plus-five-agents",
+      "worker_lease": {
+        "lease_id": "LEASE-002",
+        "worker_id": "coordinator-plus-five-agents",
+        "branch": "codex/2026-07-07-agent-development-memory",
+        "assigned_paths": ["src/", "tests/", "docs/", "README.md", "_bmad-output/", "/Users/tyler-lcsw/plugins/agent-development-coordinator"],
+        "heartbeat_at": "2026-07-11T01:34:23-04:00",
+        "status": "released",
+        "stale_after": "completed",
+        "stale_handling": "No reassignment required; all agents were closed after reports and validation.",
+        "reassignment_or_supersession": ""
+      },
+      "allowed_paths": ["src/", "tests/", "docs/", "README.md", "_bmad-output/", "/Users/tyler-lcsw/plugins/agent-development-coordinator"],
+      "forbidden_paths": ["raw/", "wiki/", "credentials", "real PHI"],
+      "validation": ["uv run pytest", "uv run ruff check .", "uv run mypy src", "uv run agentic-wiki docs check", "plugin source/cache validate and diff"],
+      "next_action": "Use a fresh Codex task to smoke test the reinstalled plugin in disposable BMAD and non-BMAD projects, then begin trusted coordinator authority and atomic promotion slices.",
+      "updated_at": "2026-07-11T01:34:23-04:00"
+    },
+    {
+      "id": "SLICE-003",
+      "status": "validated",
+      "branch": "codex/2026-07-07-agent-development-memory",
+      "description": "Harden canonical promotion with host-verified coordinator authority for agent-memory drafts, source-backed authority classification, raw and extracted content digests, chained source-integrity evidence, path confinement, writer serialization, idempotent retry, exception rollback, and adversarial review repairs.",
+      "dependencies": ["SLICE-002"],
+      "blocked_by": [],
+      "proposed_by": "coordinator",
+      "assigned_to": "coordinator-plus-four-reviewers",
+      "worker_lease": {
+        "lease_id": "LEASE-003",
+        "worker_id": "coordinator-plus-four-reviewers",
+        "branch": "codex/2026-07-07-agent-development-memory",
+        "assigned_paths": ["src/", "tests/", "docs/", "_bmad-output/"],
+        "heartbeat_at": "2026-07-11T02:25:44-04:00",
+        "status": "released",
+        "stale_after": "completed",
+        "stale_handling": "No reassignment required; adversarial findings were repaired and retested.",
+        "reassignment_or_supersession": ""
+      },
+      "allowed_paths": ["src/", "tests/", "docs/", "_bmad-output/"],
+      "forbidden_paths": ["real PHI", "credentials", "plugin source"],
+      "validation": ["81 tests passed", "uv run ruff check .", "uv run mypy src", "uv run agentic-wiki docs check"],
+      "next_action": "Continue the active hardening queue with content-level PHI detection, renderer path confinement, provenance validation, and supervised design-baseline authority.",
+      "updated_at": "2026-07-11T02:25:44-04:00"
+    },
+    {
+      "id": "SLICE-004",
+      "status": "validated",
+      "branch": "codex/2026-07-07-agent-development-memory",
+      "description": "Complete deferred memory-runtime hardening: content-level PHI and credential detection, renderer output confinement, stronger provenance validation, supervised design-baseline authority, and packet revision or cycle controls.",
+      "dependencies": ["SLICE-003"],
+      "blocked_by": [],
+      "proposed_by": "coordinator",
+      "assigned_to": "coordinator-plus-four-explorers",
+      "allowed_paths": ["src/", "tests/", "docs/", "_bmad-output/", "/Users/tyler-lcsw/plugins/agent-development-coordinator"],
+      "forbidden_paths": ["real PHI", "credentials", "raw production data"],
+      "validation": ["110 tests passed", "uv run ruff check . passed", "uv run mypy src passed across 27 source files", "uv run agentic-wiki docs check passed", "plugin source/cache validation and parity passed", "BMAD and lightweight disposable smoke tests passed"],
+      "next_action": "Current queue drained. Future development begins from a new user objective or a newly discovered failing validation.",
+      "updated_at": "2026-07-11T02:43:46-04:00"
+    }
+  ]
+}

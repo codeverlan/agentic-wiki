@@ -5,6 +5,43 @@ from pathlib import Path
 from typing import Any, Dict
 
 SCHEMAS: Dict[str, Dict[str, Any]] = {
+    "agent_memory_event": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "title": "Agent Memory Event",
+        "type": "object",
+        "required": ["schema_version", "event_id", "event_type", "occurred_at", "record"],
+        "properties": {
+            "schema_version": {"type": "integer"},
+            "event_id": {"type": "string"},
+            "event_type": {"type": "string"},
+            "occurred_at": {"type": "string"},
+            "record": {"type": "object"},
+        },
+    },
+    "agent_context_request": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "title": "Agent Context Request",
+        "type": "object",
+        "required": ["schema_version", "request_id", "objective"],
+        "properties": {
+            "schema_version": {"type": "integer"},
+            "request_id": {"type": "string"},
+            "objective": {"type": "string"},
+            "tags": {"type": "array", "items": {"type": "string"}},
+        },
+    },
+    "agent_memory_proposal": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "title": "Agent Memory Proposal",
+        "type": "object",
+        "required": ["schema_version", "proposal_id", "proposed_at", "records"],
+        "properties": {
+            "schema_version": {"type": "integer"},
+            "proposal_id": {"type": "string"},
+            "proposed_at": {"type": "string"},
+            "records": {"type": "array", "items": {"type": "object"}, "minItems": 1},
+        },
+    },
     "source": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "title": "Agentic Wiki Source Record",
@@ -22,6 +59,7 @@ SCHEMAS: Dict[str, Dict[str, Any]] = {
         "properties": {
             "source_id": {"type": "string"},
             "sha256": {"type": "string"},
+            "extracted_sha256": {"type": "string"},
             "kind": {"enum": ["text", "markdown", "html", "json", "pdf", "image"]},
             "raw_path": {"type": "string"},
             "origin": {"type": "string"},
@@ -42,7 +80,19 @@ SCHEMAS: Dict[str, Dict[str, Any]] = {
             "page_id": {"type": "string"},
             "title": {"type": "string"},
             "slug": {"type": "string"},
-            "page_type": {"enum": ["source", "entity", "concept", "claim", "contradiction", "index"]},
+            "page_type": {
+                "enum": [
+                    "source",
+                    "entity",
+                    "concept",
+                    "claim",
+                    "contradiction",
+                    "index",
+                    "agent_handoff_digest",
+                    "agent_incident_log",
+                    "agent_run_state",
+                ]
+            },
             "review_status": {"enum": ["draft", "accepted", "needs_review", "rejected"]},
             "html_path": {"type": "string"},
             "sensitivity": {"enum": ["general", "phi", "deidentified", "synthetic"]},

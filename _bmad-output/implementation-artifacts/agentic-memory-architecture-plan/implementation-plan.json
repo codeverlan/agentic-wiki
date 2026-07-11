@@ -1,0 +1,407 @@
+{
+  "schema_version": 1,
+  "plan_id": "agentic-memory-architecture-plugin-integration-v1",
+  "title": "Agentic Memory Architecture And Plugin Integration Plan",
+  "created_at": "2026-07-11T01:02:17-04:00",
+  "updated_at": "2026-07-11T02:43:46-04:00",
+  "generated_by": "agent-development-coordinator-planning",
+  "source_of_truth": true,
+  "execution_status": "current-implementation-queue-validated",
+  "activated_at": "2026-07-11T01:20:21-04:00",
+  "hard_stop_at": "2026-07-11T02:00:00-04:00",
+  "first_sprint_completed_at": "2026-07-11T01:34:00-04:00",
+  "first_sprint_outcome": {
+    "completed": [
+      "Typed PHI development policies for yes, no, and unknown with synthetic-only enforcement for yes and unknown.",
+      "Design screen-reference metadata, active-reference context, visual validation, and design variance behavior.",
+      "Agent memory event validation and recursive PHI and secret-value field rejection.",
+      "Initialized-workspace event observation preserving immutable source evidence and provenance-backed drafts with idempotent replay.",
+      "Worker memory proposals preserved as immutable source evidence and deterministic draft-only semantic knowledge with additive supersession links.",
+      "Bounded tag-selected context compilation and explicit relationship impact assessment.",
+      "PHI operation-context enforcement on clinical observation replay, context, impact, and proposal paths.",
+      "Escaped event-controlled HTML, bounded record and byte context limits with explicit truncation accounting, and transitive impact traversal.",
+      "AgenticWikiWorkspace and MemwikiWorkspace API compatibility plus nested CLI commands.",
+      "Generated capability and documentation alignment.",
+      "Expanded five-skill local plugin with agent-dev-memory-steward, PHI intake, design memory, and bounded-context contracts.",
+      "Local plugin cache refresh, reinstall, source-cache parity, and validation."
+    ],
+    "validation": [
+      "64 pytest tests passed",
+      "ruff check passed",
+      "mypy passed for 24 source files",
+      "agentic-wiki docs check passed",
+      "source and installed plugin validation passed",
+      "plugin source and installed cache are identical"
+    ],
+    "deferred_high_risk_slices": [
+      "Trusted host-issued coordinator authority instead of self-asserted actor roles.",
+      "Atomic locked promotion with rollback and concurrent-writer tests.",
+      "Re-hash verification for immutable raw and extracted evidence.",
+      "Content-level PHI and deidentification attestation beyond prohibited field names.",
+      "Output-path confinement for public renderer operations.",
+      "Stronger locator, source-hash, derivation-chain, and substantive-claim provenance validation.",
+      "Supervised design-baseline approval and supersession authority.",
+      "Canonical packet identity, stale-revision rejection, and supersession-cycle prevention."
+    ],
+    "next_required_smoke_test": "Start a fresh Codex task in one disposable BMAD project and one disposable non-BMAD project to verify the reinstalled plugin skills load and route correctly."
+  },
+  "hardening_outcome": {
+    "completed_at": "2026-07-11T02:43:46-04:00",
+    "completed": [
+      "Host-injected verified coordinator authority for canonical agent-memory promotion with credential redaction.",
+      "Exclusive promotion and shared reader locks, idempotent concurrent promotion, prepared rollback restoration, and source integrity ledgers.",
+      "Raw and extracted digest verification, confined paths, deterministic content safety, and source-backed claim identity and locator validation.",
+      "Acyclic supersession packets, supervised design-baseline authority, derived reference supersession, and screenshot byte verification.",
+      "Confined atomic HTML rendering and static export plus non-destructive idempotent workspace initialization.",
+      "Reinstalled provider-agnostic plugin contracts and successful disposable BMAD and lightweight fresh-context smoke tests."
+    ],
+    "validation": [
+      "110 pytest tests passed",
+      "ruff check passed",
+      "mypy passed for 27 source files",
+      "agentic-wiki docs check passed",
+      "plugin source and installed cache validate and match",
+      "BMAD and lightweight adapter smoke tests passed"
+    ],
+    "plugin_version": "0.1.0+codex.20260711064312",
+    "remaining_current_tasks": []
+  },
+  "activation_rule": "Activated by the user's explicit direction to begin the first sprint and operate autonomously until 2:00 AM America/New_York.",
+  "human_review_artifact": "_bmad-output/implementation-artifacts/agentic-memory-architecture-plan/implementation-plan.html",
+  "source_spec": "_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/SPEC.md",
+  "source_readiness_contract": "_bmad-output/implementation-artifacts/plugin-development-readiness/readiness-contract.json",
+  "objective": "Advance Agentic Wiki from passive source-backed storage into the deterministic memory runtime for agent-development-coordinator, allowing long-running development to observe events, preserve evidence, propose controlled memory changes, compile bounded context, assess impact, govern promotion, and resume after context loss.",
+  "architecture": {
+    "principle": "Agentic Wiki remains deterministic and inspectable; the plugin supplies coordination and reasoning.",
+    "flow": [
+      "project-event",
+      "memory-observation",
+      "immutable-source",
+      "typed-memory-delta",
+      "draft-wiki-update",
+      "policy-and-impact-evaluation",
+      "bounded-context-package",
+      "coordinator-disposition",
+      "promotion-or-supervision",
+      "updated-planning-and-worker-assignment"
+    ],
+    "memory_layers": [
+      {"id": "working", "purpose": "Mutable queue, leases, blockers, and current validation state."},
+      {"id": "draft", "purpose": "Proposed knowledge awaiting validation or authority."},
+      {"id": "canonical", "purpose": "Accepted semantic HTML knowledge with provenance and relationships."},
+      {"id": "evidence", "purpose": "Immutable sources, historical snapshots, and superseded records."}
+    ],
+    "writer_policy": "Workers submit memory delta packets; only the coordinator writes shared memory and disposes drafts.",
+    "storage_policy": "Use a dedicated local Agentic Wiki workspace. BMAD remains a project control-plane adapter, not the memory engine or a plugin dependency.",
+    "cloudflare_assessment": "Excluded from the core architecture. Local plain-file storage is the default; publication is a future project-specific opt-in."
+  },
+  "two_hour_run": {
+    "hard_time_boundary_minutes": 120,
+    "scope_freeze_minute": 100,
+    "handoff_start_minute": 115,
+    "target_release": "local agentic-memory vertical slice and agent-development-coordinator integration",
+    "definition_of_done": [
+      "A typed development event can become an immutable source and provenance-backed draft wiki page.",
+      "A coordinator can validate a worker memory delta and generate a bounded context package.",
+      "Impact analysis reports affected records without silently changing canonical knowledge.",
+      "Design principles, references, screen metadata, and visual validation evidence can be stored and retrieved as project-local memory.",
+      "Preflight records whether the project handles PHI and enables synthetic-only development behavior when the answer is yes or still unknown.",
+      "Promotion policy distinguishes autonomous operational updates from supervision-required changes.",
+      "Python API, CLI, and capability metadata expose equivalent structured operations.",
+      "The local plugin includes memory-steward behavior and remains project-agnostic.",
+      "Focused and full repository validation pass, plugin validation passes, and a durable handoff is rendered."
+    ],
+    "stop_conditions": [
+      "120-minute boundary",
+      "platform usage or runtime limit",
+      "queue drain with all planned acceptance gates passing",
+      "safety, privacy, permission, or supervision boundary with no independent work",
+      "no safe independent or enabling slice remains"
+    ]
+  },
+  "intake_and_phi_policy": {
+    "required_question": "Will the application being developed create, receive, maintain, transmit, display, or otherwise handle PHI?",
+    "allowed_answers": ["yes", "no", "unknown"],
+    "record_in": ["intent_packet", "authority_ledger", "memory_workspace_profile", "incident_log_profile"],
+    "behavior": {
+      "yes": {
+        "development_data_mode": "synthetic-or-verified-deidentified-only",
+        "incident_log_variant": "hipaa-aware-metadata-only",
+        "screenshots": "synthetic state or verified deidentified capture only",
+        "prohibited": ["real PHI in source ingest", "real PHI in prompts", "real PHI in fixtures", "real PHI in screenshots", "real PHI in logs", "real PHI in generated documentation", "remote PHI processing"]
+      },
+      "no": {
+        "development_data_mode": "general-project-policy",
+        "incident_log_variant": "standard-metadata-only",
+        "screenshots": "follow project privacy and credential rules"
+      },
+      "unknown": {
+        "development_data_mode": "precautionary-synthetic-only-until-answered",
+        "incident_log_variant": "hipaa-aware-metadata-only",
+        "screenshots": "synthetic state only",
+        "next_action": "Place the unanswered PHI question in the supervision queue without blocking unrelated synthetic development."
+      }
+    },
+    "compliance_boundary": "These behaviors support privacy-conscious development and do not claim legal certification or replace project-specific compliance review."
+  },
+  "design_memory": {
+    "classification": "reusable-default-capability-with-project-local-content",
+    "purpose": "Preserve visual direction and provide agents with consistent design context across features, screens, roles, viewports, and application states.",
+    "memory_types": [
+      "design_principle",
+      "design_token_reference",
+      "component_pattern",
+      "screen_reference",
+      "user_flow_reference",
+      "visual_validation_result",
+      "design_variance",
+      "design_supersession"
+    ],
+    "screen_reference_required_fields": [
+      "screen_id",
+      "route_or_surface",
+      "feature",
+      "user_role",
+      "viewport",
+      "application_state",
+      "source_path",
+      "sha256",
+      "captured_at",
+      "capture_method",
+      "reference_status",
+      "related_components",
+      "applicable_design_principles",
+      "commit_or_revision",
+      "supersedes",
+      "contains_phi",
+      "synthetic_or_deidentified_status"
+    ],
+    "agent_behavior": [
+      "Compile relevant design principles, tokens, component patterns, approved screens, responsive rules, accessibility requirements, and known variances before frontend work.",
+      "Capture visual evidence after material frontend slices at project-required viewports and states.",
+      "Compare new evidence with accepted references and create a visual validation result.",
+      "Record material divergence as a design variance instead of silently changing the baseline.",
+      "Supersede prior references without deleting historical evidence.",
+      "Link design memory to implementation files, tests, routes, components, features, and user flows."
+    ],
+    "user_operations": ["add reference", "browse references", "query design memory", "approve baseline", "correct principle", "supersede reference", "mark intentional exception", "request comparison"],
+    "external_capability_adapters": ["image generation", "design skills", "browser capture", "Playwright", "visual regression tools", "Figma when installed and authorized"],
+    "storage_boundary": "Images are immutable project-local sources with hashes; explanatory and approved design knowledge is semantic HTML with provenance. No project design assets are embedded in reusable plugin defaults."
+  },
+  "contracts": [
+    {"id": "memory_event", "purpose": "Immutable observation of a meaningful project event."},
+    {"id": "memory_delta", "purpose": "Worker-proposed typed additions, corrections, links, supersessions, and follow-up obligations."},
+    {"id": "context_request", "purpose": "Bounded request identifying slice, objective, scope, allowed memory types, and budget."},
+    {"id": "context_package", "purpose": "Relevant accepted knowledge, evidence, warnings, authority, and citations for one task."},
+    {"id": "impact_report", "purpose": "Affected components, slices, validations, pages, decisions, and supervision needs."},
+    {"id": "promotion_disposition", "purpose": "Coordinator decision to promote, retain as draft, reject, supersede, or request supervision."},
+    {"id": "design_principle", "purpose": "Accepted or proposed visual, interaction, responsive, accessibility, and brand guidance."},
+    {"id": "screen_reference", "purpose": "Hashed screenshot or mockup reference with route, role, viewport, state, revision, PHI status, and provenance."},
+    {"id": "visual_validation_result", "purpose": "Evidence-backed comparison between implementation output and accepted design memory."},
+    {"id": "design_variance", "purpose": "Material deviation, rationale, affected screens or components, authority need, and proposed disposition."}
+  ],
+  "phases": [
+    {
+      "id": "PHASE-0",
+      "name": "Baseline and contract freeze",
+      "window_minutes": "0-15",
+      "depends_on": [],
+      "owner": "coordinator",
+      "tasks": [
+        "Classify the existing dirty tree and preserve all unrelated changes.",
+        "Run focused baseline tests before behavior changes.",
+        "Finalize typed contracts, lifecycle states, provenance, authority, and prohibited sensitive-value fields.",
+        "Require and persist the PHI-handling answer; use precautionary synthetic-only behavior while the answer is unknown.",
+        "Finalize design-memory types, screenshot metadata, immutable image storage, and visual-reference promotion rules.",
+        "Freeze the two-hour scope; defer MCP, dashboards, background daemons, remote models, and Cloudflare."
+      ],
+      "acceptance": [
+        "All ten contracts have machine-readable schemas and examples.",
+        "The intent contract requires a yes, no, or unknown PHI answer and maps it to deterministic development behavior.",
+        "EMR concepts appear only in synthetic tests and never in reusable defaults.",
+        "Baseline focused tests pass or an evidence-backed blocker is recorded."
+      ]
+    },
+    {
+      "id": "PHASE-1",
+      "name": "Event-to-draft memory vertical slice",
+      "window_minutes": "15-45",
+      "depends_on": ["PHASE-0"],
+      "owner": "worker-a",
+      "likely_files": ["src/memwiki/agent_memory.py", "tests/test_agentic_memory_runtime.py"],
+      "tasks": [
+        "Validate typed memory events and memory delta packets.",
+        "Register event packets as immutable Agentic Wiki sources.",
+        "Create semantic HTML drafts, claims, links, and event records with provenance.",
+        "Implement idempotence, correction through supersession, and PHI/secret-value rejection."
+      ],
+      "acceptance": [
+        "A synthetic claims-integration variance produces a source-backed draft.",
+        "Reprocessing identical source content does not create duplicate evidence.",
+        "Supersession preserves both records and identifies the current record."
+      ]
+    },
+    {
+      "id": "PHASE-2",
+      "name": "Context, impact, and design-memory analysis",
+      "window_minutes": "30-65",
+      "depends_on": ["PHASE-0"],
+      "owners": ["worker-b", "worker-c"],
+      "likely_files": ["src/memwiki/agent_memory.py", "tests/test_agentic_memory_runtime.py"],
+      "tasks": [
+        "Generate bounded context packages from active typed records and explicit relationships.",
+        "Exclude superseded records by default and report stale or contradictory active records.",
+        "Traverse relationships to report affected slices, components, validations, pages, and decisions.",
+        "Store design principles, component patterns, screen references, visual validation results, and design variances as typed project-local memory.",
+        "Compile bounded frontend design context and compare synthetic-state screenshots or mockups with accepted references.",
+        "Produce proposed follow-up work without directly changing the active queue."
+      ],
+      "acceptance": [
+        "A synthetic patient-identity change identifies related scheduling, portal, claims, and audit consumers.",
+        "Unrelated work is excluded from the impact report.",
+        "Context output is bounded structured JSON with citations and staleness warnings.",
+        "A synthetic frontend slice retrieves applicable principles, component patterns, viewports, approved references, and accessibility rules.",
+        "A material visual difference produces a design variance and does not silently replace the approved baseline."
+      ]
+    },
+    {
+      "id": "PHASE-3",
+      "name": "Public API, CLI, and capabilities",
+      "window_minutes": "45-80",
+      "depends_on": ["PHASE-1", "PHASE-2"],
+      "owner": "coordinator",
+      "likely_files": [
+        "src/memwiki/api.py",
+        "src/memwiki/cli.py",
+        "src/memwiki/capabilities.py",
+        "src/memwiki/schemas.py",
+        "src/memwiki/__init__.py",
+        "src/agentic_wiki/__init__.py"
+      ],
+      "operations": [
+        "agent memory observe",
+        "agent memory propose",
+        "agent memory context",
+        "agent memory impact",
+        "agent memory disposition",
+        "agent memory checkpoint",
+        "agent memory design-context",
+        "agent memory record-screen",
+        "agent memory validate-visual"
+      ],
+      "acceptance": [
+        "Python and CLI operations return equivalent structured results.",
+        "Capabilities declare mutation, write location, dry-run or check-only support, and PHI requirements.",
+        "AgenticWikiWorkspace remains canonical and MemwikiWorkspace remains compatible.",
+        "All generated knowledge follows draft-before-promote behavior."
+      ]
+    },
+    {
+      "id": "PHASE-4",
+      "name": "Plugin integration",
+      "window_minutes": "65-100",
+      "depends_on": ["PHASE-1"],
+      "owners": ["worker-d", "coordinator"],
+      "plugin_root": "/Users/tyler-lcsw/plugins/agent-development-coordinator",
+      "tasks": [
+        "Add an agent-dev-memory-steward skill.",
+        "Update preflight to ask whether the project handles PHI, persist yes, no, or unknown, and initialize or discover a dedicated project memory workspace.",
+        "When PHI is yes or unknown, enforce synthetic-only fixtures, examples, prompts, screenshots, logs, visual references, and generated documentation.",
+        "Add reusable design-memory guidance for principles, tokens, components, flows, screens, responsive states, accessibility, visual evidence, and variances.",
+        "Update coordination to request context before dispatch and accept worker memory deltas.",
+        "Update status and handoff to combine canonical memory with mutable control state.",
+        "Package provider-agnostic schemas and a local bridge script.",
+        "Keep project data, credentials, PHI, active queues, and repo-specific decisions out of plugin files."
+      ],
+      "acceptance": [
+        "Plugin capability discovery supports Python or CLI integration without requiring either implementation language from target projects.",
+        "A missing expected memory runtime blocks only dependent slices.",
+        "Frontend slices receive design context and submit visual evidence or a documented not-applicable disposition.",
+        "PHI-capable or unknown projects reject non-synthetic design evidence and keep incident records metadata-only.",
+        "The plugin validates with no unsupported apps, MCP servers, or hooks.",
+        "Ordinary project work cannot mutate plugin source or cache."
+      ]
+    },
+    {
+      "id": "PHASE-5",
+      "name": "Documentation, validation, and adversarial review",
+      "window_minutes": "90-115",
+      "depends_on": ["PHASE-3", "PHASE-4"],
+      "owners": ["worker-e", "worker-f", "coordinator"],
+      "tasks": [
+        "Update generated docs and semantic HTML review surfaces.",
+        "Run focused and full repository validation.",
+        "Run fresh-context review for provenance, idempotence, concurrency, supersession, context bounds, PHI, secrets, screenshot safety, and design-baseline integrity.",
+        "Validate the plugin source, update cachebuster, reinstall locally, verify source-cache parity, and confirm plugin list state."
+      ],
+      "verification_commands": [
+        "uv run pytest tests/test_agentic_memory_runtime.py tests/test_agent_development_memory.py",
+        "uv run pytest",
+        "uv run ruff check .",
+        "uv run mypy src",
+        "uv run agentic-wiki docs check",
+        "python3 scripts/validate_plugin.py /Users/tyler-lcsw/plugins/agent-development-coordinator"
+      ],
+      "acceptance": [
+        "All required repository checks pass or failures are preserved with exact evidence.",
+        "Source and installed plugin cache match after reinstall.",
+        "Fresh-thread skill-loading smoke test is identified as a supervised follow-up if it cannot occur in the active task."
+      ]
+    },
+    {
+      "id": "PHASE-6",
+      "name": "Durable stop and handoff",
+      "window_minutes": "115-120",
+      "depends_on": [],
+      "owner": "coordinator",
+      "tasks": [
+        "Stop accepting new feature scope.",
+        "Update queue, worker dispositions, incident evidence, validation lane, run-state, and handoff digest.",
+        "Record incomplete work as independent resumable slices with exact next actions.",
+        "Present supervision-required items and the fresh-thread smoke-test instructions."
+      ],
+      "acceptance": [
+        "A future coordinator can resume without relying on chat history.",
+        "No active worker session or required validation process is abandoned.",
+        "The handoff distinguishes completed, validated, blocked, deferred, and supervision-required work."
+      ]
+    }
+  ],
+  "worker_topology": [
+    {"worker": "coordinator", "ownership": "Contracts, shared API and CLI files, active queue, integration, dispositions, final validation and handoff."},
+    {"worker": "worker-a", "ownership": "Memory event and delta vertical slice with focused tests."},
+    {"worker": "worker-b", "ownership": "Bounded context compiler with focused tests."},
+    {"worker": "worker-c", "ownership": "Impact, contradiction, staleness, supersession, design memory, screenshot metadata, and visual variance behavior with tests."},
+    {"worker": "worker-d", "ownership": "Plugin assets, bridge script, and memory-steward skill."},
+    {"worker": "worker-e", "ownership": "Generated documentation and semantic HTML review surfaces."},
+    {"worker": "worker-f", "ownership": "Fresh-context adversarial review and safety regression analysis."}
+  ],
+  "promotion_policy_defaults": [
+    {"class": "autonomous", "examples": ["validated operational snapshot", "accepted worker completion summary", "test evidence", "reversible implementation decision inside authority", "synthetic screenshot evidence matching an approved design baseline"]},
+    {"class": "supervision-required", "examples": ["product requirement change", "material architecture change outside delegated authority", "compliance interpretation", "credential or production policy", "sensitive-data policy", "material visual-direction change", "approval of a new design baseline"]},
+    {"class": "prohibited-durable-content", "examples": ["PHI", "secret or credential values", "hidden reasoning", "oversized external payload", "project data embedded in plugin defaults", "unverified PHI-bearing screenshot or visual reference"]}
+  ],
+  "candidate_classification": [
+    {"classification": "reusable-default", "items": ["typed memory contracts", "context compiler", "impact contract", "promotion framework", "single-writer policy", "recovery protocol", "mandatory PHI intake behavior", "design-memory ontology", "screenshot metadata", "visual-context and variance contracts"]},
+    {"classification": "reusable-optional-template", "items": ["background observation hooks", "prospective-memory schedules", "dashboard handoff", "MCP adapter"]},
+    {"classification": "project-local-overlay-only", "items": ["EMR domains", "vendors", "project architecture", "compliance interpretations", "accepted project decisions"]},
+    {"classification": "external-capability-handoff", "items": ["interactive dashboards", "security scanners", "browser verification", "external APIs and MCP servers"]},
+    {"classification": "unsafe-or-excluded", "items": ["credentials in plugin files", "PHI in development memory", "automatic production action", "unsupervised broad computer use"]}
+  ],
+  "post_sprint_roadmap": [
+    {"id": "ROADMAP-1", "name": "Prospective memory", "scope": "Wake conditions, review dates, release gates, resource-availability triggers, and follow-up obligations."},
+    {"id": "ROADMAP-2", "name": "Memory quality automation", "scope": "Contradiction, staleness, orphan, validation-gap, and drift monitoring."},
+    {"id": "ROADMAP-3", "name": "User memory and design workbench", "scope": "HTML add, query, correct, supersede, approve, defer, compare, design-baseline, screen-inventory, and impact-review workflows."},
+    {"id": "ROADMAP-4", "name": "Branch-aware memory", "scope": "Worktree snapshots, branch lineage, conflict reconciliation, and accepted-result supersession."},
+    {"id": "ROADMAP-5", "name": "Memory consolidation", "scope": "Episodic-to-semantic summaries, recurring blocker extraction, runbooks, and plugin-improvement candidates."},
+    {"id": "ROADMAP-6", "name": "Optional adapters", "scope": "MCP tool surface, visualization dashboard, and provider-specific external capabilities without changing the core contract."}
+  ],
+  "assumptions": [
+    "The initial implementation remains local-only and provider-agnostic.",
+    "The existing dirty worktree is intentional and must be preserved.",
+    "The user has approved planning artifacts but has not yet activated implementation through this artifact.",
+    "Preflight must ask whether the project handles PHI; yes or unknown activates synthetic-only development behavior until a later recorded answer or supersession changes it.",
+    "No real PHI will be used in implementation, tests, examples, screenshots, design references, logs, prompts, or documentation.",
+    "Newly reinstalled plugin skills require a fresh Codex task for final loading verification."
+  ]
+}

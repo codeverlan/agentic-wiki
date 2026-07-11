@@ -9,6 +9,7 @@ from memwiki.html import escape, render_client_record_page, render_source_page
 from memwiki.ids import slugify, stable_id, utc_now
 from memwiki.manifest import read_jsonl, write_jsonl
 from memwiki.policy import OperationContext, append_event, is_clinical_phi, require_operation_context
+from memwiki.sources import verify_source_integrity
 from memwiki.workspace import Workspace
 
 
@@ -485,6 +486,7 @@ def compile_source(
 ) -> Dict[str, Any]:
     workspace.require()
     require_operation_context(workspace.config_path, "compile", context)
+    verify_source_integrity(workspace, source_id)
     source = _source_by_id(workspace, source_id)
     source_category = str(source.get("source_category", ""))
     if source.get("kind") == "json" and source_category == "client_record":

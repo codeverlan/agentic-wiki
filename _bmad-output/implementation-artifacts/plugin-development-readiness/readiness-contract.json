@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "generated_by": "agent-development-coordinator-readiness",
+  "updated_at": "2026-07-08T04:48:55-04:00",
+  "source_of_truth": true,
+  "human_review_artifact": "_bmad-output/implementation-artifacts/plugin-development-readiness/readiness-contract.html",
+  "source_spec": "_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/SPEC.md",
+  "source_decision_matrix": "_bmad-output/implementation-artifacts/accepted-decisions/decision-matrix.json",
+  "readiness_state": "local-plugin-scaffolded-installed-and-enabled",
+  "recommended_plugin": {
+    "working_name": "agent-development-coordinator",
+    "display_name": "Agent Development Coordinator",
+    "purpose": "Coordinate long-running agentic software-development projects through project-local memory, preflight intake, continuous-run slices, status handoff, and plugin-improvement review.",
+    "category": "Productivity",
+    "default_marketplace": "personal",
+    "recommended_destination": "~/plugins/agent-development-coordinator",
+    "plugin_files_created": true,
+    "source_plugin_root": "/Users/tyler-lcsw/plugins/agent-development-coordinator",
+    "installed_plugin_root": "/Users/tyler-lcsw/.codex/plugins/cache/personal/agent-development-coordinator/0.1.0",
+    "marketplace_manifest": "/Users/tyler-lcsw/.agents/plugins/marketplace.json",
+    "marketplace_name": "personal",
+    "install_status": "installed and enabled for future Codex threads",
+    "created_from": "Project-local readiness contract and accepted decision matrix; project-specific rows were not packaged as defaults."
+  },
+  "implemented_local_plugin": {
+    "manifest": "/Users/tyler-lcsw/plugins/agent-development-coordinator/.codex-plugin/plugin.json",
+    "skills": [
+      "/Users/tyler-lcsw/plugins/agent-development-coordinator/skills/agent-dev-intake-preflight/SKILL.md",
+      "/Users/tyler-lcsw/plugins/agent-development-coordinator/skills/agent-dev-continuous-coordinator/SKILL.md",
+      "/Users/tyler-lcsw/plugins/agent-development-coordinator/skills/agent-dev-status-handoff/SKILL.md",
+      "/Users/tyler-lcsw/plugins/agent-development-coordinator/skills/agent-dev-improvement-review/SKILL.md"
+    ],
+    "shared_assets": [
+      "/Users/tyler-lcsw/plugins/agent-development-coordinator/assets/agent-development-coordinator-contract.json"
+    ],
+    "scripts": [
+      "/Users/tyler-lcsw/plugins/agent-development-coordinator/scripts/README.md"
+    ],
+    "validation": [
+      "python3 scripts/validate_plugin.py /Users/tyler-lcsw/plugins/agent-development-coordinator",
+      "codex plugin add agent-development-coordinator@personal",
+      "codex plugin list"
+    ]
+  },
+  "plugin_shape": {
+    "skills": [
+      {
+        "skill_name": "agent-dev-intake-preflight",
+        "responsibility": "Normalize user intent, referred specs, and archetype-specific questions into a project-local intent packet and readiness gate.",
+        "mutation_boundary": "Writes project-local intent, readiness, queue, resource, authority, and supervision artifacts only."
+      },
+      {
+        "skill_name": "agent-dev-continuous-coordinator",
+        "responsibility": "Run continuous delivery with coordinator-owned slice queue, worker dispatch, validation, blockers, run-state, handoff, incident logs, and branch ledger.",
+        "mutation_boundary": "May edit project code, docs, tests, fixtures, and coordinator-owned project-local control artifacts inside active authority."
+      },
+      {
+        "skill_name": "agent-dev-status-handoff",
+        "responsibility": "Read project-local memory and generate status summaries, run-state artifacts, handoff digests, dashboard handoff data, incident summaries, and user-return presentations.",
+        "mutation_boundary": "Read-only against project implementation except generated reports and presentations."
+      },
+      {
+        "skill_name": "agent-dev-improvement-review",
+        "responsibility": "Review project-local plugin-improvement candidates and prepare explicit plugin-development recommendations.",
+        "mutation_boundary": "May write candidate analysis and queues; cannot edit plugin files unless explicit plugin-development work has started."
+      }
+    ],
+    "shared_assets": [
+      "schemas for intent packets, authority ledgers, accepted decision matrices, slice queues, worker reports, incident logs, external capabilities, result packets, dashboards, run-state, and handoff digests",
+      "semantic HTML templates for human review surfaces",
+      "helper scripts for rendering run-state, handoff digest, incident log, and bounded dashboard data when target projects lack local implementations",
+      "archetype registry defaults with project-local override support"
+    ],
+    "optional_components": [
+      {
+        "component": "mcpServers",
+        "policy": "Omit from plugin.json unless a companion .mcp.json is actually created during explicit plugin-development work."
+      },
+      {
+        "component": "apps",
+        "policy": "Omit from plugin.json unless a companion .app.json is actually created during explicit plugin-development work."
+      },
+      {
+        "component": "hooks",
+        "policy": "Do not put unsupported hooks fields in plugin.json; use only validator-supported manifest fields."
+      }
+    ]
+  },
+  "storage_adapter_primitives": [
+    "intent_packet_json_html",
+    "authority_ledger_json_html",
+    "accepted_decision_matrix_json_html",
+    "slice_queue_json",
+    "worker_reports_json_html",
+    "run_state_html",
+    "handoff_digest_html",
+    "incident_exception_log_json_html",
+    "branch_ledger_html",
+    "supervision_queue_html",
+    "future_resource_queue_html",
+    "plugin_improvement_queue_html",
+    "project_plugin_overlay_html",
+    "dashboard_data_json_html",
+    "external_capability_registry_json_html",
+    "external_capability_result_packets_json_html",
+    "archetype_registry_json_html"
+  ],
+  "project_artifact_sources": [
+    {
+      "source": "_bmad-output/implementation-artifacts/accepted-decisions/decision-matrix.json",
+      "plugin_candidate": "accepted decision matrix schema and template",
+      "treatment": "Generalized in skill guidance and shared contract; current rows were not packaged as defaults."
+    },
+    {
+      "source": "_bmad-output/implementation-artifacts/slice-queue.json",
+      "plugin_candidate": "slice queue schema and status-lane model",
+      "treatment": "Generalize schema, status values, lease fields, and four-lane summaries."
+    },
+    {
+      "source": "_bmad-output/implementation-artifacts/incident-log/incident-log.json",
+      "plugin_candidate": "incident and PHI-aware monitoring schema",
+      "treatment": "Generalize metadata-only event types and HIPAA-aware reminders; do not include PHI or secrets."
+    },
+    {
+      "source": "_bmad-output/implementation-artifacts/external-capabilities/template.json",
+      "plugin_candidate": "external capability registry schema",
+      "treatment": "Generalize connection metadata, authority, credential-source metadata, and supervision boundaries."
+    },
+    {
+      "source": "_bmad-output/implementation-artifacts/dashboard-data/template.json",
+      "plugin_candidate": "bounded dashboard handoff schema",
+      "treatment": "Generalize datasets for optional external visualization; do not hard-code a dashboard renderer."
+    },
+    {
+      "source": "_bmad-output/implementation-artifacts/project-plugin-overlay.html",
+      "plugin_candidate": "project overlay template",
+      "treatment": "Generalize overlay mechanism; current project overlays remain project-local examples."
+    }
+  ],
+  "exclusions": [
+    "Do not package Agentic Wiki repo-specific decisions as plugin defaults.",
+    "Do not package user chat history, credentials, secret values, PHI, generated run logs, project queue state, or project-specific accepted decision rows.",
+    "Do not package BMAD as a dependency; keep BMAD as one storage adapter when _bmad exists.",
+    "Do not include Cloudflare-specific deployment assumptions.",
+    "Do not create marketplace entries, plugin folders, cachebusters, or plugin installs until explicit plugin-development work starts."
+  ],
+  "scaffold_sequence_for_later_explicit_workflow": [
+    {
+      "step": "Scaffold",
+      "command": "python3 scripts/create_basic_plugin.py agent-development-coordinator --with-skills --with-scripts --with-assets --with-marketplace",
+      "run_from": "/Users/tyler-lcsw/.codex/skills/.system/plugin-creator",
+      "notes": "Completed for local personal marketplace."
+    },
+    {
+      "step": "Manifest cleanup",
+      "command": "Edit ~/plugins/agent-development-coordinator/.codex-plugin/plugin.json",
+      "notes": "Completed with local-use metadata, no TODO placeholders, and no apps or mcpServers."
+    },
+    {
+      "step": "Validate plugin",
+      "command": "python3 scripts/validate_plugin.py ~/plugins/agent-development-coordinator",
+      "run_from": "/Users/tyler-lcsw/.codex/skills/.system/plugin-creator",
+      "notes": "Completed; plugin validation passed."
+    },
+    {
+      "step": "Iteration cachebuster",
+      "command": "python3 scripts/update_plugin_cachebuster.py ~/plugins/agent-development-coordinator",
+      "run_from": "/Users/tyler-lcsw/.codex/skills/.system/plugin-creator",
+      "notes": "Deferred; use only after a later local iteration changes the installed plugin."
+    },
+    {
+      "step": "Reinstall",
+      "command": "codex plugin add agent-development-coordinator@personal",
+      "notes": "Completed with marketplace name personal."
+    },
+    {
+      "step": "Fresh-thread smoke test",
+      "command": "Start a new Codex thread in a disposable BMAD project and a disposable non-BMAD project.",
+      "notes": "Pending; requires a new Codex thread so newly installed skills are loaded."
+    }
+  ],
+  "acceptance_tests": [
+    "Plugin manifest validates with plugin-creator validate_plugin.py.",
+    "A fresh thread sees the plugin skills after reinstall.",
+    "Intake/preflight can create intent packet, authority ledger, accepted decision matrix, and readiness gate artifacts in a BMAD project.",
+    "Intake/preflight can create equivalent artifacts in a non-BMAD lightweight Agentic Wiki memory root.",
+    "Continuous coordinator can create a slice queue with status lanes, leases, and validation commands without touching plugin files.",
+    "Status/handoff can render run-state and handoff digest from slice queue.",
+    "Incident log and PHI-aware monitoring templates stay metadata-only with no PHI or secret values.",
+    "External capability registry and result packets record connection presence and evidence without credentials.",
+    "Project overlays can alter project-local guidance without changing plugin defaults.",
+    "Dashboard handoff data remains bounded and can be delegated to external visualization tools when requested."
+  ],
+  "open_manifest_metadata": [
+    "final author display name and optional contact URL",
+    "homepage and repository URL if the plugin is to be shared outside local development",
+    "license choice",
+    "logo, composer icon, screenshots, privacy policy URL, and terms URL if the plugin is made distributable"
+  ]
+}

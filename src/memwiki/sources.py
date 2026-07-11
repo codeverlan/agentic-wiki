@@ -23,6 +23,26 @@ from memwiki.policy import (
 )
 from memwiki.workspace import Workspace
 
+
+def _integrity_entry_digest(entry: Dict[str, Any]) -> str:
+    payload = {key: value for key, value in entry.items() if key != "entry_sha256"}
+    return sha256_bytes(json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8"))
+
+
+def _append_source_integrity_entry(workspace: Workspace, record: Dict[str, Any]) -> None:
+    ledger_path = workspace.path(".memwiki/source-integrity.jsonl")
+    existing = read_jsonl(ledger_path)
+    entry: Dict[str, Any] = {
+        "source_id": record["source_id"],
+        "raw_path": record["raw_path"],
+        "raw_sha256": record["sha256"],
+        "extracted_sha256": record["extracted_sha256"],
+        "source_category": record["source_category"],
+        "previous_entry_sha256": existing[-1]["entry_sha256"] if existing else None,
+    }
+    entry["entry_sha256"] = _integrity_entry_digest(entry)
+    append_jsonl(ledger_path, entry)
+
 TEXT_EXTENSIONS = {".txt"}
 MARKDOWN_EXTENSIONS = {".md", ".markdown"}
 HTML_EXTENSIONS = {".html", ".htm"}
@@ -169,9 +189,9 @@ def register_source(
     raw_name = f"{source_id}{source_path.suffix.lower()}"
     raw_path = workspace.path(f"raw/{raw_name}")
     if not raw_path.exists():
-        shutil.copy2(source_path, raw_path)
+        raw_path.write_bytes(data)
 
-    text, metadata, status = extract_source(source_path, kind)
+    text, metadata, status = extract_source(raw_path, kind)
     extracted_dir = workspace.path(f".memwiki/extracted/{source_id}")
     extracted_dir.mkdir(parents=True, exist_ok=True)
     (extracted_dir / "text.txt").write_text(text, encoding="utf-8")
@@ -181,6 +201,7 @@ def register_source(
     record: Dict[str, Any] = {
         "source_id": source_id,
         "sha256": digest,
+        "extracted_sha256": sha256_bytes(text.encode("utf-8")),
         "kind": kind,
         "raw_path": f"raw/{raw_name}",
         "origin": "redacted-local-origin" if clinical else str(source_path),
@@ -196,6 +217,7 @@ def register_source(
         record["metadata"] = dict(record["metadata"])
         record["metadata"]["origin_redacted"] = True
         record["metadata"]["origin_filename_sha256"] = sha256_bytes(source_path.name.encode("utf-8"))
+    _append_source_integrity_entry(workspace, record)
     append_jsonl(sources_path, record)
     append_event(
         workspace.root,
@@ -209,6 +231,62 @@ def register_source(
         context,
     )
     return record
+
+
+def verify_source_integrity(workspace: Workspace, source_id: str) -> Dict[str, Any]:
+    source = next(
+        (
+            record
+            for record in read_jsonl(workspace.path("manifests/sources.jsonl"))
+            if record.get("source_id") == source_id
+        ),
+        None,
+    )
+    if source is None:
+        raise ValueError(f"Unknown source: {source_id}")
+    ledger_entries = read_jsonl(workspace.path(".memwiki/source-integrity.jsonl"))
+    previous_digest: Optional[str] = None
+    trusted_entry = None
+    for entry in ledger_entries:
+        chain_matches = entry.get("previous_entry_sha256") == previous_digest
+        digest_matches = entry.get("entry_sha256") == _integrity_entry_digest(entry)
+        if not chain_matches or not digest_matches:
+            raise ValueError("Source integrity ledger verification failed")
+        previous_digest = str(entry["entry_sha256"])
+        if entry.get("source_id") == source_id:
+            trusted_entry = entry
+    if trusted_entry is not None:
+        comparisons = {
+            "raw_path": "raw_path",
+            "sha256": "raw_sha256",
+            "extracted_sha256": "extracted_sha256",
+            "source_category": "source_category",
+        }
+        if any(source.get(field) != trusted_entry.get(ledger_field) for field, ledger_field in comparisons.items()):
+            raise ValueError(f"Source manifest does not match integrity ledger: {source_id}")
+    raw_root = workspace.path("raw").resolve()
+    raw_path = workspace.path(str(source.get("raw_path", ""))).resolve()
+    try:
+        raw_path.relative_to(raw_root)
+    except ValueError:
+        raise ValueError("Raw source path is outside the workspace raw directory") from None
+    if not raw_path.is_file() or sha256_bytes(raw_path.read_bytes()) != source.get("sha256"):
+        raise ValueError(f"Raw source integrity check failed: {source_id}")
+    extracted_root = workspace.path(".memwiki/extracted").resolve()
+    extracted_path = workspace.path(f".memwiki/extracted/{source_id}/text.txt").resolve()
+    try:
+        extracted_path.relative_to(extracted_root)
+    except ValueError:
+        raise ValueError("Extracted source path is outside the workspace extraction directory") from None
+    if not extracted_path.is_file():
+        raise ValueError(f"Extracted source integrity check failed: {source_id}")
+    observed_extracted = sha256_bytes(extracted_path.read_bytes())
+    expected_extracted = source.get("extracted_sha256")
+    if not isinstance(expected_extracted, str):
+        expected_extracted = observed_extracted
+    if observed_extracted != expected_extracted:
+        raise ValueError(f"Extracted source integrity check failed: {source_id}")
+    return source
 
 
 def preview_source(

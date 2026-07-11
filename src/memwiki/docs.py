@@ -28,6 +28,14 @@ CLI_COMMANDS = [
     "agentic-wiki lint",
     "agentic-wiki docs check",
     "agentic-wiki docs draft",
+    "agentic-wiki agent render-run-state <queue.json> --output <run-state.html>",
+    "agentic-wiki agent render-handoff-digest <queue.json> --output <handoff.html>",
+    "agentic-wiki agent render-incident-log <incident-log.json> --output <incident-log.html>",
+    "agentic-wiki agent draft-run-state <queue.json>",
+    "agentic-wiki agent memory observe <event.json>",
+    "agentic-wiki agent memory propose <proposal.json>",
+    "agentic-wiki agent memory context <memory-state.json> <request.json>",
+    "agentic-wiki agent memory impact <memory-state.json> <changed-record-id>",
     "agentic-wiki export static",
 ]
 
@@ -100,6 +108,33 @@ def render_architecture_doc() -> str:
         <li>Validate drafts with <code>agentic-wiki lint</code>.</li>
         <li>Promote valid drafts into canonical <code>wiki/</code>.</li>
       </ol>
+      <p>Initialization preserves an existing project <code>AGENTS.md</code>, refuses collisions
+      with Agentic Wiki-managed files in a non-workspace, and treats reinitialization of an
+      existing workspace as idempotent.</p>
+    </section>
+    <section id="promotion-integrity">
+      <h2>Promotion Integrity</h2>
+      <p>Ingest binds both persisted raw bytes and extracted text to SHA-256 digests in a chained
+      project-local integrity ledger. Compilation and promotion reverify the ledger, manifest,
+      confined artifact paths, and content before using source-backed claims. Promotion
+      serializes writers with a workspace lock, restores canonical wiki, documentation, manifest,
+      and event state after an exception, and treats a repeated successful draft promotion as an
+      idempotent retry.</p>
+      <p>Agent-memory drafts require host-verified coordinator authority before canonical
+      promotion. Hosts inject an <code>AuthorityVerifier</code> into
+      <code>AgenticWikiWorkspace</code>; caller-asserted coordinator roles alone are insufficient.
+      Raw authority credentials are excluded from operation context serialization and audit
+      events.</p>
+      <p>Agent-memory inputs and outputs pass a deterministic local sensitive-content scanner that
+      blocks high-confidence credentials, private keys, tokens, direct identifiers, and oversized
+      strings without echoing matched values. Proposal supersession graphs must be acyclic.</p>
+      <p>Agent-development HTML renderers confine output to noncanonical workspace artifact paths
+      and reject traversal or symlinks. Static export requires a new confined directory and stages
+      the complete export before publication.</p>
+      <p>Extractive claim identity and source locators are validated during lint and promotion.
+      Approved visual baselines require supervised authority metadata; screenshot paths and hashes
+      can be verified against workspace-controlled evidence, and approved successor references
+      derive supersession without deleting history.</p>
     </section>
     <section id="clinical-phi">
       <h2>Clinical PHI Profile</h2>
@@ -117,6 +152,29 @@ def render_architecture_doc() -> str:
       <p>Workspaces expose <code>.memwiki/agent-capabilities.json</code>, dry-run ingest,
       check-only promotion, JSON query output, object resolution, backlinks, and PHI-mode
       mutation policy metadata.</p>
+    </section>
+    <section id="agent-development-memory">
+      <h2>Agent Development Memory</h2>
+      <p>Agentic Wiki can render generic agent-development run state from a machine-readable
+      slice queue into semantic HTML. The same queue can be drafted into a workspace so accepted
+      development memory follows the normal source-backed draft, validation, and promotion flow.</p>
+      <p>The queue remains the machine-readable source of truth. Rendered run-state HTML and
+      handoff-digest HTML provide human review and resume surfaces, while incident-log HTML records
+      abnormal coordinator events and exception handling. JSON-LD metadata records slice counts,
+      queue source, source spec, status totals, status lanes, incident severity counts, PHI/HIPAA
+      log posture, and any queue-advertised human review artifacts such as intent packet,
+      archetype registry, run-state template, handoff digest, incident log, and branch ledger paths.</p>
+      <p>Handoff digests are generated at stops, compaction-risk points, stale leases, and
+      user-return checkpoints. They summarize the current objective, active authority, queue
+      state, worker leases, blockers, validation, external capabilities, supervision items,
+      and exact resume command or path.</p>
+      <p>If slice entries include <code>worker_lease</code>, rendered run-state pages show worker,
+      branch, assigned paths, heartbeat, lease status, stale handling, and reassignment or
+      supersession notes.</p>
+      <p>Agent-memory operations validate typed observations and proposals, compile bounded context from active
+      records, and report relationship-based impact. In initialized workspaces, an observed event
+      is preserved as an immutable source and a provenance-backed draft; canonical wiki content
+      still requires normal validation and promotion.</p>
     </section>
 """
     return render_page(
@@ -162,6 +220,39 @@ def render_operations_doc() -> str:
       legacy <code>memwiki.*</code> tools as for canonical <code>agentic_wiki.*</code> tools.
       Static export from clinical PHI workspaces requires operation context and remains
       blocked unless the caller explicitly marks the export as deidentified.</p>
+    </section>
+    <section id="agent-development-memory">
+      <h2>Agent Development Memory</h2>
+      <p>Use <code>agentic-wiki agent render-run-state</code> to turn a slice queue JSON file
+      into standalone semantic HTML. Use <code>agentic-wiki agent render-handoff-digest</code>
+      to create a stop, compaction-risk, stale-lease, or user-return digest from the same queue.
+      Use <code>agentic-wiki agent draft-run-state</code> to preserve that queue as a raw source
+      and create a draft wiki page with provenance before promotion.</p>
+      <p>If the queue includes <code>human_artifacts</code>, rendered run-state pages show those
+      review paths and include the same map in JSON-LD metadata.</p>
+      <p>If the queue includes <code>status_lanes</code>, rendered run-state pages show internal
+      agent work, external capability activity, validation/evidence, and supervision-required
+      summaries. Queues without lane data still render the four default lanes as empty review rows.</p>
+      <p>If slice entries include <code>worker_lease</code>, rendered run-state pages show heartbeat
+      and stale-worker handling so coordinators can reassign or supersede stalled slices while
+      preserving slice-owned work.</p>
+      <p>Handoff digests include the objective, active authority, queue state, worker leases,
+      blockers, validation, external-capability artifacts, supervision items, and exact resume
+      command or path.</p>
+      <p>Use <code>agentic-wiki agent render-incident-log</code> to create append-only incident
+      and exception log HTML from a project-local incident log JSON file. PHI-capable projects use
+      the HIPAA-aware metadata-only variant, which rejects explicit PHI or secret value fields,
+      reminds the user to run regular security scans, and records abnormal-behavior monitoring
+      without claiming legal compliance.</p>
+      <p>Use <code>agentic-wiki agent memory observe</code> to validate a typed event and, in an
+      initialized workspace, preserve it as source evidence with a draft wiki page. Use
+      <code>agentic-wiki agent memory propose</code> to preserve a worker proposal as immutable
+      evidence and draft-only semantic knowledge. Use
+      <code>agentic-wiki agent memory context</code> for bounded tag-selected active records and
+      <code>agentic-wiki agent memory impact</code> for explicit relationship impact.</p>
+      <p>These commands are provider-agnostic and are intended for local autonomous development
+      coordinators, reusable agent workflows, and future plugin packaging. They do not require
+      Cloudflare, remote model adapters, or external services.</p>
     </section>
     <section id="repository">
       <h2>Repository</h2>
@@ -276,6 +367,22 @@ def render_hipaa_local_doc() -> str:
       <p>Clinical PHI events record actor ID, actor role, purpose of use, session ID,
       operation, object IDs, and result metadata. Event logs must not include raw source text
       or free-text query content; query events store a hash of the question.</p>
+    </section>
+    <section id="phi-aware-development-monitoring">
+      <h2>PHI-Aware Development Monitoring</h2>
+      <p>Agent-development incident logs for PHI-capable software must use the HIPAA-aware
+      metadata-only variant. The log records incident IDs, timestamps, severity, category,
+      evidence pointers, monitoring phase, and next action; it must not record PHI, credentials,
+      tokens, passwords, raw secret values, or raw sensitive text.</p>
+      <p>The intake interview must ask whether the application will handle PHI. If the answer is
+      yes, the project should maintain monitoring phases that remind the user to run regular
+      dependency, secret, static-analysis, and access-review scans and to monitor abnormal behavior
+      that may indicate leakage of information, credentials, plans, or PHI.</p>
+      <p>These controls support HIPAA-aware software development practices such as least privilege,
+      audit logging, access review, encryption planning, backup planning, incident response, and
+      deidentification discipline. They are implementation safeguards, not a HIPAA certification
+      or substitute for organizational risk analysis, legal review, workforce policy, BAAs, or
+      production compliance operations.</p>
     </section>
     <section id="references">
       <h2>References</h2>

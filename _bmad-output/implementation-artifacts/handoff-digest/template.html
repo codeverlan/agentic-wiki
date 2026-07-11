@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Development Handoff Digest Template</title>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"CreativeWork","identifier":"agent-development-handoff-digest-template","name":"Agent Development Handoff Digest Template","description":"Project-local HTML digest generated at stops, compaction-risk points, stale leases, and user-return checkpoints.","dateModified":"2026-07-08T04:30:14-04:00","isBasedOn":"_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/SPEC.md","memwiki:pageType":"handoff_digest_template","memwiki:sourceOfTruth":false}</script>
+  <style>
+    body { color: #1f2933; font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; max-width: 84rem; }
+    header, section { margin-bottom: 1.5rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #c9ced6; padding: 0.55rem; text-align: left; vertical-align: top; }
+    th { background: #f4f6f8; }
+    code { background: #eef1f5; padding: 0.1rem 0.25rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Agent Development Handoff Digest</h1>
+    <p>Generate this digest from <code>slice-queue.json</code> whenever a run stops, compaction risk is detected, a worker lease becomes stale, or the user returns.</p>
+  </header>
+  <main>
+    <article id="agent-development-handoff-digest-template" data-page-type="handoff_digest_template">
+      <section id="handoff-summary">
+        <h2>Handoff Summary</h2>
+        <dl>
+          <dt>Objective</dt><dd><!-- current objective --></dd>
+          <dt>Trigger</dt><dd><!-- stop | compaction-risk | stale-lease | user-return | manual --></dd>
+          <dt>Active authority</dt><dd><!-- authority ledger, user directive, or active spec --></dd>
+          <dt>Queue</dt><dd><code><!-- _bmad-output/implementation-artifacts/slice-queue.json --></code></dd>
+          <dt>Queue updated</dt><dd><!-- ISO timestamp --></dd>
+          <dt>Slice status counts</dt><dd><!-- active: n, blocked: n, validated: n --></dd>
+        </dl>
+      </section>
+      <section id="queue-state">
+        <h2>Queue State</h2>
+        <p>The queue remains the source of truth. This digest is the human-readable resume surface.</p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Lane</th>
+              <th scope="col">Current</th>
+              <th scope="col">Blocked</th>
+              <th scope="col">Completed</th>
+              <th scope="col">Last updated</th>
+              <th scope="col">Source artifacts</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Internal agent work</td><td><!-- current --></td><td><!-- blocked --></td><td><!-- completed --></td><td><!-- ISO --></td><td><!-- paths --></td></tr>
+            <tr><td>External capability activity</td><td><!-- current --></td><td><!-- blocked --></td><td><!-- completed --></td><td><!-- ISO --></td><td><!-- paths --></td></tr>
+            <tr><td>Validation/evidence</td><td><!-- current --></td><td><!-- blocked --></td><td><!-- completed --></td><td><!-- ISO --></td><td><!-- paths --></td></tr>
+            <tr><td>Supervision-required items</td><td><!-- current --></td><td><!-- blocked --></td><td><!-- completed --></td><td><!-- ISO --></td><td><!-- paths --></td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="worker-leases">
+        <h2>Worker Leases</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Slice ID</th>
+              <th scope="col">Lease ID</th>
+              <th scope="col">Worker ID</th>
+              <th scope="col">Branch</th>
+              <th scope="col">Assigned paths</th>
+              <th scope="col">Heartbeat</th>
+              <th scope="col">Status</th>
+              <th scope="col">Stale after</th>
+              <th scope="col">Stale handling</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><!-- slice --></td><td><!-- lease --></td><td><!-- worker --></td><td><code><!-- branch --></code></td><td><!-- paths --></td><td><!-- ISO --></td><td><!-- status --></td><td><!-- policy --></td><td><!-- handling --></td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="blockers-validation">
+        <h2>Blockers And Validation</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Slice</th>
+              <th scope="col">Status</th>
+              <th scope="col">Dependency or blocker</th>
+              <th scope="col">Validation</th>
+              <th scope="col">Next action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><!-- slice --></td><td><!-- status --></td><td><!-- blockers --></td><td><!-- validation --></td><td><!-- next --></td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="external-capabilities">
+        <h2>External Capabilities</h2>
+        <p>List capability registry, result packets, dashboard connection records, and limitations. Do not display credentials or secret values.</p>
+      </section>
+      <section id="incident-log">
+        <h2>Incident And PHI Monitoring</h2>
+        <dl>
+          <dt>Incident log</dt><dd><code><!-- _bmad-output/implementation-artifacts/incident-log/<log>.html --></code></dd>
+          <dt>PHI-handling answer</dt><dd><!-- yes | no | unknown --></dd>
+          <dt>HIPAA-aware variant</dt><dd><!-- active | not needed | needs repair --></dd>
+          <dt>Monitoring phases</dt><dd><!-- preflight security baseline; implementation monitoring; recurring security scan; incident response review --></dd>
+          <dt>No sensitive values</dt><dd><!-- confirmed no PHI, credentials, tokens, passwords, or raw secret values --></dd>
+        </dl>
+      </section>
+      <section id="accepted-decisions">
+        <h2>Accepted Decisions</h2>
+        <dl>
+          <dt>Decision matrix</dt><dd><code><!-- _bmad-output/implementation-artifacts/accepted-decisions/decision-matrix.html --></code></dd>
+          <dt>Rows</dt><dd><!-- accepted: n; superseded: n --></dd>
+          <dt>Plugin mutation</dt><dd><!-- no reusable plugin files changed unless explicit plugin-development workflow started --></dd>
+        </dl>
+      </section>
+      <section id="supervision-resume">
+        <h2>Supervision And Resume</h2>
+        <dl>
+          <dt>Supervision queue</dt><dd><code><!-- _bmad-output/implementation-artifacts/supervision-queue.html --></code></dd>
+          <dt>Resume path</dt><dd><code><!-- first file/path to open --></code></dd>
+          <dt>Resume command</dt><dd><code><!-- exact command or next instruction --></code></dd>
+        </dl>
+      </section>
+    </article>
+  </main>
+</body>
+</html>

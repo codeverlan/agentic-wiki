@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Development Intent Packet</title>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"CreativeWork","identifier":"agent-development-intent-packet-template","name":"Agent Development Intent Packet Template","dateModified":"2026-07-08T04:11:58-04:00","isBasedOn":"_bmad-output/specs/spec-agentic-wiki-continuous-codex-development/SPEC.md","memwiki:pageType":"intent_packet_template"}</script>
+  <style>
+    body { color: #1f2933; font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; max-width: 84rem; }
+    header, section { margin-bottom: 1.5rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #c9ced6; padding: 0.55rem; text-align: left; vertical-align: top; }
+    th { background: #f4f6f8; }
+    code { background: #eef1f5; padding: 0.1rem 0.25rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Agent Development Intent Packet</h1>
+    <p>This semantic HTML form is the human-facing review surface. The matching JSON form is the dispatch input for automation.</p>
+  </header>
+  <main>
+    <article id="agent-development-intent-packet-template" data-page-type="intent_packet_template">
+      <section id="packet-metadata">
+        <h2>Packet Metadata</h2>
+        <dl>
+          <dt>JSON source</dt>
+          <dd><code>_bmad-output/implementation-artifacts/intent-packet/template.json</code></dd>
+          <dt>Archetype registry</dt>
+          <dd><code>_bmad-output/implementation-artifacts/archetype-registry/template.json</code> and <code>_bmad-output/implementation-artifacts/archetype-registry/template.html</code></dd>
+          <dt>Authority ledger</dt>
+          <dd><code>_bmad-output/implementation-artifacts/authority-ledger/template.json</code> and <code>_bmad-output/implementation-artifacts/authority-ledger/template.html</code></dd>
+          <dt>Worker reports</dt>
+          <dd><code>_bmad-output/implementation-artifacts/worker-reports/template.json</code> and <code>_bmad-output/implementation-artifacts/worker-reports/template.html</code></dd>
+          <dt>Control index</dt>
+          <dd><code>_bmad-output/implementation-artifacts/control-index.html</code></dd>
+          <dt>Handoff digest</dt>
+          <dd><code>_bmad-output/implementation-artifacts/handoff-digest/template.html</code> and <code>_bmad-output/implementation-artifacts/handoff-digest/2026-07-08-agent-development-memory.html</code></dd>
+          <dt>Incident/exception log</dt>
+          <dd><code>_bmad-output/implementation-artifacts/incident-log/incident-log.json</code>, <code>_bmad-output/implementation-artifacts/incident-log/template.html</code>, and <code>_bmad-output/implementation-artifacts/incident-log/2026-07-08-agent-development-memory.html</code></dd>
+          <dt>Dashboard data</dt>
+          <dd><code>_bmad-output/implementation-artifacts/dashboard-data/template.json</code> and <code>_bmad-output/implementation-artifacts/dashboard-data/template.html</code></dd>
+          <dt>External capabilities</dt>
+          <dd><code>_bmad-output/implementation-artifacts/external-capabilities/template.json</code> and <code>_bmad-output/implementation-artifacts/external-capabilities/template.html</code></dd>
+          <dt>External capability results</dt>
+          <dd><code>_bmad-output/implementation-artifacts/external-capability-results/template.json</code> and <code>_bmad-output/implementation-artifacts/external-capability-results/template.html</code></dd>
+          <dt>Entry path</dt>
+          <dd><!-- guided preflight spec | existing spec/resources | hybrid intake --></dd>
+          <dt>Run mode</dt>
+          <dd><!-- interactive-intake | unattended-continuous-run | status-only-report | plugin-improvement-review --></dd>
+          <dt>Plugin workflow</dt>
+          <dd><!-- intake-preflight | continuous-run-coordinator | status-report-handoff | plugin-improvement-review --></dd>
+          <dt>Storage adapter</dt>
+          <dd><!-- bmad | agentic-wiki-lightweight --></dd>
+          <dt>Intake depth</dt>
+          <dd><!-- quick start | standard preflight | deep spec --></dd>
+          <dt>Updated</dt>
+          <dd><!-- ISO 8601 local time --></dd>
+        </dl>
+      </section>
+      <section id="run-mode">
+        <h2>Run Mode</h2>
+        <p>Select or safely infer the operational posture before dispatch. If ambiguity changes allowed writes, unattended behavior, supervision needs, or plugin-file risk, record an enabling question or stop only the affected slice.</p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Mode field</th>
+              <th scope="col">Decision</th>
+              <th scope="col">Evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Selected mode</td><td><!-- interactive-intake | unattended-continuous-run | status-only-report | plugin-improvement-review --></td><td><!-- explicit user selection | safely inferred | needs clarification --></td></tr>
+            <tr><td>Available modes</td><td>interactive-intake; unattended-continuous-run; status-only-report; plugin-improvement-review</td><td>Plugin defaults</td></tr>
+            <tr><td>Mode requirements</td><td>unattended requires standard preflight; status-only is read/report-only; plugin-improvement review cannot mutate plugin files without explicit plugin-development work</td><td><!-- requirement evidence --></td></tr>
+            <tr><td>Requirements check</td><td><!-- pass | enabling question needed | blocked --></td><td><!-- preflight depth, write plan, or explicit plugin-development workflow --></td></tr>
+            <tr><td>Mode ambiguity</td><td><!-- none | enabling question | affected slice stopped --></td><td><!-- reason --></td></tr>
+            <tr><td>Transition</td><td><!-- none | from mode to mode --></td><td><!-- current request, user return, blocker report, or directive --></td></tr>
+            <tr><td>Transition classification</td><td><!-- narrowing | broadening | none --></td><td><!-- authority reduced or expanded --></td></tr>
+            <tr><td>Transition authority</td><td><!-- autonomous narrowing | user intent | recorded continuous-run directive | standard preflight | explicit plugin-development work | missing --></td><td><!-- evidence --></td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="plugin-workflow">
+        <h2>Plugin Workflow</h2>
+        <p>Select the focused plugin skill that owns the current task. Shared plugin schemas, templates, and scripts may be referenced, but project-specific outputs route through the selected storage adapter.</p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Workflow field</th>
+              <th scope="col">Decision</th>
+              <th scope="col">Evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Selected skill</td><td><!-- intake-preflight | continuous-run-coordinator | status-report-handoff | plugin-improvement-review --></td><td><!-- user intent, current task, or handoff mode --></td></tr>
+            <tr><td>Available skills</td><td>intake-preflight; continuous-run-coordinator; status-report-handoff; plugin-improvement-review</td><td>Plugin defaults</td></tr>
+            <tr><td>Shared plugin assets</td><td>schemas; templates; scripts</td><td><!-- referenced | instantiated | not touched --></td></tr>
+            <tr><td>Project output route</td><td>Selected storage adapter</td><td><!-- BMAD adapter | lightweight Agentic Wiki adapter --></td></tr>
+            <tr><td>Planned writes</td><td><!-- files, artifact classes, or read-only --></td><td><!-- current task or slice plan --></td></tr>
+            <tr><td>Permission check</td><td><!-- allowed | reroute required | blocked --></td><td><!-- selected skill mutation permission --></td></tr>
+            <tr><td>Skill mutation permissions</td><td>intake/preflight: intent, readiness, queue, and resource artifacts only; coordinator: code, docs, tests, fixtures, and shared control artifacts; status/report: generated reports and presentations only; plugin-improvement review: candidate analysis and queue updates only</td><td>Plugin defaults plus project overlay</td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="authority-ledger">
+        <h2>Authority Ledger</h2>
+        <p>Record active directives and transition authority in project-local memory before relying on old chat context for broadening behavior or unattended dispatch.</p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Ledger field</th>
+              <th scope="col">Value</th>
+              <th scope="col">Evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>JSON artifact</td><td><code>_bmad-output/implementation-artifacts/authority-ledger/template.json</code></td><td><!-- loaded | generated | needs repair --></td></tr>
+            <tr><td>HTML artifact</td><td><code>_bmad-output/implementation-artifacts/authority-ledger/template.html</code></td><td><!-- loaded | generated | needs repair --></td></tr>
+            <tr><td>Mutation policy</td><td>Append-only source entries; supersession and expiration by later reference entries</td><td><!-- checked | needs repair --></td></tr>
+            <tr><td>Active directives</td><td><!-- active user directives --></td><td><!-- source and recorded time --></td></tr>
+            <tr><td>Inferred permissions</td><td><!-- inferred permissions --></td><td><!-- source and boundary --></td></tr>
+            <tr><td>Transition authority</td><td><!-- user intent | continuous-run directive | standard preflight | explicit plugin-development workflow | missing --></td><td><!-- evidence used before broadening --></td></tr>
+            <tr><td>Continuous-run directives</td><td><!-- directive ids or none --></td><td><!-- active | expired | superseded --></td></tr>
+            <tr><td>Expiration or supersession</td><td><!-- none | expiration entry | supersession entry --></td><td><!-- referenced prior entry IDs and notes --></td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="intake-depth">
+        <h2>Intake Depth</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Depth field</th>
+              <th scope="col">Decision</th>
+              <th scope="col">Evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Selected depth</td><td><!-- quick start | standard preflight | deep spec --></td><td><!-- user answer, inferred need, or source artifact --></td></tr>
+            <tr><td>Primary profile minimum</td><td>Standard preflight for unattended continuous development</td><td><!-- pass | enabling question needed --></td></tr>
+            <tr><td>Secondary profile minimum</td><td>Essential fields unless high-risk</td><td><!-- secondary profiles and risk status --></td></tr>
+            <tr><td>Deep spec required reasons</td><td><!-- none | high-risk | unclear | large dependency surface | architecture unknown --></td><td><!-- source or risk evidence --></td></tr>
+            <tr><td>Unattended readiness</td><td><!-- ready | not ready | not requested --></td><td><!-- preflight result --></td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="worker-reports">
+        <h2>Worker Reports</h2>
+        <p>Require slice-local JSON and semantic HTML worker reports before coordinator acceptance, rejection, repair request, or supersession.</p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Report field</th>
+              <th scope="col">Value</th>
+              <th scope="col">Evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>JSON template</td><td><code>_bmad-output/implementation-artifacts/worker-reports/template.json</code></td><td><!-- loaded | generated | needs repair --></td></tr>
+            <tr><td>HTML template</td><td><code>_bmad-output/implementation-artifacts/worker-reports/template.html</code></td><td><!-- loaded | generated | needs repair --></td></tr>
+            <tr><td>Required before coordinator disposition</td><td>true</td><td>Coordinator acceptance gate</td></tr>
+            <tr><td>Required contents</td><td>Assigned paths; lease/heartbeat state; changes made; validation run; blockers; proposed shared-control-artifact changes; authority or resource evidence</td><td><!-- worker report review --></td></tr>
+            <tr><td>Coordinator disposition</td><td><!-- pending | accepted | rejected | needs repair | superseded --></td><td><!-- coordinator review result --></td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="control-index-and-dashboard">
+        <h2>Control Index And Dashboard Data</h2>
+        <p>The control index is navigation-only. Rich dashboards are optional project-local generated artifacts produced from bounded dashboard data by external visualization capabilities.</p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Surface</th>
+              <th scope="col">Path</th>
+              <th scope="col">Purpose</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Control index</td><td><code>_bmad-output/implementation-artifacts/control-index.html</code></td><td>Navigation and categorized HTML artifact links</td><td><!-- loaded | generated | needs repair --></td></tr>
+            <tr><td>Handoff digest</td><td><code>_bmad-output/implementation-artifacts/handoff-digest/template.html</code></td><td>Stop, compaction-risk, stale-lease, and user-return digest generated from slice queue</td><td><!-- loaded | generated | needs repair --></td></tr>
+            <tr><td>Dashboard data JSON</td><td><code>_bmad-output/implementation-artifacts/dashboard-data/template.json</code></td><td>Bounded data handoff for optional rich dashboards</td><td><!-- template-only | generated | rendered --></td></tr>
+            <tr><td>Dashboard data HTML</td><td><code>_bmad-output/implementation-artifacts/dashboard-data/template.html</code></td><td>Human review of dashboard data contract</td><td><!-- loaded | generated | needs repair --></td></tr>
+            <tr><td>Status lanes</td><td><code>internal_agent_work</code>; <code>external_capability_activity</code>; <code>validation_evidence</code>; <code>supervision_required</code></td><td>Lane-specific current, blocked, completed, and last-updated summaries with a combined project rollup allowed</td><td><!-- required | generated | not applicable --></td></tr>
+            <tr><td>External visualization</td><td><!-- build-web-data-visualization | Data Analytics widgets | project tool --></td><td>Optional dashboard generation capability</td><td><!-- not requested | requested | generated | unavailable --></td></tr>
+            <tr><td>External connections</td><td><!-- APIs | MCP servers | plugins | skills | browser tools | services | local tools | spawned agents --></td><td>Visible connection list for programmed dashboards</td><td><!-- present | not needed | needs update --></td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="external-capabilities">
+        <h2>External Capabilities</h2>
+        <p>Record plugins, skills, APIs, MCP servers, browser tools, external services, local tools, and spawned agents needed for this project. External capability use is autonomous only inside active project authority and existing supervision rules.</p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Capability type</th>
+              <th scope="col">Reference</th>
+              <th scope="col">Purpose</th>
+              <th scope="col">Authority and autonomy boundary</th>
+              <th scope="col">Credential source metadata</th>
+              <th scope="col">Result capture</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><!-- plugin | skill | api | mcp-server | browser-tool | external-service | spawned-agent | local-tool --></td><td><!-- name/reference --></td><td><!-- purpose --></td><td><!-- authority source; autonomous only inside active authority/dev-local/supervision boundaries; supervision for credentials, production, publishing, personal accounts, broad computer-use, sensitive data, or unclear authorization --></td><td><!-- project-local env/json path, process-env reference, chat-ephemeral use, auth scheme label, rotation note, no secret values, no standardized plugin payload --></td><td><!-- current worker report entry or external-capability-results packet; supersession history; dashboard-visible connection row --></td><td><!-- candidate | selected | used | blocked | deferred --></td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="storage-adapter">
+        <h2>Storage Adapter</h2>
+        <p>Select the BMAD adapter when <code>_bmad</code> exists. Otherwise use the lightweight Agentic Wiki adapter. Both adapters expose the same project-local primitives.</p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Primitive</th>
+              <th scope="col">Path or decision</th>
+              <th scope="col">Evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Selected adapter</td><td><!-- bmad | agentic-wiki-lightweight --></td><td><!-- _bmad detected | _bmad absent --></td></tr>
+            <tr><td>Project memory root</td><td><code><!-- path --></code></td><td><!-- adapter mapping --></td></tr>
+            <tr><td>Intent packet</td><td><code><!-- path --></code></td><td><!-- adapter mapping --></td></tr>
+            <tr><td>Authority ledger</td><td><code><!-- path --></code></td><td><!-- adapter mapping --></td></tr>
+            <tr><td>Worker reports</td><td><code><!-- path --></code></td><td><!-- adapter mapping --></td></tr>
+            <tr><td>Control index</td><td><code><!-- path --></code></td><td><!-- adapter mapping --></td></tr>
+            <tr><td>Dashboard data</td><td><code><!-- path --></code></td><td><!-- adapter mapping --></td></tr>
+            <tr><td>External capabilities</td><td><code><!-- path --></code></td><td><!-- adapter mapping --></td></tr>
+            <tr><td>External capability results</td><td><code><!-- path --></code></td><td><!-- adapter mapping --></td></tr>
+            <tr><td>Run-state HTML</td><td><code><!-- path --></code></td><td><!-- adapter mapping --></td></tr>
+            <tr><td>Incident/exception log JSON</td><td><code><!-- path --></code></td><td><!-- adapter mapping --></td></tr>
+            <tr><td>Incident/exception log HTML</td><td><code><!-- path --></code></td><td><!-- adapter mapping --></td></tr>
+            <tr><td>Branch ledger</td><td><code><!-- path --></code></td><td><!-- adapter mapping --></td></tr>
+            <tr><td>Supervision queue</td><td><code><!-- path --></code></td><td><!-- adapter mapping --></td></tr>
+            <tr><td>Future-resource queue</td><td><code><!-- path --></code></td><td><!-- adapter mapping --></td></tr>
+            <tr><td>Decision log</td><td><code><!-- path --></code></td><td><!-- adapter mapping --></td></tr>
+            <tr><td>Project plugin overlay</td><td><code><!-- path --></code></td><td><!-- adapter mapping --></td></tr>
+            <tr><td>Plugin improvement queue</td><td><code><!-- path --></code></td><td><!-- adapter mapping --></td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="project-scope">
+        <h2>Project Scope</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Field</th>
+              <th scope="col">Decision</th>
+              <th scope="col">Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Project name</td><td><!-- name --></td><td><!-- source --></td></tr>
+            <tr><td>Project root</td><td><code><!-- path --></code></td><td><!-- source --></td></tr>
+            <tr><td>Archetype</td><td><!-- WordPress website | web application | other --></td><td><!-- source --></td></tr>
+            <tr><td>Primary orchestration profile</td><td><!-- primary profile --></td><td><!-- registry source or project-local override --></td></tr>
+            <tr><td>Secondary profiles</td><td><!-- scoped secondary profiles --></td><td><!-- registry source or project-local override --></td></tr>
+            <tr><td>Primary surface</td><td><!-- website | app | service | library | workflow | mixed --></td><td><!-- source --></td></tr>
+            <tr><td>Success signal</td><td><!-- testable success --></td><td><!-- source --></td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="phi-incident-monitoring">
+        <h2>PHI And Incident Monitoring</h2>
+        <p>Ask this before unattended continuous development. If the application will handle PHI, use the HIPAA-aware metadata-only incident log and keep monitoring reminders active.</p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Field</th>
+              <th scope="col">Decision</th>
+              <th scope="col">Evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Will the application handle PHI?</td><td><!-- yes | no | unknown --></td><td><!-- user answer or source artifact --></td></tr>
+            <tr><td>HIPAA-aware incident log</td><td><code>_bmad-output/implementation-artifacts/incident-log/incident-log.json</code></td><td><!-- required when PHI yes; generic when PHI no --></td></tr>
+            <tr><td>Rendered incident log</td><td><code>_bmad-output/implementation-artifacts/incident-log/2026-07-08-agent-development-memory.html</code></td><td><!-- rendered | needs render | not applicable --></td></tr>
+            <tr><td>Monitoring phases</td><td>preflight security baseline; implementation monitoring; recurring security scan; incident response review</td><td><!-- present | needs repair --></td></tr>
+            <tr><td>Security scan reminders</td><td>dependency scan; secret scan; static analysis; access review</td><td><!-- cadence and owner --></td></tr>
+            <tr><td>Abnormal behavior monitoring</td><td><!-- required | not required | deferred --></td><td><!-- leakage risk for information, credentials, plans, or PHI --></td></tr>
+            <tr><td>No sensitive values in logs</td><td>true</td><td>No PHI, credentials, tokens, passwords, raw secret values, or raw sensitive text.</td></tr>
+            <tr><td>Compliance note</td><td>HIPAA-aware development safeguards are not legal certification.</td><td><!-- reviewer/source --></td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="archetype-registry">
+        <h2>Archetype Registry</h2>
+        <p>Load the default registry before domain-specific intake. Apply project-local overrides after plugin defaults without mutating plugin files.</p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Registry field</th>
+              <th scope="col">Value</th>
+              <th scope="col">Evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Registry JSON</td><td><code>_bmad-output/implementation-artifacts/archetype-registry/template.json</code></td><td><!-- loaded | missing | repaired --></td></tr>
+            <tr><td>Registry HTML</td><td><code>_bmad-output/implementation-artifacts/archetype-registry/template.html</code></td><td><!-- loaded | missing | repaired --></td></tr>
+            <tr><td>Primary orchestration profile</td><td><!-- primary archetype id --></td><td><!-- user answer, resource, or inference --></td></tr>
+            <tr><td>Secondary profiles</td><td><!-- optional mixed-project profiles --></td><td><!-- user answer, resource, or inference --></td></tr>
+            <tr><td>Mixed-project policy</td><td><!-- not applicable | applied --></td><td><!-- reason primary and secondary profiles were selected --></td></tr>
+            <tr><td>Project-local overrides</td><td><!-- override ids or none --></td><td><!-- overlay or intent source --></td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="domain-intake">
+        <h2>Domain Intake</h2>
+        <p>Use project-archetype-specific questions. Do not ask a WordPress website the same detailed questions as a web application unless the project actually spans both.</p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Question area</th>
+              <th scope="col">Captured answer</th>
+              <th scope="col">Applies to archetype</th>
+              <th scope="col">Open question</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><!-- content model | routes | auth | integrations | publishing | data model --></td><td><!-- answer --></td><td><!-- archetype --></td><td><!-- yes | no --></td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="design-pathways">
+        <h2>Design Pathways</h2>
+        <p>Use image generation, installed design/UX skills, and local HTML mockups as decision aids when visual direction matters. The selected direction must be user-approved or explicitly deferred.</p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Pathway ID</th>
+              <th scope="col">Source</th>
+              <th scope="col">Artifact</th>
+              <th scope="col">Description</th>
+              <th scope="col">Disposition</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>DESIGN-PATH-001</td>
+              <td><!-- image-generation | installed-design-skill | html-mockup | user-supplied --></td>
+              <td><!-- relative project-local artifact path --></td>
+              <td><!-- visual direction summary --></td>
+              <td><!-- suggested | selected | rejected | deferred --></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="resources-validation">
+        <h2>Resources And Validation</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Area</th>
+              <th scope="col">Needed</th>
+              <th scope="col">Evidence</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Skills</td><td><!-- skills --></td><td><!-- source --></td><td><!-- available | missing | future opportunity --></td></tr>
+            <tr><td>Tools</td><td><!-- tools --></td><td><!-- source --></td><td><!-- available | missing | future opportunity --></td></tr>
+            <tr><td>Validation baseline</td><td><!-- commands --></td><td><!-- source --></td><td><!-- ready | enabling slice needed --></td></tr>
+            <tr><td>Supervision</td><td><!-- actions --></td><td><!-- source --></td><td><!-- none | queued | required now --></td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="initial-work">
+        <h2>Initial Work</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Slice</th>
+              <th scope="col">Objective</th>
+              <th scope="col">Dependencies</th>
+              <th scope="col">Validation</th>
+              <th scope="col">Open blockers</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><!-- slice id --></td><td><!-- objective --></td><td><!-- dependencies --></td><td><!-- validation --></td><td><!-- blockers --></td></tr>
+          </tbody>
+        </table>
+      </section>
+    </article>
+  </main>
+</body>
+</html>
