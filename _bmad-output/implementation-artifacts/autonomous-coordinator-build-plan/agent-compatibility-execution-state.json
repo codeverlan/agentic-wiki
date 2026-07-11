@@ -2,10 +2,10 @@
   "schema_version": 1,
   "run_id": "agent-compatibility-expansion-v1",
   "source_plan": "agent-compatibility-expansion.json",
-  "revision": 10,
+  "revision": 11,
   "updated_at": "2026-07-12T02:30:00-04:00",
   "run_status": "active",
-  "active_item_ids": ["AX-013"],
+  "active_item_ids": ["AX-014"],
   "items": [
     {"id":"AX-001","status":"completed","attempt":1},
     {"id":"AX-002","status":"completed","attempt":1},
@@ -19,8 +19,8 @@
     {"id":"AX-010","status":"completed","attempt":1},
     {"id":"AX-011","status":"completed","attempt":1},
     {"id":"AX-012","status":"completed","attempt":1},
-    {"id":"AX-013","status":"active","attempt":1},
-    {"id":"AX-014","status":"waiting","attempt":0}
+    {"id":"AX-013","status":"completed","attempt":1},
+    {"id":"AX-014","status":"active","attempt":1}
   ],
   "blockers": [],
   "validation_evidence": [
@@ -35,6 +35,7 @@
     {"item_id":"AX-009","result":"9 tests passed; Ruff and mypy passed"},
     {"item_id":"AX-010","result":"17 focused and 103 adjacent tests passed; Ruff and mypy passed"},
     {"item_id":"AX-012","result":"10 focused tests passed; Ruff and mypy passed"},
-    {"item_id":"AX-011","result":"6 tests passed; Ruff and mypy passed"}
+    {"item_id":"AX-011","result":"6 tests passed; Ruff and mypy passed"},
+    {"item_id":"AX-013","result":"10 focused and 119 adjacent tests passed; Ruff and mypy passed"}
   ]
 }

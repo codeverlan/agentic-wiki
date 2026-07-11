@@ -1,0 +1,44 @@
+{
+  "scenarios": [
+    {
+      "name": "codex-only",
+      "agents": [
+        {"agent_id": "codex.public", "adapter": "codex", "visibility": "public", "execution_mode": "callable"}
+      ],
+      "invocations": [
+        {"invocation_id": "codex-build", "agent_id": "codex.public", "operation": "build", "payload": {"slice_id": "S-CODEX"}}
+      ]
+    },
+    {
+      "name": "chatgpt-callable",
+      "agents": [
+        {"agent_id": "chatgpt.public", "adapter": "chatgpt", "visibility": "public", "execution_mode": "callable"}
+      ],
+      "invocations": [
+        {"invocation_id": "chatgpt-research", "agent_id": "chatgpt.public", "operation": "research", "payload": {"slice_id": "S-CHATGPT"}}
+      ]
+    },
+    {
+      "name": "chatgpt-handoff-only",
+      "agents": [
+        {"agent_id": "chatgpt.private", "adapter": "chatgpt", "visibility": "personal_private", "execution_mode": "handoff_only"}
+      ],
+      "invocations": [
+        {"invocation_id": "chatgpt-handoff", "agent_id": "chatgpt.private", "operation": "private-review", "payload": {"slice_id": "S-HANDOFF"}}
+      ]
+    },
+    {
+      "name": "mixed-agent-run",
+      "agents": [
+        {"agent_id": "codex.public", "adapter": "codex", "visibility": "public", "execution_mode": "callable"},
+        {"agent_id": "chatgpt.public", "adapter": "chatgpt", "visibility": "public", "execution_mode": "callable"},
+        {"agent_id": "chatgpt.private", "adapter": "chatgpt", "visibility": "personal_private", "execution_mode": "handoff_only"}
+      ],
+      "invocations": [
+        {"invocation_id": "mixed-code", "agent_id": "codex.public", "operation": "implement", "payload": {"slice_id": "S-MIX-1"}},
+        {"invocation_id": "mixed-analysis", "agent_id": "chatgpt.public", "operation": "analyze", "payload": {"slice_id": "S-MIX-2"}},
+        {"invocation_id": "mixed-handoff", "agent_id": "chatgpt.private", "operation": "review", "payload": {"slice_id": "S-MIX-3"}}
+      ]
+    }
+  ]
+}
