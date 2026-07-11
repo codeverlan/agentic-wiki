@@ -2,10 +2,10 @@
   "schema_version": 1,
   "run_id": "autonomous-coordinator-runtime-build-v1",
   "source_plan": "_bmad-output/implementation-artifacts/autonomous-coordinator-build-plan/plan.json",
-  "revision": 9,
-  "updated_at": "2026-07-11T16:00:00-04:00",
+  "revision": 10,
+  "updated_at": "2026-07-11T17:00:00-04:00",
   "run_status": "active",
-  "active_item_ids": ["AC-016", "AC-022"],
+  "active_item_ids": ["AC-018", "AC-023", "AC-033"],
   "items": [
     {"id":"AC-001","status":"completed","attempt":1},
     {"id":"AC-002","status":"completed","attempt":1},
@@ -22,14 +22,14 @@
     {"id":"AC-013","status":"completed","attempt":1},
     {"id":"AC-014","status":"completed","attempt":1},
     {"id":"AC-015","status":"completed","attempt":1},
-    {"id":"AC-016","status":"active","attempt":1},
+    {"id":"AC-016","status":"completed","attempt":1},
     {"id":"AC-017","status":"completed","attempt":1},
-    {"id":"AC-018","status":"waiting","attempt":0},
+    {"id":"AC-018","status":"active","attempt":1},
     {"id":"AC-019","status":"completed","attempt":1},
     {"id":"AC-020","status":"completed","attempt":1},
     {"id":"AC-021","status":"completed","attempt":1},
-    {"id":"AC-022","status":"active","attempt":1},
-    {"id":"AC-023","status":"waiting","attempt":0},
+    {"id":"AC-022","status":"completed","attempt":1},
+    {"id":"AC-023","status":"active","attempt":1},
     {"id":"AC-024","status":"waiting","attempt":0},
     {"id":"AC-025","status":"waiting","attempt":0},
     {"id":"AC-026","status":"waiting","attempt":0},
@@ -39,7 +39,7 @@
     {"id":"AC-030","status":"completed","attempt":1},
     {"id":"AC-031","status":"completed","attempt":1},
     {"id":"AC-032","status":"waiting","attempt":0},
-    {"id":"AC-033","status":"waiting","attempt":0},
+    {"id":"AC-033","status":"active","attempt":1},
     {"id":"AC-034","status":"completed","attempt":1},
     {"id":"AC-035","status":"waiting","attempt":0},
     {"id":"AC-036","status":"waiting","attempt":0},
@@ -182,6 +182,16 @@
       "item_id": "AC-034",
       "commands": ["uv run pytest tests/test_coordinator_privacy.py -q"],
       "result": "29 tests passed; lint and type checks passed"
+    },
+    {
+      "item_id": "AC-016",
+      "commands": ["uv run pytest tests/test_coordinator_reports.py -q"],
+      "result": "22 tests passed with adjacent integrity tests; lint and type checks passed"
+    },
+    {
+      "item_id": "AC-022",
+      "commands": ["uv run pytest tests/test_coordinator_scheduler.py -q"],
+      "result": "16 tests passed; lint and type checks passed"
     }
   ]
 }
