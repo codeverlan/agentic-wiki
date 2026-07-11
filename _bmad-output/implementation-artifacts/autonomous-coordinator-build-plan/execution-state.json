@@ -2,10 +2,10 @@
   "schema_version": 1,
   "run_id": "autonomous-coordinator-runtime-build-v1",
   "source_plan": "_bmad-output/implementation-artifacts/autonomous-coordinator-build-plan/plan.json",
-  "revision": 16,
-  "updated_at": "2026-07-11T23:00:00-04:00",
+  "revision": 17,
+  "updated_at": "2026-07-12T00:00:00-04:00",
   "run_status": "active",
-  "active_item_ids": ["AC-040"],
+  "active_item_ids": ["AC-044", "AC-045"],
   "items": [
     {"id":"AC-001","status":"completed","attempt":1},
     {"id":"AC-002","status":"completed","attempt":1},
@@ -46,12 +46,12 @@
     {"id":"AC-037","status":"completed","attempt":1},
     {"id":"AC-038","status":"completed","attempt":1},
     {"id":"AC-039","status":"completed","attempt":1},
-    {"id":"AC-040","status":"active","attempt":1},
-    {"id":"AC-041","status":"waiting","attempt":0},
+    {"id":"AC-040","status":"completed","attempt":1},
+    {"id":"AC-041","status":"completed","attempt":1},
     {"id":"AC-042","status":"completed","attempt":1},
     {"id":"AC-043","status":"completed","attempt":1},
-    {"id":"AC-044","status":"waiting","attempt":0},
-    {"id":"AC-045","status":"waiting","attempt":0},
+    {"id":"AC-044","status":"active","attempt":1},
+    {"id":"AC-045","status":"active","attempt":1},
     {"id":"AC-046","status":"waiting","attempt":0},
     {"id":"AC-047","status":"waiting","attempt":0},
     {"id":"AC-048","status":"waiting","attempt":0}
@@ -262,6 +262,22 @@
       "item_id": "AC-043",
       "commands": ["uv run pytest tests/test_coordinator_properties.py tests/test_coordinator_faults.py -q"],
       "result": "34 tests passed twice; lint passed"
+    },
+    {
+      "item_id": "AC-040",
+      "commands": ["uv run pytest tests/test_coordinator_codex.py -q"],
+      "result": "8 tests passed; lint and type checks passed"
+    },
+    {
+      "item_id": "AC-041",
+      "commands": [
+        "uv run pytest tests/test_coordinator_plugin.py -q",
+        "validate_plugin.py /Users/tyler-lcsw/plugins/agent-development-coordinator",
+        "quick_validate.py for five plugin skills",
+        "BMAD and lightweight helper smoke tests",
+        "source/cache diff and codex plugin list"
+      ],
+      "result": "plugin tests and validators passed; source/cache parity exact; installed and enabled"
     }
   ]
 }
