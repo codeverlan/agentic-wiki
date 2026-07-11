@@ -1,0 +1,22 @@
+{
+  "faults": [],
+  "max_workers": 2,
+  "name": "lightweight-two-parallel-slices",
+  "seed": 45,
+  "slices": [
+    {
+      "depends_on": [],
+      "external_calls": ["skill.local-reference"],
+      "id": "LW-A",
+      "owned_paths": ["src/alpha"],
+      "worker_outcome": "success"
+    },
+    {
+      "depends_on": [],
+      "external_calls": [],
+      "id": "LW-B",
+      "owned_paths": ["src/beta"],
+      "worker_outcome": "success"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "faults": [],
+  "max_workers": 2,
+  "name": "bmad-blocked-independent",
+  "seed": 44,
+  "slices": [
+    {
+      "depends_on": [],
+      "id": "claims",
+      "owned_paths": ["src/claims"],
+      "worker_outcome": "blocked"
+    },
+    {
+      "depends_on": ["claims"],
+      "id": "claims-child",
+      "owned_paths": ["src/claims-child"],
+      "worker_outcome": "success"
+    },
+    {
+      "depends_on": [],
+      "id": "scheduling",
+      "owned_paths": ["src/scheduling"],
+      "worker_outcome": "success"
+    },
+    {
+      "depends_on": ["scheduling"],
+      "id": "portal",
+      "owned_paths": ["src/portal"],
+      "worker_outcome": "success"
+    }
+  ]
+}

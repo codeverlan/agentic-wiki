@@ -2,10 +2,10 @@
   "schema_version": 1,
   "run_id": "autonomous-coordinator-runtime-build-v1",
   "source_plan": "_bmad-output/implementation-artifacts/autonomous-coordinator-build-plan/plan.json",
-  "revision": 17,
-  "updated_at": "2026-07-12T00:00:00-04:00",
+  "revision": 18,
+  "updated_at": "2026-07-12T01:00:00-04:00",
   "run_status": "active",
-  "active_item_ids": ["AC-044", "AC-045"],
+  "active_item_ids": ["AC-046", "AC-047"],
   "items": [
     {"id":"AC-001","status":"completed","attempt":1},
     {"id":"AC-002","status":"completed","attempt":1},
@@ -50,10 +50,10 @@
     {"id":"AC-041","status":"completed","attempt":1},
     {"id":"AC-042","status":"completed","attempt":1},
     {"id":"AC-043","status":"completed","attempt":1},
-    {"id":"AC-044","status":"active","attempt":1},
-    {"id":"AC-045","status":"active","attempt":1},
-    {"id":"AC-046","status":"waiting","attempt":0},
-    {"id":"AC-047","status":"waiting","attempt":0},
+    {"id":"AC-044","status":"completed","attempt":1},
+    {"id":"AC-045","status":"completed","attempt":1},
+    {"id":"AC-046","status":"active","attempt":1},
+    {"id":"AC-047","status":"active","attempt":1},
     {"id":"AC-048","status":"waiting","attempt":0}
   ],
   "blockers": [],
@@ -278,6 +278,16 @@
         "source/cache diff and codex plugin list"
       ],
       "result": "plugin tests and validators passed; source/cache parity exact; installed and enabled"
+    },
+    {
+      "item_id": "AC-044",
+      "commands": ["uv run pytest tests/test_coordinator_e2e_bmad.py -q"],
+      "result": "BMAD end-to-end test passed twice"
+    },
+    {
+      "item_id": "AC-045",
+      "commands": ["uv run pytest tests/test_coordinator_e2e_lightweight.py -q"],
+      "result": "lightweight end-to-end test passed"
     }
   ]
 }
