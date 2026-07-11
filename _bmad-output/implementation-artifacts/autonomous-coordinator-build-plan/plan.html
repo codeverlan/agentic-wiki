@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Autonomous Long-Running Coordinator Build Plan</title>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","identifier":"autonomous-coordinator-runtime-build-v1","name":"Autonomous Long-Running Coordinator Build Plan","dateCreated":"2026-07-11T09:50:00-04:00","encodingFormat":"text/html","memwiki:pageType":"autonomous_coordinator_build_plan","memwiki:sourceOfTruth":false,"memwiki:machineReadableSource":"plan.json","memwiki:executionModel":"continuous_dependency_queue"}</script>
+  <style>
+    :root { color-scheme: light; --ink: #17212b; --muted: #52606d; --line: #c7d0d9; --soft: #f4f7f9; --blue: #1e5a87; --green: #216744; --amber: #8a5a14; --red: #9c2f2f; }
+    * { box-sizing: border-box; }
+    body { color: var(--ink); font-family: system-ui, sans-serif; line-height: 1.5; margin: 0; }
+    header, main { margin: 0 auto; max-width: 100rem; padding: 1.5rem 2rem; }
+    header { border-bottom: 1px solid var(--line); }
+    h1, h2 { letter-spacing: 0; }
+    h1 { font-size: 2rem; margin: 0 0 0.5rem; }
+    h2 { font-size: 1.35rem; margin-top: 2rem; }
+    p, li { max-width: 88rem; }
+    .notice { background: #eaf3f8; border-left: 4px solid var(--blue); padding: 0.9rem 1rem; }
+    .success { background: #edf7f1; border-left: 4px solid var(--green); padding: 0.9rem 1rem; }
+    .warning { background: #fff7e6; border-left: 4px solid var(--amber); padding: 0.9rem 1rem; }
+    code { background: var(--soft); padding: 0.1rem 0.25rem; }
+    table { border-collapse: collapse; font-size: 0.88rem; width: 100%; }
+    th, td { border: 1px solid var(--line); padding: 0.55rem; text-align: left; vertical-align: top; }
+    th { background: var(--soft); position: sticky; top: 0; }
+    td:first-child { white-space: nowrap; }
+    .stream { color: var(--blue); font-weight: 700; }
+    .flow { display: grid; gap: 0.55rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); list-style: none; padding: 0; }
+    .flow li { border: 1px solid var(--line); min-height: 5rem; padding: 0.7rem; }
+    dl { display: grid; grid-template-columns: minmax(12rem, 18rem) 1fr; }
+    dt, dd { border-bottom: 1px solid var(--line); margin: 0; padding: 0.55rem; }
+    dt { font-weight: 700; }
+    @media (max-width: 700px) { header, main { padding: 1rem; } dl { grid-template-columns: 1fr; } table { display: block; overflow-x: auto; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Autonomous Long-Running Coordinator Build Plan</h1>
+    <p>Build the executable coordinator that uses Agentic Wiki and the Agent Development Coordinator plugin to continue real software development until implementation and testing are complete.</p>
+  </header>
+  <main>
+    <section id="scope">
+      <h2>Scope And Current Truth</h2>
+      <p class="warning"><strong>Current truth:</strong> Agentic Wiki has a tested memory foundation, control-artifact renderers, authority and integrity controls, and reusable plugin policy. It does not yet have an executing scheduler, worker dispatcher, Git integrator, crash-recovery runner, or autonomous queue-draining process.</p>
+      <p class="notice"><strong>Execution rule:</strong> This is one dependency-driven queue. Workstream labels organize ownership; they do not create stopping points. The build continues across completed items, repairs, reviews, and newly discovered work until the completion predicate is proven.</p>
+      <dl>
+        <dt>Agentic Wiki</dt><dd>Owns the provider-neutral deterministic engine, journal, projections, scheduler, leases, recovery, completion evidence, and public API/CLI.</dd>
+        <dt>Plugin</dt><dd>Owns workflow policy, project adapter selection, host-specific workers and capabilities, preflight, supervision presentation, and immutable reusable contracts.</dd>
+        <dt>Project memory</dt><dd>Owns all project-specific intent, authority, queues, reports, incidents, external connections, design references, supervision requests, and evidence.</dd>
+        <dt>Workers</dt><dd>Write only slice-owned code, tests, fixtures, and reports. They never write shared control state or canonical memory.</dd>
+        <dt>Coordinator</dt><dd>Is the only shared-state and canonical-memory writer and integrates validated worker results serially.</dd>
+      </dl>
+    </section>
+
+    <section id="loop">
+      <h2>Continuous Execution Loop</h2>
+      <ol class="flow">
+        <li><strong>Own</strong><br>Acquire or renew the fenced coordinator lease.</li>
+        <li><strong>Verify</strong><br>Validate the event journal and rebuild the projection.</li>
+        <li><strong>Reconcile</strong><br>Inspect workers, Git, receipts, resources, budgets, stops, and supervision.</li>
+        <li><strong>Recover</strong><br>Expire stale leases and preserve late or abandoned evidence.</li>
+        <li><strong>Derive</strong><br>Compute ready, waiting, blocked, terminal, and unreachable work.</li>
+        <li><strong>Discover</strong><br>Admit safe deduplicated proposals and enabling work.</li>
+        <li><strong>Contextualize</strong><br>Compile bounded memory and design context per assignment.</li>
+        <li><strong>Dispatch</strong><br>Start up to six nonconflicting workers.</li>
+        <li><strong>Validate</strong><br>Verify reports, ownership, tests, reviews, and capability evidence.</li>
+        <li><strong>Integrate</strong><br>Accept changes serially and rerun configured validation.</li>
+        <li><strong>Route blockers</strong><br>Record supervision needs while independent work continues.</li>
+        <li><strong>Project</strong><br>Update status, checkpoints, dashboards, and completion evidence.</li>
+        <li><strong>Replenish</strong><br>Add repairs, discoveries, missing proof, and unresolved obligations.</li>
+        <li><strong>Repeat</strong><br>Continue immediately until completion or a genuine whole-run boundary.</li>
+      </ol>
+    </section>
+
+    <section id="stopping">
+      <h2>Stopping And Blocking Rules</h2>
+      <p class="success">A blocked item is not a stopped run. The coordinator must continue any implementation, testing, documentation, repair, review, recovery, integration, or enabling work that does not depend on the blocked decision.</p>
+      <ul>
+        <li>User input becomes a blocker only after local evidence, official documentation, external research, installed capabilities, parallel review, slice splitting, and safe reversible alternatives have been exhausted.</li>
+        <li>A whole run may stop only for explicit user stop, a global safety/privacy/permission boundary, a configured hard usage boundary, proven completion, or a user-only blocker applying to every remaining item.</li>
+        <li>Transient resource failures use bounded retry and backoff. Exhaustion blocks the affected invocation or slice, not unrelated work.</li>
+        <li>User return and status requests do not cancel safe active work. At the next reasonable boundary, pending supervision becomes priority.</li>
+        <li>Queue drain is invalid while ready, active, stale, undisposed, outcome-unknown, or required dependent work exists.</li>
+      </ul>
+    </section>
+
+    <section id="queue">
+      <h2>Dependency-Driven Build Queue</h2>
+      <p>The JSON companion contains the complete deliverables, acceptance criteria, and tests for every item. The table below is the execution index.</p>
+      <table>
+        <thead><tr><th>ID</th><th>Work item</th><th>Workstream</th><th>Dependencies</th><th>Required proof</th></tr></thead>
+        <tbody>
+          <tr><td>AC-001</td><td>Versioned runtime domain model</td><td class="stream">State</td><td>None</td><td>Strict schemas, legal transitions, invalid-state rejection</td></tr>
+          <tr><td>AC-002</td><td>Coordinator event envelope and hash chain</td><td class="stream">Durability</td><td>001</td><td>Mutation, deletion, reorder, duplication, and forgery detection</td></tr>
+          <tr><td>AC-003</td><td>Durable append-only coordinator journal</td><td class="stream">Durability</td><td>002</td><td>Multiprocess append, fsync, crash and torn-tail proof</td></tr>
+          <tr><td>AC-004</td><td>Pure state reducer and projection cache</td><td class="stream">State</td><td>001, 002</td><td>Deterministic replay and cache rebuild equivalence</td></tr>
+          <tr><td>AC-005</td><td>Transactional command receipts and idempotency</td><td class="stream">Durability</td><td>003, 004</td><td>No duplicated accepted effect after uncertain restart</td></tr>
+          <tr><td>AC-006</td><td>Coordinator ownership lease with fencing</td><td class="stream">Concurrency</td><td>003, 004</td><td>Single current writer and stale-epoch rejection</td></tr>
+          <tr><td>AC-007</td><td>Dependency graph evaluator</td><td class="stream">Scheduler</td><td>001, 004</td><td>Deterministic DAG readiness and descendant-only blocker propagation</td></tr>
+          <tr><td>AC-008</td><td>Storage adapter protocol</td><td class="stream">Adapters</td><td>001, 003</td><td>Atomic source/view contract and conformance suite</td></tr>
+          <tr><td>AC-009</td><td>BMAD storage adapter</td><td class="stream">Adapters</td><td>008</td><td>Disposable BMAD project and preservation tests</td></tr>
+          <tr><td>AC-010</td><td>Lightweight storage adapter</td><td class="stream">Adapters</td><td>008</td><td>Non-BMAD operation and adapter parity</td></tr>
+          <tr><td>AC-011</td><td>Worker assignment and acknowledgement protocol</td><td class="stream">Workers</td><td>001, 008</td><td>Bounded immutable assignment and acknowledgement validation</td></tr>
+          <tr><td>AC-012</td><td>Slice lease manager with path fencing</td><td class="stream">Workers</td><td>006, 011</td><td>Lease state machine, overlap rejection, stale report fencing</td></tr>
+          <tr><td>AC-013</td><td>Provider-neutral worker executor</td><td class="stream">Workers</td><td>011, 012</td><td>Fake executor conformance across all typed outcomes</td></tr>
+          <tr><td>AC-014</td><td>Git repository and dirty-tree classifier</td><td class="stream">Git</td><td>001</td><td>User dirt preservation and path ownership classification</td></tr>
+          <tr><td>AC-015</td><td>Git worktree isolation adapter</td><td class="stream">Git</td><td>011, 012, 014</td><td>Per-writing-slice isolation and safe cleanup</td></tr>
+          <tr><td>AC-016</td><td>Worker report admission and integrity</td><td class="stream">Workers</td><td>011, 012, 015</td><td>Lease, hash, scope, report, and changed-file correspondence</td></tr>
+          <tr><td>AC-017</td><td>Validation command runner</td><td class="stream">Validation</td><td>001, 005</td><td>Timeout, cancellation, output hash, redaction, and receipts</td></tr>
+          <tr><td>AC-018</td><td>Serial integration controller</td><td class="stream">Git</td><td>015, 016, 017</td><td>Validated integration with conflict and crash recovery</td></tr>
+          <tr><td>AC-019</td><td>Retry, repair, and backoff ledger</td><td class="stream">Scheduler</td><td>005, 017</td><td>Persistent bounded attempts and independent continuation</td></tr>
+          <tr><td>AC-020</td><td>Typed blocker lifecycle</td><td class="stream">Scheduler</td><td>007, 019</td><td>Evidence-backed scope, resolution, reopen and supersession</td></tr>
+          <tr><td>AC-021</td><td>Dynamic slice discovery and queue replenishment</td><td class="stream">Scheduler</td><td>007, 011, 020</td><td>Safe deduplicated atomic graph insertion</td></tr>
+          <tr><td>AC-022</td><td>Deterministic reconciliation tick</td><td class="stream">Scheduler</td><td>006, 007, 012, 013, 019-021</td><td>Capacity, fairness, conflicts, results, expiry and dispatch decisions</td></tr>
+          <tr><td>AC-023</td><td>Continuous coordinator runner</td><td class="stream">Scheduler</td><td>005, 006, 022</td><td>Subprocess loop that continues until a valid predicate passes</td></tr>
+          <tr><td>AC-024</td><td>Stop, time, usage, and budget semantics</td><td class="stream">Control</td><td>001, 004, 023</td><td>Precedence, graceful collection, safety cancellation and resumability</td></tr>
+          <tr><td>AC-025</td><td>Checkpoint, compaction, and resume protocol</td><td class="stream">Recovery</td><td>003-006, 024</td><td>Verified clean-process replay from checkpoint</td></tr>
+          <tr><td>AC-026</td><td>Startup recovery and in-flight reconciliation</td><td class="stream">Recovery</td><td>005, 012, 015, 018, 025</td><td>No double dispatch, lost acceptance, or hidden uncertain outcome</td></tr>
+          <tr><td>AC-027</td><td>Schema migrations and corruption repair</td><td class="stream">Recovery</td><td>002-004, 025</td><td>Auditable migration, repair-tail, rebuild, restore and quarantine</td></tr>
+          <tr><td>AC-028</td><td>Capability registry and discovery</td><td class="stream">External</td><td>001, 008</td><td>Discovery without invocation and scoped unavailability</td></tr>
+          <tr><td>AC-029</td><td>External capability invocation protocol</td><td class="stream">External</td><td>005, 028</td><td>Bounded, authorized, idempotent and cancellable result packets</td></tr>
+          <tr><td>AC-030</td><td>Credential source resolver and redaction</td><td class="stream">Security</td><td>014, 029</td><td>No secret persistence, Git inclusion, or output leakage</td></tr>
+          <tr><td>AC-031</td><td>Supervision queue source of truth</td><td class="stream">Control</td><td>008, 020, 029</td><td>Chronological scoped decisions without unrelated-work interruption</td></tr>
+          <tr><td>AC-032</td><td>User-return and status semantics</td><td class="stream">Control</td><td>012, 016, 023, 031</td><td>Safe-boundary reconciliation and supervision priority</td></tr>
+          <tr><td>AC-033</td><td>Design evidence execution gate</td><td class="stream">Design</td><td>011, 016, 029, 031</td><td>Commit-bound screenshots, accessibility, variance and baseline proof</td></tr>
+          <tr><td>AC-034</td><td>PHI and sensitive-data runtime enforcement</td><td class="stream">Security</td><td>008, 013, 017, 029, 030</td><td>Cross-adapter synthetic-only and canary leak proof</td></tr>
+          <tr><td>AC-035</td><td>Token, time, cost, and resource ledger</td><td class="stream">Observability</td><td>002, 004, 024</td><td>Attributable allocations and restart-safe accounting</td></tr>
+          <tr><td>AC-036</td><td>Structured observability and evidence correlation</td><td class="stream">Observability</td><td>002, 005, 016, 017, 029, 035</td><td>Every effect reconstructable through stable IDs and evidence</td></tr>
+          <tr><td>AC-037</td><td>Run-state, handoff, incident, dashboard, and control-index projections</td><td class="stream">Surfaces</td><td>004, 031, 036</td><td>HTML/JSON parity and stale-view detection</td></tr>
+          <tr><td>AC-038</td><td>Completion predicate and immutable evidence manifest</td><td class="stream">Completion</td><td>007, 016, 018, 020, 024, 036, 037</td><td>False-drain rejection and independent completion reconstruction</td></tr>
+          <tr><td>AC-039</td><td>Public Python API and CLI</td><td class="stream">Interface</td><td>023, 025-027, 038</td><td>Start, run, reconcile, status, stop, recover, verify and repair parity</td></tr>
+          <tr><td>AC-040</td><td>Host-specific Codex worker and capability adapter</td><td class="stream">Plugin</td><td>013, 028, 029, 031, 039</td><td>Host capability mapping and limitation evidence</td></tr>
+          <tr><td>AC-041</td><td>Executable plugin helpers and immutable packaging</td><td class="stream">Plugin</td><td>009, 010, 039, 040</td><td>Validation, cache parity, install and both adapter smoke tests</td></tr>
+          <tr><td>AC-042</td><td>Deterministic orchestration test harness</td><td class="stream">Verification</td><td>013, 017, 018, 022</td><td>Hermetic real-entry-point harness with reproducible scheduling</td></tr>
+          <tr><td>AC-043</td><td>Property, concurrency, and fault-injection suite</td><td class="stream">Verification</td><td>026, 027, 034, 038, 042</td><td>Global invariants under six workers, faults and restarts</td></tr>
+          <tr><td>AC-044</td><td>BMAD end-to-end autonomous build</td><td class="stream">Verification</td><td>009, 018, 023, 034, 038, 041, 042</td><td>Intent-to-local-push run with blocker routing and reconstruction</td></tr>
+          <tr><td>AC-045</td><td>Lightweight end-to-end autonomous build</td><td class="stream">Verification</td><td>010, 018, 023, 033, 034, 038, 041, 042</td><td>Non-BMAD backend/frontend run with synthetic visual evidence</td></tr>
+          <tr><td>AC-046</td><td>Long-running soak and restart equivalence</td><td class="stream">Verification</td><td>043-045</td><td>8-24 hour, hundreds of slices, no leaks or divergence</td></tr>
+          <tr><td>AC-047</td><td>Adversarial security and privacy review</td><td class="stream">Verification</td><td>030, 034, 043, 045</td><td>High-severity findings repaired and regression tested</td></tr>
+          <tr><td>AC-048</td><td>Documentation, operator runbook, and release proof</td><td class="stream">Release</td><td>039, 041, 046, 047</td><td>Fresh operator and agent complete initialize/run/recover/verify smoke</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="parallelism">
+      <h2>Parallel Work Without Artificial Stops</h2>
+      <ul>
+        <li>As soon as AC-008 is validated, BMAD and lightweight adapters can run concurrently.</li>
+        <li>After the assignment contract exists, worker protocol, Git classification, validation execution, and capability discovery can progress on disjoint paths.</li>
+        <li>After reconciliation exists, recovery, supervision, observability, design evidence, and runner work proceed according to dependencies rather than a shared milestone.</li>
+        <li>Verification begins with each contract. Unit, property, fault, and integration tests are queue items, not a final testing period.</li>
+        <li>Every worker report may create repair or discovery work. Accepted additions become ordinary queue items and must be drained.</li>
+      </ul>
+    </section>
+
+    <section id="verification">
+      <h2>Verification Obligations</h2>
+      <ul>
+        <li>Unit and generated state-machine tests for every legal transition, dependency rule, lease operation, retry, blocker, authority decision, and completion condition.</li>
+        <li>Multiprocess concurrency and subprocess crash injection around every durable mutation and external receipt boundary.</li>
+        <li>Disposable Git repositories, local bare remotes, dirty trees, conflicts, divergent refs, push rejection, and crash-after-commit/push scenarios.</li>
+        <li>Scriptable workers for success, validation failure, hang, stale heartbeat, malformed report, forbidden edit, late result, and process death.</li>
+        <li>Fake MCP, API, plugin, browser, local-tool, credential, memory-runtime, and outage adapters with seeded deterministic schedules.</li>
+        <li>BMAD and lightweight end-to-end builds through real coordinator entry points.</li>
+        <li>Synthetic PHI yes/unknown projects with secret and PHI canaries across prompts, files, logs, screenshots, reports, Git, and HTML.</li>
+        <li>8-24 hour soak runs with hundreds of slices, restarts, outages, randomized timing, resource-growth checks, and preserved failing seeds.</li>
+        <li>Independent reconstruction of final state from journal, projection, Git, validation receipts, and completion manifest.</li>
+      </ul>
+    </section>
+
+    <section id="completion">
+      <h2>Definition Of Complete</h2>
+      <p>The autonomous coordinator build is complete only when all conditions below pass together:</p>
+      <ol>
+        <li>All 48 planned items and every accepted discovered item have validated terminal dispositions.</li>
+        <li>No ready, active, stale, resolvable waiting, undisposed, uncertain, or required supervision work remains.</li>
+        <li>All unit, property, concurrency, fault, Git, PHI, security, documentation, plugin, E2E, and soak gates pass.</li>
+        <li>The event journal verifies and independently rebuilds the final projection.</li>
+        <li>Local and configured remote Git evidence match the accepted integrated state.</li>
+        <li>The immutable completion manifest reports and proves every condition individually.</li>
+        <li>No secret/PHI canary, worker process, lease, lock, temporary worktree, or unbounded artifact remains.</li>
+        <li>Plugin source/cache parity and fresh-context BMAD and lightweight smoke tests pass.</li>
+        <li>Run-state, handoff, branch ledger, incident summary, dashboard snapshot, and control index point to the final evidence.</li>
+      </ol>
+    </section>
+  </main>
+</body>
+</html>
