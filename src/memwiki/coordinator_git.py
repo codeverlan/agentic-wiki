@@ -5,7 +5,7 @@ import subprocess
 from dataclasses import asdict, dataclass
 from enum import Enum
 from pathlib import Path, PurePosixPath
-from typing import Any, Optional, Sequence, Tuple
+from typing import Any, Dict, Optional, Sequence, Tuple, cast
 
 
 class GitRepositoryKind(str, Enum):
@@ -81,7 +81,7 @@ class GitRepositoryState:
     candidate_paths: Tuple[CandidatePathRecord, ...]
 
     def to_dict(self) -> dict[str, Any]:
-        return _enum_values(asdict(self))
+        return cast(Dict[str, Any], _enum_values(asdict(self)))
 
 
 def _enum_values(value: Any) -> Any:
