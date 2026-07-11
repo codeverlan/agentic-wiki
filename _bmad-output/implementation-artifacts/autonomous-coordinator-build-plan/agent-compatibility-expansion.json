@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "plan_id": "autonomous-coordinator-agent-compatibility-v1",
+  "parent_plan": "autonomous-coordinator-runtime-build-v1",
+  "title": "ChatGPT, Codex, Public Agent, and Private Agent Compatibility Expansion",
+  "status": "planned",
+  "objective": "Allow the autonomous coordinator to discover, qualify, invoke, supervise, and verify Codex agents, ChatGPT agents, public plugins and apps, and personalized private agents without coupling core scheduling to a specific provider.",
+  "compatibility_assumption": [
+    "Codex agents may expose skills, plugins, MCP servers, apps, commands, browser or computer-use tools, and worker callbacks.",
+    "ChatGPT agents may expose apps, connectors, actions, remote MCP servers, or conversational handoff surfaces with different execution and supervision semantics.",
+    "Public agents are untrusted external capabilities until their authority, privacy, authentication, and side-effect metadata are known.",
+    "Private personalized agents may be preferred project resources but remain independently versioned and immutable; project memory stores selection rules and outputs, not mutations to the agent or plugin.",
+    "A capability may be unavailable, unauthorized, incompatible, nonexistent, degraded, or ready; these states must not be collapsed into one failure mode."
+  ],
+  "global_invariants": [
+    "The coordinator remains provider-neutral and never assumes that ChatGPT and Codex expose identical tools or lifecycle controls.",
+    "Agent identity, version, provenance, authority, data policy, credential reference, side-effect class, and invocation receipt are recorded for every delegated action.",
+    "Credentials remain project-local or host-managed and never enter plugin source, prompts, reports, dashboards, or canonical memory.",
+    "Computer use and other supervised actions cannot be delegated around the supervision boundary by using another agent.",
+    "PHI mode denies remote or public-agent disclosure and permits only explicitly qualified local synthetic-data workflows unless a stricter approved policy exists.",
+    "A failed or unavailable agent blocks only dependent slices; the coordinator continues alternative and independent work.",
+    "Agent outputs are proposals or evidence until admitted through schema, provenance, privacy, path-ownership, validation, and integration gates."
+  ],
+  "example_private_agent": {
+    "name": "SEO Decision Lab",
+    "reference": "plugin://seo-decision-lab@personal/",
+    "surfaces": ["Codex skill", "local MCP server", "shortcut tools", "generic DataForSEO request tool"],
+    "preferred_flow": [
+      "Discover the installed plugin and its exact version.",
+      "Run metadata-only authentication status before planning a live SEO invocation.",
+      "Select a shortcut tool when it satisfies the task; otherwise use the documented generic request surface.",
+      "Store the capability choice, market assumptions, request hash, cost or usage metadata, and redacted result provenance in project memory.",
+      "Treat missing expected credentials as a slice blocker, while continuing SEO-independent project work.",
+      "Validate returned SEO claims and generated implementation changes before integration."
+    ]
+  },
+  "work_items": [
+    {
+      "id": "AX-001",
+      "title": "Cross-product agent capability model",
+      "depends_on": [],
+      "deliverables": ["typed agent, tool, app, connector, action, skill, plugin, MCP, command, and conversational-handoff descriptors", "provider and host-neutral lifecycle and side-effect taxonomy"],
+      "acceptance": ["Codex and ChatGPT capabilities round-trip without losing product-specific metadata", "unknown capability fields remain bounded extension metadata"],
+      "tests": ["schema matrix for public, private, local, and remote agents"]
+    },
+    {
+      "id": "AX-002",
+      "title": "Agent identity, provenance, trust, and version registry",
+      "depends_on": ["AX-001"],
+      "deliverables": ["stable agent IDs, publisher and marketplace provenance, installed or remote version, integrity and trust status", "public versus personalized-private classification"],
+      "acceptance": ["similarly named agents cannot be confused", "version drift is visible before invocation"],
+      "tests": ["identity collision, spoofing, upgrade, rollback, and missing-version tests"]
+    },
+    {
+      "id": "AX-003",
+      "title": "Codex capability discovery adapter",
+      "depends_on": ["AX-001", "AX-002"],
+      "deliverables": ["discovery of installed skills, plugins, MCP tools, apps, worker controls, browser, image, command, and computer-use surfaces", "availability and supervision metadata"],
+      "acceptance": ["private personal plugins such as SEO Decision Lab are discoverable by exact plugin reference", "discovery does not invoke tools or read credential values"],
+      "tests": ["installed, disabled, missing, stale-cache, and private-plugin fixtures"]
+    },
+    {
+      "id": "AX-004",
+      "title": "ChatGPT capability discovery adapter",
+      "depends_on": ["AX-001", "AX-002"],
+      "deliverables": ["discovery contract for apps, connectors, actions, remote MCP servers, public agents, and personalized agents", "explicit host limitations when programmatic discovery is unavailable"],
+      "acceptance": ["the coordinator never fabricates a callable ChatGPT surface", "manual or conversational handoff remains a typed capability"],
+      "tests": ["callable, handoff-only, unauthorized, unavailable, and unsupported fixtures"]
+    },
+    {
+      "id": "AX-005",
+      "title": "Agent qualification and policy negotiation",
+      "depends_on": ["AX-002", "AX-003", "AX-004"],
+      "deliverables": ["input and output schemas, authority, authentication, data residency, retention, telemetry, cost, latency, supervision, reversibility, and PHI eligibility negotiation", "qualification receipt"],
+      "acceptance": ["an agent is never invoked with data or authority beyond its qualified envelope", "unknown privacy or authority defaults to deny for sensitive work"],
+      "tests": ["policy compatibility matrix and downgrade rejection tests"]
+    },
+    {
+      "id": "AX-006",
+      "title": "Agent selection and fallback planner",
+      "depends_on": ["AX-005"],
+      "deliverables": ["project-memory preferences, capability fit scoring, cost and latency constraints, preferred private-agent rules, and deterministic fallback chains", "explainable selection record"],
+      "acceptance": ["SEO Decision Lab can be preferred for DataForSEO-backed SEO work", "agent failure does not stop unrelated work and alternatives are tried only within policy"],
+      "tests": ["preferred private agent, public fallback, no-qualified-agent, and independent-slice tests"]
+    },
+    {
+      "id": "AX-007",
+      "title": "Unified invocation and conversational handoff protocol",
+      "depends_on": ["AX-005", "AX-006"],
+      "deliverables": ["planned, authorized, started, waiting, succeeded, failed, cancelled, outcome-unknown, and handoff-required states", "idempotency, correlation, causation, timeout, cancellation, and redaction contract"],
+      "acceptance": ["restarts cannot duplicate accepted side effects", "handoff-only agents create supervision work without pretending execution occurred"],
+      "tests": ["Codex tool, ChatGPT action, MCP, app, and conversational handoff conformance"]
+    },
+    {
+      "id": "AX-008",
+      "title": "SEO Decision Lab reference integration",
+      "depends_on": ["AX-003", "AX-005", "AX-007"],
+      "deliverables": ["capability profile for the skill and local MCP server", "authentication-status, account-status, shortcut-tool, and generic-request routing", "SEO result provenance and cost metadata mapping"],
+      "acceptance": ["credentials are never persisted by the coordinator", "missing credentials block only SEO-dependent slices", "market, language, domain, and intent assumptions are durable"],
+      "tests": ["offline fake MCP tests, missing-auth test, shortcut and generic-request routing, redaction test"]
+    },
+    {
+      "id": "AX-009",
+      "title": "Cross-agent context packaging and memory admission",
+      "depends_on": ["AX-007"],
+      "deliverables": ["minimum necessary context bundles with source hashes and disclosure labels", "output admission into drafts, evidence, decisions, design memory, and knowledge claims"],
+      "acceptance": ["agents do not receive the entire project memory by default", "substantive output retains agent and source provenance"],
+      "tests": ["context minimization, stale context, prompt injection, and provenance tests"]
+    },
+    {
+      "id": "AX-010",
+      "title": "Cross-agent supervision and return queue",
+      "depends_on": ["AX-005", "AX-007", "AX-009"],
+      "deliverables": ["authorization, login, consent, computer-use, publication, purchase, destructive action, and ambiguous handoff queue items", "product-specific resume instructions"],
+      "acceptance": ["delegation cannot bypass mandatory supervision", "user return prioritizes pending agent handoffs at a safe boundary without cancelling active work"],
+      "tests": ["cross-product supervision escalation and safe-boundary tests"]
+    },
+    {
+      "id": "AX-011",
+      "title": "Agent activity, connection, and provenance projections",
+      "depends_on": ["AX-002", "AX-007", "AX-010"],
+      "deliverables": ["HTML and dashboard projections for available agents, active invocations, handoffs, costs, failures, version drift, and external connections", "credential-free agent catalog"],
+      "acceptance": ["public and private agents are visibly distinguished", "no credential, hidden prompt, PHI, or sensitive result is rendered"],
+      "tests": ["XSS, redaction, stale-status, and dashboard snapshot tests"]
+    },
+    {
+      "id": "AX-012",
+      "title": "Public and private agent compatibility harness",
+      "depends_on": ["AX-003", "AX-004", "AX-007", "AX-009"],
+      "deliverables": ["deterministic fake Codex and ChatGPT hosts", "agent conformance suite and fault injection for outages, auth expiry, schema drift, duplicate replies, and uncertain outcomes"],
+      "acceptance": ["new agents can be qualified without modifying coordinator core", "host differences are tested rather than normalized away"],
+      "tests": ["provider conformance and restart equivalence suite"]
+    },
+    {
+      "id": "AX-013",
+      "title": "Cross-product end-to-end autonomous runs",
+      "depends_on": ["AX-006", "AX-008", "AX-010", "AX-011", "AX-012"],
+      "deliverables": ["Codex-only, ChatGPT-only where callable, mixed-agent, private-plugin-preferred, unavailable-agent fallback, and handoff-required scenarios"],
+      "acceptance": ["mixed-agent projects drain without duplicate effects or lost provenance", "SEO Decision Lab example produces admitted, validated evidence through the private-plugin path"],
+      "tests": ["bounded subprocess and fake-host end-to-end runs"]
+    },
+    {
+      "id": "AX-014",
+      "title": "Compatibility documentation and release proof",
+      "depends_on": ["AX-011", "AX-013"],
+      "deliverables": ["agent adapter authoring guide, qualification checklist, ChatGPT and Codex operator guidance, private-agent registration guide, SEO Decision Lab worked example", "compatibility evidence manifest"],
+      "acceptance": ["a fresh operator can add a public or private agent without changing coordinator core or exposing credentials"],
+      "tests": ["docs check, fresh-context review, and copy-paste smoke"]
+    }
+  ],
+  "completion_predicate": [
+    "All required AX items are implemented and integrated.",
+    "Codex, ChatGPT callable or handoff-only, public-agent, and personalized-private-agent fixtures pass the same qualification and evidence gates.",
+    "The SEO Decision Lab reference path passes offline, missing-auth, redaction, fallback, and provenance tests.",
+    "No unresolved mandatory supervision, privacy, authority, credential, or outcome-unknown item remains.",
+    "Compatibility documentation and immutable evidence manifest are current at the integrated revision."
+  ]
+}
