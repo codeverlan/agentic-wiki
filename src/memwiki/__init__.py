@@ -29,12 +29,29 @@ from memwiki.api import (
     PromoteResult,
 )
 from memwiki.coordinator_api import CoordinatorAPI, CoordinatorRuntime, RuntimeTick
+from memwiki.coordinator_engineering import (
+    DecompositionAdvice,
+    EvaluationComparison,
+    EvaluationResult,
+    ExecutionTier,
+    ExecutionTierDecision,
+    SliceDefinition,
+    SliceEvaluation,
+    SliceRisk,
+    advise_decomposition,
+    route_execution_tier,
+)
 from memwiki.policy import AuthorityVerifier, OperationContext, VerifiedAuthority
 
 __all__ = [
     "AgenticWikiWorkspace",
     "CoordinatorAPI",
     "CoordinatorRuntime",
+    "DecompositionAdvice",
+    "EvaluationComparison",
+    "EvaluationResult",
+    "ExecutionTier",
+    "ExecutionTierDecision",
     "AuthorityVerifier",
     "AgentHandoffDigestRenderResult",
     "AgentContextResult",
@@ -63,7 +80,12 @@ __all__ = [
     "OperationContext",
     "PromoteResult",
     "RuntimeTick",
+    "SliceDefinition",
+    "SliceEvaluation",
+    "SliceRisk",
     "VerifiedAuthority",
+    "advise_decomposition",
+    "route_execution_tier",
     "__version__",
 ]
 

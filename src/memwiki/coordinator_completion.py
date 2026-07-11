@@ -123,6 +123,12 @@ def _required_work(snapshot: Mapping[str, Any]) -> CompletionCondition:
             problems.append(f"{slice_id} is not bound to the final revision")
         if not item.get("report_evidence_id") or not item.get("integration_evidence_id"):
             problems.append(f"{slice_id} lacks report or integration evidence")
+        if item.get("evaluation_passed") is not True:
+            problems.append(f"{slice_id} lacks a passing evaluation comparison")
+        if item.get("evaluation_revision") != revision:
+            problems.append(f"{slice_id} evaluation is not bound to the final revision")
+        if not item.get("evaluation_evidence_id"):
+            problems.append(f"{slice_id} lacks evaluation evidence")
     return _condition("required_work_integrated", problems)
 
 
@@ -310,4 +316,3 @@ def verify_completion_manifest(manifest: Mapping[str, Any]) -> CompletionResult:
     if manifest.get("run_id") != snapshot.get("run_id") or manifest.get("objective") != snapshot.get("objective"):
         raise CompletionEvidenceError("manifest identity does not match evidence")
     return reconstructed
-

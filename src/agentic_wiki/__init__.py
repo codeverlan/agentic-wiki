@@ -28,11 +28,28 @@ from memwiki.api import (
     MemwikiWorkspace,
     PromoteResult,
 )
+from memwiki.coordinator_engineering import (
+    DecompositionAdvice,
+    EvaluationComparison,
+    EvaluationResult,
+    ExecutionTier,
+    ExecutionTierDecision,
+    SliceDefinition,
+    SliceEvaluation,
+    SliceRisk,
+    advise_decomposition,
+    route_execution_tier,
+)
 from memwiki.policy import AuthorityVerifier, OperationContext, VerifiedAuthority
 
 __all__ = [
     "AgenticWikiWorkspace",
     "AuthorityVerifier",
+    "DecompositionAdvice",
+    "EvaluationComparison",
+    "EvaluationResult",
+    "ExecutionTier",
+    "ExecutionTierDecision",
     "AgentHandoffDigestRenderResult",
     "AgentContextResult",
     "AgentIncidentLogRenderResult",
@@ -59,7 +76,12 @@ __all__ = [
     "MemwikiWorkspace",
     "OperationContext",
     "PromoteResult",
+    "SliceDefinition",
+    "SliceEvaluation",
+    "SliceRisk",
     "VerifiedAuthority",
+    "advise_decomposition",
+    "route_execution_tier",
     "__version__",
 ]
 

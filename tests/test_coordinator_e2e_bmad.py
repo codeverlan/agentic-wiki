@@ -79,6 +79,9 @@ def _completion_snapshot(slice_ids: tuple[str, ...]) -> Dict[str, object]:
             "integrated_revision": revision,
             "report_evidence_id": proof(f"{slice_id}-report"),
             "integration_evidence_id": proof(f"{slice_id}-integration"),
+            "evaluation_passed": True,
+            "evaluation_revision": revision,
+            "evaluation_evidence_id": proof(f"{slice_id}-evaluation"),
         }
         for slice_id in slice_ids
     }

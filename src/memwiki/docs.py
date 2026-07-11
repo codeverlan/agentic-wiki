@@ -277,6 +277,18 @@ def render_operations_doc() -> str:
       relationship revisions alongside canonical wiki links. Credentials are forbidden in entity
       metadata and relationship evidence. Clinical workspaces require operation context.</p>
     </section>
+    <section id="evaluation-routing-memory">
+      <h2>Evaluation And Routing Memory</h2>
+      <p>Material coordinator slices define capability checks, regression checks, a baseline
+      revision, and complete baseline results before implementation. Integrated results rerun the
+      same checks and record newly passing checks, regressions, unchanged failures, and a stable
+      comparison identifier. Required slices cannot satisfy the completion predicate unless their
+      passing comparison evidence is bound to the final revision.</p>
+      <p>Decomposition advice favors one dominant risk, independent verification, and a clear done
+      condition. Time estimates remain advisory and never create phase or milestone stop conditions.
+      Agent routing records a provider-neutral minimum capability tier and then uses project policy
+      and qualification evidence to select a public, private, personalized, or local agent.</p>
+    </section>
     <section id="repository">
       <h2>Repository</h2>
       <p>The canonical remote is <code>github-personal:codeverlan/agentic-wiki.git</code>.</p>

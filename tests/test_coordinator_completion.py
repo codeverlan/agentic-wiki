@@ -35,6 +35,9 @@ def _snapshot() -> dict[str, object]:
             "integrated_revision": revision,
             "report_evidence_id": proof(),
             "integration_evidence_id": proof(),
+            "evaluation_passed": True,
+            "evaluation_revision": revision,
+            "evaluation_evidence_id": proof(),
         },
         "DISC-001": {
             "required": True,
@@ -43,6 +46,9 @@ def _snapshot() -> dict[str, object]:
             "integrated_revision": revision,
             "report_evidence_id": proof(),
             "integration_evidence_id": proof(),
+            "evaluation_passed": True,
+            "evaluation_revision": revision,
+            "evaluation_evidence_id": proof(),
         },
     }
     gates = {
@@ -157,6 +163,19 @@ def test_required_slice_must_be_integrated_at_final_revision() -> None:
     assert isinstance(item, dict)
     item["disposition"] = "completed"
     assert "required_work_integrated" in evaluate_completion(snapshot).failed_conditions
+
+
+def test_required_slice_evaluation_must_pass_at_final_revision() -> None:
+    snapshot = _snapshot()
+    slices = snapshot["slices"]
+    assert isinstance(slices, dict)
+    item = slices["AC-001"]
+    assert isinstance(item, dict)
+    item["evaluation_passed"] = False
+    assert "required_work_integrated" in evaluate_completion(snapshot).failed_conditions
+    item["evaluation_passed"] = True
+    item["evaluation_revision"] = "stale-commit"
+    assert "required_work_integrated" in evaluate_completion(snapshot).failed_conditions
     item["disposition"] = "integrated"
     item["integrated_revision"] = "stale-commit"
     assert "required_work_integrated" in evaluate_completion(snapshot).failed_conditions
@@ -239,4 +258,3 @@ def test_phase_or_milestone_flags_cannot_substitute_for_predicate() -> None:
     assert isinstance(queue, dict)
     queue["waiting_resolvable"] = ["AC-002"]
     assert evaluate_completion(snapshot).complete is False
-

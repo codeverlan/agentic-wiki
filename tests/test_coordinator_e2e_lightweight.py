@@ -98,6 +98,9 @@ def _completion_snapshot(
             "integrated_revision": revision,
             "report_evidence_id": proof(),
             "integration_evidence_id": proof(),
+            "evaluation_passed": True,
+            "evaluation_revision": revision,
+            "evaluation_evidence_id": proof(),
         }
         for slice_id in ("LW-A", "LW-B")
     }
