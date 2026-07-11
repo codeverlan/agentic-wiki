@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "run_id": "agent-compatibility-expansion-v1",
+  "source_plan": "agent-compatibility-expansion.json",
+  "revision": 2,
+  "updated_at": "2026-07-12T02:30:00-04:00",
+  "run_status": "active",
+  "active_item_ids": ["AX-002"],
+  "items": [
+    {"id":"AX-001","status":"completed","attempt":1},
+    {"id":"AX-002","status":"active","attempt":1},
+    {"id":"AX-003","status":"waiting","attempt":0},
+    {"id":"AX-004","status":"waiting","attempt":0},
+    {"id":"AX-005","status":"waiting","attempt":0},
+    {"id":"AX-006","status":"waiting","attempt":0},
+    {"id":"AX-007","status":"waiting","attempt":0},
+    {"id":"AX-008","status":"waiting","attempt":0},
+    {"id":"AX-009","status":"waiting","attempt":0},
+    {"id":"AX-010","status":"waiting","attempt":0},
+    {"id":"AX-011","status":"waiting","attempt":0},
+    {"id":"AX-012","status":"waiting","attempt":0},
+    {"id":"AX-013","status":"waiting","attempt":0},
+    {"id":"AX-014","status":"waiting","attempt":0}
+  ],
+  "blockers": [],
+  "validation_evidence": [
+    {"item_id":"AX-001","result":"18 tests passed; Ruff and mypy passed"}
+  ]
+}
