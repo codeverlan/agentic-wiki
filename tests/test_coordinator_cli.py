@@ -44,3 +44,40 @@ def test_memwiki_and_agentic_wiki_entrypoints_share_the_same_cli(tmp_path: Path)
     second = runner.invoke(app, ["--workspace", str(tmp_path), "coordinator", "status"])
     assert first.exit_code == second.exit_code == 0
     assert json.loads(first.stdout) == json.loads(second.stdout)
+
+
+def test_cli_appends_and_reads_canonical_coordinator_events(tmp_path: Path) -> None:
+    code, started = invoke(
+        tmp_path,
+        "append-event",
+        "--run-id",
+        "run-events",
+        "--event-type",
+        "run.started",
+        "--payload-json",
+        '{"status":"active","max_workers":6}',
+        "--actor-id",
+        "coordinator-1",
+        "--idempotency-key",
+        "run-events:start",
+    )
+
+    assert code == 0
+    assert started["appended"] is True
+    assert started["projection"]["revision"] == 1
+    code, projection = invoke(tmp_path, "projection", "--run-id", "run-events")
+    assert code == 0
+    assert projection["run_id"] == "run-events"
+    assert projection["last_event_hash"] == started["event"]["event_hash"]
+
+
+def test_cli_completion_evaluate_reports_failed_invariants_as_json(tmp_path: Path) -> None:
+    evidence = tmp_path / "completion-evidence.json"
+    evidence.write_text('{"run_id":"run-cli","slices":{}}', encoding="utf-8")
+
+    code, result = invoke(tmp_path, "completion-evaluate", "--evidence", str(evidence))
+
+    assert code == 0
+    assert result["complete"] is False
+    assert result["disposition"] == "incomplete"
+    assert "required_work_integrated" in result["failed_conditions"]

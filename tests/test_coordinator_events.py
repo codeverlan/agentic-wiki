@@ -87,3 +87,17 @@ def test_event_rejects_non_json_payload_and_malformed_timestamp() -> None:
             prior_hash=None,
             occurred_at="yesterday",
         )
+
+
+def test_event_rejects_unknown_coordinator_event_type() -> None:
+    with pytest.raises(ValueError, match="unsupported coordinator event type"):
+        CoordinatorEvent.create(
+            run_id="run-1",
+            sequence=1,
+            projection_revision=1,
+            event_type="worker.invented",
+            payload={},
+            actor={"type": "coordinator", "id": "one"},
+            idempotency_key="unknown-event",
+            prior_hash=None,
+        )

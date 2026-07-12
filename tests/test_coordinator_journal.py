@@ -90,3 +90,55 @@ def test_record_payload_is_canonical_json(tmp_path: Path) -> None:
     length, payload = raw.rstrip(b"\n").split(b":", 1)
     assert int(length) == len(payload)
     assert payload == json.dumps({"a": 2, "z": 1}, separators=(",", ":"), sort_keys=True).encode()
+
+
+def test_append_command_allocates_sequence_and_is_idempotent(tmp_path: Path) -> None:
+    journal = CoordinatorJournal(tmp_path / "commands.journal")
+
+    first, first_appended = journal.append_command(
+        run_id="run-1",
+        event_type="run.started",
+        payload={"status": "active", "max_workers": 6},
+        actor={"type": "coordinator", "id": "coordinator-1"},
+        idempotency_key="start-run-1",
+        occurred_at="2026-07-12T22:00:00-04:00",
+    )
+    duplicate, duplicate_appended = journal.append_command(
+        run_id="run-1",
+        event_type="run.started",
+        payload={"status": "active", "max_workers": 6},
+        actor={"type": "coordinator", "id": "coordinator-1"},
+        idempotency_key="start-run-1",
+        occurred_at="2026-07-12T22:00:00-04:00",
+    )
+    second, second_appended = journal.append_command(
+        run_id="run-1",
+        event_type="slice.proposed",
+        payload={"slice_id": "ADC-001", "status": "proposed"},
+        actor={"type": "coordinator", "id": "coordinator-1"},
+        idempotency_key="propose-ADC-001",
+        occurred_at="2026-07-12T22:01:00-04:00",
+    )
+
+    assert first_appended is True
+    assert duplicate_appended is False
+    assert duplicate == first
+    assert second_appended is True
+    assert second.sequence == 2
+    assert second.prior_hash == first.event_hash
+    assert journal.read_events(run_id="run-1") == [first, second]
+
+
+def test_append_command_rejects_idempotency_key_reuse_with_different_payload(tmp_path: Path) -> None:
+    journal = CoordinatorJournal(tmp_path / "commands.journal")
+    common = {
+        "run_id": "run-1",
+        "event_type": "run.started",
+        "actor": {"type": "coordinator", "id": "coordinator-1"},
+        "idempotency_key": "start-run-1",
+        "occurred_at": "2026-07-12T22:00:00-04:00",
+    }
+    journal.append_command(payload={"status": "active", "max_workers": 6}, **common)
+
+    with pytest.raises(ValueError, match="idempotency key"):
+        journal.append_command(payload={"status": "blocked", "max_workers": 6}, **common)

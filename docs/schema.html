@@ -45,6 +45,18 @@
       source claims plus provenance linking it back to those claims. Accepted clinical
       guidance must also include reviewer metadata.</p>
     </section>
+    <section id="coordinator-runtime-schema">
+      <h2>Coordinator Runtime Schema</h2>
+      <p>Schema version 2 projects the hash-chained coordinator journal into one canonical queue.
+      It includes slices, assignments, workers, content-addressed worker reports, runtime
+      observations, provenance-qualified resource measurements, memory dispositions, validations,
+      supervision, incidents, capability activity, and completion evaluations. Legacy version 1
+      event streams remain byte-equivalent until a version 2 event is appended.</p>
+      <p>Worker assignments, context, results, reports, and admission decisions are strict
+      content-addressed packets. Runtime freshness is <code>live</code>, <code>checkpoint</code>,
+      <code>stale</code>, or <code>unavailable</code>; measurement quality is <code>exact</code>,
+      <code>estimated</code>, <code>unknown</code>, or <code>unavailable</code>.</p>
+    </section>
 
   </article>
 </body>

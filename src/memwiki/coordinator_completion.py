@@ -71,6 +71,14 @@ class CompletionCondition:
 class CompletionResult:
     complete: bool
     conditions: Tuple[CompletionCondition, ...]
+    advisory_ids: Tuple[str, ...] = ()
+
+    @property
+    def disposition(self) -> str:
+        """Return the only two successful terminal dispositions."""
+        if not self.complete:
+            return "incomplete"
+        return "complete-with-advisories" if self.advisory_ids else "complete"
 
     @property
     def failed_conditions(self) -> Tuple[str, ...]:
@@ -107,9 +115,13 @@ def _condition(condition_id: str, problems: Sequence[str]) -> CompletionConditio
     return CompletionCondition(condition_id, not problems, tuple(sorted(problems)))
 
 
+def _final_revision(snapshot: Mapping[str, Any]) -> object:
+    return snapshot.get("final_revision", snapshot.get("current_revision"))
+
+
 def _required_work(snapshot: Mapping[str, Any]) -> CompletionCondition:
     problems = []
-    revision = snapshot.get("current_revision")
+    revision = _final_revision(snapshot)
     slices = _mapping(snapshot.get("slices"))
     if not slices:
         problems.append("no required slices are recorded")
@@ -154,9 +166,37 @@ def _mandatory_resolved(snapshot: Mapping[str, Any]) -> CompletionCondition:
     return _condition("mandatory_items_resolved", problems)
 
 
+def _active_leases_cleared(snapshot: Mapping[str, Any]) -> CompletionCondition:
+    problems = []
+    for collection in ("active_leases", "leases"):
+        for raw in _sequence(snapshot.get(collection)):
+            item = _mapping(raw)
+            if collection == "active_leases" or item.get("status") in {"offered", "active"}:
+                identifier = item.get("assignment_id", item.get("lease_id", "unknown"))
+                problems.append(f"{collection}:{identifier} remains live")
+    return _condition("active_leases_cleared", problems)
+
+
+def _worker_reports_disposed(snapshot: Mapping[str, Any]) -> CompletionCondition:
+    problems = []
+    revision = _final_revision(snapshot)
+    reports = _sequence(snapshot.get("worker_reports", snapshot.get("reports", ())))
+    terminal = {"integrated", "rejected", "superseded", "preserved"}
+    for raw in reports:
+        report = _mapping(raw)
+        report_id = report.get("report_id", "unknown")
+        if report.get("disposition") not in terminal:
+            problems.append(f"worker report {report_id} lacks a terminal disposition")
+        if not report.get("evidence_id"):
+            problems.append(f"worker report {report_id} lacks evidence")
+        if "revision" in report and report.get("revision") != revision:
+            problems.append(f"worker report {report_id} is not bound to the final revision")
+    return _condition("worker_reports_disposed", problems)
+
+
 def _validation_gates(snapshot: Mapping[str, Any]) -> CompletionCondition:
     gates = _mapping(snapshot.get("validation_gates"))
-    revision = snapshot.get("current_revision")
+    revision = _final_revision(snapshot)
     problems = []
     for name in REQUIRED_VALIDATION_GATES:
         gate = _mapping(gates.get(name))
@@ -179,6 +219,20 @@ def _boolean_condition(
     return _condition(condition_id, problems)
 
 
+def _git_state_matches(snapshot: Mapping[str, Any]) -> CompletionCondition:
+    final_git = _mapping(snapshot.get("final_git"))
+    problems = [
+        f"final_git.{field} is not true"
+        for field in ("local_matches", "remote_matches")
+        if final_git.get(field) is not True
+    ]
+    if final_git.get("revision") != _final_revision(snapshot):
+        problems.append("final git state is not bound to the final revision")
+    if not final_git.get("evidence_id"):
+        problems.append("final git state lacks evidence")
+    return _condition("git_state_matches", problems)
+
+
 def _residuals(snapshot: Mapping[str, Any]) -> CompletionCondition:
     values = _mapping(snapshot.get("residuals"))
     problems = []
@@ -191,9 +245,72 @@ def _residuals(snapshot: Mapping[str, Any]) -> CompletionCondition:
     return _condition("no_residual_runtime_or_sensitive_data", problems)
 
 
+def _runtime_reconciled(snapshot: Mapping[str, Any]) -> CompletionCondition:
+    runtime = _mapping(snapshot.get("runtime"))
+    if not runtime:
+        # The original completion schema splits runtime reconciliation between
+        # journal, budgets, and residual scans. Keep that payload valid.
+        return _condition("runtime_reconciled", ())
+    problems = [
+        f"runtime.{field} is not true"
+        for field in ("reconciled", "workers_reconciled", "effects_reconciled")
+        if runtime.get(field) is not True
+    ]
+    if not runtime.get("evidence_id"):
+        problems.append("runtime lacks evidence")
+    return _condition("runtime_reconciled", problems)
+
+
+def _memory_dispositions_terminal(snapshot: Mapping[str, Any]) -> CompletionCondition:
+    values = _sequence(snapshot.get("memory_dispositions"))
+    terminal = {"applied", "no_change", "rejected", "superseded", "advisory"}
+    problems = []
+    for raw in values:
+        item = _mapping(raw)
+        identifier = item.get("id", item.get("slice_id", "unknown"))
+        if item.get("disposition") not in terminal:
+            problems.append(f"memory disposition {identifier} is not terminal")
+        if not item.get("evidence_id"):
+            problems.append(f"memory disposition {identifier} lacks evidence")
+    return _condition("memory_dispositions_terminal", problems)
+
+
+def _sha_parity(snapshot: Mapping[str, Any]) -> CompletionCondition:
+    parity = _mapping(snapshot.get("sha_parity"))
+    if not parity:
+        return _condition("sha_parity", ())
+    revision = _final_revision(snapshot)
+    problems = []
+    for field in ("local_matches", "remote_matches", "artifacts_match"):
+        if parity.get(field) is not True:
+            problems.append(f"sha_parity.{field} is not true")
+    if parity.get("revision") != revision:
+        problems.append("sha parity is not bound to the final revision")
+    if not parity.get("evidence_id"):
+        problems.append("sha parity lacks evidence")
+    return _condition("sha_parity", problems)
+
+
+def _advisory_ids(snapshot: Mapping[str, Any]) -> Tuple[str, ...]:
+    advisories = []
+    for collection in ("blockers", "supervision"):
+        for raw in _sequence(snapshot.get(collection)):
+            item = _mapping(raw)
+            if item.get("status") in {"resolved", "superseded"}:
+                continue
+            advisory = item.get("mandatory") is False or item.get("category") == "advisory"
+            if advisory:
+                advisories.append(f"{collection}:{item.get('id', item.get('item_id', 'unknown'))}")
+    for raw in _sequence(snapshot.get("memory_dispositions")):
+        item = _mapping(raw)
+        if item.get("disposition") == "advisory":
+            advisories.append(f"memory:{item.get('id', item.get('slice_id', 'unknown'))}")
+    return tuple(sorted(set(advisories)))
+
+
 def _projections(snapshot: Mapping[str, Any]) -> CompletionCondition:
     projections = _mapping(snapshot.get("projections"))
-    revision = snapshot.get("current_revision")
+    revision = _final_revision(snapshot)
     problems = []
     for name in REQUIRED_PROJECTIONS:
         projection = _mapping(projections.get(name))
@@ -250,6 +367,8 @@ def evaluate_completion(snapshot: Mapping[str, Any]) -> CompletionResult:
         _required_work(snapshot),
         _queue_drained(snapshot),
         _mandatory_resolved(snapshot),
+        _active_leases_cleared(snapshot),
+        _worker_reports_disposed(snapshot),
         _validation_gates(snapshot),
         _boolean_condition(
             snapshot,
@@ -257,14 +376,12 @@ def evaluate_completion(snapshot: Mapping[str, Any]) -> CompletionResult:
             "journal",
             ("verified", "projection_rebuilt", "rebuild_matches"),
         ),
-        _boolean_condition(
-            snapshot,
-            "git_state_matches",
-            "final_git",
-            ("local_matches", "remote_matches"),
-        ),
+        _git_state_matches(snapshot),
         _boolean_condition(snapshot, "budgets_reconciled", "budgets", ("reconciled",)),
+        _runtime_reconciled(snapshot),
         _residuals(snapshot),
+        _memory_dispositions_terminal(snapshot),
+        _sha_parity(snapshot),
         _boolean_condition(
             snapshot,
             "plugin_verified",
@@ -274,7 +391,9 @@ def evaluate_completion(snapshot: Mapping[str, Any]) -> CompletionResult:
         _projections(snapshot),
         _evidence_complete(snapshot),
     )
-    return CompletionResult(all(item.passed for item in conditions), conditions)
+    return CompletionResult(
+        all(item.passed for item in conditions), conditions, advisory_ids=_advisory_ids(snapshot)
+    )
 
 
 def create_completion_manifest(snapshot: Mapping[str, Any]) -> Dict[str, object]:
@@ -290,6 +409,8 @@ def create_completion_manifest(snapshot: Mapping[str, Any]) -> Dict[str, object]
         "run_id": snapshot.get("run_id"),
         "objective": snapshot.get("objective"),
         "complete": True,
+        "disposition": result.disposition,
+        "advisory_ids": list(result.advisory_ids),
         "conditions": [item.to_dict() for item in result.conditions],
         "evidence_snapshot": frozen_snapshot,
     }
@@ -315,4 +436,8 @@ def verify_completion_manifest(manifest: Mapping[str, Any]) -> CompletionResult:
         raise CompletionEvidenceError("manifest condition results do not reconstruct")
     if manifest.get("run_id") != snapshot.get("run_id") or manifest.get("objective") != snapshot.get("objective"):
         raise CompletionEvidenceError("manifest identity does not match evidence")
+    if manifest.get("disposition") != reconstructed.disposition:
+        raise CompletionEvidenceError("manifest disposition does not reconstruct")
+    if manifest.get("advisory_ids") != list(reconstructed.advisory_ids):
+        raise CompletionEvidenceError("manifest advisories do not reconstruct")
     return reconstructed

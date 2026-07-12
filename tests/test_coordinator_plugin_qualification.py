@@ -51,7 +51,13 @@ def _plugin(root: Path) -> Path:
         encoding="utf-8",
     )
     (root / "scripts" / "coordinator.py").write_text(
-        "PLUGIN_IMMUTABLE = True\nCOMPUTER_USE_REQUIRES_SUPERVISION = True\n",
+        "PLUGIN_IMMUTABLE = True\nCOMPUTER_USE_REQUIRES_SUPERVISION = True\n"
+        "Host runtime observations require freshness.\n"
+        "Measurements preserve exact estimated, unknown, and unavailable semantics; never estimate.\n"
+        "Durable worker packet obligations are mandatory.\n"
+        "The canonical queue is the single source of truth.\n"
+        "Completion coherence is required.\n"
+        "Recovery qualification references coordinator_recovery.\n",
         encoding="utf-8",
     )
     (root / "scripts" / "start_project.py").write_text(
@@ -86,6 +92,7 @@ def test_qualification_runs_all_archetypes_and_adversarial_checks(tmp_path: Path
     assert any(case.case_id == "natural-language-start-routing" for case in result.cases)
     assert any(case.case_id == "executable-intake-recovery" for case in result.cases)
     assert any(case.case_id == "adaptive-model-reasoning-routing" for case in result.cases)
+    assert any(case.case_id == "adc-refinement-contracts" for case in result.cases)
     assert result.qualification_id.startswith("sha256:")
     assert type(result).from_dict(result.to_dict()) == result
 
@@ -127,6 +134,31 @@ def test_ambiguous_start_project_front_door_fails_routing_readiness(tmp_path: Pa
     routing = next(case for case in result.cases if case.case_id == "natural-language-start-routing")
     assert routing.passed is False
     assert "missing concepts" in routing.details
+
+
+@pytest.mark.parametrize(
+    "obligation",
+    [
+        "Host runtime observations",
+        "freshness",
+        "never estimate",
+        "Durable worker packet",
+        "canonical queue",
+        "Completion coherence",
+        "Recovery qualification",
+    ],
+)
+def test_missing_adc_refinement_obligation_fails_qualification(tmp_path: Path, obligation: str) -> None:
+    source = _plugin(tmp_path / "source")
+    installed = _plugin(tmp_path / "installed")
+    coordinator = installed / "scripts" / "coordinator.py"
+    coordinator.write_text(coordinator.read_text(encoding="utf-8").replace(obligation, "removed"), encoding="utf-8")
+
+    result = PluginQualificationHarness(source, installed).run()
+
+    adc = next(case for case in result.cases if case.case_id == "adc-refinement-contracts")
+    assert adc.passed is False
+    assert "missing contracts" in adc.details
 
 
 def test_report_writer_confines_outputs_and_emits_json_and_semantic_html(tmp_path: Path) -> None:

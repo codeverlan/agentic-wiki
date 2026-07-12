@@ -7,6 +7,8 @@ from typing import Optional
 import typer
 
 from memwiki.coordinator_api import CoordinatorAPI
+from memwiki.coordinator_commands import CoordinatorCommandGateway
+from memwiki.coordinator_completion import evaluate_completion
 
 coordinator_app = typer.Typer(no_args_is_help=True)
 
@@ -15,6 +17,27 @@ def _api() -> CoordinatorAPI:
     from memwiki.cli import state
 
     return CoordinatorAPI(state.wiki)
+
+
+def _gateway() -> CoordinatorCommandGateway:
+    from memwiki.cli import state
+
+    return CoordinatorCommandGateway(state.wiki.root)
+
+
+def _project_json(path: Path) -> dict[str, object]:
+    from memwiki.cli import state
+
+    root = state.wiki.root.resolve()
+    target = path.expanduser().resolve()
+    try:
+        target.relative_to(root)
+    except ValueError:
+        raise ValueError("coordinator input must remain inside the workspace") from None
+    value = json.loads(target.read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise ValueError("coordinator input must contain a JSON object")
+    return value
 
 
 def _emit(value: object) -> None:
@@ -76,6 +99,52 @@ def migrate() -> None:
 @coordinator_app.command("render")
 def render(output: Optional[Path] = typer.Option(None, "--output", "-o")) -> None:
     _invoke("render", lambda: _api().render(output=output))
+
+
+@coordinator_app.command("append-event")
+def append_event(
+    run_id: str = typer.Option(..., "--run-id"),
+    event_type: str = typer.Option(..., "--event-type"),
+    payload_json: str = typer.Option(..., "--payload-json"),
+    actor_id: str = typer.Option(..., "--actor-id"),
+    idempotency_key: str = typer.Option(..., "--idempotency-key"),
+    actor_type: str = typer.Option("coordinator", "--actor-type"),
+    occurred_at: Optional[str] = typer.Option(None, "--occurred-at"),
+) -> None:
+    def command() -> object:
+        payload = json.loads(payload_json)
+        if not isinstance(payload, dict):
+            raise ValueError("payload-json must contain an object")
+        return _gateway().append(
+            run_id=run_id,
+            event_type=event_type,
+            payload=payload,
+            actor={"type": actor_type, "id": actor_id},
+            idempotency_key=idempotency_key,
+            occurred_at=occurred_at,
+        ).to_dict()
+
+    _invoke("append-event", command)
+
+
+@coordinator_app.command("projection")
+def projection(run_id: str = typer.Option(..., "--run-id")) -> None:
+    _invoke("projection", lambda: _gateway().status(run_id=run_id).to_dict())
+
+
+@coordinator_app.command("completion-evaluate")
+def completion_evaluate(evidence: Path = typer.Option(..., "--evidence")) -> None:
+    def evaluate() -> object:
+        result = evaluate_completion(_project_json(evidence))
+        return {
+            "complete": result.complete,
+            "disposition": result.disposition,
+            "advisory_ids": list(result.advisory_ids),
+            "failed_conditions": list(result.failed_conditions),
+            "conditions": [condition.to_dict() for condition in result.conditions],
+        }
+
+    _invoke("completion-evaluate", evaluate)
 
 
 __all__ = ["coordinator_app"]

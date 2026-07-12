@@ -28,6 +28,12 @@ CLI_COMMANDS = [
     "agentic-wiki lint",
     "agentic-wiki docs check",
     "agentic-wiki docs draft",
+    (
+        "agentic-wiki coordinator append-event --run-id <id> --event-type <type> "
+        "--payload-json <json> --actor-id <id> --idempotency-key <key>"
+    ),
+    "agentic-wiki coordinator projection --run-id <id>",
+    "agentic-wiki coordinator completion-evaluate --evidence <file>",
     "agentic-wiki agent render-run-state <queue.json> --output <run-state.html>",
     "agentic-wiki agent render-handoff-digest <queue.json> --output <handoff.html>",
     "agentic-wiki agent render-incident-log <incident-log.json> --output <incident-log.html>",
@@ -307,6 +313,10 @@ def render_operations_doc() -> str:
       <p>The content-addressed result can be written as machine-readable JSON and standalone semantic
       HTML. Qualification failure is distinct from repository unit-test failure and should block a
       plugin release while leaving unrelated project slices available.</p>
+      <p>ADC refinement qualification additionally requires canonical queue authority, durable
+      worker packets, host-runtime freshness, explicit measurement quality, cross-artifact
+      completion coherence, and interruption recovery covering stale leases, late reports,
+      idempotent replay, and independent-slice continuation.</p>
     </section>
     <section id="project-intake-runtime">
       <h2>Project Intake Runtime</h2>
@@ -380,6 +390,18 @@ def render_schema_doc(workspace: Workspace) -> str:
       guidance uses <code>clinical_claim_type=clinical_guidance</code> and must carry cited
       source claims plus provenance linking it back to those claims. Accepted clinical
       guidance must also include reviewer metadata.</p>
+    </section>
+    <section id="coordinator-runtime-schema">
+      <h2>Coordinator Runtime Schema</h2>
+      <p>Schema version 2 projects the hash-chained coordinator journal into one canonical queue.
+      It includes slices, assignments, workers, content-addressed worker reports, runtime
+      observations, provenance-qualified resource measurements, memory dispositions, validations,
+      supervision, incidents, capability activity, and completion evaluations. Legacy version 1
+      event streams remain byte-equivalent until a version 2 event is appended.</p>
+      <p>Worker assignments, context, results, reports, and admission decisions are strict
+      content-addressed packets. Runtime freshness is <code>live</code>, <code>checkpoint</code>,
+      <code>stale</code>, or <code>unavailable</code>; measurement quality is <code>exact</code>,
+      <code>estimated</code>, <code>unknown</code>, or <code>unavailable</code>.</p>
     </section>
 """
     return render_page(

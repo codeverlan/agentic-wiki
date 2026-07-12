@@ -225,6 +225,7 @@ class PluginQualificationHarness:
             self._start_routing_case(),
             self._executable_intake_case(),
             self._adaptive_model_routing_case(),
+            self._adc_refinement_case(),
             QualificationCase.create(
                 "installed-cache-parity",
                 source_files == installed_files,
@@ -368,6 +369,29 @@ class PluginQualificationHarness:
             passed,
             "neutral host-aware routing selected the lowest safe route" if passed else "routing bundle is incomplete",
             {"script": script.is_file(), "contract": contract_valid, "decision": decision.to_dict()},
+        )
+
+    def _adc_refinement_case(self) -> QualificationCase:
+        text = self._combined_text()
+        requirements = {
+            "host runtime observations and freshness": "host runtime observations" in text and "freshness" in text,
+            "exact estimated unknown unavailable measurement semantics": all(
+                phrase in text for phrase in ("estimated", "unknown", "unavailable", "never estimate")
+            ),
+            "durable worker packet obligations": "durable worker packet" in text and "obligation" in text,
+            "canonical queue authority": "canonical queue" in text and "single source of truth" in text,
+            "completion coherence": "completion coherence" in text,
+            "real recovery qualification references": "recovery qualification" in text
+            and "coordinator_recovery" in text,
+        }
+        missing = tuple(label for label, present in requirements.items() if not present)
+        return QualificationCase.create(
+            "adc-refinement-contracts",
+            not missing,
+            "ADC refinement contracts are documented"
+            if not missing
+            else "missing contracts: " + ", ".join(missing),
+            requirements,
         )
     def _immutability_case(self, before: str) -> QualificationCase:
         after, _ = _tree_digest(self.source_root)

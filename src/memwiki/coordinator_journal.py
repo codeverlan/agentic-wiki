@@ -3,6 +3,7 @@ from __future__ import annotations
 import fcntl
 import json
 import os
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -37,6 +38,69 @@ class CoordinatorJournal:
 
     def append_event(self, event: CoordinatorEvent) -> None:
         self.append_record(event.to_dict())
+
+    def append_command(
+        self,
+        *,
+        run_id: str,
+        event_type: str,
+        payload: Dict[str, Any],
+        actor: Dict[str, Any],
+        idempotency_key: str,
+        occurred_at: Optional[str] = None,
+        correlation_id: Optional[str] = None,
+        causation_id: Optional[str] = None,
+    ) -> Tuple[CoordinatorEvent, bool]:
+        """Atomically allocate and append the next event, or return its prior receipt."""
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        with self.lock_path.open("a+b") as lock_stream:
+            fcntl.flock(lock_stream.fileno(), fcntl.LOCK_EX)
+            try:
+                raw = self.path.read_bytes() if self.path.exists() else b""
+                records, error = self._scan(raw)
+                if error is not None:
+                    raise error
+                events = [CoordinatorEvent.from_dict(record) for record in records]
+                if events:
+                    verify_event_chain(events, run_id=run_id)
+                for existing in events:
+                    if existing.idempotency_key != idempotency_key:
+                        continue
+                    if (
+                        existing.run_id != run_id
+                        or existing.event_type != event_type
+                        or existing.payload != payload
+                        or existing.actor != actor
+                    ):
+                        raise ValueError("idempotency key was already used for a different command")
+                    return existing, False
+                sequence = len(events) + 1
+                event = CoordinatorEvent.create(
+                    run_id=run_id,
+                    sequence=sequence,
+                    projection_revision=sequence,
+                    event_type=event_type,
+                    payload=payload,
+                    actor=actor,
+                    idempotency_key=idempotency_key,
+                    prior_hash=events[-1].event_hash if events else None,
+                    occurred_at=occurred_at or datetime.now(timezone.utc).isoformat(),
+                    correlation_id=correlation_id,
+                    causation_id=causation_id,
+                )
+                framed = _encode_record(event.to_dict())
+                descriptor = os.open(self.path, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o600)
+                try:
+                    written = 0
+                    while written < len(framed):
+                        written += os.write(descriptor, framed[written:])
+                    os.fsync(descriptor)
+                finally:
+                    os.close(descriptor)
+                self._sync_parent()
+                return event, True
+            finally:
+                fcntl.flock(lock_stream.fileno(), fcntl.LOCK_UN)
 
     def append_record(self, record: Dict[str, Any]) -> None:
         framed = _encode_record(record)

@@ -181,6 +181,17 @@ def test_required_slice_evaluation_must_pass_at_final_revision() -> None:
     assert "required_work_integrated" in evaluate_completion(snapshot).failed_conditions
 
 
+def test_final_revision_alias_binds_validation_and_git_proof() -> None:
+    snapshot = _snapshot()
+    snapshot["final_revision"] = "commit-final"
+    snapshot.pop("current_revision")
+    assert evaluate_completion(snapshot).complete is True
+    final_git = snapshot["final_git"]
+    assert isinstance(final_git, dict)
+    final_git["revision"] = "other-commit"
+    assert "git_state_matches" in evaluate_completion(snapshot).failed_conditions
+
+
 def test_tests_must_pass_at_integrated_revision_and_all_gate_names_are_required() -> None:
     snapshot = _snapshot()
     gates = snapshot["validation_gates"]
@@ -258,3 +269,43 @@ def test_phase_or_milestone_flags_cannot_substitute_for_predicate() -> None:
     assert isinstance(queue, dict)
     queue["waiting_resolvable"] = ["AC-002"]
     assert evaluate_completion(snapshot).complete is False
+
+
+def test_coherence_checks_reports_leases_runtime_memory_and_sha_parity() -> None:
+    snapshot = _snapshot()
+    snapshot["worker_reports"] = [{"report_id": "r-1", "disposition": "integrated", "evidence_id": "e-1"}]
+    snapshot["active_leases"] = []
+    snapshot["runtime"] = {
+        "reconciled": True,
+        "workers_reconciled": True,
+        "effects_reconciled": True,
+        "evidence_id": "e-2",
+    }
+    snapshot["memory_dispositions"] = [{"id": "m-1", "disposition": "no_change", "evidence_id": "e-3"}]
+    snapshot["sha_parity"] = {
+        "revision": "commit-final",
+        "local_matches": True,
+        "remote_matches": True,
+        "artifacts_match": True,
+        "evidence_id": "e-4",
+    }
+    assert evaluate_completion(snapshot).complete is True
+
+    snapshot["active_leases"] = [{"lease_id": "lease-1"}]
+    assert "active_leases_cleared" in evaluate_completion(snapshot).failed_conditions
+    snapshot["active_leases"] = []
+    reports = snapshot["worker_reports"]
+    assert isinstance(reports, list) and isinstance(reports[0], dict)
+    reports[0]["disposition"] = "received"
+    assert "worker_reports_disposed" in evaluate_completion(snapshot).failed_conditions
+
+
+def test_complete_with_advisories_is_successful_and_is_manifest_bound() -> None:
+    snapshot = _snapshot()
+    snapshot["blockers"] = [{"id": "future-1", "status": "open", "mandatory": False}]
+    result = evaluate_completion(snapshot)
+    assert result.complete is True
+    assert result.disposition == "complete-with-advisories"
+    manifest = create_completion_manifest(snapshot)
+    assert manifest["disposition"] == "complete-with-advisories"
+    assert verify_completion_manifest(manifest).advisory_ids == ("blockers:future-1",)

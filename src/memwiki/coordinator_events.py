@@ -11,6 +11,42 @@ class EventChainError(ValueError):
     """Raised when a coordinator event stream fails integrity verification."""
 
 
+SUPPORTED_COORDINATOR_EVENT_TYPES = frozenset(
+    {
+        "run.started",
+        "run.status_changed",
+        "run.completed",
+        "slice.registered",
+        "slice.ready",
+        "slice.started",
+        "slice.updated",
+        "slice.status_changed",
+        "slice.proposed",
+        "slice.admitted",
+        "slice.assigned",
+        "slice.transitioned",
+        "worker.started",
+        "worker.heartbeat",
+        "worker.reported",
+        "worker.released",
+        "runtime.observed",
+        "resource.observed",
+        "memory.proposed",
+        "memory.dispositioned",
+        "validation.recorded",
+        "completion.evaluated",
+        "supervision.requested",
+        "supervision.dispositioned",
+        "incident.recorded",
+        "capability.recorded",
+        "external.succeeded",
+        "test.event",
+        "blocker.recorded",
+        "stop.requested",
+    }
+)
+
+
 def _canonical_json(value: object) -> bytes:
     try:
         return json.dumps(
@@ -88,6 +124,9 @@ class CoordinatorEvent:
     ) -> "CoordinatorEvent":
         if sequence < 1 or projection_revision < 1:
             raise ValueError("sequence and projection_revision must be positive integers")
+        normalized_event_type = _required_string(event_type, "event_type")
+        if normalized_event_type not in SUPPORTED_COORDINATOR_EVENT_TYPES:
+            raise ValueError(f"unsupported coordinator event type: {normalized_event_type}")
         timestamp = _timestamp(occurred_at or datetime.now(timezone.utc).isoformat())
         normalized_payload = json.loads(_canonical_json(payload))
         normalized_actor = json.loads(_canonical_json(actor))
@@ -97,7 +136,7 @@ class CoordinatorEvent:
             "run_id": _required_string(run_id, "run_id"),
             "sequence": sequence,
             "event_id": _required_string(event_id or f"{run_id}:{sequence}", "event_id"),
-            "event_type": _required_string(event_type, "event_type"),
+            "event_type": normalized_event_type,
             "occurred_at": timestamp,
             "idempotency_key": _required_string(idempotency_key, "idempotency_key"),
             "correlation_id": _optional_string(correlation_id, "correlation_id"),
@@ -139,6 +178,8 @@ def _validate_event_shape(event: CoordinatorEvent) -> None:
         raise ValueError("projection_revision must be a positive integer")
     for field in ["run_id", "event_id", "event_type", "idempotency_key", "payload_hash", "event_hash"]:
         _required_string(getattr(event, field), field)
+    if event.event_type not in SUPPORTED_COORDINATOR_EVENT_TYPES:
+        raise ValueError(f"unsupported coordinator event type: {event.event_type}")
     _timestamp(event.occurred_at)
     _canonical_json(event.actor)
     _canonical_json(event.payload)

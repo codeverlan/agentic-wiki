@@ -120,6 +120,7 @@ Today it can:
 - check and draft documentation updates
 - render and draft provider-agnostic agent-development run-state pages from machine-readable slice queues, including queue-advertised human review artifacts, four-lane status summaries, worker lease heartbeats, handoff digests for stops, compaction risk, stale leases, and user-return checkpoints, and PHI-aware incident/exception logs for abnormal coordinator events
 - validate typed agent-memory events and worker proposals, preserve them as immutable source-backed drafts, compile bounded active-record context, assess explicit relationship impact, and carry project-local PHI-aware design references and visual variance contracts through the agent-development coordinator plugin
+- append validated coordinator events through an atomic idempotent command gateway, rebuild a schema-v2 canonical queue, preserve content-addressed worker packets and host-runtime freshness, qualify resource measurements, and reject cross-artifact completion contradictions
 
 The important part is not the command names. The important part is the workflow: preserve sources, generate drafts, validate them, promote accepted knowledge, and keep the result readable by both people and agents.
 
