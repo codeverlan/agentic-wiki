@@ -49,7 +49,7 @@ REQUIRED_ARCHETYPES = (
     "phi-unknown",
     "phi-enabled",
 )
-_IGNORED_PARTS = {"__pycache__", ".DS_Store"}
+_IGNORED_PARTS = {".git", "__pycache__", ".DS_Store"}
 
 
 class QualificationStatus(str, Enum):

@@ -57,6 +57,8 @@ def _plugin(root: Path) -> Path:
 
 def test_qualification_runs_all_archetypes_and_adversarial_checks(tmp_path: Path) -> None:
     source = _plugin(tmp_path / "source")
+    (source / ".git").mkdir()
+    (source / ".git" / "config").write_text("source-control metadata", encoding="utf-8")
     installed = tmp_path / "installed"
     installed.mkdir()
     for path in source.rglob("*"):
