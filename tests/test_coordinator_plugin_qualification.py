@@ -20,12 +20,20 @@ def _plugin(root: Path) -> Path:
         "agent-dev-eval-routing",
         "agent-dev-intake-preflight",
         "agent-dev-memory-steward",
+        "agent-dev-start-project",
         "agent-dev-status-handoff",
     ):
         path = root / "skills" / skill
         path.mkdir(parents=True)
+        body = f"---\nname: {skill}\ndescription: Qualification fixture skill.\n---\n# {skill}\n"
+        if skill == "agent-dev-start-project":
+            body += (
+                "Start building new software from scratch, from an existing PRD, or from partial resources. "
+                "Ask one focused question at a time. Ask whether the application handles PHI. "
+                "Transition automatically to implementation readiness and continuous coordination.\n"
+            )
         (path / "SKILL.md").write_text(
-            f"---\nname: {skill}\ndescription: Qualification fixture skill.\n---\n# {skill}\n",
+            body,
             encoding="utf-8",
         )
     (root / ".codex-plugin" / "plugin.json").write_text(
@@ -63,6 +71,7 @@ def test_qualification_runs_all_archetypes_and_adversarial_checks(tmp_path: Path
     assert result.status is QualificationStatus.PASSED
     assert set(result.archetypes) == set(REQUIRED_ARCHETYPES)
     assert all(case.passed for case in result.cases)
+    assert any(case.case_id == "natural-language-start-routing" for case in result.cases)
     assert result.qualification_id.startswith("sha256:")
     assert type(result).from_dict(result.to_dict()) == result
 
@@ -91,6 +100,19 @@ def test_missing_required_skill_fails_discovery(tmp_path: Path) -> None:
     discovery = next(case for case in result.cases if case.case_id == "skill-discovery")
     assert discovery.passed is False
     assert "agent-dev-eval-routing" in discovery.details
+
+
+def test_ambiguous_start_project_front_door_fails_routing_readiness(tmp_path: Path) -> None:
+    source = _plugin(tmp_path / "source")
+    installed = _plugin(tmp_path / "installed")
+    skill = installed / "skills" / "agent-dev-start-project" / "SKILL.md"
+    skill.write_text("---\nname: agent-dev-start-project\ndescription: Start.\n---\n", encoding="utf-8")
+
+    result = PluginQualificationHarness(source, installed).run()
+
+    routing = next(case for case in result.cases if case.case_id == "natural-language-start-routing")
+    assert routing.passed is False
+    assert "missing concepts" in routing.details
 
 
 def test_report_writer_confines_outputs_and_emits_json_and_semantic_html(tmp_path: Path) -> None:

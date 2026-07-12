@@ -12,25 +12,31 @@
     {
       "case_id": "plugin-manifest",
       "details": "manifest is valid",
-      "evidence_id": "sha256:637362bf32b278c849879949bf526da431baffdd1282da5faddc06b3a3c2123f",
+      "evidence_id": "sha256:a27aefc3b4708936f8a86648121523492133c0282603d09140433ec89d2a0580",
       "passed": true
     },
     {
       "case_id": "skill-discovery",
       "details": "all required skills are present",
-      "evidence_id": "sha256:bc83bb39348ad22708d14750319f6be642dbcf0179f3276c607a1929c9e3899b",
+      "evidence_id": "sha256:f3915854a0499dd1b0270d2ee378956ccc43501abc209a14522d0619734b9ff5",
+      "passed": true
+    },
+    {
+      "case_id": "natural-language-start-routing",
+      "details": "front door covers all start paths and handoff rules",
+      "evidence_id": "sha256:7f15bbbad39c31b4afd8004bb99c3d938b71154c23a87f0f9e5269467a50e867",
       "passed": true
     },
     {
       "case_id": "installed-cache-parity",
       "details": "source and installed file hashes match",
-      "evidence_id": "sha256:859c006f8499b8cbee18ae862f035a9d70a0919d084d7773be4c1946614b3523",
+      "evidence_id": "sha256:0c9d0e3db7c76cbc9ca320ce6b05c99cf1e82b75bfa02f93b35f8a13203246c7",
       "passed": true
     },
     {
       "case_id": "plugin-immutability",
       "details": "source digest remained unchanged during qualification",
-      "evidence_id": "sha256:f3c7cfa2508f81ac21a9febb0f6ebbc9169d8ec30f1a4a6fae844f1fd85a325b",
+      "evidence_id": "sha256:1480258186dfc2f23949f376b4cc7b087c4cfa1674391db4ccb2f06aa531c901",
       "passed": true
     },
     {
@@ -100,10 +106,10 @@
       "passed": true
     }
   ],
-  "installed_digest": "sha256:641603fe428572d47fd9f895640d3cedfb2faa36e92ab624b2d4948258dba361",
+  "installed_digest": "sha256:5dec7511e0c7808945917666d93643da732e4ad84db1910242c917bb7d4ada44",
   "plugin_name": "agent-development-coordinator",
-  "plugin_version": "0.1.0+codex.20260711190030",
-  "qualification_id": "sha256:2d5945485b5f210b0e0b4260962bd916c5c59096a28039573d9195285634e3fe",
-  "source_digest": "sha256:641603fe428572d47fd9f895640d3cedfb2faa36e92ab624b2d4948258dba361",
+  "plugin_version": "0.1.0+codex.20260712020300",
+  "qualification_id": "sha256:6df795c0781a74278f51453da33d57d73ec2c228a003cafaa8bd443a37042988",
+  "source_digest": "sha256:5dec7511e0c7808945917666d93643da732e4ad84db1910242c917bb7d4ada44",
   "status": "passed"
 }

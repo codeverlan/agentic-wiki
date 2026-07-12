@@ -37,6 +37,7 @@ REQUIRED_SKILLS = (
     "agent-dev-eval-routing",
     "agent-dev-intake-preflight",
     "agent-dev-memory-steward",
+    "agent-dev-start-project",
     "agent-dev-status-handoff",
 )
 REQUIRED_ARCHETYPES = (
@@ -212,6 +213,7 @@ class PluginQualificationHarness:
         cases = [
             manifest_case,
             self._skill_case(),
+            self._start_routing_case(),
             QualificationCase.create(
                 "installed-cache-parity",
                 source_files == installed_files,
@@ -279,6 +281,28 @@ class PluginQualificationHarness:
             {"required": REQUIRED_SKILLS, "missing": missing},
         )
 
+    def _start_routing_case(self) -> QualificationCase:
+        path = self.installed_root / "skills" / "agent-dev-start-project" / "SKILL.md"
+        text = path.read_text(encoding="utf-8", errors="replace").lower() if path.is_file() else ""
+        concepts = {
+            "new software": "new software" in text,
+            "from scratch": "from scratch" in text,
+            "existing specification": "existing" in text and ("prd" in text or "spec" in text),
+            "partial resources": "partial" in text and "resource" in text,
+            "one focused question": "one focused question" in text,
+            "phi gate": "phi" in text,
+            "automatic readiness transition": "automatically" in text and "readiness" in text,
+            "continuous coordination": "continuous coordin" in text,
+        }
+        missing = tuple(label for label, present in concepts.items() if not present)
+        return QualificationCase.create(
+            "natural-language-start-routing",
+            not missing,
+            "front door covers all start paths and handoff rules"
+            if not missing
+            else "missing concepts: " + ", ".join(missing),
+            concepts,
+        )
     def _immutability_case(self, before: str) -> QualificationCase:
         after, _ = _tree_digest(self.source_root)
         return QualificationCase.create(
