@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-07-12T15:30:00-04:00",
+  "agent_id": "019f5723-b508-7741-bfc8-d405bad4cb96",
+  "model": "gpt-5.6-luna",
+  "reasoning_effort": "low",
+  "prompt": "I want to start developing new software. Guide me from here.",
+  "expected_skill": "agent-dev-start-project",
+  "observed_skill": "agent-dev-start-project",
+  "starting_paths": [
+    "existing PRD or specification",
+    "partial resources",
+    "from scratch"
+  ],
+  "first_question": "Do you have an existing PRD or software specification, partial resources, or would you like to start from scratch?",
+  "passed": true
+}

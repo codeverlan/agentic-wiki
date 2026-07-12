@@ -1,0 +1,90 @@
+{
+  "blocked": {
+    "faults": [],
+    "max_workers": 6,
+    "name": "synthetic-shiftboard-blocked-storage",
+    "seed": 67,
+    "slices": [
+      {
+        "depends_on": [],
+        "id": "storage-schema",
+        "owned_paths": ["src/shiftboard/storage"],
+        "worker_outcome": "blocked"
+      },
+      {
+        "depends_on": ["storage-schema"],
+        "id": "shift-api",
+        "owned_paths": ["src/shiftboard/api"],
+        "worker_outcome": "success"
+      },
+      {
+        "depends_on": [],
+        "id": "board-ui",
+        "owned_paths": ["src/shiftboard/board"],
+        "worker_outcome": "success"
+      },
+      {
+        "depends_on": [],
+        "id": "notifications",
+        "owned_paths": ["src/shiftboard/notifications"],
+        "worker_outcome": "success"
+      },
+      {
+        "depends_on": [],
+        "id": "audit-export",
+        "owned_paths": ["src/shiftboard/audit"],
+        "worker_outcome": "success"
+      },
+      {
+        "depends_on": [],
+        "id": "help-content",
+        "owned_paths": ["docs/shiftboard"],
+        "worker_outcome": "success"
+      }
+    ]
+  },
+  "recovered": {
+    "faults": [],
+    "max_workers": 6,
+    "name": "synthetic-shiftboard-recovered",
+    "seed": 67,
+    "slices": [
+      {
+        "depends_on": [],
+        "id": "storage-schema",
+        "owned_paths": ["src/shiftboard/storage"],
+        "worker_outcome": "success"
+      },
+      {
+        "depends_on": ["storage-schema"],
+        "id": "shift-api",
+        "owned_paths": ["src/shiftboard/api"],
+        "worker_outcome": "success"
+      },
+      {
+        "depends_on": [],
+        "id": "board-ui",
+        "owned_paths": ["src/shiftboard/board"],
+        "worker_outcome": "success"
+      },
+      {
+        "depends_on": [],
+        "id": "notifications",
+        "owned_paths": ["src/shiftboard/notifications"],
+        "worker_outcome": "success"
+      },
+      {
+        "depends_on": [],
+        "id": "audit-export",
+        "owned_paths": ["src/shiftboard/audit"],
+        "worker_outcome": "success"
+      },
+      {
+        "depends_on": [],
+        "id": "help-content",
+        "owned_paths": ["docs/shiftboard"],
+        "worker_outcome": "success"
+      }
+    ]
+  }
+}

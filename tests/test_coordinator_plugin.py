@@ -80,6 +80,20 @@ def test_immutable_snapshot_detects_plugin_mutation(tmp_path: Path) -> None:
         helper.assert_plugin_unchanged(plugin, snapshot)
 
 
+def test_immutable_snapshot_ignores_git_metadata(tmp_path: Path) -> None:
+    helper = _helper()
+    plugin = tmp_path / "plugin"
+    (plugin / ".git").mkdir(parents=True)
+    (plugin / "skill.md").write_text("stable", encoding="utf-8")
+    git_ref = plugin / ".git" / "HEAD"
+    git_ref.write_text("before", encoding="utf-8")
+    snapshot = helper.plugin_snapshot(plugin)
+
+    git_ref.write_text("after", encoding="utf-8")
+
+    helper.assert_plugin_unchanged(plugin, snapshot)
+
+
 def test_helpers_never_accept_credential_arguments() -> None:
     source = HELPER_PATH.read_text(encoding="utf-8")
     forbidden = ("--token", "--password", "--api-key", "credential_value")

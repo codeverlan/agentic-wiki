@@ -15,6 +15,7 @@ from memwiki.coordinator_plugin_qualification import (
 def _plugin(root: Path) -> Path:
     (root / ".codex-plugin").mkdir(parents=True)
     (root / "scripts").mkdir()
+    (root / "assets").mkdir()
     for skill in (
         "agent-dev-continuous-coordinator",
         "agent-dev-eval-routing",
@@ -30,7 +31,8 @@ def _plugin(root: Path) -> Path:
             body += (
                 "Start building new software from scratch, from an existing PRD, or from partial resources. "
                 "Ask one focused question at a time. Ask whether the application handles PHI. "
-                "Transition automatically to implementation readiness and continuous coordination.\n"
+                "Transition automatically to implementation readiness and continuous coordination. "
+                "Use scripts/start_project.py for initialize apply inspect resume readiness.\n"
             )
         (path / "SKILL.md").write_text(
             body,
@@ -50,6 +52,14 @@ def _plugin(root: Path) -> Path:
     )
     (root / "scripts" / "coordinator.py").write_text(
         "PLUGIN_IMMUTABLE = True\nCOMPUTER_USE_REQUIRES_SUPERVISION = True\n",
+        encoding="utf-8",
+    )
+    (root / "scripts" / "start_project.py").write_text(
+        "OPERATIONS = 'initialize apply inspect resume readiness'\n", encoding="utf-8"
+    )
+    (root / "scripts" / "route_model.py").write_text("ROUTING = True\n", encoding="utf-8")
+    (root / "assets" / "adaptive-model-routing-contract.json").write_text(
+        json.dumps({"tiers": {"narrow": {}, "implementation": {}, "frontier": {}}}),
         encoding="utf-8",
     )
     return root
@@ -74,6 +84,8 @@ def test_qualification_runs_all_archetypes_and_adversarial_checks(tmp_path: Path
     assert set(result.archetypes) == set(REQUIRED_ARCHETYPES)
     assert all(case.passed for case in result.cases)
     assert any(case.case_id == "natural-language-start-routing" for case in result.cases)
+    assert any(case.case_id == "executable-intake-recovery" for case in result.cases)
+    assert any(case.case_id == "adaptive-model-reasoning-routing" for case in result.cases)
     assert result.qualification_id.startswith("sha256:")
     assert type(result).from_dict(result.to_dict()) == result
 

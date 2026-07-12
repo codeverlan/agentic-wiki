@@ -30,6 +30,15 @@ from memwiki.coordinator_harness import (
     OrchestrationHarness,
     ScenarioSlice,
 )
+from memwiki.coordinator_model_routing import (
+    CapabilityTier,
+    HostCapabilityProfile,
+    ModelCapability,
+    ModelRoutingPolicy,
+    ModelRoutingRequirement,
+    ReasoningEffort,
+    route_model,
+)
 from memwiki.coordinator_privacy import DataProfile, PrivacyAction, PrivacyPolicy
 
 REQUIRED_SKILLS = (
@@ -214,6 +223,8 @@ class PluginQualificationHarness:
             manifest_case,
             self._skill_case(),
             self._start_routing_case(),
+            self._executable_intake_case(),
+            self._adaptive_model_routing_case(),
             QualificationCase.create(
                 "installed-cache-parity",
                 source_files == installed_files,
@@ -302,6 +313,61 @@ class PluginQualificationHarness:
             if not missing
             else "missing concepts: " + ", ".join(missing),
             concepts,
+        )
+
+    def _executable_intake_case(self) -> QualificationCase:
+        script = self.installed_root / "scripts" / "start_project.py"
+        skill = self.installed_root / "skills" / "agent-dev-start-project" / "SKILL.md"
+        text = skill.read_text(encoding="utf-8", errors="replace").lower() if skill.is_file() else ""
+        operations = tuple(
+            operation
+            for operation in ("initialize", "apply", "inspect", "resume", "readiness")
+            if operation in text
+        )
+        passed = script.is_file() and len(operations) == 5 and "scripts/start_project.py" in text
+        return QualificationCase.create(
+            "executable-intake-recovery",
+            passed,
+            "intake helper and all lifecycle operations are present"
+            if passed
+            else "intake helper contract is incomplete",
+            {"script": script.is_file(), "operations": operations},
+        )
+
+    def _adaptive_model_routing_case(self) -> QualificationCase:
+        script = self.installed_root / "scripts" / "route_model.py"
+        contract = self.installed_root / "assets" / "adaptive-model-routing-contract.json"
+        contract_valid = False
+        try:
+            value = json.loads(contract.read_text(encoding="utf-8"))
+            contract_valid = isinstance(value, dict) and set(value.get("tiers", {})) == {
+                "narrow",
+                "implementation",
+                "frontier",
+            }
+        except (OSError, json.JSONDecodeError):
+            value = {}
+        profile = HostCapabilityProfile(
+            "qualification-host",
+            (
+                ModelCapability("small", CapabilityTier.NARROW, (ReasoningEffort.LOW,)),
+                ModelCapability("strong", CapabilityTier.FRONTIER, (ReasoningEffort.HIGH,)),
+            ),
+        )
+        policy = ModelRoutingPolicy(
+            preferred_by_tier={CapabilityTier.NARROW: ("small", ReasoningEffort.LOW)}
+        )
+        decision = route_model(
+            ModelRoutingRequirement(CapabilityTier.NARROW, ReasoningEffort.LOW),
+            profile,
+            policy,
+        )
+        passed = script.is_file() and contract_valid and decision.selected_model_id == "small"
+        return QualificationCase.create(
+            "adaptive-model-reasoning-routing",
+            passed,
+            "neutral host-aware routing selected the lowest safe route" if passed else "routing bundle is incomplete",
+            {"script": script.is_file(), "contract": contract_valid, "decision": decision.to_dict()},
         )
     def _immutability_case(self, before: str) -> QualificationCase:
         after, _ = _tree_digest(self.source_root)

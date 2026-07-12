@@ -41,6 +41,16 @@ from memwiki.coordinator_engineering import (
     advise_decomposition,
     route_execution_tier,
 )
+from memwiki.coordinator_model_routing import (
+    CapabilityTier,
+    HostCapabilityProfile,
+    ModelCapability,
+    ModelRoutingDecision,
+    ModelRoutingPolicy,
+    ModelRoutingRequirement,
+    ReasoningEffort,
+    route_model,
+)
 from memwiki.coordinator_plugin_qualification import (
     REQUIRED_ARCHETYPES,
     PluginQualificationHarness,
@@ -49,17 +59,26 @@ from memwiki.coordinator_plugin_qualification import (
     QualificationFiles,
     QualificationStatus,
 )
+from memwiki.coordinator_project_intake import (
+    EntryPath,
+    IntakeCheckpointError,
+    IntakeResult,
+    ProjectIntakeManager,
+    ReadinessResult,
+)
 from memwiki.policy import AuthorityVerifier, OperationContext, VerifiedAuthority
 
 __all__ = [
     "AgenticWikiWorkspace",
     "CoordinatorAPI",
     "CoordinatorRuntime",
+    "CapabilityTier",
     "DecompositionAdvice",
     "EvaluationComparison",
     "EvaluationResult",
     "ExecutionTier",
     "ExecutionTierDecision",
+    "EntryPath",
     "AuthorityVerifier",
     "AgentHandoffDigestRenderResult",
     "AgentContextResult",
@@ -82,17 +101,27 @@ __all__ = [
     "ExternalRelationship",
     "ExternalRelationshipKind",
     "ExternalRelationshipListResult",
+    "HostCapabilityProfile",
     "IngestResult",
     "InitResult",
+    "IntakeCheckpointError",
+    "IntakeResult",
     "MemwikiWorkspace",
+    "ModelCapability",
+    "ModelRoutingDecision",
+    "ModelRoutingPolicy",
+    "ModelRoutingRequirement",
     "OperationContext",
     "PromoteResult",
     "PluginQualificationHarness",
     "PluginQualificationResult",
+    "ProjectIntakeManager",
     "QualificationCase",
     "QualificationFiles",
     "QualificationStatus",
     "REQUIRED_ARCHETYPES",
+    "ReadinessResult",
+    "ReasoningEffort",
     "RuntimeTick",
     "SliceDefinition",
     "SliceEvaluation",
@@ -100,6 +129,7 @@ __all__ = [
     "VerifiedAuthority",
     "advise_decomposition",
     "route_execution_tier",
+    "route_model",
     "__version__",
 ]
 
