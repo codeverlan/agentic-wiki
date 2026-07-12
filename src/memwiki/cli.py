@@ -15,10 +15,12 @@ docs_app = typer.Typer(no_args_is_help=True)
 export_app = typer.Typer(no_args_is_help=True)
 agent_app = typer.Typer(no_args_is_help=True)
 memory_app = typer.Typer(no_args_is_help=True)
+agent_development_app = typer.Typer(no_args_is_help=True)
 app.add_typer(docs_app, name="docs")
 app.add_typer(export_app, name="export")
 app.add_typer(agent_app, name="agent")
 app.add_typer(coordinator_app, name="coordinator")
+app.add_typer(agent_development_app, name="agent-development")
 agent_app.add_typer(memory_app, name="memory")
 
 
@@ -98,6 +100,28 @@ def init(
             profile=profile,
             client_record_id=client_record_id,
             local_encrypted_storage_attested=attest_local_encryption,
+        )
+    except Exception as exc:
+        _fail(str(exc))
+    _json(result)
+
+
+@agent_development_app.command("init")
+def agent_development_init(
+    handles_phi: str = typer.Option(
+        ...,
+        "--handles-phi",
+        help="Whether the software will handle PHI: yes, no, or unknown.",
+    ),
+    project_name: Optional[str] = typer.Option(None, "--project-name", help="User-facing project name."),
+    objective: str = typer.Option("", "--objective", help="Initial project objective."),
+) -> None:
+    try:
+        result = state.wiki.initialize_agent_development_project(
+            handles_phi=handles_phi,
+            project_name=project_name,
+            objective=objective,
+            context=_context(),
         )
     except Exception as exc:
         _fail(str(exc))

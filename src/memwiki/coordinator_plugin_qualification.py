@@ -223,6 +223,7 @@ class PluginQualificationHarness:
             manifest_case,
             self._skill_case(),
             self._start_routing_case(),
+            self._project_baseline_contract_case(),
             self._executable_intake_case(),
             self._adaptive_model_routing_case(),
             self._adc_refinement_case(),
@@ -333,6 +334,38 @@ class PluginQualificationHarness:
             if passed
             else "intake helper contract is incomplete",
             {"script": script.is_file(), "operations": operations},
+        )
+
+    def _project_baseline_contract_case(self) -> QualificationCase:
+        script = self.installed_root / "scripts" / "initialize_project.py"
+        contract_path = self.installed_root / "assets" / "project-wiki-scaffold-contract.json"
+        skill_path = self.installed_root / "skills" / "agent-dev-start-project" / "SKILL.md"
+        script_text = script.read_text(encoding="utf-8", errors="replace") if script.is_file() else ""
+        skill_text = skill_path.read_text(encoding="utf-8", errors="replace").lower() if skill_path.is_file() else ""
+        try:
+            contract = json.loads(contract_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            contract = {}
+        checks = {
+            "helper": script.is_file()
+            and "initialize_agent_development_project" in script_text
+            and "--handles-phi" in script_text,
+            "contract": isinstance(contract, dict)
+            and contract.get("schema_version") == 1
+            and contract.get("canonical_coordinator_layout", {}).get("run_registry")
+            == ".memwiki/coordinator/runs.json",
+            "project root first gate": "first gate" in skill_text and "explicit project root" in skill_text,
+            "phi before memory": "handles-phi" in skill_text and "synthetic" in skill_text,
+            "draft canonical boundary": "draft" in skill_text and "canonical" in skill_text,
+        }
+        missing = tuple(label for label, passed in checks.items() if not passed)
+        return QualificationCase.create(
+            "project-wiki-baseline-first-gate",
+            not missing,
+            "project root and typed Agentic Wiki baseline are required before intake"
+            if not missing
+            else "missing baseline obligations: " + ", ".join(missing),
+            checks,
         )
 
     def _adaptive_model_routing_case(self) -> QualificationCase:

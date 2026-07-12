@@ -5,6 +5,60 @@ from pathlib import Path
 from typing import Any, Dict
 
 SCHEMAS: Dict[str, Dict[str, Any]] = {
+    "agent_development_baseline": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "title": "Agent Development Project Baseline",
+        "type": "object",
+        "required": ["schema_version", "baseline_kind", "project", "privacy", "run_coordination", "surfaces"],
+        "properties": {
+            "schema_version": {"const": 1},
+            "baseline_kind": {"const": "agent_development_project_baseline"},
+            "project": {
+                "type": "object",
+                "required": ["project_id", "name", "objective", "root"],
+            },
+            "privacy": {
+                "type": "object",
+                "required": ["handles_phi", "development_data_policy", "actual_phi_allowed"],
+                "properties": {
+                    "handles_phi": {"enum": ["yes", "no", "unknown"]},
+                    "actual_phi_allowed": {"const": False},
+                },
+            },
+            "run_coordination": {
+                "type": "object",
+                "required": ["registry", "run_directory_template", "one_run_per_directory"],
+            },
+            "surfaces": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                    "type": "object",
+                    "required": ["surface_id", "title", "description", "records"],
+                },
+            },
+        },
+    },
+    "coordinator_run_registry": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "title": "Coordinator Run Registry",
+        "type": "object",
+        "required": ["schema_version", "runs"],
+        "properties": {
+            "schema_version": {"const": 1},
+            "runs": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "required": ["run_id", "path"],
+                    "properties": {
+                        "run_id": {"type": "string"},
+                        "path": {"type": "string"},
+                    },
+                },
+            },
+        },
+    },
     "agent_memory_event": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "title": "Agent Memory Event",

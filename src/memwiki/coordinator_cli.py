@@ -132,6 +132,11 @@ def projection(run_id: str = typer.Option(..., "--run-id")) -> None:
     _invoke("projection", lambda: _gateway().status(run_id=run_id).to_dict())
 
 
+@coordinator_app.command("runs")
+def runs() -> None:
+    _invoke("runs", lambda: {"runs": _gateway().runs()})
+
+
 @coordinator_app.command("completion-evaluate")
 def completion_evaluate(evidence: Path = typer.Option(..., "--evidence")) -> None:
     def evaluate() -> object:

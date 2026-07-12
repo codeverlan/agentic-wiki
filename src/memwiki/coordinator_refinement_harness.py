@@ -273,12 +273,11 @@ class CoordinatorRefinementHarness:
         record("slice.transitioned", {"slice_id": "refine", "status": "integrated"}, "refine:integrated")
         record("run.status_changed", {"status": "active", "reason": "recovery complete"}, "resumed")
 
-        gateway.cache.path.unlink()
-        replay = gateway.status(run_id=run_id)
+        replay = gateway.rebuild(run_id=run_id)
         completion = evaluate_completion(self._completion_snapshot(run_id, complete=True, leases=leases.leases))
         return CoordinatorRefinementResult(
             run_id,
-            len(gateway.journal.read_events(run_id=run_id)),
+            gateway.event_count(run_id=run_id),
             replay.revision,
             old_lease,
             replacement_lease,

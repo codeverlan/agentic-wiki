@@ -17,6 +17,11 @@ from memwiki.agent_development import (
     render_agent_incident_log,
     render_agent_run_state,
 )
+from memwiki.agent_development_baseline import (
+    AgentDevelopmentBaselineResult,
+    initialize_agent_development_baseline,
+    require_existing_writable_project_root,
+)
 from memwiki.agent_memory import (
     AgentContextResult,
     AgentMemoryImpactResult,
@@ -209,6 +214,29 @@ class AgenticWikiWorkspace:
             status="initialized",
             profile=profile.replace("-", "_"),
             client_record_id=resolved_client_id,
+        )
+
+    def initialize_agent_development_project(
+        self,
+        *,
+        handles_phi: str,
+        project_name: Optional[str] = None,
+        objective: str = "",
+        context: Optional[OperationContext] = None,
+    ) -> AgentDevelopmentBaselineResult:
+        """Initialize an idempotent, draft-only memory baseline in an existing project root."""
+        require_existing_writable_project_root(self.root)
+        workspace_initialized = False
+        if not self.workspace.config_path.exists():
+            self.init(profile="standard")
+            workspace_initialized = True
+        return initialize_agent_development_baseline(
+            self.workspace,
+            handles_phi=handles_phi,
+            project_name=project_name,
+            objective=objective,
+            context=context,
+            workspace_initialized=workspace_initialized,
         )
 
     def ingest(
@@ -631,6 +659,7 @@ class AgenticWikiWorkspace:
 MemwikiWorkspace = AgenticWikiWorkspace
 
 __all__ = [
+    "AgentDevelopmentBaselineResult",
     "AgenticWikiWorkspace",
     "AgentHandoffDigestRenderResult",
     "AgentIncidentLogRenderResult",

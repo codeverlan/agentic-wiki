@@ -69,6 +69,9 @@ def test_cli_appends_and_reads_canonical_coordinator_events(tmp_path: Path) -> N
     assert code == 0
     assert projection["run_id"] == "run-events"
     assert projection["last_event_hash"] == started["event"]["event_hash"]
+    code, runs = invoke(tmp_path, "runs")
+    assert code == 0
+    assert runs["runs"][0]["run_id"] == "run-events"
 
 
 def test_cli_completion_evaluate_reports_failed_invariants_as_json(tmp_path: Path) -> None:

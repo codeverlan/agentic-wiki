@@ -2,6 +2,7 @@
 
 from memwiki.api import (
     AgentContextResult,
+    AgentDevelopmentBaselineResult,
     AgentHandoffDigestRenderResult,
     AgenticWikiWorkspace,
     AgentIncidentLogRenderResult,
@@ -68,6 +69,7 @@ from memwiki.coordinator_project_intake import (
 from memwiki.policy import AuthorityVerifier, OperationContext, VerifiedAuthority
 
 __all__ = [
+    "AgentDevelopmentBaselineResult",
     "AgenticWikiWorkspace",
     "AuthorityVerifier",
     "CapabilityTier",

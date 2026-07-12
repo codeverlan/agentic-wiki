@@ -6,6 +6,17 @@ from typing import Any, Dict
 
 TOOL_CONTRACTS: Dict[str, Dict[str, Any]] = {
     "init_workspace": {"mutates": True},
+    "initialize_agent_development_project": {
+        "mutates": True,
+        "requires_existing_writable_project_root": True,
+        "idempotent": True,
+        "writes": ".agent-development/, .memwiki/coordinator/runs.json, .memwiki/coordinator/layout.json, and drafts/",
+        "canonical_wiki_policy": "no generated project knowledge is written to wiki/",
+        "provenance_policy": "typed baseline surfaces are source-backed drafts",
+        "privacy_input": "handles_phi must be yes, no, or unknown",
+        "multi_run_policy": "one run per .memwiki/coordinator/runs/<run-key>/ directory",
+        "clinical_phi_requires_context": True,
+    },
     "ingest_source": {
         "mutates": True,
         "supports_dry_run": True,

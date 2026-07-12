@@ -28,9 +28,11 @@
         <thead><tr><th>File</th><th>Title</th><th>Required</th><th>Properties</th></tr></thead>
         <tbody>
 <tr><td><code>agent_context_request.schema.json</code></td><td>Agent Context Request</td><td>schema_version, request_id, objective</td><td>objective, request_id, schema_version, tags</td></tr>
+<tr><td><code>agent_development_baseline.schema.json</code></td><td>Agent Development Project Baseline</td><td>schema_version, baseline_kind, project, privacy, run_coordination, surfaces</td><td>baseline_kind, privacy, project, run_coordination, schema_version, surfaces</td></tr>
 <tr><td><code>agent_memory_event.schema.json</code></td><td>Agent Memory Event</td><td>schema_version, event_id, event_type, occurred_at, record</td><td>event_id, event_type, occurred_at, record, schema_version</td></tr>
 <tr><td><code>agent_memory_proposal.schema.json</code></td><td>Agent Memory Proposal</td><td>schema_version, proposal_id, proposed_at, records</td><td>proposal_id, proposed_at, records, schema_version</td></tr>
 <tr><td><code>claim.schema.json</code></td><td>Agentic Wiki Claim Record</td><td>claim_id, text, source_id, confidence, review_status, provenance</td><td>cited_claim_ids, claim_id, client_record_id, clinical_claim_type, confidence, contradicts, guidance_type, provenance, review_status, reviewed_by, sensitivity, source_category, source_id, text</td></tr>
+<tr><td><code>coordinator_run_registry.schema.json</code></td><td>Coordinator Run Registry</td><td>schema_version, runs</td><td>runs, schema_version</td></tr>
 <tr><td><code>event.schema.json</code></td><td>Agentic Wiki Event Record</td><td>event_id, event_type, created_at</td><td>created_at, details, event_id, event_type</td></tr>
 <tr><td><code>link.schema.json</code></td><td>Agentic Wiki Link Record</td><td>from_id, to_id, relationship</td><td>from_id, relationship, to_id</td></tr>
 <tr><td><code>page.schema.json</code></td><td>Agentic Wiki Page Record</td><td>page_id, title, slug, page_type, review_status, html_path</td><td>client_record_id, html_path, page_id, page_type, review_status, sensitivity, slug, title</td></tr>
@@ -52,6 +54,11 @@
       observations, provenance-qualified resource measurements, memory dispositions, validations,
       supervision, incidents, capability activity, and completion evaluations. Legacy version 1
       event streams remain byte-equivalent until a version 2 event is appended.</p>
+      <p>Long-lived projects retain multiple isolated run journals under
+      <code>.memwiki/coordinator/runs/&lt;run-key&gt;/</code>. The project-local
+      <code>runs.json</code> registry identifies each run, its confined storage path, revision,
+      status, and journal hash. Existing single-run journals remain readable through the legacy
+      root path and are indexed without destructive migration.</p>
       <p>Worker assignments, context, results, reports, and admission decisions are strict
       content-addressed packets. Runtime freshness is <code>live</code>, <code>checkpoint</code>,
       <code>stale</code>, or <code>unavailable</code>; measurement quality is <code>exact</code>,

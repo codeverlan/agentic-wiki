@@ -12,6 +12,7 @@ from memwiki.schemas import write_schemas
 from memwiki.workspace import Workspace
 
 CLI_COMMANDS = [
+    "agentic-wiki agent-development init --handles-phi yes|no|unknown [--project-name NAME] [--objective TEXT]",
     "agentic-wiki init",
     "agentic-wiki init --profile clinical-phi --client-record-id <id> --attest-local-encryption",
     "agentic-wiki ingest <path>",
@@ -32,6 +33,7 @@ CLI_COMMANDS = [
         "agentic-wiki coordinator append-event --run-id <id> --event-type <type> "
         "--payload-json <json> --actor-id <id> --idempotency-key <key>"
     ),
+    "agentic-wiki coordinator runs",
     "agentic-wiki coordinator projection --run-id <id>",
     "agentic-wiki coordinator completion-evaluate --evidence <file>",
     "agentic-wiki agent render-run-state <queue.json> --output <run-state.html>",
@@ -244,6 +246,16 @@ def render_operations_doc() -> str:
     </section>
     <section id="agent-development-memory">
       <h2>Agent Development Memory</h2>
+      <p>Use <code>agentic-wiki agent-development init --handles-phi yes|no|unknown</code>
+      against an existing writable project directory to create the idempotent project-memory baseline.
+      The command preserves existing workspace state, records the explicit privacy answer, and creates
+      typed, provenance-backed draft surfaces without promoting generated project knowledge into
+      <code>wiki/</code>. A <code>yes</code> or <code>unknown</code> answer requires synthetic-only
+      development data.</p>
+      <p>The baseline includes a project-local run registry and reserves
+      <code>.memwiki/coordinator/runs/&lt;run-key&gt;/</code> as the isolated location for each coordinator
+      run. The legacy workspace-level journal remains a read-only compatibility concern; the initializer
+      does not rewrite coordinator journals, projections, or commands.</p>
       <p>Use <code>agentic-wiki agent render-run-state</code> to turn a slice queue JSON file
       into standalone semantic HTML. Use <code>agentic-wiki agent render-handoff-digest</code>
       to create a stop, compaction-risk, stale-lease, or user-return digest from the same queue.
@@ -398,6 +410,11 @@ def render_schema_doc(workspace: Workspace) -> str:
       observations, provenance-qualified resource measurements, memory dispositions, validations,
       supervision, incidents, capability activity, and completion evaluations. Legacy version 1
       event streams remain byte-equivalent until a version 2 event is appended.</p>
+      <p>Long-lived projects retain multiple isolated run journals under
+      <code>.memwiki/coordinator/runs/&lt;run-key&gt;/</code>. The project-local
+      <code>runs.json</code> registry identifies each run, its confined storage path, revision,
+      status, and journal hash. Existing single-run journals remain readable through the legacy
+      root path and are indexed without destructive migration.</p>
       <p>Worker assignments, context, results, reports, and admission decisions are strict
       content-addressed packets. Runtime freshness is <code>live</code>, <code>checkpoint</code>,
       <code>stale</code>, or <code>unavailable</code>; measurement quality is <code>exact</code>,

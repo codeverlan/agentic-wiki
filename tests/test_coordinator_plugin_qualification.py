@@ -33,6 +33,9 @@ def _plugin(root: Path) -> Path:
                 "Ask one focused question at a time. Ask whether the application handles PHI. "
                 "Transition automatically to implementation readiness and continuous coordination. "
                 "Use scripts/start_project.py for initialize apply inspect resume readiness.\n"
+                "First Gate: require an explicit project root and run scripts/initialize_project.py "
+                "with --handles-phi before memory writes. Keep synthetic data in a provenance draft "
+                "before canonical promotion and use .memwiki/coordinator/runs.json.\n"
             )
         (path / "SKILL.md").write_text(
             body,
@@ -63,9 +66,24 @@ def _plugin(root: Path) -> Path:
     (root / "scripts" / "start_project.py").write_text(
         "OPERATIONS = 'initialize apply inspect resume readiness'\n", encoding="utf-8"
     )
+    (root / "scripts" / "initialize_project.py").write_text(
+        "PUBLIC_API = 'initialize_agent_development_project'\nOPTION = '--handles-phi'\n",
+        encoding="utf-8",
+    )
     (root / "scripts" / "route_model.py").write_text("ROUTING = True\n", encoding="utf-8")
     (root / "assets" / "adaptive-model-routing-contract.json").write_text(
         json.dumps({"tiers": {"narrow": {}, "implementation": {}, "frontier": {}}}),
+        encoding="utf-8",
+    )
+    (root / "assets" / "project-wiki-scaffold-contract.json").write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "canonical_coordinator_layout": {
+                    "run_registry": ".memwiki/coordinator/runs.json"
+                },
+            }
+        ),
         encoding="utf-8",
     )
     return root
@@ -93,6 +111,7 @@ def test_qualification_runs_all_archetypes_and_adversarial_checks(tmp_path: Path
     assert any(case.case_id == "executable-intake-recovery" for case in result.cases)
     assert any(case.case_id == "adaptive-model-reasoning-routing" for case in result.cases)
     assert any(case.case_id == "adc-refinement-contracts" for case in result.cases)
+    assert any(case.case_id == "project-wiki-baseline-first-gate" for case in result.cases)
     assert result.qualification_id.startswith("sha256:")
     assert type(result).from_dict(result.to_dict()) == result
 
