@@ -185,6 +185,11 @@ def render_architecture_doc() -> str:
       records, and report relationship-based impact. In initialized workspaces, an observed event
       is preserved as an immutable source and a provenance-backed draft; canonical wiki content
       still requires normal validation and promotion.</p>
+      <p>Agent-memory <code>record_id</code> values are first-class relationship aliases for their
+      generated claims. Draft lint resolves those aliases in the current proposal and in canonical
+      claims, allowing a later proposal to record relationships such as <code>supersedes</code>
+      without replacing stable record identities with generated claim IDs. Every referenced alias
+      must resolve before promotion; dangling relationships remain a hard validation failure.</p>
     </section>
 """
     return render_page(

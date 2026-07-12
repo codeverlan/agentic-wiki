@@ -5,6 +5,7 @@ from typing import Any
 import pytest
 
 from agentic_wiki import AgenticWikiWorkspace
+from memwiki.linter import lint_workspace
 from memwiki.manifest import read_jsonl
 
 
@@ -140,6 +141,37 @@ def test_proposal_preserves_supersedes_as_additive_relationship(tmp_path: Path) 
         ("decision-semantic-html-v2", "decision-semantic-html-v1", "supersedes")
     }
     assert not (workspace.root / "wiki" / "decision-semantic-html-v1.html").exists()
+
+
+def test_proposal_lint_resolves_record_ids_as_claim_aliases(tmp_path: Path) -> None:
+    workspace = AgenticWikiWorkspace(tmp_path / "wiki")
+    workspace.init()
+    delta_path = tmp_path / "memory-delta.json"
+    delta_path.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "proposal_id": "proposal-supersession-aliases",
+                "proposed_at": "2026-07-11T14:00:00Z",
+                "records": [
+                    {"record_id": "design-v1", "kind": "design", "summary": "Synthetic first design."},
+                    {
+                        "record_id": "design-v2",
+                        "kind": "design",
+                        "summary": "Synthetic selected design.",
+                        "supersedes": ["design-v1"],
+                    },
+                ],
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    result = workspace.propose_agent_memory(delta_path)
+
+    lint = lint_workspace(workspace.workspace, base=workspace.root / "drafts" / result.draft_id)
+    assert lint.ok, lint.errors
 
 
 @pytest.mark.parametrize("prohibited_field", ["phi_value", "raw_phi", "secret_value", "token_value"])

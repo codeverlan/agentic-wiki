@@ -82,6 +82,7 @@ def _manifest_errors(workspace: Workspace, base: Path) -> List[str]:
     source_ids = {record.get("source_id") for record in read_jsonl(workspace.path("manifests/sources.jsonl"))}
     page_ids: Set[str] = set()
     claim_ids: Set[str] = set()
+    record_ids: Set[str] = set()
     for page in read_jsonl(pages_path):
         for key in ["page_id", "title", "slug", "page_type", "review_status", "html_path"]:
             if key not in page:
@@ -94,6 +95,8 @@ def _manifest_errors(workspace: Workspace, base: Path) -> List[str]:
         errors.extend(validate_claim(claim))
         errors.extend(_claim_evidence_errors(workspace, claim))
         claim_ids.add(str(claim.get("claim_id")))
+        if isinstance(claim.get("record_id"), str) and claim["record_id"]:
+            record_ids.add(str(claim["record_id"]))
         if claim.get("source_id") not in source_ids:
             errors.append(f"claim {claim.get('claim_id')} references unknown source")
     all_claims = read_jsonl(claims_path)
@@ -103,7 +106,17 @@ def _manifest_errors(workspace: Workspace, base: Path) -> List[str]:
             for cited_claim_id in claim.get("cited_claim_ids", []):
                 if str(cited_claim_id) not in all_claim_ids:
                     errors.append(f"clinical guidance {claim.get('claim_id')} cites unknown claim {cited_claim_id}")
-    known_ids = page_ids | claim_ids
+    if base.resolve() != workspace.root.resolve():
+        canonical_pages = read_jsonl(workspace.path("manifests/pages.jsonl"))
+        canonical_claims = read_jsonl(workspace.path("manifests/claims.jsonl"))
+        page_ids.update(str(page.get("page_id")) for page in canonical_pages)
+        claim_ids.update(str(claim.get("claim_id")) for claim in canonical_claims)
+        record_ids.update(
+            str(claim["record_id"])
+            for claim in canonical_claims
+            if isinstance(claim.get("record_id"), str) and claim["record_id"]
+        )
+    known_ids = page_ids | claim_ids | record_ids
     for link in read_jsonl(links_path):
         if link.get("from_id") not in known_ids:
             errors.append(f"link from_id not found: {link.get('from_id')}")
