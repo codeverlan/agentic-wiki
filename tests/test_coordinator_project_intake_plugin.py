@@ -236,3 +236,146 @@ def test_plugin_start_project_rejects_stale_or_foreign_worksheet_packet(tmp_path
         assert "project" in str(exc).casefold()
     else:
         raise AssertionError("foreign worksheet packet must be rejected")
+
+
+def test_significant_initial_description_prefills_matching_worksheet_fields(tmp_path: Path) -> None:
+    helper = _module()
+    helper.execute(
+        Namespace(
+            project_root=tmp_path,
+            operation="initialize",
+            project_id="description-prefill",
+            entry_path="from-scratch",
+            project_type="web-application",
+            phi_answer="no",
+            recorded_at="2026-07-13T11:00:00-04:00",
+        )
+    )
+    packet = tmp_path / "initial-description.json"
+    packet.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "project_id": "description-prefill",
+                "source_revision": 1,
+                "description_summary": (
+                    "Build a browser scheduling application for clinic coordinators. "
+                    "They create appointments and verify that conflicts are prevented."
+                ),
+                "field_provenance": {
+                    "product.purpose": "explicit",
+                    "product.users": "explicit",
+                    "product.outcomes": "explicit",
+                    "product.scope": "explicit",
+                    "decisions.PRIMARY-WORKFLOW": "explicit",
+                    "design.material": "explicit",
+                    "external_dependencies": "explicit",
+                    "acceptance_criteria": "explicit",
+                },
+                "intake_update": {
+                    "product": {
+                        "purpose": "Build a browser scheduling application",
+                        "users": ["clinic coordinators"],
+                        "outcomes": ["appointment conflicts are prevented"],
+                        "scope": ["create appointments", "detect scheduling conflicts"],
+                    },
+                    "decisions": [
+                        {
+                            "id": "PRIMARY-WORKFLOW",
+                            "summary": "Primary end-to-end workflow",
+                            "value": "A coordinator creates an appointment and receives conflict validation.",
+                            "status": "proposed",
+                            "source": "initial-user-description",
+                        }
+                    ],
+                    "design": {"material": True, "authority": "Browser application described by user"},
+                    "external_dependencies": [
+                        {
+                            "id": "calendar service",
+                            "availability": "unavailable",
+                            "needs_confirmation": True,
+                            "source": "initial-user-description",
+                        }
+                    ],
+                    "acceptance_criteria": [
+                        {"id": "AC-1", "statement": "Conflicting appointments are rejected"}
+                    ],
+                    "open_questions": [
+                        {
+                            "id": "DEPENDENCY-1",
+                            "question": "Confirm the calendar service and its availability",
+                            "source": "initial-user-description",
+                        }
+                    ],
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    applied = helper.execute(
+        Namespace(
+            project_root=tmp_path,
+            operation="prefill",
+            input=packet,
+            recorded_at="2026-07-13T11:01:00-04:00",
+        )
+    )
+    worksheet_result = helper.execute(Namespace(project_root=tmp_path, operation="worksheet"))
+    worksheet = json.loads(Path(worksheet_result["schema_path"]).read_text(encoding="utf-8"))
+    state = json.loads(Path(applied["state_path"]).read_text(encoding="utf-8"))
+
+    assert applied["revision"] == 2
+    assert worksheet["answers"]["product_purpose"] == "Build a browser scheduling application"
+    assert worksheet["answers"]["target_users"] == ["clinic coordinators"]
+    assert worksheet["answers"]["observable_outcomes"] == ["appointment conflicts are prevented"]
+    assert worksheet["answers"]["in_scope"] == ["create appointments", "detect scheduling conflicts"]
+    assert worksheet["answers"]["primary_workflow"].startswith("A coordinator creates")
+    assert worksheet["answers"]["user_interface"] == "yes"
+    assert worksheet["answers"]["integrations"] == ["calendar service"]
+    assert worksheet["answers"]["acceptance_criteria"] == ["Conflicting appointments are rejected"]
+    assert state["sources"][0]["authority"] == "user-initial-description"
+    assert state["sources"][0]["field_provenance"]["product.purpose"] == "explicit"
+
+
+def test_initial_description_prefill_rejects_inferred_or_foreign_facts(tmp_path: Path) -> None:
+    helper = _module()
+    helper.execute(
+        Namespace(
+            project_root=tmp_path,
+            operation="initialize",
+            project_id="description-owner",
+            entry_path="from-scratch",
+            project_type="web-application",
+            phi_answer="unknown",
+            recorded_at="2026-07-13T11:00:00-04:00",
+        )
+    )
+    packet = tmp_path / "invalid-prefill.json"
+    packet.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "project_id": "description-owner",
+                "source_revision": 1,
+                "description_summary": "Build a scheduling application.",
+                "field_provenance": {"product.users": "inferred"},
+                "intake_update": {"product": {"users": ["clinic coordinators"]}},
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    try:
+        helper.execute(
+            Namespace(
+                project_root=tmp_path,
+                operation="prefill",
+                input=packet,
+                recorded_at="2026-07-13T11:01:00-04:00",
+            )
+        )
+    except ValueError as exc:
+        assert "provenance" in str(exc).casefold()
+    else:
+        raise AssertionError("inferred facts must not be admitted as initial-description prefill")

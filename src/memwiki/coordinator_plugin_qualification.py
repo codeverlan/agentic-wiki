@@ -302,6 +302,7 @@ class PluginQualificationHarness:
             "from scratch": "from scratch" in text,
             "existing specification": "existing" in text and ("prd" in text or "spec" in text),
             "partial resources": "partial" in text and "resource" in text,
+            "initial description prefill": "initial description" in text and "prefill" in text,
             "one focused question": "one focused question" in text,
             "phi gate": "phi" in text,
             "automatic readiness transition": "automatically" in text and "readiness" in text,
@@ -321,11 +322,13 @@ class PluginQualificationHarness:
         script = self.installed_root / "scripts" / "start_project.py"
         skill = self.installed_root / "skills" / "agent-dev-start-project" / "SKILL.md"
         worksheet = self.installed_root / "assets" / "software-project-intake-template.json"
+        prefill_contract = self.installed_root / "assets" / "initial-description-prefill-contract.json"
         text = skill.read_text(encoding="utf-8", errors="replace").lower() if skill.is_file() else ""
         operations = tuple(
             operation
             for operation in (
                 "initialize",
+                "prefill",
                 "worksheet",
                 "apply-worksheet",
                 "apply",
@@ -339,6 +342,10 @@ class PluginQualificationHarness:
             worksheet_value = json.loads(worksheet.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             worksheet_value = {}
+        try:
+            prefill_value = json.loads(prefill_contract.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            prefill_value = {}
         questions = worksheet_value.get("questions", [])
         required_question_count = (
             sum(item.get("required") is True for item in questions if isinstance(item, Mapping))
@@ -347,23 +354,28 @@ class PluginQualificationHarness:
         )
         passed = (
             script.is_file()
-            and len(operations) == 7
+            and len(operations) == 8
             and "scripts/start_project.py" in text
             and worksheet_value.get("schema_version") == 1
             and required_question_count >= 8
+            and prefill_value.get("schema_version") == 1
+            and set(prefill_value.get("allowed_provenance", [])) == {"explicit", "user-confirmed"}
+            and "initial description" in text
+            and "explicit" in text
             and "unknown" in text
             and "worksheet" in text
         )
         return QualificationCase.create(
             "executable-intake-recovery",
             passed,
-            "intake helper, universal worksheet, and all lifecycle operations are present"
+            "intake helper, initial-description prefill, universal worksheet, and all lifecycle operations are present"
             if passed
             else "intake helper contract is incomplete",
             {
                 "script": script.is_file(),
                 "operations": operations,
                 "required_question_count": required_question_count,
+                "prefill_contract": prefill_contract.is_file(),
                 "worksheet_template": worksheet.is_file(),
             },
         )

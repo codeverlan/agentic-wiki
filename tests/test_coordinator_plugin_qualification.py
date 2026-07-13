@@ -32,8 +32,11 @@ def _plugin(root: Path) -> Path:
                 "Start building new software from scratch, from an existing PRD, or from partial resources. "
                 "Ask one focused question at a time. Ask whether the application handles PHI. "
                 "Transition automatically to implementation readiness and continuous coordination. "
-                "Use scripts/start_project.py for initialize worksheet apply-worksheet apply inspect resume readiness. "
+                "Use scripts/start_project.py for initialize prefill worksheet apply-worksheet "
+                "apply inspect resume readiness. "
                 "The universal software project worksheet treats unknown answers as interview candidates.\n"
+                "When the initial description is significant, prefill every explicitly stated fact into its matching "
+                "worksheet field before presenting the form; unsupported inferences remain questions.\n"
                 "First Gate: require an explicit project root and run scripts/initialize_project.py "
                 "with --handles-phi before memory writes. Keep synthetic data in a provenance draft "
                 "before canonical promotion and use .memwiki/coordinator/runs.json.\n"
@@ -65,7 +68,8 @@ def _plugin(root: Path) -> Path:
         encoding="utf-8",
     )
     (root / "scripts" / "start_project.py").write_text(
-        "OPERATIONS = 'initialize worksheet apply-worksheet apply inspect resume readiness'\n", encoding="utf-8"
+        "OPERATIONS = 'initialize prefill worksheet apply-worksheet apply inspect resume readiness'\n",
+        encoding="utf-8",
     )
     (root / "scripts" / "initialize_project.py").write_text(
         "PUBLIC_API = 'initialize_agent_development_project'\nOPTION = '--handles-phi'\n",
@@ -105,6 +109,22 @@ def _plugin(root: Path) -> Path:
         ),
         encoding="utf-8",
     )
+    (root / "assets" / "initial-description-prefill-contract.json").write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "required": [
+                    "project_id",
+                    "source_revision",
+                    "description_summary",
+                    "field_provenance",
+                    "intake_update",
+                ],
+                "allowed_provenance": ["explicit", "user-confirmed"],
+            }
+        ),
+        encoding="utf-8",
+    )
     return root
 
 
@@ -130,6 +150,7 @@ def test_qualification_runs_all_archetypes_and_adversarial_checks(tmp_path: Path
     assert any(case.case_id == "executable-intake-recovery" for case in result.cases)
     intake_case = next(case for case in result.cases if case.case_id == "executable-intake-recovery")
     assert "worksheet" in intake_case.details
+    assert "prefill" in intake_case.details
     assert any(case.case_id == "adaptive-model-reasoning-routing" for case in result.cases)
     assert any(case.case_id == "adc-refinement-contracts" for case in result.cases)
     assert any(case.case_id == "project-wiki-baseline-first-gate" for case in result.cases)
