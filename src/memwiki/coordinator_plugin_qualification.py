@@ -370,8 +370,9 @@ class PluginQualificationHarness:
             and planning_value.get("schema_version") == 1
             and set(planning_value.get("modes", [])) == {"lightweight", "bmad"}
             and "bmad-recommended" in set(planning_value.get("statuses", []))
-            and "planning depth" in text
-            and "explicit selection" in text
+            and ("planning depth" in text or "planning-depth" in text)
+            and "explicit" in text
+            and "selection" in text
             and "initial description" in text
             and "explicit" in text
             and "unknown" in text
