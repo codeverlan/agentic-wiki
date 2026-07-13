@@ -1,0 +1,139 @@
+{
+  "archetypes": [
+    "lightweight",
+    "bmad",
+    "frontend",
+    "api",
+    "wordpress",
+    "phi-unknown",
+    "phi-enabled"
+  ],
+  "cases": [
+    {
+      "case_id": "plugin-manifest",
+      "details": "manifest is valid",
+      "evidence_id": "sha256:53d0de020ca487e3e8123398baa947199327ca9d0c7a7d62c68df1a844f3168f",
+      "passed": true
+    },
+    {
+      "case_id": "skill-discovery",
+      "details": "all required skills are present",
+      "evidence_id": "sha256:f3915854a0499dd1b0270d2ee378956ccc43501abc209a14522d0619734b9ff5",
+      "passed": true
+    },
+    {
+      "case_id": "natural-language-start-routing",
+      "details": "front door covers all start paths and handoff rules",
+      "evidence_id": "sha256:a9131c1a3d4607b9aa3633222b5a0f25d4c49cae60c5f7dd001dd615a9bfd2e7",
+      "passed": true
+    },
+    {
+      "case_id": "project-wiki-baseline-first-gate",
+      "details": "project root and typed Agentic Wiki baseline are required before intake",
+      "evidence_id": "sha256:6d3c0dcb1d998d89fb8a1fcab0362f1d15665fdc71bf8763b34c5ab33dd9206f",
+      "passed": true
+    },
+    {
+      "case_id": "executable-intake-recovery",
+      "details": "intake helper, initial-description prefill, universal worksheet, planning-depth gate, and all lifecycle operations are present",
+      "evidence_id": "sha256:d56f12e4e7176a898289f94b4d30f8ba81e40009089890b7719f1cf3c0b6a867",
+      "passed": true
+    },
+    {
+      "case_id": "adaptive-model-reasoning-routing",
+      "details": "neutral host-aware routing selected the lowest safe route",
+      "evidence_id": "sha256:1d1e5abe8de1dcc8b2fe36065ccb509f99008fe919fd208c2f88173556e2da37",
+      "passed": true
+    },
+    {
+      "case_id": "adc-refinement-contracts",
+      "details": "ADC refinement contracts are documented",
+      "evidence_id": "sha256:7363ac1697d84cf6ae07b3506bf6a5ad47b93e8fe1c1c4cec60bce4f6befb2da",
+      "passed": true
+    },
+    {
+      "case_id": "installed-cache-parity",
+      "details": "source and installed file hashes match",
+      "evidence_id": "sha256:615a8f1a04e622242f3e843612b6d5d4e477cb0380b0489aea30be5ba231a112",
+      "passed": true
+    },
+    {
+      "case_id": "plugin-immutability",
+      "details": "source digest remained unchanged during qualification",
+      "evidence_id": "sha256:bbad75660165ba00a540e37d876e8f39d431b73417ee5e2cf28a9ca272f31b98",
+      "passed": true
+    },
+    {
+      "case_id": "computer-use-supervision",
+      "details": "computer use requires supervision",
+      "evidence_id": "sha256:b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+      "passed": true
+    },
+    {
+      "case_id": "credential-artifact-scan",
+      "details": "no credential-bearing artifact names found",
+      "evidence_id": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "passed": true
+    },
+    {
+      "case_id": "project-archetypes",
+      "details": "7 deterministic archetypes continued independent work",
+      "evidence_id": "sha256:d8cf7291c2eef68c1f20b74b95f1db3a80f808f752041656102ccf8e72785c7a",
+      "passed": true
+    },
+    {
+      "case_id": "six-worker-dispatch",
+      "details": "six independent slices dispatched and integrated",
+      "evidence_id": "sha256:ae1e914f48e851c93ae6638cdf07d453b0228c05cb6da08fb5b5894ac3edd99b",
+      "passed": true
+    },
+    {
+      "case_id": "blocked-slice-continuation",
+      "details": "independent slice B integrated",
+      "evidence_id": "sha256:84f3a7d39e0804bed8a16f1342b2ca12fe30939f0a551f931ec540421d6abd61",
+      "passed": true
+    },
+    {
+      "case_id": "malformed-worker-report",
+      "details": "malformed report was not integrated",
+      "evidence_id": "sha256:be5b5d767620fd1225bc1742877e047ee5ad593301e99a1b7059e13949102e0c",
+      "passed": true
+    },
+    {
+      "case_id": "public-private-handoff-agents",
+      "details": "agent surfaces respected execution modes",
+      "evidence_id": "sha256:d747aad435339c5a80806adac0607b49dd41ab4afecaca803d4a9912d6623c03",
+      "passed": true
+    },
+    {
+      "case_id": "restart-equivalence",
+      "details": "restart produced byte-equivalent agent result",
+      "evidence_id": "sha256:d747aad435339c5a80806adac0607b49dd41ab4afecaca803d4a9912d6623c03",
+      "passed": true
+    },
+    {
+      "case_id": "regression-rejection",
+      "details": "feature success cannot hide regression",
+      "evidence_id": "sha256:3f6161ccf04cae9ccab3062c68aca4c6bfcd8c268a7b427fb88e8d1a1d76a50f",
+      "passed": true
+    },
+    {
+      "case_id": "critical-risk-routing",
+      "details": "critical risk routed directly to frontier capability",
+      "evidence_id": "sha256:799af1d0228c1b84abec40dee782a169934f9c76d47742f9a9929dbf2a100a81",
+      "passed": true
+    },
+    {
+      "case_id": "phi-synthetic-only",
+      "details": "yes and unknown PHI modes reject non-synthetic artifacts",
+      "evidence_id": "sha256:d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+      "passed": true
+    }
+  ],
+  "installed_digest": "sha256:485ddbfe531a42ba69968574620562f1cbfc1f0b0b8ff658bfc2f2f43608fda6",
+  "plugin_name": "agent-development-coordinator",
+  "plugin_version": "0.1.0+codex.20260713074104",
+  "qualification_id": "sha256:daac557e5d13631beae1aa33fb16faf27fda84bf3dfa5763fe9e5f09b00b8eb1",
+  "source_digest": "sha256:485ddbfe531a42ba69968574620562f1cbfc1f0b0b8ff658bfc2f2f43608fda6",
+  "status": "passed"
+}
