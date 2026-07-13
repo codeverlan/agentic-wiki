@@ -33,10 +33,12 @@ def _plugin(root: Path) -> Path:
                 "Ask one focused question at a time. Ask whether the application handles PHI. "
                 "Transition automatically to implementation readiness and continuous coordination. "
                 "Use scripts/start_project.py for initialize prefill worksheet apply-worksheet "
-                "apply inspect resume readiness. "
+                "apply inspect resume planning-depth planning-depth-select readiness. "
                 "The universal software project worksheet treats unknown answers as interview candidates.\n"
                 "When the initial description is significant, prefill every explicitly stated fact into its matching "
                 "worksheet field before presenting the form; unsupported inferences remain questions.\n"
+                "Before implementation readiness, run a planning depth assessment. Recommend BMAD for complex "
+                "work, require explicit selection, and keep independent work available while selection is pending.\n"
                 "First Gate: require an explicit project root and run scripts/initialize_project.py "
                 "with --handles-phi before memory writes. Keep synthetic data in a provenance draft "
                 "before canonical promotion and use .memwiki/coordinator/runs.json.\n"
@@ -68,7 +70,8 @@ def _plugin(root: Path) -> Path:
         encoding="utf-8",
     )
     (root / "scripts" / "start_project.py").write_text(
-        "OPERATIONS = 'initialize prefill worksheet apply-worksheet apply inspect resume readiness'\n",
+        "OPERATIONS = 'initialize prefill worksheet apply-worksheet apply inspect resume "
+        "planning-depth planning-depth-select readiness'\n",
         encoding="utf-8",
     )
     (root / "scripts" / "initialize_project.py").write_text(
@@ -121,6 +124,17 @@ def _plugin(root: Path) -> Path:
                     "intake_update",
                 ],
                 "allowed_provenance": ["explicit", "user-confirmed"],
+            }
+        ),
+        encoding="utf-8",
+    )
+    (root / "assets" / "planning-depth-contract.json").write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "recommendation_threshold": 4,
+                "modes": ["lightweight", "bmad"],
+                "statuses": ["lightweight-sufficient", "bmad-recommended", "bmad-active"],
             }
         ),
         encoding="utf-8",

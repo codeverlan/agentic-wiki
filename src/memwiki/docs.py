@@ -319,7 +319,8 @@ def render_operations_doc() -> str:
       computer-use supervision, credential artifacts, seven project archetypes, six-worker dispatch,
       blocked-slice continuation, malformed reports, public/private/handoff agents, restart
       equivalence, regression rejection, critical-risk routing, executable intake recovery,
-      initial-description prefill, universal worksheet generation, and revision-checked worksheet admission,
+      initial-description prefill, universal worksheet generation, planning-depth selection,
+      revision-checked worksheet admission,
       adaptive model/reasoning selection, PHI synthetic-only enforcement, and
       a natural-language software-start front door covering existing specifications, partial
       resources, and from-scratch discovery.</p>
@@ -343,6 +344,10 @@ def render_operations_doc() -> str:
       Its downloaded response packet carries project identity and source revision; the dedicated
       admission command rejects foreign or stale packets before applying the normalized update.
       Blank and unknown fields remain adaptive interview candidates.</p>
+      <p>Before readiness, the plugin assesses complexity and project policy. Lightweight projects
+      continue autonomously. A BMAD recommendation records its reasons and blocks implementation
+      readiness until one explicit BMAD or lightweight selection is recorded. Existing lightweight
+      intake remains authoritative if BMAD is initialized later.</p>
       <p>Updates require the expected revision and reject secret-bearing fields or prohibited
       plugin overlay keys. A content-addressed checkpoint detects same-revision tampering. Resume
       repairs missing or stale projections after interruption from authoritative state.</p>

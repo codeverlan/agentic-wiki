@@ -225,6 +225,26 @@ def test_bmad_marker_selects_bmad_artifact_root(tmp_path: Path) -> None:
     assert "_bmad-output/implementation-artifacts" in str(result.state_path)
 
 
+def test_existing_lightweight_intake_remains_authoritative_after_bmad_initialization(
+    tmp_path: Path,
+) -> None:
+    initialized = ProjectIntakeManager(tmp_path).initialize(
+        project_id="bmad-later",
+        entry_path=EntryPath.FROM_SCRATCH,
+        project_type="web-application",
+        phi_answer="no",
+        recorded_at="2026-07-13T12:00:00-04:00",
+    )
+    (tmp_path / "_bmad").mkdir()
+
+    resumed = ProjectIntakeManager(tmp_path).resume()
+
+    assert initialized.adapter == "lightweight"
+    assert resumed.adapter == "lightweight"
+    assert resumed.state["project_id"] == "bmad-later"
+    assert resumed.state_path == initialized.state_path
+
+
 def test_host_profile_and_routing_policy_are_validated_project_records(tmp_path: Path) -> None:
     manager = ProjectIntakeManager(tmp_path)
     manager.initialize(

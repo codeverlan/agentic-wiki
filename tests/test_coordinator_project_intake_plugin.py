@@ -379,3 +379,172 @@ def test_initial_description_prefill_rejects_inferred_or_foreign_facts(tmp_path:
         assert "provenance" in str(exc).casefold()
     else:
         raise AssertionError("inferred facts must not be admitted as initial-description prefill")
+
+
+def test_planning_depth_recommends_bmad_and_blocks_readiness_until_selected(
+    tmp_path: Path,
+) -> None:
+    helper = _module()
+    helper.execute(
+        Namespace(
+            project_root=tmp_path,
+            operation="initialize",
+            project_id="complex-planning",
+            entry_path="from-scratch",
+            project_type="clinical-web-application",
+            phi_answer="yes",
+            recorded_at="2026-07-13T12:00:00-04:00",
+        )
+    )
+    update = tmp_path / "complex-update.json"
+    update.write_text(
+        json.dumps(
+            {
+                "product": {
+                    "purpose": "Coordinate a synthetic clinical workflow",
+                    "users": ["scheduler", "clinician", "billing specialist"],
+                    "outcomes": ["workflow state is visible"],
+                    "scope": ["scheduling", "documentation", "claims", "portal", "reporting"],
+                },
+                "design": {"material": True, "authority": "user-selected design baseline"},
+                "external_dependencies": [
+                    {"id": "claims API", "availability": "available"},
+                    {"id": "telehealth API", "availability": "available"},
+                ],
+                "acceptance_criteria": [{"id": "AC-1", "statement": "Synthetic workflow passes"}],
+                "open_questions": [],
+            }
+        ),
+        encoding="utf-8",
+    )
+    helper.execute(
+        Namespace(
+            project_root=tmp_path,
+            operation="apply",
+            input=update,
+            expected_revision=1,
+            recorded_at="2026-07-13T12:01:00-04:00",
+        )
+    )
+
+    assessment = helper.execute(Namespace(project_root=tmp_path, operation="planning-depth"))
+    readiness = helper.execute(Namespace(project_root=tmp_path, operation="readiness"))
+
+    assert assessment["status"] == "bmad-recommended"
+    assert assessment["requires_user_selection"] is True
+    assert assessment["complexity_score"] >= assessment["recommendation_threshold"]
+    assert Path(assessment["html_path"]).is_file()
+    assert Path(assessment["json_path"]).is_file()
+    assert readiness["ready"] is False
+    assert "planning-depth-selection-required" in readiness["blocking_issues"]
+
+
+def test_planning_depth_selection_records_lightweight_variance_and_allows_readiness(
+    tmp_path: Path,
+) -> None:
+    helper = _module()
+    helper.execute(
+        Namespace(
+            project_root=tmp_path,
+            operation="initialize",
+            project_id="planning-selection",
+            entry_path="from-scratch",
+            project_type="clinical-web-application",
+            phi_answer="yes",
+            recorded_at="2026-07-13T12:00:00-04:00",
+        )
+    )
+    update = tmp_path / "selection-update.json"
+    update.write_text(
+        json.dumps(
+            {
+                "product": {
+                    "purpose": "Coordinate a synthetic clinical workflow",
+                    "users": ["scheduler", "clinician"],
+                    "outcomes": ["workflow is verified"],
+                    "scope": ["scheduling", "documentation", "claims", "portal"],
+                },
+                "design": {"material": True, "authority": "user-selected baseline"},
+                "external_dependencies": [
+                    {"id": "claims API", "availability": "available"},
+                    {"id": "portal API", "availability": "available"},
+                ],
+                "acceptance_criteria": [{"id": "AC-1", "statement": "Synthetic workflow passes"}],
+                "open_questions": [],
+            }
+        ),
+        encoding="utf-8",
+    )
+    helper.execute(
+        Namespace(
+            project_root=tmp_path,
+            operation="apply",
+            input=update,
+            expected_revision=1,
+            recorded_at="2026-07-13T12:01:00-04:00",
+        )
+    )
+
+    selected = helper.execute(
+        Namespace(
+            project_root=tmp_path,
+            operation="planning-depth-select",
+            mode="lightweight",
+            expected_revision=2,
+            recorded_at="2026-07-13T12:02:00-04:00",
+        )
+    )
+    assessment = helper.execute(Namespace(project_root=tmp_path, operation="planning-depth"))
+    readiness = helper.execute(Namespace(project_root=tmp_path, operation="readiness"))
+
+    assert selected["revision"] == 3
+    assert assessment["status"] == "lightweight-selected"
+    assert assessment["accepted_variance"] == "bmad-recommended-but-lightweight-selected"
+    assert readiness["ready"] is True
+
+
+def test_planning_depth_allows_low_complexity_project_without_supervision(tmp_path: Path) -> None:
+    helper = _module()
+    helper.execute(
+        Namespace(
+            project_root=tmp_path,
+            operation="initialize",
+            project_id="small-planning",
+            entry_path="from-scratch",
+            project_type="cli",
+            phi_answer="no",
+            recorded_at="2026-07-13T12:00:00-04:00",
+        )
+    )
+    update = tmp_path / "small-update.json"
+    update.write_text(
+        json.dumps(
+            {
+                "product": {
+                    "purpose": "Format one local file",
+                    "users": ["developer"],
+                    "outcomes": ["file is formatted"],
+                    "scope": ["format command"],
+                },
+                "acceptance_criteria": [{"id": "AC-1", "statement": "Fixture is formatted"}],
+                "open_questions": [],
+            }
+        ),
+        encoding="utf-8",
+    )
+    helper.execute(
+        Namespace(
+            project_root=tmp_path,
+            operation="apply",
+            input=update,
+            expected_revision=1,
+            recorded_at="2026-07-13T12:01:00-04:00",
+        )
+    )
+
+    assessment = helper.execute(Namespace(project_root=tmp_path, operation="planning-depth"))
+    readiness = helper.execute(Namespace(project_root=tmp_path, operation="readiness"))
+
+    assert assessment["status"] == "lightweight-sufficient"
+    assert assessment["requires_user_selection"] is False
+    assert readiness["ready"] is True

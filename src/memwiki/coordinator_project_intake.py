@@ -6,7 +6,7 @@ import json
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, Mapping, MutableMapping, Tuple
+from typing import Any, Dict, Mapping, MutableMapping, Optional, Tuple
 
 from memwiki.coordinator_model_routing import HostCapabilityProfile, ModelRoutingPolicy
 from memwiki.coordinator_storage import ArtifactPaths, LogicalArtifact, StorageAdapter
@@ -110,12 +110,25 @@ class ProjectIntakeManager:
         if root.is_symlink() or not root.is_dir():
             raise ValueError("project root must be an existing non-symlink directory")
         self.project_root = root.resolve(strict=True)
+        lightweight = LightweightStorageAdapter(self.project_root)
+        lightweight_exists = lightweight.exists(_STATE)
+        bmad: Optional[StorageAdapter] = None
+        bmad_exists = False
+        self.storage: StorageAdapter
         if (self.project_root / "_bmad").is_dir():
+            bmad = BmadArtifactStorage(self.project_root)
+            bmad_exists = bmad.exists(_STATE)
+        if lightweight_exists and bmad_exists:
+            raise ValueError("project intake state exists in both lightweight and BMAD storage")
+        if lightweight_exists:
+            self.adapter = "lightweight"
+            self.storage = lightweight
+        elif bmad is not None:
             self.adapter = "bmad"
-            self.storage: StorageAdapter = BmadArtifactStorage(self.project_root)
+            self.storage = bmad
         else:
             self.adapter = "lightweight"
-            self.storage = LightweightStorageAdapter(self.project_root)
+            self.storage = lightweight
 
     @staticmethod
     def artifact(name: str) -> LogicalArtifact:

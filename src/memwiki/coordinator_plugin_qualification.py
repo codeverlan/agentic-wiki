@@ -323,6 +323,7 @@ class PluginQualificationHarness:
         skill = self.installed_root / "skills" / "agent-dev-start-project" / "SKILL.md"
         worksheet = self.installed_root / "assets" / "software-project-intake-template.json"
         prefill_contract = self.installed_root / "assets" / "initial-description-prefill-contract.json"
+        planning_contract = self.installed_root / "assets" / "planning-depth-contract.json"
         text = skill.read_text(encoding="utf-8", errors="replace").lower() if skill.is_file() else ""
         operations = tuple(
             operation
@@ -334,6 +335,8 @@ class PluginQualificationHarness:
                 "apply",
                 "inspect",
                 "resume",
+                "planning-depth",
+                "planning-depth-select",
                 "readiness",
             )
             if operation in text
@@ -346,6 +349,10 @@ class PluginQualificationHarness:
             prefill_value = json.loads(prefill_contract.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             prefill_value = {}
+        try:
+            planning_value = json.loads(planning_contract.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            planning_value = {}
         questions = worksheet_value.get("questions", [])
         required_question_count = (
             sum(item.get("required") is True for item in questions if isinstance(item, Mapping))
@@ -354,12 +361,17 @@ class PluginQualificationHarness:
         )
         passed = (
             script.is_file()
-            and len(operations) == 8
+            and len(operations) == 10
             and "scripts/start_project.py" in text
             and worksheet_value.get("schema_version") == 1
             and required_question_count >= 8
             and prefill_value.get("schema_version") == 1
             and set(prefill_value.get("allowed_provenance", [])) == {"explicit", "user-confirmed"}
+            and planning_value.get("schema_version") == 1
+            and set(planning_value.get("modes", [])) == {"lightweight", "bmad"}
+            and "bmad-recommended" in set(planning_value.get("statuses", []))
+            and "planning depth" in text
+            and "explicit selection" in text
             and "initial description" in text
             and "explicit" in text
             and "unknown" in text
@@ -368,7 +380,8 @@ class PluginQualificationHarness:
         return QualificationCase.create(
             "executable-intake-recovery",
             passed,
-            "intake helper, initial-description prefill, universal worksheet, and all lifecycle operations are present"
+            "intake helper, initial-description prefill, universal worksheet, "
+            "planning-depth gate, and all lifecycle operations are present"
             if passed
             else "intake helper contract is incomplete",
             {
@@ -376,6 +389,7 @@ class PluginQualificationHarness:
                 "operations": operations,
                 "required_question_count": required_question_count,
                 "prefill_contract": prefill_contract.is_file(),
+                "planning_contract": planning_contract.is_file(),
                 "worksheet_template": worksheet.is_file(),
             },
         )
