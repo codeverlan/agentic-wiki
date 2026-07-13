@@ -32,7 +32,8 @@ def _plugin(root: Path) -> Path:
                 "Start building new software from scratch, from an existing PRD, or from partial resources. "
                 "Ask one focused question at a time. Ask whether the application handles PHI. "
                 "Transition automatically to implementation readiness and continuous coordination. "
-                "Use scripts/start_project.py for initialize apply inspect resume readiness.\n"
+                "Use scripts/start_project.py for initialize worksheet apply-worksheet apply inspect resume readiness. "
+                "The universal software project worksheet treats unknown answers as interview candidates.\n"
                 "First Gate: require an explicit project root and run scripts/initialize_project.py "
                 "with --handles-phi before memory writes. Keep synthetic data in a provenance draft "
                 "before canonical promotion and use .memwiki/coordinator/runs.json.\n"
@@ -64,7 +65,7 @@ def _plugin(root: Path) -> Path:
         encoding="utf-8",
     )
     (root / "scripts" / "start_project.py").write_text(
-        "OPERATIONS = 'initialize apply inspect resume readiness'\n", encoding="utf-8"
+        "OPERATIONS = 'initialize worksheet apply-worksheet apply inspect resume readiness'\n", encoding="utf-8"
     )
     (root / "scripts" / "initialize_project.py").write_text(
         "PUBLIC_API = 'initialize_agent_development_project'\nOPTION = '--handles-phi'\n",
@@ -82,6 +83,24 @@ def _plugin(root: Path) -> Path:
                 "canonical_coordinator_layout": {
                     "run_registry": ".memwiki/coordinator/runs.json"
                 },
+            }
+        ),
+        encoding="utf-8",
+    )
+    (root / "assets" / "software-project-intake-template.json").write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "questions": [
+                    {"id": "product-purpose", "required": True},
+                    {"id": "target-users", "required": True},
+                    {"id": "observable-outcomes", "required": True},
+                    {"id": "in-scope", "required": True},
+                    {"id": "primary-workflow", "required": True},
+                    {"id": "phi-answer", "required": True},
+                    {"id": "acceptance-criteria", "required": True},
+                    {"id": "definition-of-done", "required": True},
+                ],
             }
         ),
         encoding="utf-8",
@@ -109,6 +128,8 @@ def test_qualification_runs_all_archetypes_and_adversarial_checks(tmp_path: Path
     assert all(case.passed for case in result.cases)
     assert any(case.case_id == "natural-language-start-routing" for case in result.cases)
     assert any(case.case_id == "executable-intake-recovery" for case in result.cases)
+    intake_case = next(case for case in result.cases if case.case_id == "executable-intake-recovery")
+    assert "worksheet" in intake_case.details
     assert any(case.case_id == "adaptive-model-reasoning-routing" for case in result.cases)
     assert any(case.case_id == "adc-refinement-contracts" for case in result.cases)
     assert any(case.case_id == "project-wiki-baseline-first-gate" for case in result.cases)

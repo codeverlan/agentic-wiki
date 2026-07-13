@@ -320,20 +320,52 @@ class PluginQualificationHarness:
     def _executable_intake_case(self) -> QualificationCase:
         script = self.installed_root / "scripts" / "start_project.py"
         skill = self.installed_root / "skills" / "agent-dev-start-project" / "SKILL.md"
+        worksheet = self.installed_root / "assets" / "software-project-intake-template.json"
         text = skill.read_text(encoding="utf-8", errors="replace").lower() if skill.is_file() else ""
         operations = tuple(
             operation
-            for operation in ("initialize", "apply", "inspect", "resume", "readiness")
+            for operation in (
+                "initialize",
+                "worksheet",
+                "apply-worksheet",
+                "apply",
+                "inspect",
+                "resume",
+                "readiness",
+            )
             if operation in text
         )
-        passed = script.is_file() and len(operations) == 5 and "scripts/start_project.py" in text
+        try:
+            worksheet_value = json.loads(worksheet.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            worksheet_value = {}
+        questions = worksheet_value.get("questions", [])
+        required_question_count = (
+            sum(item.get("required") is True for item in questions if isinstance(item, Mapping))
+            if isinstance(questions, list)
+            else 0
+        )
+        passed = (
+            script.is_file()
+            and len(operations) == 7
+            and "scripts/start_project.py" in text
+            and worksheet_value.get("schema_version") == 1
+            and required_question_count >= 8
+            and "unknown" in text
+            and "worksheet" in text
+        )
         return QualificationCase.create(
             "executable-intake-recovery",
             passed,
-            "intake helper and all lifecycle operations are present"
+            "intake helper, universal worksheet, and all lifecycle operations are present"
             if passed
             else "intake helper contract is incomplete",
-            {"script": script.is_file(), "operations": operations},
+            {
+                "script": script.is_file(),
+                "operations": operations,
+                "required_question_count": required_question_count,
+                "worksheet_template": worksheet.is_file(),
+            },
         )
 
     def _project_baseline_contract_case(self) -> QualificationCase:

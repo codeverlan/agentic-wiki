@@ -319,6 +319,7 @@ def render_operations_doc() -> str:
       computer-use supervision, credential artifacts, seven project archetypes, six-worker dispatch,
       blocked-slice continuation, malformed reports, public/private/handoff agents, restart
       equivalence, regression rejection, critical-risk routing, executable intake recovery,
+      universal worksheet generation and revision-checked worksheet admission,
       adaptive model/reasoning selection, PHI synthetic-only enforcement, and
       a natural-language software-start front door covering existing specifications, partial
       resources, and from-scratch discovery.</p>
@@ -336,6 +337,10 @@ def render_operations_doc() -> str:
       authoritative, atomically replaced intake state. Intent, specification, decisions, PHI,
       design, external capabilities, project overlay, host routing, readiness, and initial slice
       queue artifacts are deterministic JSON and semantic HTML projections.</p>
+      <p>The ADC plugin can render a universal project-local HTML worksheet from known intake state.
+      Its downloaded response packet carries project identity and source revision; the dedicated
+      admission command rejects foreign or stale packets before applying the normalized update.
+      Blank and unknown fields remain adaptive interview candidates.</p>
       <p>Updates require the expected revision and reject secret-bearing fields or prohibited
       plugin overlay keys. A content-addressed checkpoint detects same-revision tampering. Resume
       repairs missing or stale projections after interruption from authoritative state.</p>
